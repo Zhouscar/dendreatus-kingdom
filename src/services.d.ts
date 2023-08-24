@@ -16,3 +16,7 @@ interface ServerScriptService extends Instance {
         plugins: Folder;
     };
 }
+
+interface StarterPlayer extends Instance {
+    StarterCharacterScripts: StarterCharacterScripts;
+}

@@ -1,21 +1,21 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { CollectionService } from "@rbxts/services";
-import { Renderable, Transform } from "shared/components";
+import { Renderable, Test, Transform } from "shared/components";
 import { getIdAttribute } from "shared/idAttribute";
 import { State } from "shared/state";
 
-const boundTags = new Set([]);
+const boundTags = new Set([Test]);
 
-function setupTags(world: World, state: State): void {
+function setupTags(w: World, state: State): void {
     function spawnBound(model: Model, component: ComponentCtor): void {
-        const id = world.spawn(
+        const e = w.spawn(
             component(),
             Renderable({ model: model }),
             Transform({ cf: model.GetPivot() }),
         );
 
-        model.SetAttribute(getIdAttribute(state.host), id);
+        model.SetAttribute(getIdAttribute(state.host), e);
     }
 
     for (const component of boundTags) {
@@ -30,9 +30,9 @@ function setupTags(world: World, state: State): void {
         });
 
         CollectionService.GetInstanceRemovedSignal(tagName).Connect((instance) => {
-            const id = instance.GetAttribute(getIdAttribute(state.host)) as AnyEntity;
+            const e = instance.GetAttribute(getIdAttribute(state.host)) as AnyEntity;
 
-            if (id !== undefined) world.despawn(id);
+            if (e !== undefined) w.despawn(e);
         });
     }
 }

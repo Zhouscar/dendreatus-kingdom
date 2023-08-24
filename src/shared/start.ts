@@ -3,7 +3,6 @@ import { Host } from "types";
 import { State } from "./state";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import Plasma from "@rbxts/plasma";
-import { t } from "@rbxts/t";
 import { Renderable } from "./components";
 
 function authorize(_player: Player) {
@@ -14,16 +13,16 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
     const state = new State();
     state.host = host;
 
-    const world = new World();
+    const w = new World();
     const debug = new Debugger(Plasma);
     debug.authorize = authorize;
-    debug.findInstanceFromEntity = (id: AnyEntity): Instance | undefined => {
-        if (!world.contains(id)) return;
-        const model = world.get(id, Renderable);
+    debug.findInstanceFromEntity = (e: AnyEntity): Instance | undefined => {
+        if (!w.contains(e)) return;
+        const model = w.get(e, Renderable);
         return model?.model;
     };
 
-    const loop = new Loop(world, state, debug.getWidgets());
+    const loop = new Loop(w, state, debug.getWidgets());
 
     function loadSystems(container: Instance): void {
         const systems: System<unknown[]>[] = [];
@@ -38,7 +37,7 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
                     return;
                 }
                 const [ok, system] = pcall(require, module);
-                assert(ok, `Error loading system ${module.Name} from ${host.upper}`);
+                assert(ok, `Error loading system ${module.Name} from ${host}`);
                 systems.push(system as System<unknown[]>);
             });
         loop.scheduleSystems(systems);
@@ -46,18 +45,20 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
 
     systemContainers.forEach(loadSystems);
 
+    debug.autoInitialize(loop);
+
     loop.begin(
         host === "CLIENT"
             ? {
                   default: RunService.Heartbeat,
-                  renderStepped: RunService.RenderStepped,
-                  stepped: RunService.Stepped,
-                  heartbeat: RunService.Heartbeat,
+                  onRender: RunService.RenderStepped,
+                  onPhysics: RunService.Stepped,
+                  onTick: RunService.Heartbeat,
               }
             : {
                   default: RunService.Heartbeat,
-                  stepped: RunService.Stepped,
-                  heartbeat: RunService.Heartbeat,
+                  onPhysics: RunService.Stepped,
+                  onTick: RunService.Heartbeat,
               },
     );
 
@@ -71,7 +72,7 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
     }
 
     function loadPlugins(container: Instance): void {
-        type Plugin = (world: World, state: State) => void;
+        type Plugin = (w: World, state: State) => void;
         container
             .GetDescendants()
             .filter((module): module is ModuleScript => module.IsA("ModuleScript"))
@@ -83,8 +84,8 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
                     return;
                 }
                 const [ok, plugin] = pcall(require, module);
-                assert(ok, `Error loading plugin ${module.Name} from ${host.upper}`);
-                (plugin as Plugin)(world, state);
+                assert(ok, `Error loading plugin ${module.Name} from ${host}`);
+                (plugin as Plugin)(w, state);
             });
     }
 

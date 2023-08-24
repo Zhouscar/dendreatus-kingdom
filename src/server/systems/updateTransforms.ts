@@ -2,29 +2,29 @@ import { World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
 import { Renderable, Transform } from "shared/components";
 
-function updateTransforms(world: World) {
-    for (const [id, _] of world.query(Transform).without(Renderable)) {
-        world.remove(id, Transform);
+function updateTransforms(w: World) {
+    for (const [e, _] of w.query(Transform).without(Renderable)) {
+        w.remove(e, Transform);
     }
 
-    for (const [id, record] of world.queryChanged(Transform)) {
-        if (!world.contains(id)) continue;
-        const renderable = world.get(id, Renderable);
+    for (const [e, record] of w.queryChanged(Transform)) {
+        if (!w.contains(e)) continue;
+        const renderable = w.get(e, Renderable);
         if (!renderable || !record.new || record.new._doNotReconcile) continue;
         renderable.model?.PivotTo(record.new.cf);
     }
 
-    for (const [id, record] of world.queryChanged(Renderable)) {
-        if (!world.contains(id)) continue;
-        const transform = world.get(id, Transform);
+    for (const [e, record] of w.queryChanged(Renderable)) {
+        if (!w.contains(e)) continue;
+        const transform = w.get(e, Transform);
         if (!transform) {
-            world.insert(id, Transform({ _doNotReconcile: true, cf: CFrame.identity }));
+            w.insert(e, Transform({ _doNotReconcile: true, cf: CFrame.identity }));
             continue;
         }
         record.new?.model?.PivotTo(transform.cf);
     }
 
-    for (const [id, renderable, transform] of world.query(Renderable, Transform)) {
+    for (const [e, renderable, transform] of w.query(Renderable, Transform)) {
         if (!renderable.model) continue;
 
         const primaryPart = renderable.model.PrimaryPart;
@@ -33,13 +33,13 @@ function updateTransforms(world: World) {
         if (primaryPart.Anchored) continue;
 
         if (transform.cf.Y < Workspace.FallenPartsDestroyHeight) {
-            world.despawn(id);
+            w.despawn(e);
             continue;
         }
 
         if (transform.cf !== primaryPart.CFrame) {
-            world.insert(
-                id,
+            w.insert(
+                e,
                 Transform({
                     cf: primaryPart.CFrame,
                     _doNotReconcile: true,

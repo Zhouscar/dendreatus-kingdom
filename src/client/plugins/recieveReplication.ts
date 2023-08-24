@@ -6,7 +6,7 @@ import { network } from "shared/network";
 import { State } from "shared/state";
 import { Components } from "shared/components";
 
-function recieveReplication(world: World, state: State) {
+function recieveReplication(w: World, state: State) {
     const entityIdMap = state.serverToClientEntityIdMap;
     const reserveEntityIdMap = state.clientToServerEntityIdMap;
 
@@ -17,7 +17,7 @@ function recieveReplication(world: World, state: State) {
             let clientEntityId = entityIdMap.get(serverEntityId);
 
             if (clientEntityId !== undefined && next(componentMap)[0] === undefined) {
-                world.despawn(clientEntityId);
+                w.despawn(clientEntityId);
                 entityIdMap.delete(serverEntityId);
                 reserveEntityIdMap.delete(tostring(clientEntityId));
 
@@ -32,6 +32,10 @@ function recieveReplication(world: World, state: State) {
 
             for (const [name, container] of componentMap) {
                 if (container.data !== undefined) {
+                    assert(
+                        Components[name as ComponentNames],
+                        `Error instantiating component when recieving replication: ${name}`,
+                    );
                     componentsToInsert.push(
                         Components[name as ComponentNames](
                             container.data as unknown as UnionToIntersection<UnionComponentsMap>,
@@ -45,7 +49,7 @@ function recieveReplication(world: World, state: State) {
             }
 
             if (clientEntityId === undefined) {
-                clientEntityId = world.spawn(...componentsToInsert);
+                clientEntityId = w.spawn(...componentsToInsert);
 
                 entityIdMap.set(serverEntityId, clientEntityId);
                 reserveEntityIdMap.set(
@@ -54,11 +58,11 @@ function recieveReplication(world: World, state: State) {
                 );
             } else {
                 if (componentsToInsert.size() > 0) {
-                    world.insert(clientEntityId, ...componentsToInsert);
+                    w.insert(clientEntityId, ...componentsToInsert);
                 }
 
                 if (componentsToRemove.size() > 0) {
-                    world.remove(clientEntityId, ...componentsToRemove);
+                    w.remove(clientEntityId, ...componentsToRemove);
                 }
             }
         }

@@ -1,9 +1,17 @@
-import { Client, Server, createRemotes, remote } from "@rbxts/remo";
+import {
+    Client as ServerToClient,
+    Server as ClientToServer,
+    createRemotes,
+    namespace,
+    remote,
+} from "@rbxts/remo";
 import { ReplicationMap } from "./components/serde";
-
-type ServerToClient = Client;
-type ClientToServer = Server;
+import { BroadcastAction } from "@rbxts/reflex";
 
 export const network = createRemotes({
     replication: remote<ServerToClient, [ReplicationMap]>(),
+    reflex: namespace({
+        start: remote<ClientToServer>(),
+        dispatch: remote<ServerToClient, [BroadcastAction[]]>(),
+    }),
 });

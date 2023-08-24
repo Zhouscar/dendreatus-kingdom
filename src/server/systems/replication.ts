@@ -1,19 +1,20 @@
 import { AnyComponent, World, useEvent } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { Players } from "@rbxts/services";
-import { Renderable } from "shared/components";
+import { Human, Plr, Renderable } from "shared/components";
+import { UsableDirectionalMovementContext } from "shared/components/movements";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
 import { network } from "shared/network";
 
-const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Renderable]);
+const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Renderable, Plr, Human]);
 
-function replication(world: World) {
+function replication(w: World) {
     for (const [, plr] of useEvent(Players, "PlayerAdded")) {
         const payload: ReplicationMap = new Map();
 
-        for (const [id, entityData] of world) {
+        for (const [e, entityData] of w) {
             const entityPayload = new Map<ComponentNames, { data: AnyComponent }>();
-            payload.set(tostring(id), entityPayload);
+            payload.set(tostring(e), entityPayload);
 
             for (const [component, componentInstance] of entityData) {
                 if (REPLICATED_COMPONENTS.has(component)) {
@@ -30,7 +31,7 @@ function replication(world: World) {
     const changes: ReplicationMap = new Map();
 
     for (const component of REPLICATED_COMPONENTS) {
-        for (const [entityId, record] of world.queryChanged(component)) {
+        for (const [entityId, record] of w.queryChanged(component)) {
             const key = tostring(entityId);
             const name = tostring(component) as ComponentNames;
 
@@ -38,7 +39,7 @@ function replication(world: World) {
                 changes.set(key, new Map());
             }
 
-            if (world.contains(entityId)) {
+            if (w.contains(entityId)) {
                 changes.get(key)?.set(name, { data: record.new! });
             }
         }
@@ -49,4 +50,4 @@ function replication(world: World) {
     }
 }
 
-export = replication;
+export = { system: replication, priority: math.huge };

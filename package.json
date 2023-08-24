@@ -24,10 +24,14 @@
   },
   "dependencies": {
     "@rbxts/matter": "^0.6.4",
+    "@rbxts/matter-hooks": "^0.1.1",
     "@rbxts/plasma": "^0.4.1-ts.1",
+    "@rbxts/profileservice": "^1.4.1",
+    "@rbxts/reflex": "^4.2.0",
     "@rbxts/remo": "^1.2.1",
     "@rbxts/services": "^1.5.1",
     "@rbxts/sift": "^0.0.6",
-    "@rbxts/t": "^3.1.0"
+    "@rbxts/t": "^3.1.0",
+    "@rbxts/testez": "^0.4.2-ts.0"
   }
 }
