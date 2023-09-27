@@ -3,7 +3,7 @@ import { Players, Workspace } from "@rbxts/services";
 import { Plr } from "shared/components";
 import { DirectionalMovement } from "shared/components/movements";
 import { isKeyDown } from "shared/hooks/keyInput";
-import { getDirectionalVector3 } from "shared/math/coordinates";
+import { getDirectionalVector3 } from "shared/calculations/coordinates";
 
 function directionalMovement(w: World) {
     const camera = Workspace.CurrentCamera;
@@ -27,7 +27,7 @@ function directionalMovement(w: World) {
         if (desiredDirection !== Vector3.zero) {
             desiredDirection = desiredDirection.Unit;
             w.insert(e, DirectionalMovement({ direction: desiredDirection }));
-            return;
+            break;
         }
         w.remove(e, DirectionalMovement);
     }

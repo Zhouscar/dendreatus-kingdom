@@ -1,7 +1,14 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
-import { CanJump, CrashLanding, OnLand, UsableJumpContext } from "shared/components/movements";
+import {
+    CanJump,
+    CrashLanding,
+    Jumping,
+    OnLand,
+    UsableJumpContext,
+    WillJump,
+} from "shared/components/movements";
 import { hasComponents } from "shared/hooks/components";
 
 function canJump(w: World) {
@@ -12,9 +19,9 @@ function canJump(w: World) {
         if (ON_LAND && !hasComponents(w, e, CrashLanding)) {
             w.insert(e, CanJump({}));
         } else {
-            w.remove(e, CanJump);
+            w.remove(e, CanJump, Jumping, WillJump);
         }
-        return;
+        break;
     }
 }
 

@@ -1,12 +1,11 @@
 import { AnyComponent, World, useEvent } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { Players } from "@rbxts/services";
-import { Human, Plr, Renderable } from "shared/components";
-import { UsableDirectionalMovementContext } from "shared/components/movements";
+import { Human, Plr, Renderable, Sound } from "shared/components";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
 import { network } from "shared/network";
 
-const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Renderable, Plr, Human]);
+const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Renderable, Plr, Human, Sound]);
 
 function replication(w: World) {
     for (const [, plr] of useEvent(Players, "PlayerAdded")) {

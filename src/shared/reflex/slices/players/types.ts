@@ -11,4 +11,5 @@ export interface PlayerKeybinds {
     readonly moveRight: KeyCode;
     readonly jump: KeyCode;
     readonly sprintDash: KeyCode;
+    readonly sneak: KeyCode;
 }

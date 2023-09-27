@@ -10,7 +10,7 @@ function baseDirectionalMovementContext(w: World) {
             e,
             BaseDirectionalMovementContext({ walk: 10, sprint: 30, sneak: 5, dive: 20, swim: 10 }),
         );
-        return;
+        break;
     }
 }
 

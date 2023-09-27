@@ -1,7 +1,14 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
+import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Plr } from "shared/components";
-import { CanDash, Dashing, OnLand, UsableDashContext } from "shared/components/movements";
+import {
+    CanDash,
+    CrashLanding,
+    Dashing,
+    OnLand,
+    UsableDashContext,
+} from "shared/components/movements";
 import { hasComponents } from "shared/hooks/components";
 
 let lastDashTime = 0;
@@ -18,19 +25,20 @@ function canDash(w: World) {
         const dashing = w.get(e, Dashing);
         if (dashing !== undefined) {
             w.remove(e, CanDash);
-            return;
+            break;
         }
 
         if (
             os.clock() - lastDashTime >= usableDashContext.cooldown &&
-            hasComponents(w, e, OnLand)
+            hasComponents(w, e, OnLand) &&
+            !hasComponents(w, e, CrashLanding)
         ) {
             w.insert(e, CanDash({}));
-            return;
+            break;
         }
 
-        w.remove(e, CanDash);
-        return;
+        w.remove(e, CanDash, Dashing);
+        break;
     }
 }
 

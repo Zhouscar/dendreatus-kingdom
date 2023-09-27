@@ -102,9 +102,15 @@ export type CanDirectionallyMove = ReturnType<typeof CanDirectionallyMove>;
 
 export const CanDash = component<{}>("CanDash");
 export type CanDash = ReturnType<typeof CanDash>;
+
+export const CanSneak = component<{}>("CanSneak");
+export type CanSneak = ReturnType<typeof CanSneak>;
 // \Cans
 
 // Movement Actions
+export const WillJump = component<{}>("WillJump");
+export type WillJump = ReturnType<typeof WillJump>;
+
 export const Jumping = component<{}>("Jumping");
 export type Jumping = ReturnType<typeof Jumping>;
 
@@ -134,6 +140,8 @@ export const MovementComponents = {
     CanJump,
     CanDirectionallyMove,
     CanDash,
-    Jump: Jumping,
-    Dash: Dashing,
+    CanSneak,
+    WillJump,
+    Jumping,
+    Dashing,
 };

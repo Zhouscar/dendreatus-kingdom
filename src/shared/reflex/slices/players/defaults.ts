@@ -7,6 +7,7 @@ export const defaultPlayerKeybinds: PlayerKeybinds = {
     moveRight: "D",
     jump: "Space",
     sprintDash: "LeftShift",
+    sneak: "C",
 };
 
 export const defaultPlayerData: PlayerData = {

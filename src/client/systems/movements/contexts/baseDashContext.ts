@@ -7,7 +7,7 @@ function baseDashContext(w: World) {
     for (const [e, plr] of w.query(Plr)) {
         if (plr.player !== Players.LocalPlayer) continue;
         w.insert(e, BaseDashContext({ duration: 0.2, power: 100, cooldown: 1 }));
-        return;
+        break;
     }
 }
 

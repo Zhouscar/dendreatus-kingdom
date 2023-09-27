@@ -14,11 +14,7 @@ import { isKeyDown } from "shared/hooks/keyInput";
 function potentialDirectionalMovement(w: World) {
     for (const [e, plr] of w.query(Plr)) {
         if (plr.player !== Players.LocalPlayer) continue;
-        const potentialDirectionalMovementType: DirectionalMovementType = hasComponents(
-            w,
-            e,
-            InAir,
-        )
+        const potentialDirectionalMovementType: DirectionalMovementType = hasComponents(w, e, InAir)
             ? "dive"
             : hasComponents(w, e, InWater)
             ? "swim"
@@ -29,7 +25,7 @@ function potentialDirectionalMovement(w: World) {
             : "walk";
 
         w.insert(e, PotentialDirectionalMovement({ type: potentialDirectionalMovementType }));
-        return;
+        break;
     }
 }
 

@@ -7,7 +7,7 @@ function baseJumpContext(w: World) {
     for (const [e, plr] of w.query(Plr)) {
         if (plr.player !== Players.LocalPlayer) continue;
         w.insert(e, BaseJumpContext({ power: 40, delay: 0.2 }));
-        return;
+        break;
     }
 }
 

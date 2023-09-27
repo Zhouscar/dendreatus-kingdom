@@ -1,16 +1,17 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { Animatable, Plr } from "shared/components";
 import {
     CrashLanding,
     Falling,
     InAir,
-    Jumping,
     Landing,
     LinearVelocity,
     OnLand,
     UsableLandingContext,
 } from "shared/components/movements";
+import { forMovement, resumeAnimation } from "shared/effects/animations";
 import { hasComponents } from "shared/hooks/components";
 
 function fallingAndLanding(w: World) {
@@ -20,7 +21,7 @@ function fallingAndLanding(w: World) {
         const linearVelocity = w.get(e, LinearVelocity);
 
         if (linearVelocity && hasComponents(w, e, InAir) && linearVelocity.velocity.Y < -20) {
-            w.remove(e, Landing);
+            w.remove(e, Landing, CrashLanding);
             if (!hasComponents(w, e, Falling)) {
                 w.insert(e, Falling({ startTime: os.clock() }));
             }
@@ -40,7 +41,7 @@ function fallingAndLanding(w: World) {
 
             w.remove(e, Falling);
         }
-        return;
+        break;
     }
 }
 

@@ -4,7 +4,8 @@ import { t } from "@rbxts/t";
 import { ComponentNames, ReplicationMap, UnionComponentsMap } from "shared/components/serde";
 import { network } from "shared/network";
 import { State } from "shared/state";
-import { Components } from "shared/components";
+import { Components, Plr, Sound } from "shared/components";
+import { Players } from "@rbxts/services";
 
 function recieveReplication(w: World, state: State) {
     const entityIdMap = state.serverToClientEntityIdMap;
@@ -32,6 +33,11 @@ function recieveReplication(w: World, state: State) {
 
             for (const [name, container] of componentMap) {
                 if (container.data !== undefined) {
+                    if (name === "Sound") {
+                        const creator = (container.data as Sound).creator;
+                        if (creator === Players.LocalPlayer) continue;
+                    } // player created sound can only be passed from client to server
+
                     assert(
                         Components[name as ComponentNames],
                         `Error instantiating component when recieving replication: ${name}`,
@@ -43,6 +49,8 @@ function recieveReplication(w: World, state: State) {
                     );
                     insertNames.push(name);
                 } else {
+                    if (name === "Sound") continue; // sound deletion is processed by the client itself
+
                     componentsToRemove.push(Components[name as ComponentNames]);
                     removeNames.push(name);
                 }

@@ -4,6 +4,7 @@ import { Plr } from "shared/components";
 import {
     CanDirectionallyMove,
     CrashLanding,
+    DirectionalMovement,
     UsableDirectionalMovementContext,
 } from "shared/components/movements";
 import { hasComponents } from "shared/hooks/components";
@@ -18,7 +19,7 @@ function canDirectionallyMove(w: World) {
         if (!hasComponents(w, e, CrashLanding)) {
             w.insert(e, CanDirectionallyMove({}));
         } else {
-            w.remove(e, CanDirectionallyMove);
+            w.remove(e, CanDirectionallyMove, DirectionalMovement);
         }
     }
 }

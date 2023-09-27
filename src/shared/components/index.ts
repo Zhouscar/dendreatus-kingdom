@@ -1,6 +1,8 @@
-import { component } from "@rbxts/matter";
+import { AnyEntity, component } from "@rbxts/matter";
 import { LivingThingComponents } from "./livingThings";
 import { MovementComponents } from "./movements";
+import { MyAnimator } from "shared/effects/animations";
+import { SoundContext } from "types";
 
 export * from "./livingThings";
 
@@ -16,11 +18,24 @@ export type Test = ReturnType<typeof Test>;
 export const Human = component<{ humanoid: Humanoid }>("Human");
 export type Human = ReturnType<typeof Human>;
 
+export const Animatable = component<{ animator: MyAnimator }>("Animatable");
+export type Animatable = ReturnType<typeof Animatable>;
+
+export const Sound = component<{
+    creator: Player | "server";
+    audibility: number;
+    context: SoundContext;
+    cf: CFrame;
+}>("Sound");
+export type Sound = ReturnType<typeof Sound>;
+
 export const Components = {
     Renderable,
     Transform,
     Test,
     Human,
+    Animatable,
+    Sound,
     ...LivingThingComponents,
     ...MovementComponents,
 };

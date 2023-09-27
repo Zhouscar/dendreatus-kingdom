@@ -4,17 +4,15 @@ import {
     UsableDirectionalMovementContext,
 } from "shared/components/movements";
 
-function usableDirectionalMovementContext(world: World) {
-    for (const [id, baseDirectionalMovementContext] of world.query(
-        BaseDirectionalMovementContext,
-    )) {
+function usableDirectionalMovementContext(w: World) {
+    for (const [id, baseDirectionalMovementContext] of w.query(BaseDirectionalMovementContext)) {
         const walk = baseDirectionalMovementContext.walk;
         const sprint = baseDirectionalMovementContext.sprint;
         const sneak = baseDirectionalMovementContext.sneak;
         const dive = baseDirectionalMovementContext.dive;
         const swim = baseDirectionalMovementContext.swim;
 
-        world.insert(
+        w.insert(
             id,
             UsableDirectionalMovementContext({
                 walk: walk,
