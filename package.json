@@ -23,6 +23,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "@rbxts/immut": "^0.4.4-ts.0",
     "@rbxts/matter": "^0.6.4",
     "@rbxts/matter-hooks": "^0.1.1",
     "@rbxts/plasma": "^0.4.1-ts.1",
@@ -36,6 +37,7 @@
     "@rbxts/sift": "^0.0.6",
     "@rbxts/t": "^3.1.0",
     "@rbxts/testez": "^0.4.2-ts.0",
+    "@rbxts/variant": "^1.0.2",
     "rbxts-transformer-t": "^1.1.5"
   }
 }

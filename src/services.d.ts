@@ -7,7 +7,12 @@ interface ReplicatedStorage extends Instance {
         systems: Folder;
         plugins: Folder;
     };
-    assets: Folder;
+    assets: Folder & {
+        blood: Folder & {
+            dripPart: BasePart;
+            splatterPart: BasePart;
+        };
+    };
 }
 
 interface ServerScriptService extends Instance {
@@ -19,4 +24,11 @@ interface ServerScriptService extends Instance {
 
 interface StarterPlayer extends Instance {
     StarterCharacterScripts: StarterCharacterScripts;
+}
+
+interface Player extends Instance {
+    Backpack: Backpack;
+    StarterGear: StarterGear;
+    PlayerGui: PlayerGui;
+    PlayerScripts: PlayerScripts;
 }

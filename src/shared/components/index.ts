@@ -3,6 +3,8 @@ import { LivingThingComponents } from "./livingThings";
 import { MovementComponents } from "./movements";
 import { MyAnimator } from "shared/effects/animations";
 import { SoundContext } from "types";
+import { HealthComponents } from "./health";
+import { ColliderComponents } from "./colliders";
 
 export * from "./livingThings";
 
@@ -29,6 +31,11 @@ export const Sound = component<{
 }>("Sound");
 export type Sound = ReturnType<typeof Sound>;
 
+export const Collision = component<{ force: number; colliderE: AnyEntity; part: BasePart }>(
+    "Collision",
+);
+export type Collision = ReturnType<typeof Collision>;
+
 export const Components = {
     Renderable,
     Transform,
@@ -36,6 +43,9 @@ export const Components = {
     Human,
     Animatable,
     Sound,
+    Collision,
     ...LivingThingComponents,
     ...MovementComponents,
+    ...HealthComponents,
+    ...ColliderComponents,
 };

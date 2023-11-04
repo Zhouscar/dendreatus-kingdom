@@ -1,7 +1,5 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
-import { Plr } from "shared/components";
-import { Host } from "types";
 
 export function hasComponents(w: World, e: AnyEntity, ...components: ComponentCtor[]) {
     return components.reduce((accum, comp) => {

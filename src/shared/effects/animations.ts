@@ -4,6 +4,7 @@ type Tracks = Map<string, AnimationTrack>;
 const storage: Map<MyAnimator, Tracks> = new Map();
 
 export const forMovement = Enum.AnimationPriority.Movement;
+export const forInevitability = Enum.AnimationPriority.Core;
 
 export function preloadAnimations(animator: MyAnimator, ...animIds: string[]) {
     animIds.forEach((animId) => {

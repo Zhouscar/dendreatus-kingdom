@@ -12,6 +12,7 @@ import {
 import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { hasComponents } from "shared/hooks/components";
+import { Dead } from "shared/components/health";
 
 const idleAnimId = withAssetPrefix("14207151528");
 const sneakIdleAnimId = withAssetPrefix("14215260617");
@@ -27,7 +28,7 @@ function humanIdleAnim(w: World) {
 
     for (const [e, plr, animatable, _onLand] of w
         .query(Plr, Animatable, OnLand)
-        .without(DirectionalMovement, Dashing, CrashLanding, Landing)) {
+        .without(DirectionalMovement, Dashing, CrashLanding, Landing, Dead)) {
         if (plr.player !== Players.LocalPlayer) continue;
 
         const animId = hasComponents(w, e, Sneaking) ? sneakIdleAnimId : idleAnimId;

@@ -18,7 +18,9 @@ function recieveReplication(w: World, state: State) {
             let clientEntityId = entityIdMap.get(serverEntityId);
 
             if (clientEntityId !== undefined && next(componentMap)[0] === undefined) {
-                w.despawn(clientEntityId);
+                if (w.contains(clientEntityId)) {
+                    w.despawn(clientEntityId);
+                }
                 entityIdMap.delete(serverEntityId);
                 reserveEntityIdMap.delete(tostring(clientEntityId));
 

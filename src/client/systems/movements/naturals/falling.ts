@@ -1,7 +1,7 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Animatable, Plr } from "shared/components";
+import { Plr } from "shared/components";
+import { Dead } from "shared/components/health";
 import {
     CrashLanding,
     Falling,
@@ -11,12 +11,12 @@ import {
     OnLand,
     UsableLandingContext,
 } from "shared/components/movements";
-import { forMovement, resumeAnimation } from "shared/effects/animations";
-import { hasComponents } from "shared/hooks/components";
+import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 
 function fallingAndLanding(w: World) {
     for (const [e, plr] of w.query(Plr)) {
         if (plr.player !== Players.LocalPlayer) continue;
+        if (hasOneOfComponents(w, e, Dead)) continue;
 
         const linearVelocity = w.get(e, LinearVelocity);
 

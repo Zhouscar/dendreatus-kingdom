@@ -2,10 +2,19 @@ import { AnyComponent, World, useEvent } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { Players } from "@rbxts/services";
 import { Human, Plr, Renderable, Sound } from "shared/components";
+import { Damage, Dead, Health } from "shared/components/health";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
 import { network } from "shared/network";
 
-const REPLICATED_COMPONENTS = new Set<ComponentCtor>([Renderable, Plr, Human, Sound]);
+const REPLICATED_COMPONENTS = new Set<ComponentCtor>([
+    Renderable,
+    Plr,
+    Human,
+    Sound,
+    Health,
+    Dead,
+    Damage,
+]);
 
 function replication(w: World) {
     for (const [, plr] of useEvent(Players, "PlayerAdded")) {
