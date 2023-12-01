@@ -1,17 +1,18 @@
 import { useEvent } from "@rbxts/matter";
 import { Players, UserInputService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
+import { localPlr } from "client/localPlr";
 import { store } from "client/store";
-import { selectPlayerData, selectPlayerKeybinds } from "shared/reflex/selectors";
+import { selectPlayerKeybinds } from "shared/reflex/selectors";
 import { defaultPlayerKeybinds } from "shared/reflex/slices/players/defaults";
 import { PlayerKeybinds } from "shared/reflex/slices/players/types";
-import { KeyCode, KeyName } from "types";
+import { KeyCode, KeyName } from "type";
 
 const pressedKeyNames: Set<KeyName> = new Set();
 
 let currentKeybinds: PlayerKeybinds = defaultPlayerKeybinds;
 
-store.subscribe(selectPlayerKeybinds(tostring(Players.LocalPlayer.UserId)), (keybinds) => {
+store.subscribe(selectPlayerKeybinds(localPlr), (keybinds) => {
     if (!keybinds) return;
     currentKeybinds = keybinds;
 });
@@ -57,6 +58,17 @@ export function getKeysJustPressed(): KeyName[] {
         keysJustPressed.push(keyName);
     }
     return keysJustPressed;
+}
+
+export function getKeysJustReleased(): KeyName[] {
+    const keysJustReleased: KeyName[] = [];
+    for (const [, input, gPE] of useEvent(UserInputService, "InputEnded")) {
+        if (gPE) continue;
+        const keyName = getKeyName(input.KeyCode.Name);
+        if (!keyName) continue;
+        keysJustReleased.push(keyName);
+    }
+    return keysJustReleased;
 }
 
 export function isKeyDown(name: KeyName): boolean {

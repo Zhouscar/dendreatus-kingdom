@@ -1,5 +1,5 @@
 import { AnyEntity, Debugger, Loop, System, World } from "@rbxts/matter";
-import { Host } from "types";
+import { Host } from "type";
 import { State } from "./state";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import Plasma from "@rbxts/plasma";

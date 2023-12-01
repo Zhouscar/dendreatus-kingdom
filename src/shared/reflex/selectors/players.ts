@@ -8,10 +8,19 @@ export function selectPlayerKeybinds(plr: string) {
     };
 }
 
-export function selectPlayerData(plr: string) {
-    return createSelector(selectPlayerKeybinds(plr), (keybinds): PlayerData | undefined => {
-        if (!keybinds) return;
+export function selectPlayerInventory(plr: string) {
+    return (state: SharedState) => {
+        return state.players.inventory[plr];
+    };
+}
 
-        return { keybinds };
-    });
+export function selectPlayerData(plr: string) {
+    return createSelector(
+        [selectPlayerKeybinds(plr), selectPlayerInventory(plr)],
+        (keybinds, inventory): PlayerData | undefined => {
+            if (!keybinds || !inventory) return;
+
+            return { keybinds, inventory } as PlayerData;
+        },
+    );
 }

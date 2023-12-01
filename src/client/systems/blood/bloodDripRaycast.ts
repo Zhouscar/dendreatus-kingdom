@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Players, Workspace } from "@rbxts/services";
+import { Workspace } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Sound } from "shared/components";
 import { doSplatter } from "shared/effects/blood";

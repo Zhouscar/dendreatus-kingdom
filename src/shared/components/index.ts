@@ -2,7 +2,7 @@ import { AnyEntity, component } from "@rbxts/matter";
 import { LivingThingComponents } from "./livingThings";
 import { MovementComponents } from "./movements";
 import { MyAnimator } from "shared/effects/animations";
-import { SoundContext } from "types";
+import { SoundContext } from "type";
 import { HealthComponents } from "./health";
 import { ColliderComponents } from "./colliders";
 

@@ -4,6 +4,7 @@ import { ReplicatedStorage } from "@rbxts/services";
 import { start } from "shared/start";
 
 withHookDetection(Roact);
+
 start(
     "CLIENT",
     [ReplicatedStorage.client.systems, ReplicatedStorage.shared.systems],

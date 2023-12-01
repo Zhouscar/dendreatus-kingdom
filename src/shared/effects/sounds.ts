@@ -1,5 +1,5 @@
 import { Players, Workspace } from "@rbxts/services";
-import { SoundContext } from "types";
+import { SoundContext } from "type";
 
 const NUM_CACHED_PARTS = 500;
 const CACHE_CF = new CFrame(0, 10000, 0);

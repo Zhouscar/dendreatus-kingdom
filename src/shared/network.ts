@@ -8,7 +8,7 @@ import {
 import { ReplicationMap } from "./components/serde";
 import { BroadcastAction } from "@rbxts/reflex";
 import { t } from "@rbxts/t";
-import { SoundContext } from "types";
+import { SoundContext } from "type";
 import { $terrify } from "rbxts-transformer-t";
 
 const isSoundContext = $terrify<SoundContext>();

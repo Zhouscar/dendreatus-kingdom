@@ -1,16 +1,8 @@
 import { AnyEntity } from "@rbxts/matter";
-import variantModule, { TypeNames, VariantOf, fields } from "@rbxts/variant";
-import { Host } from "types";
+import { CameraProps, defaultCameraProps } from "client/cameraHandler/cameraProps";
+import { Host } from "type";
 
-export const CameraState = variantModule({
-    follow: fields<{ target?: BasePart }>(),
-    // cutscene
-});
-
-export type CameraState<T extends TypeNames<typeof CameraState> = undefined> = VariantOf<
-    typeof CameraState,
-    T
->;
+export type ClientState = "game" | "inventory";
 
 export class State {
     debugEnabled: boolean = false;
@@ -19,10 +11,11 @@ export class State {
     serverToClientEntityIdMap: Map<string, AnyEntity> = new Map();
     clientToServerEntityIdMap: Map<string, AnyEntity> = new Map();
 
-    cameraState: CameraState = CameraState.follow({});
-    cameraFollowOffset: Vector3 = new Vector3(0, 0, 0);
+    canOpenInventory: boolean = false;
 
-    cameraShake: number = 0;
+    clientState: ClientState = "game";
+
+    cameraProps: CameraProps = defaultCameraProps;
 
     bloodDrips: Set<[BasePart, Instance]> = new Set();
 }

@@ -11,10 +11,11 @@ import {
     UsableDashContext,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { State } from "shared/state";
 
 let lastDashTime = 0;
 
-function canDash(w: World) {
+function canDash(w: World, s: State) {
     for (const [e, plr, dashing] of w.query(Plr, Dashing)) {
         if (plr.player !== Players.LocalPlayer) continue;
         lastDashTime = dashing.startTime;

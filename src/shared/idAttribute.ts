@@ -1,4 +1,4 @@
-import { Host } from "types";
+import { Host } from "type";
 
 export function getIdAttribute(host: Host) {
     return host === "CLIENT"
