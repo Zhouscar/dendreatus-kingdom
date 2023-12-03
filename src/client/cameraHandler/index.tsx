@@ -6,13 +6,14 @@ import {
     useBindingListener,
     useCamera,
     useMotor,
+    useMountEffect,
     usePrevious,
 } from "@rbxts/pretty-roact-hooks";
 import { useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { Players, RunService } from "@rbxts/services";
 import { ViewVector } from "shared/classes";
 
-const FOLLOW_VIEW_VECTOR = new ViewVector(-5, 2, 0);
+const FOLLOW_VIEW_VECTOR = new ViewVector(-10, 0, 2);
 
 const r = math.random;
 
@@ -29,6 +30,8 @@ cameraFollowPart.Anchored = true;
 cameraFollowPart.Transparency = 1;
 cameraFollowPart.Massless = true;
 
+const transitionSpring = new Spring(1);
+
 function CameraHandler(props: CameraProps) {
     const state = props.state;
     const shake = props.shake;
@@ -37,7 +40,17 @@ function CameraHandler(props: CameraProps) {
 
     const camera = useCamera();
     const [isTransitioning, setIsTransitioning] = useState(false);
-    const [transitionMotor, setTransitionMotor, transitionApi] = useMotor(0);
+    const [transitionMotor, setTransitionMotor, transitionApi] = useMotor(0, false);
+
+    useMountEffect(() => {
+        const connection = onRender.Connect((dt) => {
+            transitionApi.motor.step(dt);
+        });
+
+        return () => {
+            connection.Disconnect();
+        };
+    });
 
     const cameraCFOnStateChange = useMemo(() => camera.CFrame, [state]);
 
@@ -49,14 +62,20 @@ function CameraHandler(props: CameraProps) {
 
     useBindingListener(transitionMotor, (value) => {
         if (!isTransitioning) return;
-        if (!prevState) return;
+        if (!prevState || prevState.type === "none") {
+            resetTransitionMotor();
+            return;
+        }
 
-        if (value === 1) {
-            setIsTransitioning(false);
+        if (value >= 1) {
+            resetTransitionMotor();
             return;
         }
 
         if (prevState.type === "follow" && state.type === "angleView") {
+            camera.CameraType = Enum.CameraType.Fixed;
+            camera.CameraSubject = undefined;
+
             const followDelta = (0.5 - value) * 2;
             const angleViewDelta = (value - 0.5) * 2;
 
@@ -72,7 +91,7 @@ function CameraHandler(props: CameraProps) {
                     .add(targetCF.RightVector.mul(FOLLOW_VIEW_VECTOR.right * followDelta))
                     .add(targetCF.UpVector.mul(FOLLOW_VIEW_VECTOR.up * followDelta));
 
-                camera.CFrame = camera.CFrame.Lerp(new CFrame(goalPosition, targetPosition), 0.2);
+                camera.CFrame = camera.CFrame.Lerp(new CFrame(goalPosition, targetPosition), 0.7);
             }
 
             if (angleViewDelta > 0) {
@@ -91,6 +110,9 @@ function CameraHandler(props: CameraProps) {
                 camera.CFrame = new CFrame(goalPosition, targetPosition);
             }
         } else if (prevState.type === "angleView" && state.type === "follow") {
+            camera.CameraType = Enum.CameraType.Fixed;
+            camera.CameraSubject = undefined;
+
             const angleViewDelta = (0.5 - value) * 2;
             const followDelta = (value - 0.5) * 2;
 
@@ -134,20 +156,19 @@ function CameraHandler(props: CameraProps) {
         resetTransitionMotor();
 
         setIsTransitioning(true);
-        setTransitionMotor(new Linear(1));
+        setTransitionMotor(transitionSpring);
     }, [state, prevState]);
 
     useEffect(() => {
         if (isTransitioning) return;
 
-        print(state.type);
         if (state.type === "follow") {
             const target = state.target;
 
             camera.CameraType = Enum.CameraType.Track;
             camera.CameraSubject = cameraFollowPart;
 
-            const connection = onTick.Connect(() => {
+            const connection = onRender.Connect(() => {
                 const targetPosition = target.Position;
 
                 cameraFollowPart.Position = cameraFollowPart.Position.Lerp(targetPosition, 0.1);
@@ -171,7 +192,7 @@ function CameraHandler(props: CameraProps) {
             camera.CameraType = Enum.CameraType.Fixed;
             camera.CameraSubject = undefined;
 
-            const connection = onTick.Connect(() => {
+            const connection = onRender.Connect(() => {
                 const targetCF = target.CFrame;
                 const targetPosition = target.Position;
                 const goalPosition = targetPosition

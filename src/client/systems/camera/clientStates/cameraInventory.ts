@@ -6,7 +6,7 @@ import { ViewVector } from "shared/classes";
 import { Plr, Renderable } from "shared/components";
 import { State } from "shared/state";
 
-const INVENTORY_VIEW_VECTOR = new ViewVector(5, 0, 0);
+const INVENTORY_VIEW_VECTOR = new ViewVector(10, 0, 0);
 
 function cameraInventory(w: World, s: State) {
     if (s.clientState !== "inventory") return;
