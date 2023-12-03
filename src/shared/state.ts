@@ -1,5 +1,4 @@
 import { AnyEntity } from "@rbxts/matter";
-import { CameraProps, defaultCameraProps } from "client/cameraHandler/cameraProps";
 import { Host } from "type";
 
 export type ClientState = "game" | "inventory";
@@ -14,8 +13,6 @@ export class State {
     canOpenInventory: boolean = false;
 
     clientState: ClientState = "game";
-
-    cameraProps: CameraProps = defaultCameraProps;
 
     bloodDrips: Set<[BasePart, Instance]> = new Set();
 }

@@ -1,6 +1,6 @@
 import { createBroadcaster } from "@rbxts/reflex";
 import { network } from "shared/network";
-import { slices } from "shared/reflex/slices";
+import { slices } from "shared/store/slices";
 import { store } from ".";
 
 const broadcaster = createBroadcaster({

@@ -1,5 +1,5 @@
 import { ItemType } from "shared/features/items/types";
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { PlayerInventory } from "shared/store/slices/players/types";
 import { canTakeItems } from "../spaces";
 import { produce } from "@rbxts/immut";
 import { RECONCILE_INVENTORY, UNIQUE_TYPE_COUNTS as UNIQUE_ITEM_COUNTS } from "../../constants";

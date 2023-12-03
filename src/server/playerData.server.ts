@@ -2,9 +2,9 @@ import { GetProfileStore } from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
 import { Players } from "@rbxts/services";
 import { store } from "client/store";
-import { selectPlayerData } from "shared/reflex/selectors";
-import { defaultPlayerData } from "shared/reflex/slices/players/defaults";
-import { PlayerData } from "shared/reflex/slices/players/types";
+import { selectPlayerData } from "shared/store/selectors";
+import { defaultPlayerData } from "shared/store/slices/players/defaults";
+import { PlayerData } from "shared/store/slices/players/types";
 
 const profileStore = GetProfileStore("playerData", defaultPlayerData);
 

@@ -1,5 +1,5 @@
 import { ItemType } from "shared/features/items/types";
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { PlayerInventory } from "shared/store/slices/players/types";
 import stackSizeOf from "../getters/stackSizeOf";
 import { canPutItems } from "../spaces";
 import { produce } from "@rbxts/immut";

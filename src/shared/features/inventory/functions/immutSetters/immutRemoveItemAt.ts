@@ -1,4 +1,4 @@
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { PlayerInventory } from "shared/store/slices/players/types";
 import immutSetItemAt from "./immutSetItemAt";
 
 function immutRemoveItemAt(inventory: PlayerInventory, index: number): PlayerInventory {

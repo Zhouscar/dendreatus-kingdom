@@ -1,5 +1,5 @@
 import { Item } from "shared/features/items/types";
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { PlayerInventory } from "shared/store/slices/players/types";
 import hasOpenSlot from "../spaces/hasOpenSlot";
 import { produce } from "@rbxts/immut";
 import newGuid from "shared/features/newGuid";

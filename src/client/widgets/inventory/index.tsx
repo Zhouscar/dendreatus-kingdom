@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { ReflexProvider, useSelector } from "@rbxts/roact-reflex";
 import EntireScreen from "../components/entireScreen";
-import { selectPlayerInventory } from "shared/reflex/selectors";
+import { selectPlayerInventory } from "shared/store/selectors";
 import { localPlr } from "client/localPlr";
 import { store } from "client/store";
 import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";

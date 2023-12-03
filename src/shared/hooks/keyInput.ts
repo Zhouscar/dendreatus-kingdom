@@ -3,9 +3,9 @@ import { Players, UserInputService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 import { localPlr } from "client/localPlr";
 import { store } from "client/store";
-import { selectPlayerKeybinds } from "shared/reflex/selectors";
-import { defaultPlayerKeybinds } from "shared/reflex/slices/players/defaults";
-import { PlayerKeybinds } from "shared/reflex/slices/players/types";
+import { selectPlayerKeybinds } from "shared/store/selectors";
+import { defaultPlayerKeybinds } from "shared/store/slices/players/defaults";
+import { PlayerKeybinds } from "shared/store/slices/players/types";
 import { KeyCode, KeyName } from "type";
 
 const pressedKeyNames: Set<KeyName> = new Set();

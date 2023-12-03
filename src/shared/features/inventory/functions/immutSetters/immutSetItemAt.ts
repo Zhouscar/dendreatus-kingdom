@@ -1,7 +1,7 @@
 import { produce } from "@rbxts/immut";
 import { Item } from "shared/features/items/types";
 import newGuid from "shared/features/newGuid";
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { PlayerInventory } from "shared/store/slices/players/types";
 
 function immutSetItemAt(
     inventory: PlayerInventory,

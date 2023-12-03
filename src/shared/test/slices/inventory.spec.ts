@@ -6,9 +6,9 @@ import canPutItems from "shared/features/inventory/functions/spaces/canPutItems"
 import canTakeItems from "shared/features/inventory/functions/spaces/canTakeItems";
 import hasOpenSlot from "shared/features/inventory/functions/spaces/hasOpenSlot";
 import { Item } from "shared/features/items/types";
-import { defaultPlayerData } from "shared/reflex/slices/players/defaults";
-import { inventorySlice } from "shared/reflex/slices/players/inventory";
-import { PlayerInventory } from "shared/reflex/slices/players/types";
+import { defaultPlayerData } from "shared/store/slices/players/defaults";
+import { inventorySlice } from "shared/store/slices/players/inventory";
+import { PlayerInventory } from "shared/store/slices/players/types";
 
 export = (): void => {
     // inventorySlice.applyMiddleware(loggerMiddleware);
