@@ -11,8 +11,18 @@ import {
     WillJump,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { State } from "shared/state";
 
-function canJump(w: World) {
+function canJump(w: World, s: State) {
+    if (s.clientState !== "game") {
+        for (const [e, plr, canJump] of w.query(Plr, CanJump)) {
+            if (plr.player !== Players.LocalPlayer) continue;
+
+            w.remove(e, CanJump);
+        }
+        return;
+    }
+
     for (const [e, plr, usableJumpContext] of w.query(Plr, UsableJumpContext)) {
         if (plr.player !== Players.LocalPlayer) continue;
 

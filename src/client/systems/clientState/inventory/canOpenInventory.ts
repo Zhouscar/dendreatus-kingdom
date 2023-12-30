@@ -15,22 +15,17 @@ function canOpenInventory(w: World, s: State) {
         return;
     }
 
-    // for (const [e, damageRecord] of w.queryChanged(Damage)) {
-    //     if (!w.contains(e)) continue;
+    for (const [e, damageRecord] of w.queryChanged(Damage)) {
+        if (!w.contains(e)) continue;
 
-    //     const plr = w.get(e, Plr);
-    //     if (plr?.player !== Players.LocalPlayer) continue;
+        const plr = w.get(e, Plr);
+        if (plr?.player !== Players.LocalPlayer) continue;
 
-    //     if (s.canOpenInventory !== false) {
-    //         willSnapToGame = true;
-    //     }
-    //     s.canOpenInventory = false;
-    //     return;
-    // }
+        s.canOpenInventory = false;
+        return;
+    }
 
-    for (const [e, plr, onLand, canDirectionallyMove] of w
-        .query(Plr, OnLand, CanDirectionallyMove)
-        .without(/* for things like dashing, swinging*/)) {
+    for (const [e, plr] of w.query(Plr).without(/* for things like dashing, swinging*/)) {
         if (plr.player !== Players.LocalPlayer) continue;
 
         s.canOpenInventory = true;

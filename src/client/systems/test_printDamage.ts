@@ -7,7 +7,5 @@ export = function (w: World) {
     for (const [e, damage] of w.queryChanged(Damage)) {
         const plr = w.get(e, Plr);
         if (plr?.player !== Players.LocalPlayer) continue;
-
-        print(damage.new?.amount);
     }
 };

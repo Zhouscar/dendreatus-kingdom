@@ -10,7 +10,7 @@ import { Damage } from "shared/components/health";
 const redScreenOnDamageContainer = new Instance("ScreenGui");
 redScreenOnDamageContainer.Name = "RedScreenOnDamageContainer";
 redScreenOnDamageContainer.ResetOnSpawn = false;
-redScreenOnDamageContainer.Parent = Players.LocalPlayer.PlayerGui;
+redScreenOnDamageContainer.Parent = Players.LocalPlayer!.PlayerGui;
 
 function RedScreen(props: { enability: number }) {
     return (

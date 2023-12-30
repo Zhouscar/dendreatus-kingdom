@@ -2,7 +2,11 @@ import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
 
-function DeathScreenOptionButton(props: { enabled: boolean; text: string; onClick: () => void }) {
+export default function DeathScreenOptionButton(props: {
+    enabled: boolean;
+    text: string;
+    onClick: () => void;
+}) {
     const enabled = props.enabled;
     const text = props.text;
     const onClick = props.onClick;
@@ -56,5 +60,3 @@ function DeathScreenOptionButton(props: { enabled: boolean; text: string; onClic
         </textbutton>
     );
 }
-
-export = DeathScreenOptionButton;

@@ -1,4 +1,4 @@
-import { PlayerInventory } from "shared/store/slices/players/types";
+import { PlayerInventory } from "shared/store/players/types";
 
 function hasOpenSlot(inventory: PlayerInventory): boolean {
     for (const slot of inventory.slots) {

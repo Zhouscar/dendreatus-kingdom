@@ -3,14 +3,25 @@ import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
 import { Dead } from "shared/components/health";
 import {
+    CanDash,
     CanDirectionallyMove,
     CrashLanding,
     DirectionalMovement,
     UsableDirectionalMovementContext,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { State } from "shared/state";
 
-function canDirectionallyMove(w: World) {
+function canDirectionallyMove(w: World, s: State) {
+    if (s.clientState !== "game") {
+        for (const [e, plr, canDirectionallyMove] of w.query(Plr, CanDirectionallyMove)) {
+            if (plr.player !== Players.LocalPlayer) continue;
+
+            w.remove(e, CanDirectionallyMove);
+        }
+        return;
+    }
+
     for (const [e, plr, usableDirectionalMovementContext] of w.query(
         Plr,
         UsableDirectionalMovementContext,

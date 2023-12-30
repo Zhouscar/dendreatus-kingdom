@@ -4,12 +4,12 @@ import { t } from "@rbxts/t";
 import { ComponentNames, ReplicationMap, UnionComponentsMap } from "shared/components/serde";
 import { network } from "shared/network";
 import { State } from "shared/state";
-import { Components, Plr, Sound } from "shared/components";
+import { Components, Sound } from "shared/components";
 import { Players } from "@rbxts/services";
 
-function recieveReplication(w: World, state: State) {
-    const entityIdMap = state.serverToClientEntityIdMap;
-    const reserveEntityIdMap = state.clientToServerEntityIdMap;
+function recieveReplication(w: World, s: State) {
+    const entityIdMap = s.serverToClientEntityIdMap;
+    const reserveEntityIdMap = s.clientToServerEntityIdMap;
 
     network.replication.connect((entities: ReplicationMap) => {
         assert(t.map(t.string, t.table)(entities));

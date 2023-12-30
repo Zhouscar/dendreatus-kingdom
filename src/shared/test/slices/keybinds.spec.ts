@@ -1,8 +1,8 @@
 /// <reference types="@rbxts/testez/globals" />
 
-import { keybindsSlice } from "shared/store/slices";
-import { defaultPlayerData } from "shared/store/slices/players/defaults";
-import { PlayerKeybinds } from "shared/store/slices/players/types";
+import { keybindsSlice } from "shared/store/players/keybinds";
+import { defaultPlayerData } from "shared/store/players/playerDefaults";
+import { PlayerKeybinds } from "shared/store/players/types";
 
 export = (): void => {
     const getKeybinds = (): PlayerKeybinds => {

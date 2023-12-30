@@ -1,13 +1,15 @@
 import { current } from "@rbxts/immut";
 import { World } from "@rbxts/matter";
+import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
 import { mainUiContainer } from "client/containers";
 import HealthBar from "client/widgets/healthBar";
 import { Plr } from "shared/components";
 import { Health } from "shared/components/health";
+import { State } from "shared/state";
 
-function treeConstructor(current: number, maximum: number) {
+function treeConstructor(current: number, maximum: number, enabled: boolean) {
     return (
         <HealthBar
             Size={new UDim2(0.5, 0, 0, 20)}
@@ -15,24 +17,31 @@ function treeConstructor(current: number, maximum: number) {
             AnchorPoint={new Vector2(0.5, 0)}
             current={current}
             maximum={maximum}
+            enabled={enabled}
         ></HealthBar>
     );
 }
 
-const tree = Roact.mount(treeConstructor(100, 100), mainUiContainer);
+const tree = Roact.mount(treeConstructor(100, 100, false), mainUiContainer);
 
-function healthBar(w: World) {
-    for (const [e, healthRecord] of w.queryChanged(Health)) {
-        if (!w.contains(e)) continue;
-        const health = healthRecord.new!;
+function healthBar(w: World, s: State) {
+    let current = undefined;
+    let maximum = undefined;
+    const enabled = s.clientState === "game";
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+    for (const [e, plr, health] of w.query(Plr, Health)) {
+        if (plr.player !== Players.LocalPlayer) continue;
 
-        Roact.update(tree, treeConstructor(health.current, health.maximum));
-
+        current = health.current;
+        maximum = health.maximum;
         break;
     }
+
+    if (!useChange([current, maximum, enabled])) return;
+    if (current === undefined) return;
+    if (maximum === undefined) return;
+
+    Roact.update(tree, treeConstructor(current, maximum, enabled));
 }
 
 export = healthBar;

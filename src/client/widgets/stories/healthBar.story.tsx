@@ -14,6 +14,7 @@ export const story = () => {
                 Position={new UDim2(0.2, 0, 0.6, 0)}
                 maximum={100}
                 current={health}
+                enabled={true}
             ></HealthBar>
             <TestPanel
                 context={

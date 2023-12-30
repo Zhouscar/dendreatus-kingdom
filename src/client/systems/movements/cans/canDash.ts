@@ -16,6 +16,15 @@ import { State } from "shared/state";
 let lastDashTime = 0;
 
 function canDash(w: World, s: State) {
+    if (s.clientState !== "game") {
+        for (const [e, plr, canDash] of w.query(Plr, CanDash)) {
+            if (plr.player !== Players.LocalPlayer) continue;
+
+            w.remove(e, CanDash);
+        }
+        return;
+    }
+
     for (const [e, plr, dashing] of w.query(Plr, Dashing)) {
         if (plr.player !== Players.LocalPlayer) continue;
         lastDashTime = dashing.startTime;

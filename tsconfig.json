@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		// required
+		"removeComments": true,
 		"allowSyntheticDefaultImports": true,
 		"downlevelIteration": true,
 		"jsx": "react",
@@ -27,6 +28,6 @@
 			{
 				"transform": "rbxts-transformer-t",
 			}
-		]
+		],
 	}
 }

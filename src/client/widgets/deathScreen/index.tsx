@@ -22,7 +22,7 @@ youDiedSound.SoundId = youDiedSoundId;
 youDiedSound.Name = "YouDied";
 youDiedSound.Parent = SoundService;
 
-function DeathScreen(props: {}) {
+export default function DeathScreen(props: {}) {
     const [blackOutEnability, setBlackOutEnability] = useMotor(0);
     const [titleEnability, setTitleEnability] = useMotor(0);
     const [optionsEnability, setOptionsEnability] = useMotor(0);
@@ -102,5 +102,3 @@ function DeathScreen(props: {}) {
         </EntireScreen>
     );
 }
-
-export = DeathScreen;

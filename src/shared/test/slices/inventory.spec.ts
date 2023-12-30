@@ -1,14 +1,14 @@
 /// <reference types="@rbxts/testez/globals" />
 
-import { loggerMiddleware } from "@rbxts/reflex";
 import { INVENTORY_SLOT_SIZE } from "shared/features/inventory/constants";
 import canPutItems from "shared/features/inventory/functions/spaces/canPutItems";
 import canTakeItems from "shared/features/inventory/functions/spaces/canTakeItems";
 import hasOpenSlot from "shared/features/inventory/functions/spaces/hasOpenSlot";
 import { Item } from "shared/features/items/types";
-import { defaultPlayerData } from "shared/store/slices/players/defaults";
-import { inventorySlice } from "shared/store/slices/players/inventory";
-import { PlayerInventory } from "shared/store/slices/players/types";
+import { defaultPlayerData } from "shared/store/players/playerDefaults";
+import { inventorySlice } from "shared/store/players/inventory/inventorySlice";
+import { PlayerInventory } from "shared/store/players/types";
+import { createGuidPool } from "shared/features/guidUtils";
 
 export = (): void => {
     // inventorySlice.applyMiddleware(loggerMiddleware);
@@ -39,7 +39,7 @@ export = (): void => {
     it("should add sticks to one slot", () => {
         expect(canPutItems(getInventory(), "stick", 2)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 2);
+        inventorySlice.putItems("__test__", "stick", 2, createGuidPool());
         const inventory = getInventory();
 
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
@@ -52,7 +52,7 @@ export = (): void => {
     it("should add sticks to two slots", () => {
         expect(canPutItems(getInventory(), "stick", 31)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 31);
+        inventorySlice.putItems("__test__", "stick", 31, createGuidPool());
         const inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -65,19 +65,19 @@ export = (): void => {
     it("should continuously add sticks and be working", () => {
         expect(getItem(getInventory(), 0)?.stack).to.throw();
 
-        inventorySlice.putItems("__test__", "stick", 1);
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(1);
 
-        inventorySlice.putItems("__test__", "stick", 1);
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(2);
 
-        inventorySlice.putItems("__test__", "stick", 1);
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(3);
 
-        inventorySlice.putItems("__test__", "stick", 1);
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(4);
     });
@@ -85,7 +85,7 @@ export = (): void => {
     it("should not be able to add sticks when inventory cannot add that much", () => {
         expect(canPutItems(getInventory(), "stick", 890)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 890);
+        inventorySlice.putItems("__test__", "stick", 890, createGuidPool());
         const inventory = getInventory();
         for (let i = 0; i < INVENTORY_SLOT_SIZE; i++) {
             expect(inventory.slots[i].itemGuid).to.never.equal(undefined);
@@ -97,14 +97,14 @@ export = (): void => {
         }
 
         expect(canPutItems(getInventory(), "stick", 20)).to.equal(false);
-        inventorySlice.putItems("__test__", "stick", 20);
+        inventorySlice.putItems("__test__", "stick", 20, createGuidPool());
         expect(inventory).to.be.equal(getInventory());
     });
 
     it("should add sticks to two slots and remove resulting still two slots", () => {
         expect(canPutItems(getInventory(), "stick", 40)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 40);
+        inventorySlice.putItems("__test__", "stick", 40, createGuidPool());
         let inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -128,7 +128,7 @@ export = (): void => {
     it("should add sticks to two slots and remove resulting one slot", () => {
         expect(canPutItems(getInventory(), "stick", 40)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 40);
+        inventorySlice.putItems("__test__", "stick", 40, createGuidPool());
         let inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -152,7 +152,7 @@ export = (): void => {
     it("should not be able to take sticks when inventory cannot take that much", () => {
         expect(canPutItems(getInventory(), "stick", 10)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 10);
+        inventorySlice.putItems("__test__", "stick", 10, createGuidPool());
         const inventory = getInventory();
         expect(getItem(inventory, 0)?.stack).to.be.equal(10);
 
@@ -170,7 +170,7 @@ export = (): void => {
 
         expect(hasOpenSlot(getInventory())).to.equal(true);
 
-        inventorySlice.insertItem("__test__", item);
+        inventorySlice.insertItem("__test__", item, createGuidPool());
         expect(getItem(getInventory(), 0)?.itemType).to.be.equal("stick");
         expect(getItem(getInventory(), 0)?.stack).to.be.equal(10);
     });
@@ -178,7 +178,7 @@ export = (): void => {
     it("should not be able to insert item into inventory when the inventory is full", () => {
         expect(canPutItems(getInventory(), "stick", 890)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "stick", 890);
+        inventorySlice.putItems("__test__", "stick", 890, createGuidPool());
         const inventory = getInventory();
         for (let i = 0; i < INVENTORY_SLOT_SIZE; i++) {
             expect(inventory.slots[i].itemGuid).to.never.equal(undefined);
@@ -197,7 +197,7 @@ export = (): void => {
 
         expect(hasOpenSlot(getInventory())).to.equal(false);
 
-        inventorySlice.insertItem("__test__", item);
+        inventorySlice.insertItem("__test__", item, createGuidPool());
         expect(getInventory()).to.be.equal(inventory);
     });
 
@@ -210,7 +210,7 @@ export = (): void => {
 
         expect(getItem(getInventory(), 2)?.stack).to.throw();
 
-        inventorySlice.setItemAt("__test__", 2, item);
+        inventorySlice.setItemAt("__test__", 2, item, createGuidPool());
 
         expect(getItem(getInventory(), 2)?.stack).to.be.equal(9);
     });
@@ -224,7 +224,7 @@ export = (): void => {
 
         expect(getItem(getInventory(), 2)?.stack).to.throw();
 
-        inventorySlice.setItemAt("__test__", 2, item);
+        inventorySlice.setItemAt("__test__", 2, item, createGuidPool());
 
         expect(getItem(getInventory(), 2)?.stack).to.be.equal(9);
 
@@ -247,8 +247,8 @@ export = (): void => {
             unique: false,
         };
 
-        inventorySlice.setItemAt("__test__", 3, fromItem);
-        inventorySlice.setItemAt("__test__", 7, toItem);
+        inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
+        inventorySlice.setItemAt("__test__", 7, toItem, createGuidPool());
 
         expect(getItem(getInventory(), 3)).to.equal(fromItem);
         expect(getItem(getInventory(), 7)).to.equal(toItem);
@@ -266,7 +266,7 @@ export = (): void => {
             unique: false,
         };
 
-        inventorySlice.setItemAt("__test__", 3, fromItem);
+        inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
 
         expect(getItem(getInventory(), 3)).to.equal(fromItem);
         expect(getItem(getInventory(), 7)).to.throw();
@@ -290,8 +290,8 @@ export = (): void => {
             unique: false,
         };
 
-        inventorySlice.setItemAt("__test__", 3, fromItem);
-        inventorySlice.setItemAt("__test__", 7, toItem);
+        inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
+        inventorySlice.setItemAt("__test__", 7, toItem, createGuidPool());
 
         expect(getItem(getInventory(), 3)?.stack).to.equal(13);
         expect(getItem(getInventory(), 7)?.stack).to.equal(22);
@@ -315,8 +315,8 @@ export = (): void => {
             unique: false,
         };
 
-        inventorySlice.setItemAt("__test__", 3, fromItem);
-        inventorySlice.setItemAt("__test__", 7, toItem);
+        inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
+        inventorySlice.setItemAt("__test__", 7, toItem, createGuidPool());
 
         expect(getItem(getInventory(), 3)?.stack).to.equal(13);
         expect(getItem(getInventory(), 7)?.stack).to.equal(12);

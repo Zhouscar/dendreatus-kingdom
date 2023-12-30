@@ -38,7 +38,6 @@ const hideSplatterTweenGoal: Partial<ExtractMembers<BasePart, Tweenable>> = {
 };
 
 export function doSplatter(cf: CFrame) {
-    print("splatter");
     const splatterPart = ReplicatedStorage.assets.blood.splatterPart.Clone();
 
     splatterPart.CFrame = cf.mul(CFrame.Angles(0, math.rad(90), 0));

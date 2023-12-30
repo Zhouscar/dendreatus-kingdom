@@ -61,14 +61,14 @@ function humanDirectionalMovement(w: World) {
             potentialDirectionalMovement.type === "walk"
                 ? usableDirectionalMovementContext.walk
                 : potentialDirectionalMovement.type === "sprint"
-                ? usableDirectionalMovementContext.sprint
-                : potentialDirectionalMovement.type === "sneak"
-                ? usableDirectionalMovementContext.sneak
-                : potentialDirectionalMovement.type === "dive"
-                ? usableDirectionalMovementContext.dive
-                : potentialDirectionalMovement.type === "swim"
-                ? usableDirectionalMovementContext.swim
-                : 0;
+                  ? usableDirectionalMovementContext.sprint
+                  : potentialDirectionalMovement.type === "sneak"
+                    ? usableDirectionalMovementContext.sneak
+                    : potentialDirectionalMovement.type === "dive"
+                      ? usableDirectionalMovementContext.dive
+                      : potentialDirectionalMovement.type === "swim"
+                        ? usableDirectionalMovementContext.swim
+                        : 0;
 
         human.humanoid.WalkSpeed = newWalkSpeed;
         human.humanoid.Move(directionalMovement.direction, false);

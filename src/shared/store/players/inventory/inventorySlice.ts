@@ -1,7 +1,8 @@
 import { createProducer } from "@rbxts/reflex";
-import { PlayerData, PlayerInventory } from "./types";
+import { PlayerData, PlayerInventory } from "../types";
 import { Item, ItemType } from "shared/features/items/types";
 import inventoryImmutSetters from "shared/features/inventory/functions/immutSetters";
+import { createGuidPool } from "shared/features/guidUtils";
 
 export interface InventoryState {
     [plr: string]: PlayerInventory | undefined;
@@ -20,21 +21,21 @@ export const inventorySlice = createProducer(initState, {
         [plr]: undefined,
     }),
 
-    insertItem: (state, plr: string, item: Item) => {
+    insertItem: (state, plr: string, item: Item, guidPool: string[]) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
         return {
             ...state,
-            [plr]: inventoryImmutSetters.immutInsertItem(inventory, item),
+            [plr]: inventoryImmutSetters.immutInsertItem(inventory, item, guidPool),
         };
     },
 
-    putItems: (state, plr: string, itemType: ItemType, amount: number) => {
+    putItems: (state, plr: string, itemType: ItemType, amount: number, guidPool: string[]) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
         return {
             ...state,
-            [plr]: inventoryImmutSetters.immutPutItems(inventory, itemType, amount),
+            [plr]: inventoryImmutSetters.immutPutItems(inventory, itemType, amount, guidPool),
         };
     },
 
@@ -47,12 +48,12 @@ export const inventorySlice = createProducer(initState, {
         };
     },
 
-    setItemAt: (state, plr: string, index: number, item: Item) => {
+    setItemAt: (state, plr: string, index: number, item: Item, guidPool: string[]) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
         return {
             ...state,
-            [plr]: inventoryImmutSetters.immutSetItemAt(inventory, index, item),
+            [plr]: inventoryImmutSetters.immutSetItemAt(inventory, index, item, guidPool),
         };
     },
 

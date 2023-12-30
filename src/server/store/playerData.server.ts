@@ -1,10 +1,10 @@
 import { GetProfileStore } from "@rbxts/profileservice";
 import { Profile } from "@rbxts/profileservice/globals";
 import { Players } from "@rbxts/services";
-import { store } from "client/store";
-import { selectPlayerData } from "shared/store/selectors";
-import { defaultPlayerData } from "shared/store/slices/players/defaults";
-import { PlayerData } from "shared/store/slices/players/types";
+import { defaultPlayerData } from "shared/store/players/playerDefaults";
+import { selectPlayerData } from "shared/store/players/playersSelectors";
+import { PlayerData } from "shared/store/players/types";
+import { store } from ".";
 
 const profileStore = GetProfileStore("playerData", defaultPlayerData);
 

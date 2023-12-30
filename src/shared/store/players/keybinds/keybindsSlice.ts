@@ -1,8 +1,8 @@
 import { createProducer } from "@rbxts/reflex";
-import { PlayerData, PlayerKeybinds } from "./types";
 import { produce } from "@rbxts/immut";
 import { KeyCode } from "type";
-import { defaultPlayerKeybinds } from "./defaults";
+import { PlayerData, PlayerKeybinds } from "../types";
+import { defaultPlayerKeybinds } from "./keybindsDefaults";
 
 export interface KeybindsState {
     [plr: string]: PlayerKeybinds | undefined;

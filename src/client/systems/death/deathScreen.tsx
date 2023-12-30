@@ -10,7 +10,7 @@ let isDead = false;
 
 const deathScreenContainer = new Instance("ScreenGui");
 deathScreenContainer.Name = "DeathScreenContainer";
-deathScreenContainer.Parent = Players.LocalPlayer.PlayerGui;
+deathScreenContainer.Parent = Players.LocalPlayer!.PlayerGui;
 deathScreenContainer.ResetOnSpawn = false;
 
 withHookDetection(Roact);

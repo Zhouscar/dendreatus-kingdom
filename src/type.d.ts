@@ -1,4 +1,4 @@
-import { PlayerKeybinds } from "shared/store/slices/players/types";
+import { PlayerKeybinds } from "shared/store/players/types";
 
 export type Host = "CLIENT" | "SERVER" | "UNKNOWN";
 export type KeyCode = keyof typeof Enum.KeyCode;

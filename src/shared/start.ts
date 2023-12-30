@@ -30,8 +30,6 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
             .GetDescendants()
             .filter((module): module is ModuleScript => classIs(module, "ModuleScript"))
             .forEach((module) => {
-                if (module.Name.find(">")[0] === 1) return;
-
                 if (module.Name.find("~")[0] === 1) {
                     warn(`System ${module.Name} has been skipped`);
                     return;
@@ -77,8 +75,6 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
             .GetDescendants()
             .filter((module): module is ModuleScript => module.IsA("ModuleScript"))
             .forEach((module) => {
-                if (module.Name.find(">")[0] === 1) return;
-
                 if (module.Name.find("~")[0] === 1) {
                     warn(`System ${module.Name} has been skipped`);
                     return;

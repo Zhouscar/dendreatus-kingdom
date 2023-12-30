@@ -1,7 +1,7 @@
-import { CombineStates, InferState, combineProducers } from "@rbxts/reflex";
+import { CombineStates } from "@rbxts/reflex";
 import { playersSlice } from "./players";
 
-export * from "./players";
+export * from "./players/inventory/inventorySlice";
 
 export type SharedState = CombineStates<typeof slices>;
 

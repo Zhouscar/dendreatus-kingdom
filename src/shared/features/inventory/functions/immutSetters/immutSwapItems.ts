@@ -1,5 +1,5 @@
 import { produce } from "@rbxts/immut";
-import { PlayerInventory } from "shared/store/slices/players/types";
+import { PlayerInventory } from "shared/store/players/types";
 import stackSizeOf from "../getters/stackSizeOf";
 
 function immutSwapItems(inventory: PlayerInventory, from: number, to: number) {

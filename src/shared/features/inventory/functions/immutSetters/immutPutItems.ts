@@ -1,12 +1,17 @@
 import { ItemType } from "shared/features/items/types";
-import { PlayerInventory } from "shared/store/slices/players/types";
+import { PlayerInventory } from "shared/store/players/types";
 import stackSizeOf from "../getters/stackSizeOf";
 import { canPutItems } from "../spaces";
 import { produce } from "@rbxts/immut";
-import newGuid from "shared/features/newGuid";
 import { RECONCILE_INVENTORY } from "../../constants";
+import { useGuidPool } from "shared/features/guidUtils";
 
-function immutPutItems(inventory: PlayerInventory, itemType: ItemType, amount: number) {
+function immutPutItems(
+    inventory: PlayerInventory,
+    itemType: ItemType,
+    amount: number,
+    guidPool: string[],
+) {
     const stackSize = stackSizeOf(itemType);
     if (stackSize === undefined) {
         warn(`There is no stacksize attribute for item ${itemType}`);
@@ -17,6 +22,8 @@ function immutPutItems(inventory: PlayerInventory, itemType: ItemType, amount: n
         return inventory;
     }
     return produce(inventory, (draft) => {
+        const getGuid = useGuidPool(guidPool);
+
         draft.slots.reduce((amountToPut, slot): number => {
             assert(amountToPut >= 0, "Amount to put should be less than 0");
             if (amountToPut === 0) {
@@ -27,7 +34,7 @@ function immutPutItems(inventory: PlayerInventory, itemType: ItemType, amount: n
                 // put item here
 
                 const amountToPutHere = math.min(stackSize, amountToPut);
-                slot.itemGuid = newGuid();
+                slot.itemGuid = getGuid();
                 draft.items[slot.itemGuid] = {
                     itemType: itemType,
                     stack: amountToPutHere,
@@ -42,7 +49,7 @@ function immutPutItems(inventory: PlayerInventory, itemType: ItemType, amount: n
 
                 if (RECONCILE_INVENTORY) {
                     const amountToPutHere = math.min(stackSize, amountToPut);
-                    slot.itemGuid = newGuid();
+                    slot.itemGuid = getGuid();
                     draft.items[slot.itemGuid] = {
                         itemType: itemType,
                         stack: amountToPutHere,

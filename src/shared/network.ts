@@ -9,15 +9,25 @@ import { ReplicationMap } from "./components/serde";
 import { BroadcastAction } from "@rbxts/reflex";
 import { t } from "@rbxts/t";
 import { SoundContext } from "type";
-import { $terrify } from "rbxts-transformer-t";
 
-const isSoundContext = $terrify<SoundContext>();
+function isSoundContext(value: unknown): value is SoundContext {
+    return t.strictInterface({
+        volume: t.number,
+        soundId: t.string,
+        speed: t.number,
+    })(value);
+}
 
 export const network = createRemotes({
     replication: remote<ServerToClient, [ReplicationMap]>(),
+
     reflex: namespace({
         start: remote<ClientToServer>(),
         dispatch: remote<ServerToClient, [BroadcastAction[]]>(),
+    }),
+
+    store: namespace({
+        swapItems: remote<ClientToServer, [number, number]>(t.number, t.number),
     }),
 
     playerPlaySound: remote<ClientToServer, [number, SoundContext, CFrame]>(

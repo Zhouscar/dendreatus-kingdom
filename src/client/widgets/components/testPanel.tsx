@@ -1,6 +1,10 @@
 import Roact from "@rbxts/roact";
 
-function TestPanel(props: { size?: UDim2; position?: UDim2; context: Map<string, () => void> }) {
+export default function TestPanel(props: {
+    size?: UDim2;
+    position?: UDim2;
+    context: Map<string, () => void>;
+}) {
     const size = props.size || new UDim2(0, 500, 0, 500);
     const position = props.position || new UDim2(0, 0, 0, 0);
     const context = props.context;
@@ -20,5 +24,3 @@ function TestPanel(props: { size?: UDim2; position?: UDim2; context: Map<string,
         </frame>
     );
 }
-
-export = TestPanel;

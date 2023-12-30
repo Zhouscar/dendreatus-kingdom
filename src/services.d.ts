@@ -6,6 +6,9 @@ interface ReplicatedStorage extends Instance {
     client: Folder & {
         systems: Folder;
         plugins: Folder;
+        store: Folder & {
+            defaultMiddlewares: Folder;
+        };
     };
     assets: Folder & {
         blood: Folder & {
@@ -19,6 +22,9 @@ interface ServerScriptService extends Instance {
     server: Folder & {
         systems: Folder;
         plugins: Folder;
+        store: Folder & {
+            defaultMiddlewares: Folder;
+        };
     };
 }
 

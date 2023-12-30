@@ -1,7 +1,6 @@
 import { createBroadcaster } from "@rbxts/reflex";
 import { network } from "shared/network";
-import { slices } from "shared/store/slices";
-import { store } from ".";
+import { slices } from "shared/store";
 
 const broadcaster = createBroadcaster({
     producers: slices,
@@ -14,4 +13,4 @@ network.reflex.start.connect((player) => {
     broadcaster.start(player);
 });
 
-store.applyMiddleware(broadcaster.middleware);
+export const broadcasterMiddleware = broadcaster.middleware;

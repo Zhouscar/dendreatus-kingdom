@@ -7,7 +7,5 @@ export = function (w: World) {
     for (const [e, health] of w.queryChanged(Health)) {
         const plr = w.get(e, Plr);
         if (plr?.player !== Players.LocalPlayer) continue;
-
-        print(health.new?.current);
     }
 };
