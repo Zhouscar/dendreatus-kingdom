@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
 import { Players } from "@rbxts/services";
-import DeathScreen from "client/widgets/deathScreen";
+import DeathScreen from "client/apps/deathScreen";
 import { Plr } from "shared/components";
 import { Dead } from "shared/components/health";
 

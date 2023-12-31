@@ -17,6 +17,16 @@ export interface PlayerKeybinds {
     readonly sneak: KeyCode;
 
     readonly toggleInventory: KeyCode;
+
+    readonly hotbar1: KeyCode;
+    readonly hotbar2: KeyCode;
+    readonly hotbar3: KeyCode;
+    readonly hotbar4: KeyCode;
+    readonly hotbar5: KeyCode;
+    readonly hotbar6: KeyCode;
+    readonly hotbar7: KeyCode;
+    readonly hotbar8: KeyCode;
+    readonly hotbar9: KeyCode;
 }
 
 export interface PlayerInventory {

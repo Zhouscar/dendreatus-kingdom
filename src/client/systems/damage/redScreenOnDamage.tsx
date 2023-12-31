@@ -3,7 +3,7 @@ import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
 import { Players } from "@rbxts/services";
-import EntireScreen from "client/widgets/components/entireScreen";
+import EntireScreen from "client/apps/components/entireScreen";
 import { Plr } from "shared/components";
 import { Damage } from "shared/components/health";
 

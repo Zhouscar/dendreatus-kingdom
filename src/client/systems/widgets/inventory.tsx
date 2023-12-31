@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { mainUiContainer } from "client/containers";
-import Inventory from "client/widgets/inventory";
+import Inventory from "client/apps/inventory";
 import { State } from "shared/state";
 
 function treeConstructor(enabled: boolean) {

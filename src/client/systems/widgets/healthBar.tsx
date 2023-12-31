@@ -4,7 +4,7 @@ import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
 import { mainUiContainer } from "client/containers";
-import HealthBar from "client/widgets/healthBar";
+import HealthBar from "client/apps/healthBar";
 import { Plr } from "shared/components";
 import { Health } from "shared/components/health";
 import { State } from "shared/state";
