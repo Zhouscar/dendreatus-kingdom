@@ -11,6 +11,7 @@ function usableDirectionalMovementContext(w: World) {
         const sneak = baseDirectionalMovementContext.sneak;
         const dive = baseDirectionalMovementContext.dive;
         const swim = baseDirectionalMovementContext.swim;
+        const climb = baseDirectionalMovementContext.climb;
 
         w.insert(
             id,
@@ -20,6 +21,7 @@ function usableDirectionalMovementContext(w: World) {
                 sneak: sneak,
                 dive: dive,
                 swim: swim,
+                climb: climb,
             }),
         );
     }

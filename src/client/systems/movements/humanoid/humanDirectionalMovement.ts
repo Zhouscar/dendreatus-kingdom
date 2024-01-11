@@ -5,6 +5,7 @@ import {
     CanDirectionallyMove,
     DirectionalMovement,
     Landing,
+    LinearVelocity,
     PotentialDirectionalMovement,
     UsableDirectionalMovementContext,
 } from "shared/components/movements";
@@ -21,6 +22,7 @@ const sprintAnimId = withAssetPrefix("14207192205");
 const sneakAnimId = withAssetPrefix("14215263201");
 const diveAnimId = withAssetPrefix("14215257367"); //TODO: new animation
 const swimAnimId = withAssetPrefix("14207199744");
+const climbAnimId = withAssetPrefix("14207203133");
 
 const footStepSoundId = withAssetPrefix("5761648082");
 
@@ -37,6 +39,7 @@ function humanDirectionalMovement(w: World) {
             sneakAnimId,
             diveAnimId,
             swimAnimId,
+            climbAnimId,
         );
     }
 
@@ -68,7 +71,9 @@ function humanDirectionalMovement(w: World) {
                       ? usableDirectionalMovementContext.dive
                       : potentialDirectionalMovement.type === "swim"
                         ? usableDirectionalMovementContext.swim
-                        : 0;
+                        : potentialDirectionalMovement.type === "climb"
+                          ? usableDirectionalMovementContext.climb
+                          : 0;
 
         human.humanoid.WalkSpeed = newWalkSpeed;
         human.humanoid.Move(directionalMovement.direction, false);
@@ -87,6 +92,19 @@ function humanDirectionalMovement(w: World) {
                 resumeAnimation(animator, diveAnimId, forMovement, newWalkSpeed * 0.1, true);
             } else if (potentialDirectionalMovement.type === "swim") {
                 resumeAnimation(animator, swimAnimId, forMovement, newWalkSpeed * 0.1, true);
+            } else if (potentialDirectionalMovement.type === "climb") {
+                const linearVelocity = w.get(e, LinearVelocity);
+                if (linearVelocity !== undefined) {
+                    const climbingUp = linearVelocity.velocity.Y > 0;
+
+                    resumeAnimation(
+                        animator,
+                        climbAnimId,
+                        forMovement,
+                        newWalkSpeed * 0.2 * (climbingUp ? 1 : -1),
+                        true,
+                    );
+                }
             }
 
             const cf = w.get(e, Renderable)!.model.GetPivot();

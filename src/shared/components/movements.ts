@@ -20,6 +20,9 @@ export type Sneaking = ReturnType<typeof Sneaking>;
 export const Falling = component<{ startTime: number }>("Falling");
 export type Falling = ReturnType<typeof Falling>;
 
+export const Climbing = component<{}>("Climbing");
+export type Climbing = ReturnType<typeof Climbing>;
+
 export const Landing = component<{}>("Landing");
 export type Landing = ReturnType<typeof Landing>;
 
@@ -39,6 +42,7 @@ export const BaseDirectionalMovementContext = component<{
     sneak: number;
     dive: number;
     swim: number;
+    climb: number;
 }>("BaseDirectionalMovementContext");
 export type BaseDirectionalMovementContext = ReturnType<typeof BaseDirectionalMovementContext>;
 
@@ -48,6 +52,7 @@ export const UsableDirectionalMovementContext = component<{
     sneak: number;
     dive: number;
     swim: number;
+    climb: number;
 }>("UsableDirectionalMovementContext");
 export type UsableDirectionalMovementContext = ReturnType<typeof UsableDirectionalMovementContext>;
 
@@ -80,7 +85,7 @@ export const UsableDashContext = component<{
 export type UsableDashContext = ReturnType<typeof UsableDashContext>;
 // \Contexts
 
-export type DirectionalMovementType = "walk" | "sprint" | "sneak" | "dive" | "swim";
+export type DirectionalMovementType = "walk" | "sprint" | "sneak" | "dive" | "swim" | "climb";
 
 export const PotentialDirectionalMovement = component<{
     type: DirectionalMovementType;
@@ -125,6 +130,7 @@ export const MovementComponents = {
     LinearVelocity,
     Sneaking,
     Falling,
+    Climbing,
     Landing,
     CrashLanding,
     BaseJumpContext,

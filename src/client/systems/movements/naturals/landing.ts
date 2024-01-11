@@ -10,7 +10,7 @@ import {
     Landing,
     UsableLandingContext,
 } from "shared/components/movements";
-import { forMovement, resumeAnimation } from "shared/effects/animations";
+import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
 import { hasOneOfComponents } from "shared/hooks/components";
 
 let queried = false;
@@ -23,6 +23,14 @@ const landingSoundId = withAssetPrefix("268933841");
 const crashLandingSoundId = withAssetPrefix("6670655395");
 
 function landing(w: World) {
+    for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
+        const plr = w.get(e, Plr);
+        if (plr?.player !== Players.LocalPlayer) continue;
+        if (animatableRecord.new === undefined) continue;
+
+        preloadAnimations(animatableRecord.new.animator, landingAnimId, crashLandingAnimId);
+    }
+
     for (const [e, landingRecord] of w.queryChanged(Landing)) {
         if (!w.contains(e)) continue;
         if (landingRecord.old !== undefined) continue;

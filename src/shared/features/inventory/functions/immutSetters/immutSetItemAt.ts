@@ -14,10 +14,14 @@ function immutSetItemAt(
 
         const guid = item !== undefined ? getGuid() : undefined;
         if (draft.slots[index].itemGuid !== undefined) {
-            draft.items[draft.slots[index].itemGuid!] = undefined;
+            draft.items.delete(draft.slots[index].itemGuid!);
         }
         if (guid !== undefined) {
-            draft.items[guid] = item;
+            if (item !== undefined) {
+                draft.items.set(guid, item);
+            } else {
+                draft.items.delete(guid);
+            }
         }
         draft.slots[index].itemGuid = guid;
     });

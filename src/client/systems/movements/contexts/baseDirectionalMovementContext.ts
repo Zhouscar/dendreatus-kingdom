@@ -8,7 +8,14 @@ function baseDirectionalMovementContext(w: World) {
         if (plr.player !== Players.LocalPlayer) continue;
         w.insert(
             e,
-            BaseDirectionalMovementContext({ walk: 10, sprint: 30, sneak: 5, dive: 20, swim: 10 }),
+            BaseDirectionalMovementContext({
+                walk: 10,
+                sprint: 30,
+                sneak: 5,
+                dive: 20,
+                swim: 10,
+                climb: 10,
+            }),
         );
         break;
     }

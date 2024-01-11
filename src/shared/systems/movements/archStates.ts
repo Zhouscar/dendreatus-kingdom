@@ -4,6 +4,7 @@ import { InAir, InWater, OnLand } from "shared/components/movements";
 
 function archStates(w: World) {
     for (const [e, humanRecord] of w.queryChanged(Human)) {
+        if (!w.contains(e)) continue;
         if (humanRecord.new !== undefined) continue;
         w.remove(e, OnLand, InAir, InWater);
     }
@@ -14,8 +15,8 @@ function archStates(w: World) {
             humanoidState === "Freefall"
                 ? InAir({})
                 : humanoidState === "Swimming"
-                ? InWater({})
-                : OnLand({});
+                  ? InWater({})
+                  : OnLand({});
 
         w.remove(e, OnLand, InAir, InWater);
         w.insert(e, newArchStateComponent);

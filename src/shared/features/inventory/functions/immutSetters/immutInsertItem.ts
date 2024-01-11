@@ -21,7 +21,7 @@ function immutInsertItem(
             if (hasInserted) return;
             if (slot.itemGuid === undefined) {
                 slot.itemGuid = getGuid();
-                draft.items[slot.itemGuid] = item;
+                draft.items.set(slot.itemGuid, item);
                 hasInserted = true;
                 return;
             }

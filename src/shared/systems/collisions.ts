@@ -1,7 +1,6 @@
 import { World, useEvent } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Collision, Plr, Renderable } from "shared/components";
-import { Health } from "shared/components/health";
 import { getEntityFromPart } from "shared/hooks/entities";
 import { State } from "shared/state";
 

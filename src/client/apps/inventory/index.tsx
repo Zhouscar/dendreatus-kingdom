@@ -17,6 +17,13 @@ let testInventory = defaultPlayerInventory;
 testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
 testInventory = immutPutItems(testInventory, "bigger_stick", 50, createGuidPool());
 
+const SLOT_LEN = 80;
+const SLOT_PAD = 10;
+
+function getLengthBySlots(count: number) {
+    return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;
+}
+
 function App(props: { enabled: boolean }) {
     const enabled = props.enabled;
 
@@ -37,7 +44,7 @@ function App(props: { enabled: boolean }) {
         if (indexCurrentlyHovered === undefined) return undefined;
         const itemGuid = inventory.slots[indexCurrentlyHovered].itemGuid;
         if (itemGuid === undefined) return undefined;
-        return inventory.items[itemGuid];
+        return inventory.items.get(itemGuid);
     }, [indexCurrentlyHovered, inventory]);
 
     const [itemDescriptionShowingMotor, setItemDescriptionShowingMotor] = useMotor(0);
@@ -65,10 +72,6 @@ function App(props: { enabled: boolean }) {
         setEnabilityMotor(new Spring(enabled ? 1 : 0));
     }, [enabled]);
 
-    useEffect(() => {
-        print(indexCurrentlyHovered);
-    }, [indexCurrentlyHovered]);
-
     return (
         <EntireScreen superPositionEnabilityMotor={enabilityMotor}>
             <EntireScreen handleInset={true}>
@@ -88,7 +91,7 @@ function App(props: { enabled: boolean }) {
             >
                 <frame
                     Key={"BagPack"}
-                    Size={new UDim2(0.3, 0, 0.9, 0)}
+                    Size={new UDim2(0, getLengthBySlots(4), 0, getLengthBySlots(5))}
                     AnchorPoint={new Vector2(1, 0.5)}
                     Position={new UDim2(1, -30, 0.5, 0)}
                     BackgroundColor3={Color3.fromRGB(0, 0, 0)}
@@ -98,8 +101,8 @@ function App(props: { enabled: boolean }) {
                     <uigridlayout
                         VerticalAlignment={"Center"}
                         HorizontalAlignment={"Center"}
-                        CellSize={new UDim2(0, 80, 0, 80)}
-                        CellPadding={new UDim2(0, 10, 0, 10)}
+                        CellSize={new UDim2(0, SLOT_LEN, 0, SLOT_LEN)}
+                        CellPadding={new UDim2(0, SLOT_PAD, 0, SLOT_PAD)}
                         SortOrder={"LayoutOrder"}
                     ></uigridlayout>
                     <ItemFragments
@@ -176,13 +179,13 @@ function App(props: { enabled: boolean }) {
                     Position={new UDim2(0.5, 0, 0.5, 0)}
                     BackgroundTransparency={enabilitySemiTransparency}
                     ClipsDescendants={true}
-                    Size={new UDim2(0, 90 * 10 + 10 * 2, 0, 100)}
+                    Size={new UDim2(0, getLengthBySlots(10), 0, getLengthBySlots(1))}
                 >
                     <uigridlayout
                         VerticalAlignment={"Center"}
                         HorizontalAlignment={"Center"}
-                        CellSize={new UDim2(0, 80, 0, 80)}
-                        CellPadding={new UDim2(0, 10, 0, 10)}
+                        CellSize={new UDim2(0, SLOT_LEN, 0, SLOT_LEN)}
+                        CellPadding={new UDim2(0, SLOT_PAD, 0, SLOT_PAD)}
                         SortOrder={"LayoutOrder"}
                     ></uigridlayout>
                     <ItemFragments

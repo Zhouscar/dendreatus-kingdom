@@ -1,7 +1,8 @@
 import { World } from "@rbxts/matter";
-import { ControllerService, Players } from "@rbxts/services";
+import { Players } from "@rbxts/services";
 import { Animatable, Plr } from "shared/components";
 import {
+    Climbing,
     CrashLanding,
     Dashing,
     DirectionalMovement,
@@ -16,6 +17,7 @@ import { Dead } from "shared/components/health";
 
 const idleAnimId = withAssetPrefix("14207151528");
 const sneakIdleAnimId = withAssetPrefix("14215260617");
+const climbAnimId = withAssetPrefix("14207203133"); // shared
 
 function humanIdleAnim(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
@@ -30,6 +32,11 @@ function humanIdleAnim(w: World) {
         .query(Plr, Animatable, OnLand)
         .without(DirectionalMovement, Dashing, CrashLanding, Landing, Dead)) {
         if (plr.player !== Players.LocalPlayer) continue;
+
+        if (hasComponents(w, e, Climbing)) {
+            resumeAnimation(animatable.animator, climbAnimId, forMovement, 0, true);
+            continue;
+        }
 
         const animId = hasComponents(w, e, Sneaking) ? sneakIdleAnimId : idleAnimId;
 

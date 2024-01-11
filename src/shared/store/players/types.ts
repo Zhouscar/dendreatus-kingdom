@@ -27,9 +27,10 @@ export interface PlayerKeybinds {
     readonly hotbar7: KeyCode;
     readonly hotbar8: KeyCode;
     readonly hotbar9: KeyCode;
+    readonly hotbar10: KeyCode;
 }
 
 export interface PlayerInventory {
-    readonly items: { [guid: string]: Item | undefined };
+    readonly items: Map<string, Item>;
     readonly slots: PlayerInventorySlot[];
 }

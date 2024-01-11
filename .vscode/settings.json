@@ -11,5 +11,6 @@
 	},
 	"eslint.run": "onType",
 	"eslint.format.enable": true,
-	"cmake.configureOnOpen": false
+	"cmake.configureOnOpen": false,
+	"stylua.targetReleaseVersion": "latest"
 }

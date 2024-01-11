@@ -13,14 +13,14 @@ function immutSwapItems(inventory: PlayerInventory, from: number, to: number) {
         if (
             fromGuid !== undefined &&
             toGuid !== undefined &&
-            !draft.items[fromGuid]?.unique &&
-            !draft.items[toGuid]?.unique &&
-            draft.items[fromGuid]?.itemType === draft.items[toGuid]?.itemType
+            !draft.items.get(fromGuid)?.unique &&
+            !draft.items.get(toGuid)?.unique &&
+            draft.items.get(fromGuid)?.itemType === draft.items.get(toGuid)?.itemType
         ) {
             // should fill
             // remove item from the from if completely filled
-            const fromItem = draft.items[fromGuid];
-            const toItem = draft.items[toGuid];
+            const fromItem = draft.items.get(fromGuid);
+            const toItem = draft.items.get(toGuid);
 
             if (fromItem === undefined || toItem === undefined) return;
             const itemType = fromItem.itemType;
@@ -35,7 +35,7 @@ function immutSwapItems(inventory: PlayerInventory, from: number, to: number) {
 
             // from item could be removed
             if (amountToFill === fromItem.stack) {
-                draft.items[fromGuid] = undefined;
+                draft.items.delete(fromGuid);
                 draft.slots[from].itemGuid = undefined;
             } else {
                 fromItem.stack -= amountToFill;

@@ -8,3 +8,6 @@ export type SoundContext = {
     soundId: string;
     speed: number;
 };
+export type ClientPredictable = {
+    predicting?: boolean;
+};

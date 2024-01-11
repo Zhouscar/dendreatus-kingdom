@@ -22,7 +22,7 @@ function immutTakeItems(inventory: PlayerInventory, itemType: ItemType, amount: 
 
                 return amountToTake;
             }
-            const item = draft.items[slot.itemGuid];
+            const item = draft.items.get(slot.itemGuid);
             if (item === undefined) {
                 // no item at guid (should not be possible)
                 // reconciles to remove it
@@ -51,7 +51,7 @@ function immutTakeItems(inventory: PlayerInventory, itemType: ItemType, amount: 
             const amountToTakeHere = math.min(amountToTake, item.stack);
             if (amountToTakeHere === item.stack) {
                 // remove the item entirely
-                draft.items[slot.itemGuid] = undefined;
+                draft.items.delete(slot.itemGuid);
                 slot.itemGuid = undefined;
                 return amountToTake - amountToTakeHere;
             } else {

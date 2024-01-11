@@ -5,6 +5,7 @@ import { MyAnimator } from "shared/effects/animations";
 import { SoundContext } from "type";
 import { HealthComponents } from "./health";
 import { ColliderComponents } from "./colliders";
+import { ItemComponents } from "./items";
 
 export * from "./livingThings";
 
@@ -48,4 +49,5 @@ export const Components = {
     ...MovementComponents,
     ...HealthComponents,
     ...ColliderComponents,
+    ...ItemComponents,
 };

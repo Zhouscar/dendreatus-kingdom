@@ -3,5 +3,5 @@ import { PlayerInventory } from "../types";
 
 export const defaultPlayerInventory: PlayerInventory = {
     slots: EMPTY_SLOTS,
-    items: {},
+    items: new Map(),
 };

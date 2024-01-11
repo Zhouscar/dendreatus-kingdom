@@ -20,4 +20,5 @@ export const defaultPlayerKeybinds: PlayerKeybinds = {
     hotbar7: "Seven",
     hotbar8: "Eight",
     hotbar9: "Nine",
+    hotbar10: "Zero",
 };

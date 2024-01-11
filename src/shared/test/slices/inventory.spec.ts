@@ -18,7 +18,7 @@ export = (): void => {
     };
 
     const getItem = (inventory: PlayerInventory, index: number): Item | undefined => {
-        return inventory.items[inventory.slots[index].itemGuid as string];
+        return inventory.items.get(inventory.slots[index].itemGuid as string);
     };
 
     beforeEach(() => {

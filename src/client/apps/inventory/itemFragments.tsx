@@ -29,7 +29,6 @@ export default function ItemFragments(props: {
     // to (exclusive)
 
     const inventory = useSelector(selectPlayerInventory(localPlr));
-    print(inventory);
 
     // // const inventory = testInventory;
 
@@ -38,7 +37,7 @@ export default function ItemFragments(props: {
     if (inventory !== undefined) {
         for (let i = from; i < to; i++) {
             const guid = inventory.slots[i].itemGuid;
-            const item = guid !== undefined ? inventory.items[guid] : undefined;
+            const item = guid !== undefined ? inventory.items.get(guid) : undefined;
 
             items.push(
                 <ItemSlot

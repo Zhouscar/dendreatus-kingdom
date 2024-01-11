@@ -35,14 +35,14 @@ function immutPutItems(
 
                 const amountToPutHere = math.min(stackSize, amountToPut);
                 slot.itemGuid = getGuid();
-                draft.items[slot.itemGuid] = {
+                draft.items.set(slot.itemGuid, {
                     itemType: itemType,
                     stack: amountToPutHere,
                     unique: false,
-                };
+                });
                 return amountToPut - amountToPutHere;
             }
-            const item = draft.items[slot.itemGuid];
+            const item = draft.items.get(slot.itemGuid);
             if (item === undefined) {
                 // no item at guid (should not be possible)
                 // put item here if RECONCILE_INVENTORY is allowed
@@ -50,11 +50,11 @@ function immutPutItems(
                 if (RECONCILE_INVENTORY) {
                     const amountToPutHere = math.min(stackSize, amountToPut);
                     slot.itemGuid = getGuid();
-                    draft.items[slot.itemGuid] = {
+                    draft.items.set(slot.itemGuid, {
                         itemType: itemType,
                         stack: amountToPutHere,
                         unique: false,
-                    };
+                    });
                     return amountToPut - amountToPutHere;
                 } else {
                     return amountToPut;

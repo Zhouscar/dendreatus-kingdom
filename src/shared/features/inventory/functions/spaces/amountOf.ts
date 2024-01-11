@@ -8,7 +8,7 @@ function amountOf(inventory: PlayerInventory, itemType: ItemType): number {
             // no item at slot
             return amount;
         }
-        const item = inventory.items[slot.itemGuid];
+        const item = inventory.items.get(slot.itemGuid);
         if (item === undefined) {
             // no item at the guid (should not be possible)
             return amount;

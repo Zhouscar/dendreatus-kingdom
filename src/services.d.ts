@@ -15,6 +15,7 @@ interface ReplicatedStorage extends Instance {
             dripPart: BasePart;
             splatterPart: BasePart;
         };
+        itemsAsTools: Folder; // contains only tool of the existing item types
     };
 }
 
