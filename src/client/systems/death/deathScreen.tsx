@@ -3,8 +3,7 @@ import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
 import { Players } from "@rbxts/services";
 import DeathScreen from "client/apps/deathScreen";
-import { Plr } from "shared/components";
-import { Dead } from "shared/components/health";
+import { State } from "shared/state";
 
 let isDead = false;
 
@@ -14,15 +13,12 @@ deathScreenContainer.Parent = Players.LocalPlayer!.PlayerGui;
 deathScreenContainer.ResetOnSpawn = false;
 
 withHookDetection(Roact);
-function deathScreen(w: World) {
-    for (const [e, plr, dead] of w.query(Plr, Dead)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+function deathScreen(w: World, s: State) {
+    if (s.clientState !== "death") return;
+    if (isDead) return;
+    isDead = true;
 
-        if (isDead) continue;
-        isDead = true;
-
-        Roact.mount(<DeathScreen></DeathScreen>, deathScreenContainer, "DeathScreen");
-    }
+    Roact.mount(<DeathScreen></DeathScreen>, deathScreenContainer, "DeathScreen");
 }
 
 export = deathScreen;

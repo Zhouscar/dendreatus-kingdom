@@ -5,6 +5,7 @@ import ItemFragments from "./itemFragments";
 import useSuperPosition from "../hooks/useSuperPosition";
 import { useMotor } from "@rbxts/pretty-roact-hooks";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
+import { AnyEntity, World } from "@rbxts/matter";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;

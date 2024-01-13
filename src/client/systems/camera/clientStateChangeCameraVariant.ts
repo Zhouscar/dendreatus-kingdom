@@ -51,6 +51,27 @@ function doInventoryClientState(w: World, clientState: ClientState) {
     store.switchCamera(CameraVariant.view({ viewVector: INVENTORY_ANGLE_VIEW, target: target }));
 }
 
+const DEATH_ANGLE_VIEW = new ViewVector(20, 0, 0);
+
+function doDeathClientState(w: World, clientState: ClientState) {
+    let target: BasePart | undefined = undefined;
+
+    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
+        if (plr.player !== Players.LocalPlayer) continue;
+
+        target = renderable.model.FindFirstChild("Head") as BasePart | undefined;
+    }
+
+    if (!useChange([target, clientState], "Inventory")) return;
+
+    if (target === undefined) {
+        store.switchCamera(CameraVariant.none({}));
+        return;
+    }
+
+    store.switchCamera(CameraVariant.view({ viewVector: DEATH_ANGLE_VIEW, target: target }));
+}
+
 function clientStateChangeCameraVariant(w: World, s: State) {
     switch (s.clientState) {
         case "game":
@@ -58,6 +79,9 @@ function clientStateChangeCameraVariant(w: World, s: State) {
             break;
         case "inventory":
             doInventoryClientState(w, s.clientState);
+            break;
+        case "death":
+            doDeathClientState(w, s.clientState);
             break;
     }
 }

@@ -87,8 +87,6 @@ function forEachPlayer(player: Player) {
             player.Backpack.FindFirstChild(guid)?.Destroy();
         });
 
-        // TODO THESE ARE NOT TESTED
-
         const guidsToReplace = getItemGuidsToReplace(inventory, prevInventory);
         const toolsToReplace = getItemsAsTools(inventory, guidsToReplace);
         toolsToReplace.forEach((tool) => {

@@ -1,7 +1,7 @@
 import { AnyEntity } from "@rbxts/matter";
 import { Host } from "type";
 
-export type ClientState = "game" | "inventory";
+export type ClientState = "game" | "inventory" | "death";
 
 export class State {
     debugEnabled: boolean = false;

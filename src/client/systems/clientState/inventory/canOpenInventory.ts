@@ -2,8 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
 import { Damage } from "shared/components/health";
-import { CanDirectionallyMove, OnLand } from "shared/components/movements";
-import { ClientState, State } from "shared/state";
+import { State } from "shared/state";
 
 function canOpenInventory(w: World, s: State) {
     if (!s.canOpenInventory && s.clientState === "inventory") {

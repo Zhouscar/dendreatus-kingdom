@@ -10,9 +10,9 @@ export type ItemConstant = {
     readonly description: string;
 };
 
-export type ItemConstants = Map<ItemType, ItemConstant>;
+export type ItemConstants = ReadonlyMap<ItemType, ItemConstant>;
 
-export const ITEM_CONSTANTS: ItemConstants = new Map([
+export const ITEM_CONSTANTS: ItemConstants = new ReadonlyMap([
     [
         "stick",
         {

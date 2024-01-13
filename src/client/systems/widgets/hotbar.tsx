@@ -1,4 +1,4 @@
-import { World } from "@rbxts/matter";
+import { AnyEntity, World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
@@ -17,6 +17,7 @@ const tree = Roact.mount(treeConstructor(false, undefined), mainUiContainer);
 function hotbar(w: World, s: State) {
     const enabled = s.clientState === "game";
     let indexEquipped = undefined;
+
     for (const [e, plr, equippingByIndex] of w.query(Plr, EquippingByIndex)) {
         if (plr.player !== Players.LocalPlayer) continue;
         indexEquipped = equippingByIndex.index;

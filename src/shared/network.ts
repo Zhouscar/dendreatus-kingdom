@@ -21,6 +21,11 @@ function isSoundContext(value: unknown): value is SoundContext {
 export const network = createRemotes({
     replication: remote<ServerToClient, [ReplicationMap]>(),
 
+    ecs: namespace({
+        playerEquip: remote<ClientToServer, [string | undefined]>(t.optional(t.string)),
+        playerUseItem: remote<ClientToServer, [number | undefined]>(t.optional(t.number)),
+    }),
+
     reflex: namespace({
         start: remote<ClientToServer>(),
         dispatch: remote<ServerToClient, [BroadcastAction[]]>(),
