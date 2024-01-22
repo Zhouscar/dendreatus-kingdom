@@ -4,7 +4,7 @@ import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Plr, Renderable, Sound } from "shared/components";
 import { Dead } from "shared/components/health";
 
-const deathScreamId = withAssetPrefix("2898498516");
+const deathScreamSoundId = withAssetPrefix("5825316184");
 
 function deathScream(w: World) {
     for (const [e, deadRecord] of w.queryChanged(Dead)) {
@@ -21,7 +21,7 @@ function deathScream(w: World) {
                 creator: Players.LocalPlayer,
                 audibility: 0,
                 context: {
-                    soundId: deathScreamId,
+                    soundId: deathScreamSoundId,
                     volume: 1,
                     speed: 1,
                 },

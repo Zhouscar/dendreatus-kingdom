@@ -23,7 +23,7 @@ export const network = createRemotes({
 
     ecs: namespace({
         playerEquip: remote<ClientToServer, [string | undefined]>(t.optional(t.string)),
-        playerUseItem: remote<ClientToServer, [number | undefined]>(t.optional(t.number)),
+        playerUseItem: remote<ClientToServer, [number, number]>(t.number, t.number),
     }),
 
     reflex: namespace({

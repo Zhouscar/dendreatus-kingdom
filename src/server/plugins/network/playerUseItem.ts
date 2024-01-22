@@ -1,7 +1,7 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { store } from "server/store";
 import findPlrE from "shared/calculations/findPlrE";
-import { Equipping, UsingItem } from "shared/components/items";
+import { Equipping, ActivatingItem } from "shared/components/items";
 import { network } from "shared/network";
 
 function getItem(w: World, plrE: AnyEntity, plr: string) {
@@ -17,14 +17,14 @@ function playerUseItem(w: World) {
         assert(e);
 
         if (startTime === undefined) {
-            w.remove(e, UsingItem);
+            w.remove(e, ActivatingItem);
             return;
         }
 
         const item = getItem(w, e, tostring(player.UserId));
 
         if (item) {
-            w.insert(e, UsingItem({ startTime: startTime, item: item }));
+            w.insert(e, ActivatingItem({ startTime: startTime, item: item }));
         }
     });
 }

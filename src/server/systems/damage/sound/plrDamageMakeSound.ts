@@ -4,7 +4,7 @@ import { Plr, Sound, Transform } from "shared/components";
 import { Damage } from "shared/components/health";
 import { hasComponents } from "shared/hooks/components";
 
-const plrDamageSoundId = withAssetPrefix("155288625");
+const plrDamageSoundId = withAssetPrefix("5634710863");
 
 function plrDamageMakeSound(w: World) {
     for (const [e, damageRecord] of w.queryChanged(Damage)) {

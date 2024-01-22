@@ -24,7 +24,15 @@ const diveAnimId = withAssetPrefix("14215257367"); //TODO: new animation
 const swimAnimId = withAssetPrefix("14207199744");
 const climbAnimId = withAssetPrefix("14207203133");
 
-const footStepSoundId = withAssetPrefix("5761648082");
+const footStepSoundIds = [
+    withAssetPrefix("619083295"),
+    withAssetPrefix("619184927"),
+    withAssetPrefix("619188333"),
+];
+
+function getFootStepSoundId(): string {
+    return footStepSoundIds[math.random(0, footStepSoundIds.size() - 1)];
+}
 
 function humanDirectionalMovement(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
@@ -117,7 +125,7 @@ function humanDirectionalMovement(w: World) {
                             creator: Players.LocalPlayer,
                             cf: cf,
                             audibility: 1,
-                            context: { soundId: footStepSoundId, speed: 1, volume: 1 },
+                            context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },
                         }),
                     );
                 }
@@ -129,7 +137,7 @@ function humanDirectionalMovement(w: World) {
                             creator: Players.LocalPlayer,
                             cf: cf,
                             audibility: 1,
-                            context: { soundId: footStepSoundId, speed: 1, volume: 1 },
+                            context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },
                         }),
                     );
                 }

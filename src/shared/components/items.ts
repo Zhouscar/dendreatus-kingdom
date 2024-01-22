@@ -11,17 +11,12 @@ export type Equipping = ReturnType<typeof Equipping>;
 export const PredictUnequip = component<{}>("PredictUnequip");
 export type PredictUnequip = ReturnType<typeof PredictUnequip>;
 
-export const UsingItem = component<{ item: Item; startTime: number } & ClientPredictable>(
-    "UsingItem",
-);
-export type UsingItem = ReturnType<typeof UsingItem>;
-
-export const PredictUnuseItem = component<{}>("PredictUnuseItem");
+export const ActivatingItem = component<{ item: Item; duration: number }>("ActivatingItem");
+export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 
 export const ItemComponents = {
     EquippingByIndex,
     Equipping,
     PredictUnequip,
-    UsingItem,
-    PredictUnuseItem,
+    ActivatingItem,
 };

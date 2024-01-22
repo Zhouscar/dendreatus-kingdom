@@ -6,6 +6,7 @@ import { SoundContext } from "type";
 import { HealthComponents } from "./health";
 import { ColliderComponents } from "./colliders";
 import { ItemComponents } from "./items";
+import { ActionComponents } from "./actions";
 
 export * from "./livingThings";
 
@@ -50,4 +51,5 @@ export const Components = {
     ...HealthComponents,
     ...ColliderComponents,
     ...ItemComponents,
+    ...ActionComponents,
 };

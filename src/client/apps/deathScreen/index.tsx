@@ -15,7 +15,7 @@ blackOutAtmosphere.Haze = 0;
 
 blackOutAtmosphere.Parent = Lighting;
 
-const youDiedSoundId = withAssetPrefix("9064629536");
+const youDiedSoundId = withAssetPrefix("4817888357");
 
 const youDiedSound = new Instance("Sound");
 youDiedSound.SoundId = youDiedSoundId;

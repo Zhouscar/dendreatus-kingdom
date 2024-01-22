@@ -9,7 +9,7 @@ import { hasComponents } from "shared/hooks/components";
 import { getLinearVelocity } from "shared/hooks/memoForces";
 
 const dashAnimId = withAssetPrefix("14215455071");
-const dashSoundId = withAssetPrefix("8653395088");
+const dashSoundId = withAssetPrefix("4909206080");
 
 function getDashVelocity(part: BasePart) {
     const dashVelocity = getLinearVelocity(part, "Dash");

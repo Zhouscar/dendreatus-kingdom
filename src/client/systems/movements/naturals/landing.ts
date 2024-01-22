@@ -20,7 +20,7 @@ const landingAnimId = withAssetPrefix("14207189927");
 const crashLandingAnimId = withAssetPrefix("14207211480");
 
 const landingSoundId = withAssetPrefix("268933841");
-const crashLandingSoundId = withAssetPrefix("6670655395");
+const crashLandingSoundId = withAssetPrefix("3802270141");
 
 function landing(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
