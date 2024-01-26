@@ -165,7 +165,7 @@ export default function ItemSlot(props: {
                             TextYAlignment={"Bottom"}
                             TextSize={20}
                             Font={"Fantasy"}
-                            Text={tostring(item.stack)}
+                            Text={item.stack > 1 ? tostring(item.stack) : ""}
                         >
                             <uistroke
                                 Thickness={2}

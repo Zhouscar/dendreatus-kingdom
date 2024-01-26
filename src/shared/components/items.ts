@@ -11,7 +11,7 @@ export type Equipping = ReturnType<typeof Equipping>;
 export const PredictUnequip = component<{}>("PredictUnequip");
 export type PredictUnequip = ReturnType<typeof PredictUnequip>;
 
-export const ActivatingItem = component<{ item: Item; duration: number }>("ActivatingItem");
+export const ActivatingItem = component<{ item: Item; elapsed: number }>("ActivatingItem");
 export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 
 export const ItemComponents = {

@@ -1,6 +1,7 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
+import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanSneak, OnLand, Sneaking } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
@@ -19,7 +20,7 @@ function canSneak(w: World, s: State) {
     for (const [e, plr] of w.query(Plr)) {
         if (plr.player !== Players.LocalPlayer) continue;
 
-        if (hasComponents(w, e, OnLand) && !hasOneOfComponents(w, e, Dead)) {
+        if (hasComponents(w, e, OnLand) && !hasOneOfComponents(w, e, Dead, Acting)) {
             w.insert(e, CanSneak({}));
         } else {
             w.remove(e, CanSneak, Sneaking);

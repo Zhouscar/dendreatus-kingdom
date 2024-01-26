@@ -24,7 +24,7 @@ function playerUseItem(w: World) {
         const item = getItem(w, e, tostring(player.UserId));
 
         if (item) {
-            w.insert(e, ActivatingItem({ startTime: startTime, item: item }));
+            w.insert(e, ActivatingItem({ elapsed: 0, item: item }));
         }
     });
 }

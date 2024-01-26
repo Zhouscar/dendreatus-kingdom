@@ -6,21 +6,23 @@ import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
 import { useState } from "@rbxts/roact-hooked";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { Make } from "@rbxts/altmake";
 
-const blackOutAtmosphere = new Instance("Atmosphere");
-blackOutAtmosphere.Name = "BlackOut";
-blackOutAtmosphere.Color = Color3.fromRGB(0, 0, 0);
-blackOutAtmosphere.Density = 0;
-blackOutAtmosphere.Haze = 0;
-
-blackOutAtmosphere.Parent = Lighting;
+const blackOutAtmosphere = Make("Atmosphere", {
+    Name: "BlackOut",
+    Color: Color3.fromRGB(0, 0, 0),
+    Density: 0,
+    Haze: 0,
+    Parent: Lighting,
+});
 
 const youDiedSoundId = withAssetPrefix("4817888357");
 
-const youDiedSound = new Instance("Sound");
-youDiedSound.SoundId = youDiedSoundId;
-youDiedSound.Name = "YouDied";
-youDiedSound.Parent = SoundService;
+const youDiedSound = Make("Sound", {
+    SoundId: youDiedSoundId,
+    Name: "YouDied",
+    Parent: SoundService,
+});
 
 export default function DeathScreen(props: {}) {
     const [blackOutEnability, setBlackOutEnability] = useMotor(0);

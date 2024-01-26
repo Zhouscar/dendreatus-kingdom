@@ -1,3 +1,4 @@
+import { Make, Modify } from "@rbxts/altmake";
 import { World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
 import { store } from "client/store";
@@ -7,16 +8,12 @@ const getCamera = selectCamera();
 
 const camera = Workspace.CurrentCamera!;
 
-const cameraTrackPart = new Instance("Part");
-cameraTrackPart.Transparency = 1;
-cameraTrackPart.CanCollide = false;
-cameraTrackPart.Anchored = true;
-cameraTrackPart.Name = "CameraTrackPart";
-cameraTrackPart.Parent = Workspace;
-
-cameraTrackPart.AncestryChanged.Connect(() => {
-    warn("Don't you ever touch CameraTrackPart!!!");
-    cameraTrackPart.Parent = Workspace;
+const cameraTrackPart = Make("Part", {
+    Transparency: 1,
+    CanCollide: false,
+    Anchored: true,
+    Name: "CameraTrackPart",
+    Parent: Workspace,
 });
 
 function r(low: number, high: number) {
@@ -33,8 +30,10 @@ function cameraTrack(w: World) {
 
     if (variant.type !== "track") return;
 
-    camera.CameraType = Enum.CameraType.Track;
-    camera.CameraSubject = cameraTrackPart;
+    Modify(camera, {
+        CameraType: Enum.CameraType.Track,
+        CameraSubject: cameraTrackPart,
+    });
 
     const targetCF = variant.target.CFrame;
 

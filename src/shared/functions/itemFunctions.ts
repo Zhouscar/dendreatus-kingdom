@@ -4,18 +4,18 @@ import { Plr } from "shared/components";
 import { ActivatingItem } from "shared/components/items";
 import { Item, ItemType } from "shared/features/items/types";
 
-export type UseItemEffectCallback = (
+export type ItemActivationCallback = (
     w: World,
     plrE: AnyEntity,
     item: Item,
-    duration: number,
+    elapsed: number,
 ) => void;
 export type CanUseItemFunction = (w: World, plrE: AnyEntity, item: Item) => boolean;
 
 interface Callbacks {
-    press?: UseItemEffectCallback;
-    hold?: UseItemEffectCallback;
-    release?: UseItemEffectCallback;
+    press?: ItemActivationCallback;
+    hold?: ItemActivationCallback;
+    release?: ItemActivationCallback;
 
     canUse: CanUseItemFunction;
 
@@ -23,7 +23,7 @@ interface Callbacks {
     //doubleTap
 }
 
-export function callItemActivation(w: World, itemType: ItemType, callbacks: Callbacks) {
+export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: Callbacks) {
     for (const [e, activatingItemRecord] of w.queryChanged(ActivatingItem)) {
         if (!w.contains(e)) continue;
 
@@ -38,7 +38,7 @@ export function callItemActivation(w: World, itemType: ItemType, callbacks: Call
             if (item.itemType !== itemType) continue;
             if (!callbacks.canUse(w, e, item)) continue;
 
-            callbacks.press(w, e, item, activatingItem.duration);
+            callbacks.press(w, e, item, activatingItem.elapsed);
         }
         if (callbacks.release && activatingItemRecord.old === undefined) {
             const activatingItem = activatingItemRecord.new;
@@ -48,7 +48,7 @@ export function callItemActivation(w: World, itemType: ItemType, callbacks: Call
             if (item.itemType !== itemType) continue;
             if (!callbacks.canUse(w, e, item)) continue;
 
-            callbacks.release(w, e, item, activatingItem.duration);
+            callbacks.release(w, e, item, activatingItem.elapsed);
         }
     }
 
@@ -59,16 +59,16 @@ export function callItemActivation(w: World, itemType: ItemType, callbacks: Call
         if (item.itemType !== itemType) continue;
 
         if (!callbacks.canUse(w, e, item)) {
-            if (activatingItem.duration !== 0) {
-                w.insert(e, activatingItem.patch({ duration: 0 }));
+            if (activatingItem.elapsed !== 0) {
+                w.insert(e, activatingItem.patch({ elapsed: 0 }));
             }
             continue;
         }
 
-        w.insert(e, activatingItem.patch({ duration: activatingItem.duration + useDeltaTime() }));
+        w.insert(e, activatingItem.patch({ elapsed: activatingItem.elapsed + useDeltaTime() }));
 
         if (callbacks.hold) {
-            callbacks.hold(w, e, item, activatingItem.duration);
+            callbacks.hold(w, e, item, activatingItem.elapsed);
         }
     }
 }

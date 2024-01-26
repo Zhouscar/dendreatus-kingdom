@@ -1,5 +1,7 @@
+import { Make } from "@rbxts/altmake";
 import { Players } from "@rbxts/services";
 
-export const mainUiContainer = new Instance("ScreenGui");
-mainUiContainer.Name = "MainUiContainer";
-mainUiContainer.Parent = Players.LocalPlayer.PlayerGui;
+export const mainUiContainer = Make("ScreenGui", {
+    Name: "MainUiContainer",
+    Parent: Players.LocalPlayer.PlayerGui,
+});

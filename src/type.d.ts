@@ -1,3 +1,4 @@
+import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { PlayerKeybinds } from "shared/store/players/types";
 
 export type Host = "CLIENT" | "SERVER" | "UNKNOWN";
@@ -10,4 +11,9 @@ export type SoundContext = {
 };
 export type ClientPredictable = {
     predicting?: boolean;
+};
+
+export type ComponentRecord<C extends ComponentCtor> = {
+    new: ReturnType<C> | undefined;
+    old: ReturnType<C> | undefined;
 };

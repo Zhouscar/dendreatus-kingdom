@@ -1,3 +1,4 @@
+import { Make } from "@rbxts/altmake";
 import { World, useDeltaTime } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
@@ -15,17 +16,15 @@ function movingWithWindSound(w: World) {
         const soundPart = renderable.model.PrimaryPart;
         if (!soundPart) break;
 
-        let sound = soundPart.FindFirstChild("WindSound") as Sound;
-        if (!sound) {
-            sound = new Instance("Sound");
-            sound.Name = "WindSound";
-
-            sound.SoundId = windSoundId;
-            sound.Looped = true;
-            sound.Playing = true;
-
-            sound.Parent = soundPart;
-        }
+        const sound =
+            (soundPart.FindFirstChild("WindSound") as Sound | undefined) ||
+            Make("Sound", {
+                Name: "WindSound",
+                SoundId: windSoundId,
+                Looped: true,
+                Playing: true,
+                Parent: soundPart,
+            });
 
         const linearVelocity = w.get(e, LinearVelocity);
 

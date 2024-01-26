@@ -8,7 +8,7 @@ export = function (w: World) {
     if (useThrottle(1, "putItems")) {
         Players.GetPlayers().forEach((player) => {
             const plr = tostring(player.UserId);
-            store.putItems(plr, "stick", 10, createGuidPool());
+            store.putItems(plr, "crucifix_dagger", 1, createGuidPool(10));
         });
     }
 };

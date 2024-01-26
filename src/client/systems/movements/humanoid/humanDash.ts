@@ -1,4 +1,5 @@
 import { World } from "@rbxts/matter";
+import { useChange } from "@rbxts/matter-hooks";
 import { ControllerService, Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Animatable, Plr, Renderable, Sound } from "shared/components";
@@ -6,16 +7,13 @@ import { Dashing, UsableDashContext } from "shared/components/movements";
 import { FORWARD } from "shared/constants/direction";
 import { forMovement, preloadAnimation, resumeAnimation } from "shared/effects/animations";
 import { hasComponents } from "shared/hooks/components";
-import { getLinearVelocity } from "shared/hooks/memoForces";
+import { getCustomLinearVelocity } from "shared/hooks/memoForces";
 
 const dashAnimId = withAssetPrefix("14215455071");
 const dashSoundId = withAssetPrefix("4909206080");
 
 function getDashVelocity(part: BasePart) {
-    const dashVelocity = getLinearVelocity(part, "Dash");
-    dashVelocity.MaxForce = math.huge;
-    dashVelocity.RelativeTo = Enum.ActuatorRelativeTo.Attachment0;
-    dashVelocity.VelocityConstraintMode = Enum.VelocityConstraintMode.Vector;
+    const dashVelocity = getCustomLinearVelocity(part, "Dash");
     return dashVelocity;
 }
 
@@ -63,7 +61,11 @@ function humanDash(w: World) {
 
         const dashVelocity = getDashVelocity(renderable.model.PrimaryPart);
         dashVelocity.VectorVelocity = FORWARD.mul(usableDashContext.power);
-        dashVelocity.Enabled = hasComponents(w, e, Dashing);
+
+        const isDashing = hasComponents(w, e, Dashing);
+        if (useChange([isDashing])) {
+            dashVelocity.Enabled = isDashing;
+        }
 
         if (!hasComponents(w, e, Dashing)) break;
 

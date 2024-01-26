@@ -18,7 +18,7 @@ function activateItem(w: World) {
         if (plr.player !== Players.LocalPlayer) continue;
         const item = getItem(equipping.itemGuid);
         if (item === undefined) continue;
-        w.insert(e, ActivatingItem({ duration: 0, item: item }));
+        w.insert(e, ActivatingItem({ elapsed: 0, item: item }));
     }
 }
 

@@ -1,3 +1,4 @@
+import { Make } from "@rbxts/altmake";
 import { World, useDeltaTime } from "@rbxts/matter";
 import { Lighting, Players, Workspace } from "@rbxts/services";
 import { Plr } from "shared/components";
@@ -5,10 +6,11 @@ import { Damage } from "shared/components/health";
 
 const DECAY_ALPHA = 50;
 
-const blurEffect = new Instance("BlurEffect");
-blurEffect.Size = 0;
-blurEffect.Name = "DamageBlur";
-blurEffect.Parent = Lighting;
+const blurEffect = Make("BlurEffect", {
+    Size: 0,
+    Name: "DamageBlur",
+    Parent: Lighting,
+});
 
 function blurOnDamage(w: World) {
     blurEffect.Size = math.max(0, blurEffect.Size - useDeltaTime() * DECAY_ALPHA);

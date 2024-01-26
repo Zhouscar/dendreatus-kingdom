@@ -1,7 +1,9 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
+import { Acting } from "shared/components/actions";
 import { EquippingByIndex } from "shared/components/items";
+import { hasComponents } from "shared/hooks/components";
 import { getKeysJustPressed } from "shared/hooks/keyInput";
 import { State } from "shared/state";
 
@@ -17,6 +19,8 @@ function equipInput(w: World, s: State) {
     if (s.clientState !== "game") return;
 
     forLocalPlayer(w, (e) => {
+        if (hasComponents(w, e, Acting)) return;
+
         const keysJustPressed = getKeysJustPressed();
         const equippingByIndex = w.get(e, EquippingByIndex);
         if (keysJustPressed.includes("hotbar1")) {

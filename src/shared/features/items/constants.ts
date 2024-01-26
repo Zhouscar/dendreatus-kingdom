@@ -43,7 +43,7 @@ export const ITEM_CONSTANTS: ItemConstants = new ReadonlyMap([
             itemType: "crucifix_dagger",
             itemComponentTypes: ["weapon"],
             stackSize: 1,
-            image: withAssetPrefix("TODO"),
+            image: withAssetPrefix("16104002913"),
             description:
                 "So the crucifix dagger is one of the weapons that could be used but I'm trying to figure out how players would even obtain these objects \nactually, scratch that.",
         },

@@ -1,5 +1,5 @@
+import { Make } from "@rbxts/altmake";
 import { World, useDeltaTime } from "@rbxts/matter";
-import { useChange } from "@rbxts/matter-hooks";
 import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
 import { Players } from "@rbxts/services";
@@ -7,10 +7,11 @@ import EntireScreen from "client/apps/components/entireScreen";
 import { Plr } from "shared/components";
 import { Damage } from "shared/components/health";
 
-const redScreenOnDamageContainer = new Instance("ScreenGui");
-redScreenOnDamageContainer.Name = "RedScreenOnDamageContainer";
-redScreenOnDamageContainer.ResetOnSpawn = false;
-redScreenOnDamageContainer.Parent = Players.LocalPlayer!.PlayerGui;
+const redScreenOnDamageContainer = Make("ScreenGui", {
+    Name: "RedScreenOnDamageContainer",
+    ResetOnSpawn: false,
+    Parent: Players.LocalPlayer!.PlayerGui,
+});
 
 function RedScreen(props: { enability: number }) {
     return (

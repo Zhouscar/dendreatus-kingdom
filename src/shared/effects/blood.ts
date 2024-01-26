@@ -1,11 +1,13 @@
+import { Make } from "@rbxts/altmake";
 import { ReplicatedStorage, TweenService, Workspace } from "@rbxts/services";
 import { State } from "shared/state";
 
 const r = math.random;
 
-const bloodContainer = new Instance("Folder");
-bloodContainer.Name = "BloodContainer";
-bloodContainer.Parent = Workspace;
+const bloodContainer = Make("Folder", {
+    Name: "BloodContainer",
+    Parent: Workspace,
+});
 
 export function doDrip(s: State, creator: Instance, position: Vector3, velocity: Vector3) {
     const dripPart = ReplicatedStorage.assets.blood.dripPart.Clone();

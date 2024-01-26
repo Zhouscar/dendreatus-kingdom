@@ -2,6 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Plr } from "shared/components";
+import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import {
     CanDash,
@@ -33,8 +34,7 @@ function canDash(w: World, s: State) {
     for (const [e, plr, usableDashContext] of w.query(Plr, UsableDashContext)) {
         if (plr.player !== Players.LocalPlayer) continue;
 
-        const dashing = w.get(e, Dashing);
-        if (dashing !== undefined) {
+        if (hasOneOfComponents(w, e, Dashing, Acting)) {
             w.remove(e, CanDash);
             break;
         }

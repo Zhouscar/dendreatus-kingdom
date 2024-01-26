@@ -1,3 +1,4 @@
+import { Make } from "@rbxts/altmake";
 import { World } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
@@ -7,10 +8,11 @@ import { State } from "shared/state";
 
 let isDead = false;
 
-const deathScreenContainer = new Instance("ScreenGui");
-deathScreenContainer.Name = "DeathScreenContainer";
-deathScreenContainer.Parent = Players.LocalPlayer!.PlayerGui;
-deathScreenContainer.ResetOnSpawn = false;
+const deathScreenContainer = Make("ScreenGui", {
+    Name: "DeathScreenContainer",
+    Parent: Players.LocalPlayer!.PlayerGui,
+    ResetOnSpawn: false,
+});
 
 withHookDetection(Roact);
 function deathScreen(w: World, s: State) {

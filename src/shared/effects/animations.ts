@@ -1,9 +1,12 @@
+import { Make } from "@rbxts/altmake";
+
 export type MyAnimator = Animator | AnimationController;
 
 type Tracks = Map<string, AnimationTrack>;
 const storage: Map<MyAnimator, Tracks> = new Map();
 
 export const forMovement = Enum.AnimationPriority.Movement;
+export const forAction = Enum.AnimationPriority.Action;
 export const forInevitability = Enum.AnimationPriority.Core;
 
 export function preloadAnimations(animator: MyAnimator, ...animIds: string[]) {
@@ -24,8 +27,9 @@ export function preloadAnimation(animator: MyAnimator, animId: string) {
 
     let track = tracks.get(animId);
     if (track === undefined) {
-        const animationInstance = new Instance("Animation");
-        animationInstance.AnimationId = animId;
+        const animationInstance = Make("Animation", {
+            AnimationId: animId,
+        });
         const [ok, tryTrack] = pcall(() => {
             return animator.IsA("Animator")
                 ? animator.LoadAnimation(animationInstance)
@@ -72,8 +76,9 @@ export function startAnimation(
 
     let track = tracks.get(animId);
     if (track === undefined) {
-        const animationInstance = new Instance("Animation");
-        animationInstance.AnimationId = animId;
+        const animationInstance = Make("Animation", {
+            AnimationId: animId,
+        });
         const [ok, tryTrack] = pcall(() => {
             return animator.IsA("Animator")
                 ? animator.LoadAnimation(animationInstance)
@@ -122,8 +127,9 @@ export function resumeAnimation(
 
     let track = tracks.get(animId);
     if (track === undefined) {
-        const animationInstance = new Instance("Animation");
-        animationInstance.AnimationId = animId;
+        const animationInstance = Make("Animation", {
+            AnimationId: animId,
+        });
         const [ok, tryTrack] = pcall(() => {
             return animator.IsA("Animator")
                 ? animator.LoadAnimation(animationInstance)
