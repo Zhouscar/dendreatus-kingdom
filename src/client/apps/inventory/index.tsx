@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import { ReflexProvider, useProducer, useSelector } from "@rbxts/roact-reflex";
 import EntireScreen from "../components/entireScreen";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import { useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
@@ -32,7 +32,7 @@ function App(props: { enabled: boolean }) {
     const enabilitySemiTransparency = enabilityMotor.map((v) => 1 - v * 0.3);
 
     const store = useProducer<RootProducer>();
-    const inventory = useSelector(selectPlayerInventory(localPlr));
+    const inventory = useSelector(selectPlayerInventory(theLocalPlr));
 
     // // const inventory: PlayerInventory | undefined = testInventory;
 

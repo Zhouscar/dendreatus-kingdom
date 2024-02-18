@@ -1,7 +1,7 @@
 import { World, useDeltaTime, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Animatable, Plr, Renderable, Sound } from "shared/components";
+import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
 import {
     CrashLanding,
     Dashing,
@@ -11,7 +11,7 @@ import {
     UsableLandingContext,
 } from "shared/components/movements";
 import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
-import { hasOneOfComponents } from "shared/hooks/components";
+import { hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 let queried = false;
 let elapsed = 0;
@@ -24,8 +24,7 @@ const crashLandingSoundId = withAssetPrefix("3802270141");
 
 function landing(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
         if (animatableRecord.new === undefined) continue;
 
         preloadAnimations(animatableRecord.new.animator, landingAnimId, crashLandingAnimId);
@@ -35,8 +34,7 @@ function landing(w: World) {
         if (!w.contains(e)) continue;
         if (landingRecord.old !== undefined) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         const cf = w.get(e, Renderable)?.model.PrimaryPart?.CFrame;
         if (!cf) break;
@@ -64,8 +62,7 @@ function landing(w: World) {
         if (!w.contains(e)) continue;
         if (crashLandingRecord.old !== undefined) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         w.remove(e, Dashing);
 
@@ -91,9 +88,7 @@ function landing(w: World) {
         }
     }
 
-    for (const [e, plr, usableLandingContext] of w.query(Plr, UsableLandingContext)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, usableLandingContext] of w.query(LocalPlr, UsableLandingContext)) {
         const landing = w.get(e, Landing);
         const crashLanding = w.get(e, CrashLanding);
 

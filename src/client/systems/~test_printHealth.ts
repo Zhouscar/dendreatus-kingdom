@@ -1,11 +1,11 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Health } from "shared/components/health";
+import { hasComponents, isLocalPlr } from "shared/hooks/components";
 
 export = function (w: World) {
     for (const [e, health] of w.queryChanged(Health)) {
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
     }
 };

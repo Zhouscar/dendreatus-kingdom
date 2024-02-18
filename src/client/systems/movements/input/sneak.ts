@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { CanSneak, Sneaking } from "shared/components/movements";
 import { hasComponents } from "shared/hooks/components";
 import { isKeyDown } from "shared/hooks/keyInput";
@@ -8,9 +8,7 @@ import { isKeyDown } from "shared/hooks/keyInput";
 let debounce = false;
 
 function sneak(w: World) {
-    for (const [e, plr, _canSneak] of w.query(Plr, CanSneak)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, _canSneak] of w.query(LocalPlr, CanSneak)) {
         if (!isKeyDown("sneak")) {
             debounce = false;
             break;

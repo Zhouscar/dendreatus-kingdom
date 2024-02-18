@@ -10,6 +10,9 @@ import { ActionComponents } from "./actions";
 
 export * from "./livingThings";
 
+export const Dummy = component<{}>("Dummy");
+export type Dummy = ReturnType<typeof Dummy>;
+
 export const Renderable = component<{ model: Model }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
@@ -39,6 +42,7 @@ export const Collision = component<{ force: number; colliderE: AnyEntity; part: 
 export type Collision = ReturnType<typeof Collision>;
 
 export const Components = {
+    Dummy,
     Renderable,
     Transform,
     Test,

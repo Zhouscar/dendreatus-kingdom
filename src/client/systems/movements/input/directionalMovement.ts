@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players, Workspace } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { DirectionalMovement } from "shared/components/movements";
 import { isKeyDown } from "shared/hooks/keyInput";
 import { getDirectionalVector3 } from "shared/calculations/coordinates";
@@ -9,8 +9,7 @@ function directionalMovement(w: World) {
     const camera = Workspace.CurrentCamera;
     if (!camera) return;
 
-    for (const [e, plr] of w.query(Plr)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr] of w.query(LocalPlr)) {
         let desiredDirection = Vector3.zero;
         if (isKeyDown("moveForward"))
             desiredDirection = desiredDirection.add(

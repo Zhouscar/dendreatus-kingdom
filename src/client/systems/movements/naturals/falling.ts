@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Dead } from "shared/components/health";
 import {
     CrashLanding,
@@ -14,8 +14,7 @@ import {
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 
 function fallingAndLanding(w: World) {
-    for (const [e, plr] of w.query(Plr)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr] of w.query(LocalPlr)) {
         if (hasOneOfComponents(w, e, Dead)) continue;
 
         const linearVelocity = w.get(e, LinearVelocity);

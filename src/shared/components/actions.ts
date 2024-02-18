@@ -1,4 +1,4 @@
-import { component } from "@rbxts/matter";
+import { AnyEntity, component } from "@rbxts/matter";
 import { t } from "@rbxts/t";
 import variantModule, { TypeNames, VariantOf, fields } from "@rbxts/variant";
 import { Item } from "shared/features/items/types";

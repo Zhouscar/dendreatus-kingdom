@@ -1,6 +1,7 @@
 import { Make } from "@rbxts/altmake";
 import { ReplicatedStorage, TweenService, Workspace } from "@rbxts/services";
 import { State } from "shared/state";
+import { raycastVisualizePartsContainer } from "./raycastHitbox";
 
 const r = math.random;
 
@@ -21,16 +22,18 @@ export function doDrip(s: State, creator: Instance, position: Vector3, velocity:
 
     s.bloodDrips.add(context);
     dripPart.Touched.Connect((hit) => {
-        if (!hit.Anchored || !hit.CanCollide) return;
+        if (!hit.Anchored || !hit.CanCollide || hit.Transparency === 1) return;
+        if (hit.IsDescendantOf(raycastVisualizePartsContainer)) return;
         s.bloodDrips.delete(context);
         dripPart.Destroy();
     });
 }
+
 const splatterTweenInfo = new TweenInfo(0.5, Enum.EasingStyle.Quint);
 const getSplatterTweenGoal: () => Partial<ExtractMembers<BasePart, Tweenable>> = () => {
     const size = r(1, 3000) / 1000;
     return {
-        Size: new Vector3(0.01, size, size),
+        Size: new Vector3(0.05, size, size),
     };
 };
 
@@ -76,6 +79,7 @@ export function bleed(
     offset: number,
     position: Vector3,
 ) {
+    // TODO: dummy bleeding is not working for some reason
     const amount = r(minAmount, maxAmount);
     for (let i = 0; i < amount; i++) {
         const velocity = new Vector3(r(-force, force), r(-force, force) + offset, r(-force, force));

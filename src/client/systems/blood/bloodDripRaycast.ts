@@ -1,8 +1,11 @@
 import { World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
+import { findInstanceE } from "shared/calculations/findEntity";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Sound } from "shared/components";
+import { Animatable, Human, Sound } from "shared/components";
 import { doSplatter } from "shared/effects/blood";
+import { raycastVisualizePartsContainer } from "shared/effects/raycastHitbox";
+import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
 const ALPHA = 1;
@@ -18,7 +21,7 @@ function bloodDripRaycast(w: World, s: State) {
 
         const params = new RaycastParams();
         params.FilterType = Enum.RaycastFilterType.Exclude;
-        params.FilterDescendantsInstances = [dripPart, creator];
+        params.FilterDescendantsInstances = [dripPart, creator, raycastVisualizePartsContainer];
         params.IgnoreWater = true;
 
         const result = Workspace.Raycast(
@@ -28,6 +31,8 @@ function bloodDripRaycast(w: World, s: State) {
         );
         if (!result) return;
         if (!result.Instance.Anchored || !result.Instance.CanCollide) return;
+        const e = findInstanceE(w, result.Instance);
+        if (e !== undefined && hasOneOfComponents(w, e, Human, Animatable)) return;
 
         if (dripped.has(dripPart)) return;
         dripped.add(dripPart);

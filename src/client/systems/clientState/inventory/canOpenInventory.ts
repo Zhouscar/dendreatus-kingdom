@@ -1,7 +1,8 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Damage } from "shared/components/health";
+import { isLocalPlr } from "shared/hooks/components";
 import { State } from "shared/state";
 
 function canOpenInventory(w: World, s: State) {
@@ -17,16 +18,13 @@ function canOpenInventory(w: World, s: State) {
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         s.canOpenInventory = false;
         return;
     }
 
-    for (const [e, plr] of w.query(Plr).without(/* for things like dashing, swinging*/)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e] of w.query(LocalPlr).without(/* for things like dashing, swinging*/)) {
         s.canOpenInventory = true;
         return;
     }

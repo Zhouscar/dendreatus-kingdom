@@ -1,6 +1,6 @@
 import { World, useDeltaTime } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { CanJump, Jumping, UsableJumpContext, WillJump } from "shared/components/movements";
 import { hasComponents } from "shared/hooks/components";
 
@@ -8,13 +8,11 @@ let delayDuration = 0;
 let queried = false;
 
 function willJump(w: World) {
-    for (const [e, plr, usableJumpContext, _willJump] of w.query(
-        Plr,
+    for (const [e, localPlr, usableJumpContext, _willJump] of w.query(
+        LocalPlr,
         UsableJumpContext,
         WillJump,
     )) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
         if (!hasComponents(w, e, CanJump)) {
             w.remove(e, WillJump);
         }

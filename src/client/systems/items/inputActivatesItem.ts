@@ -1,8 +1,8 @@
 import { World, useEvent } from "@rbxts/matter";
 import { Players, UserInputService } from "@rbxts/services";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { store } from "client/store";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { ActivatingItem, Equipping } from "shared/components/items";
 
 function isMB1(input: InputObject) {
@@ -10,12 +10,11 @@ function isMB1(input: InputObject) {
 }
 
 function getItem(guid: string) {
-    return store.getState().players.inventory[localPlr]?.items.get(guid);
+    return store.getState().players.inventory[theLocalPlr]?.items.get(guid);
 }
 
 function activateItem(w: World) {
-    for (const [e, plr, equipping] of w.query(Plr, Equipping)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, equipping] of w.query(LocalPlr, Equipping)) {
         const item = getItem(equipping.itemGuid);
         if (item === undefined) continue;
         w.insert(e, ActivatingItem({ elapsed: 0, item: item }));
@@ -23,8 +22,11 @@ function activateItem(w: World) {
 }
 
 function deactivateItem(w: World) {
-    for (const [e, plr, _equipping, _activatingItem] of w.query(Plr, Equipping, ActivatingItem)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, _equipping, _activatingItem] of w.query(
+        LocalPlr,
+        Equipping,
+        ActivatingItem,
+    )) {
         w.remove(e, ActivatingItem);
     }
 }

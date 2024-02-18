@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import findPlrE from "shared/calculations/findPlrE";
+import { findPlrE } from "shared/calculations/findEntity";
 import { Equipping } from "shared/components/items";
 import { network } from "shared/network";
 

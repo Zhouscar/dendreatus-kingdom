@@ -1,6 +1,6 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { store } from "server/store";
-import findPlrE from "shared/calculations/findPlrE";
+import { findPlrE } from "shared/calculations/findEntity";
 import { Equipping, ActivatingItem } from "shared/components/items";
 import { network } from "shared/network";
 

@@ -50,15 +50,12 @@ function forEachPlayer(player: Player) {
     player.CharacterAdded.Connect(() => {
         player.Backpack.ClearAllChildren();
         store.wait(selectPlayerInventory(plr)).then((inventory) => {
-            print(inventory);
             assert(inventory);
             const guids = getItemGuidsToAdd(inventory, defaultPlayerInventory);
             const tools = getItemsAsTools(inventory, guids);
 
             tools.forEach((tool) => {
-                print(tool.ClassName);
                 tool.Parent = player.Backpack;
-                print(player.Backpack.Parent);
             });
 
             return 0;

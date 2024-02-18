@@ -1,7 +1,7 @@
 import { useEvent } from "@rbxts/matter";
 import { Players, UserInputService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { store } from "client/store";
 import { defaultPlayerKeybinds, selectPlayerKeybinds } from "shared/store/players/keybinds";
 
@@ -12,7 +12,7 @@ const pressedKeyNames: Set<KeyName> = new Set();
 
 let currentKeybinds: PlayerKeybinds = defaultPlayerKeybinds;
 
-store.subscribe(selectPlayerKeybinds(localPlr), (keybinds) => {
+store.subscribe(selectPlayerKeybinds(theLocalPlr), (keybinds) => {
     if (!keybinds) return;
     currentKeybinds = keybinds;
 });

@@ -1,3 +1,4 @@
+import { produce } from "@rbxts/immut";
 import { AnyEntity, World } from "@rbxts/matter";
 import { Damage, Dead, Health } from "shared/components/health";
 import { hasComponents } from "shared/hooks/components";
@@ -21,11 +22,23 @@ function damageHurts(w: World) {
         if (hasComponents(w, e, Dead)) continue;
 
         const newCurrentHealth = calculateNewCurrentHealth(e, health, damageRecord.new);
+        const newDamageContributors = produce(health.damageContributors, (draft) => {
+            const contributor = damageRecord.new!.contributor;
+            let damageAlreadyDone = draft.get(contributor);
+            if (damageAlreadyDone === undefined) {
+                damageAlreadyDone = 0;
+                draft.set(contributor, damageAlreadyDone);
+            }
+
+            const damageAmount = damageRecord.new!.amount;
+            draft.set(contributor, damageAlreadyDone + damageAmount);
+        });
 
         w.insert(
             e,
             health.patch({
                 current: newCurrentHealth,
+                damageContributors: newDamageContributors,
             }),
         );
     }

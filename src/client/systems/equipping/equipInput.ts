@@ -1,24 +1,16 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { EquippingByIndex } from "shared/components/items";
 import { hasComponents } from "shared/hooks/components";
 import { getKeysJustPressed } from "shared/hooks/keyInput";
 import { State } from "shared/state";
 
-function forLocalPlayer(w: World, callback: (e: AnyEntity) => void) {
-    for (const [e, plr] of w.query(Plr)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-        callback(e);
-        return;
-    }
-}
-
 function equipInput(w: World, s: State) {
     if (s.clientState !== "game") return;
 
-    forLocalPlayer(w, (e) => {
+    for (const [e, localPlr] of w.query(LocalPlr)) {
         if (hasComponents(w, e, Acting)) return;
 
         const keysJustPressed = getKeysJustPressed();
@@ -63,7 +55,7 @@ function equipInput(w: World, s: State) {
             if (equippingByIndex?.index === 9) w.remove(e, EquippingByIndex);
             else w.insert(e, EquippingByIndex({ index: 9 }));
         }
-    });
+    }
 }
 
 export = equipInput;

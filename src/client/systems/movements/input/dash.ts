@@ -1,14 +1,12 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { CanDash, Dashing } from "shared/components/movements";
 import { isKeyDown } from "shared/hooks/keyInput";
 
 let debounce = false;
 function dash(w: World) {
-    for (const [e, plr, canDash] of w.query(Plr, CanDash)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, canDash] of w.query(LocalPlr, CanDash)) {
         if (!isKeyDown("sprintDash")) {
             debounce = false;
             break;

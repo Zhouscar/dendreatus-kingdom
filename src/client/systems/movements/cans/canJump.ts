@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import {
@@ -16,17 +16,13 @@ import { State } from "shared/state";
 
 function canJump(w: World, s: State) {
     if (s.clientState !== "game") {
-        for (const [e, plr, canJump] of w.query(Plr, CanJump)) {
-            if (plr.player !== Players.LocalPlayer) continue;
-
+        for (const [e, localPlr, canJump] of w.query(LocalPlr, CanJump)) {
             w.remove(e, CanJump);
         }
         return;
     }
 
-    for (const [e, plr, usableJumpContext] of w.query(Plr, UsableJumpContext)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, usableJumpContext] of w.query(LocalPlr, UsableJumpContext)) {
         const ON_LAND = hasComponents(w, e, OnLand);
         if (ON_LAND && !hasOneOfComponents(w, e, CrashLanding, Dead, Acting)) {
             w.insert(e, CanJump({}));

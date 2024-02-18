@@ -22,6 +22,7 @@ function testDamagePartsDamage(w: World) {
             colliderE,
             Damage({
                 amount: math.round(collisionRecord.new.force / 3),
+                contributor: e,
             }),
         );
     }

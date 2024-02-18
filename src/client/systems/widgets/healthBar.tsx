@@ -5,7 +5,7 @@ import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
 import { mainUiContainer } from "client/containers";
 import HealthBar from "client/apps/healthBar";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Health } from "shared/components/health";
 import { State } from "shared/state";
 
@@ -29,9 +29,7 @@ function healthBar(w: World, s: State) {
     let maximum = undefined;
     const enabled = s.clientState === "game";
 
-    for (const [e, plr, health] of w.query(Plr, Health)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, health] of w.query(LocalPlr, Health)) {
         current = health.current;
         maximum = health.maximum;
         break;

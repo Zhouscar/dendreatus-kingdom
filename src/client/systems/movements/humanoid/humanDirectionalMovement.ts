@@ -1,6 +1,6 @@
 import { World, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Animatable, Human, Plr, Renderable, Sound, Transform } from "shared/components";
+import { Animatable, Human, LocalPlr, Plr, Renderable, Sound, Transform } from "shared/components";
 import {
     CanDirectionallyMove,
     DirectionalMovement,
@@ -16,6 +16,8 @@ import {
     resumeAnimation,
 } from "shared/effects/animations";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { isLocalPlr } from "shared/hooks/components";
+import localPlr from "client/systems/localPlr";
 
 const walkAnimId = withAssetPrefix("14213721870");
 const sprintAnimId = withAssetPrefix("14207192205");
@@ -36,8 +38,7 @@ function getFootStepSoundId(): string {
 
 function humanDirectionalMovement(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
         if (animatableRecord.new === undefined) continue;
 
         preloadAnimations(
@@ -53,21 +54,20 @@ function humanDirectionalMovement(w: World) {
 
     for (const [
         e,
-        plr,
+        localPlr,
         human,
         directionalMovement,
         potentialDirectionalMovement,
         usableDirectionalMovementContext,
         _canDirectionallyMove,
     ] of w.query(
-        Plr,
+        LocalPlr,
         Human,
         DirectionalMovement,
         PotentialDirectionalMovement,
         UsableDirectionalMovementContext,
         CanDirectionallyMove,
     )) {
-        if (plr.player !== Players.LocalPlayer) continue;
         const newWalkSpeed =
             potentialDirectionalMovement.type === "walk"
                 ? usableDirectionalMovementContext.walk

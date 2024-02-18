@@ -3,11 +3,11 @@ import { Players } from "@rbxts/services";
 import { Plr } from "shared/components";
 import { Dead } from "shared/components/health";
 import { Equipping, PredictUnequip } from "shared/components/items";
+import { isLocalPlr } from "shared/hooks/components";
 
 function unequipOnDeath(w: World) {
     for (const [e, dead] of w.queryChanged(Dead)) {
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         w.remove(e, Equipping);
         w.insert(e, PredictUnequip({}));

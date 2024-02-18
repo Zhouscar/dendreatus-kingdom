@@ -1,12 +1,11 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Dead } from "shared/components/health";
 import { State } from "shared/state";
 
 function deathClientState(w: World, s: State) {
-    for (const [e, plr, dead] of w.query(Plr, Dead)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, dead] of w.query(LocalPlr, Dead)) {
         s.clientState = "death";
     }
 }

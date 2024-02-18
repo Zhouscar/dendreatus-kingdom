@@ -3,7 +3,7 @@ import { useSelector } from "@rbxts/roact-reflex";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
 import ItemSlot from "./itemSlot";
 import immutPutItems from "shared/features/inventory/functions/immutSetters/immutPutItems";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { Dispatch, SetStateAction } from "@rbxts/roact-hooked";
 import { createGuidPool } from "shared/features/guidUtils";
 
@@ -28,7 +28,7 @@ export default function ItemFragments(props: {
     // from (inclusive)
     // to (exclusive)
 
-    const inventory = useSelector(selectPlayerInventory(localPlr));
+    const inventory = useSelector(selectPlayerInventory(theLocalPlr));
 
     // // const inventory = testInventory;
 

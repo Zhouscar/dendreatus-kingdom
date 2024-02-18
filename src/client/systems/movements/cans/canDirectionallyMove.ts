@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import {
@@ -15,20 +15,16 @@ import { State } from "shared/state";
 
 function canDirectionallyMove(w: World, s: State) {
     if (s.clientState !== "game") {
-        for (const [e, plr, canDirectionallyMove] of w.query(Plr, CanDirectionallyMove)) {
-            if (plr.player !== Players.LocalPlayer) continue;
-
+        for (const [e, localPlr, canDirectionallyMove] of w.query(LocalPlr, CanDirectionallyMove)) {
             w.remove(e, CanDirectionallyMove);
         }
         return;
     }
 
-    for (const [e, plr, usableDirectionalMovementContext] of w.query(
-        Plr,
+    for (const [e, localPlr, usableDirectionalMovementContext] of w.query(
+        LocalPlr,
         UsableDirectionalMovementContext,
     )) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
         if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting)) {
             w.insert(e, CanDirectionallyMove({}));
         } else {

@@ -1,12 +1,10 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Human, Plr } from "shared/components";
+import { Human, LocalPlr, Plr } from "shared/components";
 import { Climbing, Sneaking } from "shared/components/movements";
 
 function climbing(w: World) {
-    for (const [e, plr, human] of w.query(Plr, Human)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, human] of w.query(LocalPlr, Human)) {
         const humanState = human.humanoid.GetState();
 
         if (humanState === Enum.HumanoidStateType.Climbing) {

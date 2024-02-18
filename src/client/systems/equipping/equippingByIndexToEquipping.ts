@@ -1,20 +1,19 @@
 import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
 import { Players } from "@rbxts/services";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { store } from "client/store";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Equipping, EquippingByIndex, PredictUnequip } from "shared/components/items";
 
 function equippingByIndexToEquipping(w: World) {
     let hasEquipped = false;
 
-    for (const [e, plr, equippingByIndex] of w.query(Plr, EquippingByIndex)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, equippingByIndex] of w.query(LocalPlr, EquippingByIndex)) {
         hasEquipped = true;
         const state = store.getState();
-        const itemGuid = state.players.inventory[localPlr]?.slots[equippingByIndex.index].itemGuid;
+        const itemGuid =
+            state.players.inventory[theLocalPlr]?.slots[equippingByIndex.index].itemGuid;
 
         if (!useChange([itemGuid])) return;
 
@@ -29,8 +28,7 @@ function equippingByIndexToEquipping(w: World) {
     }
 
     if (useChange([hasEquipped], "HasEquipped") && !hasEquipped) {
-        for (const [e, plr] of w.query(Plr)) {
-            if (plr.player !== Players.LocalPlayer) continue;
+        for (const [e, localPlr] of w.query(LocalPlr)) {
             useChange([""]);
             w.remove(e, Equipping);
         }

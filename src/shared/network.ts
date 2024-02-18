@@ -9,6 +9,9 @@ import { ReplicationMap } from "./components/serde";
 import { BroadcastAction } from "@rbxts/reflex";
 import { t } from "@rbxts/t";
 import { SoundContext } from "type";
+import { AnyEntity } from "@rbxts/matter";
+import { $terrify } from "rbxts-transformer-t";
+import { ItemType, isItemType } from "./features/items/types";
 
 function isSoundContext(value: unknown): value is SoundContext {
     return t.strictInterface({
@@ -18,12 +21,18 @@ function isSoundContext(value: unknown): value is SoundContext {
     })(value);
 }
 
+function isEntity(value: unknown): value is AnyEntity {
+    return t.number(value);
+}
+
 export const network = createRemotes({
     replication: remote<ServerToClient, [ReplicationMap]>(),
 
     ecs: namespace({
         playerEquip: remote<ClientToServer, [string | undefined]>(t.optional(t.string)),
         playerUseItem: remote<ClientToServer, [number, number]>(t.number, t.number),
+
+        playerDamage: remote<ClientToServer, [AnyEntity, ItemType]>(isEntity, isItemType),
     }),
 
     reflex: namespace({

@@ -8,6 +8,9 @@ export type EquippingByIndex = ReturnType<typeof EquippingByIndex>;
 export const Equipping = component<{ itemGuid: string } & ClientPredictable>("Equipping");
 export type Equipping = ReturnType<typeof Equipping>;
 
+export const PhysicallyEquipping = component<{ tool: Tool }>("PhysicallyEquipping");
+export type PhysicallyEquipping = ReturnType<typeof PhysicallyEquipping>;
+
 export const PredictUnequip = component<{}>("PredictUnequip");
 export type PredictUnequip = ReturnType<typeof PredictUnequip>;
 
@@ -17,6 +20,7 @@ export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 export const ItemComponents = {
     EquippingByIndex,
     Equipping,
+    PhysicallyEquipping,
     PredictUnequip,
     ActivatingItem,
 };

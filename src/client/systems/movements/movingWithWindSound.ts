@@ -2,7 +2,7 @@ import { Make } from "@rbxts/altmake";
 import { World, useDeltaTime } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Plr, Renderable } from "shared/components";
+import { LocalPlr, Plr, Renderable } from "shared/components";
 import { LinearVelocity } from "shared/components/movements";
 
 const MAX_VOLUME = 5;
@@ -10,9 +10,7 @@ const MAX_VOLUME = 5;
 const windSoundId = withAssetPrefix("687874741");
 
 function movingWithWindSound(w: World) {
-    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
-        if (plr.player !== Players.LocalPlayer) break;
-
+    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         const soundPart = renderable.model.PrimaryPart;
         if (!soundPart) break;
 

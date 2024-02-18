@@ -57,9 +57,9 @@ export default function DeathScreen(props: {}) {
     const options = (
         <DeathScreenOptionButton
             enabled={optionsEnabled}
-            text={"Cry about it, bitch"}
+            text={"Cry about it"}
             onClick={() => {
-                print("lol");
+                ("lol");
             }}
         ></DeathScreenOptionButton>
     );

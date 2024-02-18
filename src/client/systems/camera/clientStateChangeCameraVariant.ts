@@ -4,7 +4,7 @@ import { Players } from "@rbxts/services";
 import { store } from "client/store";
 import { CameraVariant } from "client/store/camera";
 import { ViewVector } from "shared/classes";
-import { Plr, Renderable } from "shared/components";
+import { LocalPlr, Plr, Renderable } from "shared/components";
 import { ClientState, State } from "shared/state";
 
 function findTrackPart(model: Model) {
@@ -14,9 +14,7 @@ function findTrackPart(model: Model) {
 function doGameClientState(w: World, clientState: ClientState) {
     let target: BasePart | undefined = undefined;
 
-    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         target = findTrackPart(renderable.model);
     }
 
@@ -35,9 +33,7 @@ const INVENTORY_ANGLE_VIEW = new ViewVector(5, 0, 0);
 function doInventoryClientState(w: World, clientState: ClientState) {
     let target: BasePart | undefined = undefined;
 
-    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         target = renderable.model.PrimaryPart;
     }
 
@@ -56,9 +52,7 @@ const DEATH_ANGLE_VIEW = new ViewVector(20, 0, 0);
 function doDeathClientState(w: World, clientState: ClientState) {
     let target: BasePart | undefined = undefined;
 
-    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         target = renderable.model.FindFirstChild("Head") as BasePart | undefined;
     }
 

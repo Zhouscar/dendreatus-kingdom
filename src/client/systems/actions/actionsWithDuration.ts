@@ -1,12 +1,10 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Acting, isWithDuration } from "shared/components/actions";
 
 function actionsWithDuration(w: World) {
-    for (const [e, plr, acting] of w.query(Plr, Acting)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, acting] of w.query(LocalPlr, Acting)) {
         const action = acting.action;
         if (!isWithDuration(action)) continue;
 

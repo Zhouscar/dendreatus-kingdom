@@ -6,6 +6,7 @@ import { Players } from "@rbxts/services";
 import EntireScreen from "client/apps/components/entireScreen";
 import { Plr } from "shared/components";
 import { Damage } from "shared/components/health";
+import { isLocalPlr } from "shared/hooks/components";
 
 const redScreenOnDamageContainer = Make("ScreenGui", {
     Name: "RedScreenOnDamageContainer",
@@ -39,8 +40,7 @@ function redScreenOnDamage(w: World) {
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         newEnability = 0.7;
     }

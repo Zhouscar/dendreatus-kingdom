@@ -1,12 +1,12 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { CollectionService } from "@rbxts/services";
-import { Renderable, Test, Transform } from "shared/components";
+import { Dummy, Renderable, Test, Transform } from "shared/components";
 import { TestDamagePart } from "shared/components/colliders";
 import { getIdAttribute } from "shared/idAttribute";
 import { State } from "shared/state";
 
-const boundTags = new Set([Test, TestDamagePart]);
+const boundTags = new Set([Test, TestDamagePart, Dummy]);
 
 function crashReportCheckModel(instance: Instance): instance is Model {
     if (!instance.IsA("Model")) {

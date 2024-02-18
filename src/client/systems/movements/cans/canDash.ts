@@ -1,7 +1,7 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import {
@@ -18,22 +18,17 @@ let lastDashTime = 0;
 
 function canDash(w: World, s: State) {
     if (s.clientState !== "game") {
-        for (const [e, plr, canDash] of w.query(Plr, CanDash)) {
-            if (plr.player !== Players.LocalPlayer) continue;
-
+        for (const [e, localPlr, canDash] of w.query(LocalPlr, CanDash)) {
             w.remove(e, CanDash);
         }
         return;
     }
 
-    for (const [e, plr, dashing] of w.query(Plr, Dashing)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, dashing] of w.query(LocalPlr, Dashing)) {
         lastDashTime = dashing.startTime;
     }
 
-    for (const [e, plr, usableDashContext] of w.query(Plr, UsableDashContext)) {
-        if (plr.player !== Players.LocalPlayer) continue;
-
+    for (const [e, localPlr, usableDashContext] of w.query(LocalPlr, UsableDashContext)) {
         if (hasOneOfComponents(w, e, Dashing, Acting)) {
             w.remove(e, CanDash);
             break;

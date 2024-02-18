@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 import { useSelector } from "@rbxts/roact-reflex";
 import { selectPlayerInventory } from "shared/store/players/inventory";
 import ItemSlot from "./itemSlot";
-import { localPlr } from "client/localPlr";
+import { theLocalPlr } from "client/localPlr";
 import { AnyEntity, World } from "@rbxts/matter";
 import { EquippingByIndex } from "shared/components/items";
 
@@ -17,7 +17,7 @@ export default function ItemFragments(props: {
     const from = props.from;
     const to = props.to;
 
-    const inventory = useSelector(selectPlayerInventory(localPlr));
+    const inventory = useSelector(selectPlayerInventory(theLocalPlr));
 
     const items: Roact.Element[] = [];
 

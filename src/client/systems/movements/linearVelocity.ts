@@ -1,6 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Plr, Renderable } from "shared/components";
+import { LocalPlr, Plr, Renderable } from "shared/components";
 import { LinearVelocity } from "shared/components/movements";
 
 function linearVelocity(w: World) {
@@ -9,8 +9,7 @@ function linearVelocity(w: World) {
         w.remove(e, LinearVelocity);
     }
 
-    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         const linearVelocity = renderable.model.PrimaryPart?.AssemblyLinearVelocity;
         if (linearVelocity && linearVelocity.Magnitude > 5) {
             w.insert(e, LinearVelocity({ velocity: linearVelocity }));

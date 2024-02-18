@@ -2,11 +2,11 @@ import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
 import { ControllerService, Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Animatable, Plr, Renderable, Sound } from "shared/components";
+import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
 import { Dashing, UsableDashContext } from "shared/components/movements";
 import { FORWARD } from "shared/constants/direction";
 import { forMovement, preloadAnimation, resumeAnimation } from "shared/effects/animations";
-import { hasComponents } from "shared/hooks/components";
+import { hasComponents, isLocalPlr } from "shared/hooks/components";
 import { getCustomLinearVelocity } from "shared/hooks/memoForces";
 
 const dashAnimId = withAssetPrefix("14215455071");
@@ -19,8 +19,7 @@ function getDashVelocity(part: BasePart) {
 
 function humanDash(w: World) {
     for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
         if (animatableRecord.new === undefined) continue;
 
         preloadAnimation(animatableRecord.new.animator, dashAnimId);
@@ -29,8 +28,7 @@ function humanDash(w: World) {
     for (const [e, dashingRecord] of w.queryChanged(Dashing)) {
         if (dashingRecord.old !== undefined) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (!isLocalPlr(w, e)) continue;
 
         const cf = w.get(e, Renderable)?.model.PrimaryPart?.CFrame;
         if (!cf) break;
@@ -51,12 +49,11 @@ function humanDash(w: World) {
         break;
     }
 
-    for (const [e, plr, renderable, usableDashContext] of w.query(
-        Plr,
+    for (const [e, localPlr, renderable, usableDashContext] of w.query(
+        LocalPlr,
         Renderable,
         UsableDashContext,
     )) {
-        if (plr.player !== Players.LocalPlayer) continue;
         if (!renderable.model.PrimaryPart) continue;
 
         const dashVelocity = getDashVelocity(renderable.model.PrimaryPart);

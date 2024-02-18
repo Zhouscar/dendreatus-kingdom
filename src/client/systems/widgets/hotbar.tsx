@@ -4,7 +4,7 @@ import Roact from "@rbxts/roact";
 import { Players } from "@rbxts/services";
 import Hotbar from "client/apps/hotbar";
 import { mainUiContainer } from "client/containers";
-import { Plr } from "shared/components";
+import { LocalPlr, Plr } from "shared/components";
 import { EquippingByIndex } from "shared/components/items";
 import { State } from "shared/state";
 
@@ -18,8 +18,7 @@ function hotbar(w: World, s: State) {
     const enabled = s.clientState === "game";
     let indexEquipped = undefined;
 
-    for (const [e, plr, equippingByIndex] of w.query(Plr, EquippingByIndex)) {
-        if (plr.player !== Players.LocalPlayer) continue;
+    for (const [e, localPlr, equippingByIndex] of w.query(LocalPlr, EquippingByIndex)) {
         indexEquipped = equippingByIndex.index;
     }
 
