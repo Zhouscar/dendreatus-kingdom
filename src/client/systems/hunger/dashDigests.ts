@@ -1,4 +1,4 @@
-import { World } from "@rbxts/matter";
+import { World, useThrottle } from "@rbxts/matter";
 import Sift from "@rbxts/sift";
 import { Stomach } from "shared/components/hunger";
 import { Dashing } from "shared/components/movements";
@@ -17,7 +17,7 @@ function dashDigests(w: World) {
         const stomach = w.get(e, Stomach);
         if (!stomach) continue;
 
-        if (!stomach.digest.has("Dash")) {
+        if (!stomach.digest.has("Dash") && useThrottle(0.1)) {
             network.ecs.playerDigest.fire("Dash", DASHING_DIGEST_AMOUNT);
             // w.insert(
             //     e,

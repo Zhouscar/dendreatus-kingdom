@@ -1,6 +1,7 @@
 import { produce } from "@rbxts/immut";
-import { World } from "@rbxts/matter";
+import { World, useThrottle } from "@rbxts/matter";
 import Sift from "@rbxts/sift";
+import { LocalPlr } from "shared/components";
 import { Stomach } from "shared/components/hunger";
 import {
     DirectionalMovement,
@@ -19,7 +20,8 @@ const MOVEMENT_TYPE_DIGEST_AMOUNT = new ReadonlyMap<DirectionalMovementType, num
 ]);
 
 function movementDigests(w: World) {
-    for (const [e, stomach, potentialDirectionalMovement, directionalMovement] of w.query(
+    for (const [e, localPlr, stomach, potentialDirectionalMovement, directionalMovement] of w.query(
+        LocalPlr,
         Stomach,
         PotentialDirectionalMovement,
         DirectionalMovement,
@@ -29,7 +31,10 @@ function movementDigests(w: World) {
 
         const prevDigestAmount = stomach.digest.get("Movement");
 
-        if (prevDigestAmount === undefined || newDigestAmount > prevDigestAmount) {
+        if (
+            prevDigestAmount === undefined ||
+            (newDigestAmount > prevDigestAmount && useThrottle(0.1))
+        ) {
             network.ecs.playerDigest.fire("Movement", newDigestAmount);
             // w.insert(
             //     e,

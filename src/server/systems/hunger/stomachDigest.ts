@@ -7,10 +7,15 @@ function stomachDigest(w: World) {
     if (!useThrottle(DIGEST_THROTTLE)) return;
 
     for (const [e, stomach, digesting] of w.query(Stomach)) {
+        print("Digesting");
+        print(stomach.digest);
+
         let amountToDigest = 0;
         stomach.digest.forEach((amount) => {
             amountToDigest += amount;
         });
+
+        print(stomach.hunger);
 
         w.insert(
             e,
