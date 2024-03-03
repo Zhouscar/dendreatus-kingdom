@@ -3,6 +3,7 @@ import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { Players } from "@rbxts/services";
 import { Human, Plr, Renderable, Sound } from "shared/components";
 import { Damage, Dead, Health } from "shared/components/health";
+import { Stomach } from "shared/components/hunger";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
 import { network } from "shared/network";
 
@@ -12,6 +13,7 @@ const REPLICATED_COMPONENTS = new Set<ComponentCtor>([
     Human,
     Sound,
     Health,
+    Stomach,
     Dead,
     Damage,
 ]);

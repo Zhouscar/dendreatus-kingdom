@@ -7,6 +7,7 @@ import { HealthComponents } from "./health";
 import { ColliderComponents } from "./colliders";
 import { ItemComponents } from "./items";
 import { ActionComponents } from "./actions";
+import { HungerComponents } from "./hunger";
 
 export * from "./livingThings";
 
@@ -56,4 +57,5 @@ export const Components = {
     ...ColliderComponents,
     ...ItemComponents,
     ...ActionComponents,
+    ...HungerComponents,
 };
