@@ -14,7 +14,6 @@ function playerDigests(w: World) {
 
         const prevDigestAmount = stomach.digest.get(digestType);
         if (prevDigestAmount === undefined || newDigestAmount > prevDigestAmount) {
-            print(`Digesting ${newDigestAmount} as ${digestType}`);
             w.insert(
                 plrE,
                 stomach.patch({

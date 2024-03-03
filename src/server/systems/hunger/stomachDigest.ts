@@ -15,8 +15,6 @@ function stomachDigest(w: World) {
             amountToDigest += amount;
         });
 
-        print(stomach.hunger);
-
         w.insert(
             e,
             stomach.patch({
