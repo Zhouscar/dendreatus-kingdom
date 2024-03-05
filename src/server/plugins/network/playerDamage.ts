@@ -12,7 +12,7 @@ function playerDamage(w: World) {
         const damageAmount = itemAttackableContexts.get(itemType)?.damage;
         assert(damageAmount);
 
-        w.insert(e, Damage({ amount: damageAmount, contributor: plrE }));
+        w.insert(e, Damage({ amount: damageAmount, contributor: plrE, damageType: "physical" }));
     });
 }
 

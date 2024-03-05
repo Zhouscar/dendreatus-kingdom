@@ -7,10 +7,12 @@ import { hasComponents } from "shared/hooks/components";
 const plrDamageSoundId = withAssetPrefix("5634710863");
 const dummyDamageSound = withAssetPrefix("5634710863");
 
-function damageMakeSound(w: World) {
+function physicalDamageMakeSound(w: World) {
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
         if (!damageRecord.new) continue;
+
+        if (damageRecord.new.damageType !== "physical") continue;
 
         const transform = w.get(e, Transform);
         if (!transform) continue;
@@ -45,4 +47,4 @@ function damageMakeSound(w: World) {
     }
 }
 
-export = damageMakeSound;
+export = physicalDamageMakeSound;

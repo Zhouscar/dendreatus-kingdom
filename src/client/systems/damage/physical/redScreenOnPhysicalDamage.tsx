@@ -39,8 +39,11 @@ function redScreenOnDamage(w: World) {
 
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
+        if (!damageRecord.new) continue;
 
         if (!isLocalPlr(w, e)) continue;
+
+        if (damageRecord.new.damageType !== "physical") continue;
 
         newEnability = 0.7;
     }

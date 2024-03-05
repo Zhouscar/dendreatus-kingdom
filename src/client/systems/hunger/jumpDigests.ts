@@ -5,7 +5,7 @@ import { Jumping } from "shared/components/movements";
 import { isLocalPlr } from "shared/hooks/components";
 import { network } from "shared/network";
 
-const JUMP_DIGEST_AMOUNT = 0.3;
+const JUMP_DIGEST_AMOUNT = 95;
 
 function jumpDigests(w: World) {
     for (const [e, jumping] of w.queryChanged(Jumping)) {

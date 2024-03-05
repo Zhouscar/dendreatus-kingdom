@@ -22,8 +22,11 @@ function bloodSplatterOnDamage(w: World, s: State) {
 
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
+        if (!damageRecord.new) continue;
 
         if (!hasComponents(w, e, Health)) continue;
+
+        if (damageRecord.new.damageType !== "physical") continue;
 
         const model = w.get(e, Renderable)?.model;
         if (!model) continue;

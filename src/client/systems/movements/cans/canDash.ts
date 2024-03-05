@@ -4,6 +4,7 @@ import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
+import { Stomach } from "shared/components/hunger";
 import {
     CanDash,
     CrashLanding,
@@ -30,6 +31,12 @@ function canDash(w: World, s: State) {
 
     for (const [e, localPlr, usableDashContext] of w.query(LocalPlr, UsableDashContext)) {
         if (hasOneOfComponents(w, e, Dashing, Acting)) {
+            w.remove(e, CanDash);
+            break;
+        }
+
+        const stomach = w.get(e, Stomach);
+        if (stomach && stomach.hunger <= 0) {
             w.remove(e, CanDash);
             break;
         }

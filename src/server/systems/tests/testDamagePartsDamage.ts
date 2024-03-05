@@ -23,6 +23,7 @@ function testDamagePartsDamage(w: World) {
             Damage({
                 amount: math.round(collisionRecord.new.force / 3),
                 contributor: e,
+                damageType: "physical",
             }),
         );
     }
