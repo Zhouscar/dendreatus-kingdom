@@ -19,3 +19,5 @@ export type ReplicationMap = Map<
         }
     >
 >;
+
+export type SyncMap = ReplicationMap;

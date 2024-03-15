@@ -1,26 +1,24 @@
 import { component } from "@rbxts/matter";
 import { Item } from "shared/features/items/types";
-import { ClientPredictable } from "type";
+import { ComponentCreator } from "./creators";
 
-export const EquippingByIndex = component<{ index: number }>("EquippingByIndex");
+export const EquippingByIndex = ComponentCreator.base<{ index: number }>("EquippingByIndex");
 export type EquippingByIndex = ReturnType<typeof EquippingByIndex>;
 
-export const Equipping = component<{ itemGuid: string } & ClientPredictable>("Equipping");
+export const Equipping = ComponentCreator.ownedBirectional<{ itemGuid: string }>("Equipping");
 export type Equipping = ReturnType<typeof Equipping>;
 
-export const PhysicallyEquipping = component<{ tool: Tool }>("PhysicallyEquipping");
+export const PhysicallyEquipping = ComponentCreator.base<{ tool: Tool }>("PhysicallyEquipping");
 export type PhysicallyEquipping = ReturnType<typeof PhysicallyEquipping>;
 
-export const PredictUnequip = component<{}>("PredictUnequip");
-export type PredictUnequip = ReturnType<typeof PredictUnequip>;
-
-export const ActivatingItem = component<{ item: Item; elapsed: number }>("ActivatingItem");
+export const ActivatingItem = ComponentCreator.base<{ item: Item; elapsed: number }>(
+    "ActivatingItem",
+);
 export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 
 export const ItemComponents = {
     EquippingByIndex,
     Equipping,
     PhysicallyEquipping,
-    PredictUnequip,
     ActivatingItem,
 };

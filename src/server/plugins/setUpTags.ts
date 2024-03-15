@@ -6,7 +6,7 @@ import { TestDamagePart } from "shared/components/colliders";
 import { getIdAttribute } from "shared/idAttribute";
 import { State } from "shared/state";
 
-const boundTags = new Set([Test, TestDamagePart, Dummy]);
+const boundTags = new Set([Test, TestDamagePart, Dummy]); // TODO deprecated
 
 function crashReportCheckModel(instance: Instance): instance is Model {
     if (!instance.IsA("Model")) {

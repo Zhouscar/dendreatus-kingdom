@@ -1,6 +1,6 @@
-import { component } from "@rbxts/matter";
+import { ComponentCreator } from "./creators";
 
-export const Stomach = component<{
+export const Stomach = ComponentCreator.replicated<{
     hunger: number;
     capacity: number;
     digest: Map<string, number>;

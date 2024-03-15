@@ -3,7 +3,6 @@ import Sift from "@rbxts/sift";
 import { Stomach } from "shared/components/hunger";
 import { Dashing } from "shared/components/movements";
 import { isLocalPlr } from "shared/hooks/components";
-import { network } from "shared/network";
 
 const DASHING_DIGEST_AMOUNT = 0.3;
 
@@ -18,7 +17,7 @@ function dashDigests(w: World) {
         if (!stomach) continue;
 
         if (!stomach.digest.has("Dash") && useThrottle(0.1)) {
-            network.ecs.playerDigest.fire("Dash", DASHING_DIGEST_AMOUNT);
+            //network.ecs.playerDigest.fire("Dash", DASHING_DIGEST_AMOUNT); // TODO:
             // w.insert(
             //     e,
             //     stomach.patch({

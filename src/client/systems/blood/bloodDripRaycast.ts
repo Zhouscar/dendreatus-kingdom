@@ -42,7 +42,6 @@ function bloodDripRaycast(w: World, s: State) {
 
         w.spawn(
             Sound({
-                creator: "server",
                 audibility: 0,
                 context: {
                     volume: 1,

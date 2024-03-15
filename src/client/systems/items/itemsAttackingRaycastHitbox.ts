@@ -1,16 +1,15 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { useChange, useMap } from "@rbxts/matter-hooks";
-import { Players } from "@rbxts/services";
 import { index } from "shared/calculations/indexing";
 import { LocalPlr, Plr, Renderable } from "shared/components";
 import { Acting } from "shared/components/actions";
-import { Damage, Health } from "shared/components/health";
+import { Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
 import { cast } from "shared/effects/raycastHitbox";
 import { itemAttackableContexts } from "shared/features/items/attackables";
 import { hasComponents } from "shared/hooks/components";
-import { network } from "shared/network";
 import { State } from "shared/state";
+import { routes } from "shared/routes";
 
 function itemsAttackingRaycastHitbox(w: World, s: State) {
     for (const [e, localPlr, acting, renderable, physicallyEquipping] of w.query(
@@ -53,7 +52,8 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                     const serverE = s.clientToServerEntityIdMap.get(tostring(e));
                     if (serverE === undefined) return;
 
-                    network.ecs.playerDamage.fire(serverE, itemType);
+                    // network.ecs.playerDamage.fire(serverE, itemType);
+                    routes.playerDamage.send(serverE, itemType);
                 });
             },
         );

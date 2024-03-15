@@ -18,7 +18,6 @@ function deathScream(w: World) {
 
         w.spawn(
             Sound({
-                creator: Players.LocalPlayer,
                 audibility: 0,
                 context: {
                     soundId: deathScreamSoundId,

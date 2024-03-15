@@ -1,5 +1,6 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Sound } from "shared/components";
+import { DoNotReplicate } from "shared/components/creators/bidirectionalComponent";
 
 const onces: Set<AnyEntity> = new Set();
 
@@ -12,7 +13,8 @@ function soundOnce(w: World) {
     for (const [e, _sound] of w.query(Sound)) {
         if (onces.has(e)) {
             onces.delete(e);
-            w.despawn(e);
+            w.insert(e, DoNotReplicate({ playersOfCtors: new Map([[Sound, "ALL"]]) }));
+            w.remove(e, Sound);
         } else {
             onces.add(e);
         }

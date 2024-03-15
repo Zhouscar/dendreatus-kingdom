@@ -11,7 +11,7 @@ import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { ITEM_CONSTANTS } from "shared/features/items/constants";
 import { RootProducer, store } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
-import { network } from "shared/network";
+import { routes } from "shared/routes";
 
 let testInventory = defaultPlayerInventory;
 testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
@@ -65,7 +65,7 @@ function App(props: { enabled: boolean }) {
     useSwitchMotorEffect(itemCurrentlyHovered !== undefined, setItemDescriptionShowingMotor);
 
     const swapItems = useCallback((from: number, to: number) => {
-        network.store.swapItems.fire(from, to);
+        routes.storeSwapItems.send(from, to);
     }, []);
 
     useEffect(() => {

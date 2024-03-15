@@ -1,10 +1,9 @@
 import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
-import { Players } from "@rbxts/services";
 import { theLocalPlr } from "client/localPlr";
 import { store } from "client/store";
 import { LocalPlr, Plr } from "shared/components";
-import { Equipping, EquippingByIndex, PredictUnequip } from "shared/components/items";
+import { Equipping, EquippingByIndex } from "shared/components/items";
 
 function equippingByIndexToEquipping(w: World) {
     let hasEquipped = false;
@@ -23,7 +22,7 @@ function equippingByIndexToEquipping(w: World) {
             return;
         }
 
-        w.insert(e, Equipping({ itemGuid: itemGuid, predicting: true }));
+        w.insert(e, Equipping({ itemGuid: itemGuid }));
         return;
     }
 

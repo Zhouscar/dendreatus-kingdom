@@ -1,9 +1,10 @@
 import { component } from "@rbxts/matter";
+import { ComponentCreator } from "./creators";
 
-export const Plr = component<{ player: Player }>("Plr");
+export const Plr = ComponentCreator.replicated<{ player: Player }>("Plr");
 export type Plr = ReturnType<typeof Plr>;
 
-export const LocalPlr = component<{}>("LocalPlr");
+export const LocalPlr = ComponentCreator.base<{}>("LocalPlr");
 export type LocalPlr = ReturnType<typeof LocalPlr>;
 
 export const LivingThingComponents = { Plr };

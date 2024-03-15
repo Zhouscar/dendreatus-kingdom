@@ -9,9 +9,6 @@ export type SoundContext = {
     soundId: string;
     speed: number;
 };
-export type ClientPredictable = {
-    predicting?: boolean;
-};
 
 export type ComponentRecord<C extends ComponentCtor> = {
     new: ReturnType<C> | undefined;

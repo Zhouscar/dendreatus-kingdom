@@ -4,6 +4,8 @@ import { State } from "./state";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import Plasma from "@rbxts/plasma";
 import { Renderable } from "./components";
+import Net from "@rbxts/yetanothernet";
+import { routes } from "./routes";
 
 function authorize(_player: Player) {
     return RunService.IsStudio();
@@ -23,6 +25,8 @@ export function start(host: Host, systemContainers: Instance[], pluginContainers
     };
 
     const loop = new Loop(w, state, debug.getWidgets());
+
+    Net.start(loop, routes);
 
     function loadSystems(container: Instance): void {
         const systems: System<unknown[]>[] = [];

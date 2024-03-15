@@ -122,7 +122,6 @@ function humanDirectionalMovement(w: World) {
                 if (trackLength !== undefined && useThrottle(trackLength / 2, "walk")) {
                     w.spawn(
                         Sound({
-                            creator: Players.LocalPlayer,
                             cf: cf,
                             audibility: 1,
                             context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },
@@ -134,7 +133,6 @@ function humanDirectionalMovement(w: World) {
                 if (trackLength !== undefined && useThrottle(trackLength / 2, "sprint")) {
                     w.spawn(
                         Sound({
-                            creator: Players.LocalPlayer,
                             cf: cf,
                             audibility: 1,
                             context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },

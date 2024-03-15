@@ -1,62 +1,77 @@
-import { AnyComponent, World, useEvent } from "@rbxts/matter";
-import { ComponentCtor } from "@rbxts/matter/lib/component";
+import { produce } from "@rbxts/immut";
+import { AnyComponent, AnyEntity, World, useEvent } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Human, Plr, Renderable, Sound } from "shared/components";
-import { Damage, Dead, Health } from "shared/components/health";
-import { Stomach } from "shared/components/hunger";
+import { Components } from "shared/components";
+import { DoNotReplicate } from "shared/components/creators/bidirectionalComponent";
+import { REPLICATED_COMPONENTS } from "shared/components/creators/replicatedComponent";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
-import { network } from "shared/network";
+import { routes } from "shared/routes";
 
-const REPLICATED_COMPONENTS = new Set<ComponentCtor>([
-    Renderable,
-    Plr,
-    Human,
-    Sound,
-    Health,
-    Stomach,
-    Dead,
-    Damage,
-]);
+function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap) {
+    return produce(entities, (draft) => {
+        draft.forEach((componentMap, eId) => {
+            const e = tonumber(eId) as AnyEntity;
+
+            const doNotReplicate = w.get(e, DoNotReplicate);
+            if (!doNotReplicate) return;
+
+            componentMap.forEach((container, name) => {
+                const Ctor = Components[name as ComponentNames];
+                const playerToNotReplicate = doNotReplicate.playersOfCtors.get(Ctor);
+
+                if (playerToNotReplicate === player || playerToNotReplicate === "ALL") {
+                    componentMap.delete(name);
+                }
+            });
+        });
+    });
+}
 
 function replication(w: World) {
-    for (const [, plr] of useEvent(Players, "PlayerAdded")) {
+    for (const [, player] of useEvent(Players, "PlayerAdded")) {
         const payload: ReplicationMap = new Map();
 
         for (const [e, entityData] of w) {
             const entityPayload = new Map<ComponentNames, { data: AnyComponent }>();
             payload.set(tostring(e), entityPayload);
 
-            for (const [component, componentInstance] of entityData) {
-                if (REPLICATED_COMPONENTS.has(component)) {
-                    entityPayload.set(tostring(component) as ComponentNames, {
+            for (const [Ctor, componentInstance] of entityData) {
+                if (REPLICATED_COMPONENTS.has(Ctor)) {
+                    entityPayload.set(tostring(Ctor) as ComponentNames, {
                         data: componentInstance,
                     });
                 }
             }
         }
 
-        network.replication.fire(plr, payload);
+        routes.ecsReplication.send(filterDoNotReplicate(w, player, payload)).to(player);
     }
 
     const changes: ReplicationMap = new Map();
 
-    for (const component of REPLICATED_COMPONENTS) {
-        for (const [entityId, record] of w.queryChanged(component)) {
-            const key = tostring(entityId);
-            const name = tostring(component) as ComponentNames;
+    for (const Ctor of REPLICATED_COMPONENTS) {
+        for (const [e, record] of w.queryChanged(Ctor)) {
+            const key = tostring(e);
+            const name = tostring(Ctor) as ComponentNames;
 
             if (!changes.has(key)) {
                 changes.set(key, new Map());
             }
 
-            if (w.contains(entityId)) {
+            if (w.contains(e)) {
                 changes.get(key)?.set(name, { data: record.new! });
             }
         }
     }
 
     if (!changes.isEmpty()) {
-        network.replication.fireAll(changes);
+        Players.GetPlayers().forEach((player) => {
+            routes.ecsReplication.send(filterDoNotReplicate(w, player, changes)).to(player);
+        });
+    }
+
+    for (const [e] of w.query(DoNotReplicate)) {
+        w.remove(e, DoNotReplicate);
     }
 }
 

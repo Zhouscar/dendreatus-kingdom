@@ -1,14 +1,10 @@
 import { createBroadcastReceiver } from "@rbxts/reflex";
-import { network } from "shared/network";
+import { routes } from "shared/routes";
 
-const receiver = createBroadcastReceiver({
+export const receiver = createBroadcastReceiver({
     start: () => {
-        network.reflex.start.fire();
+        routes.reflexStart.send();
     },
-});
-
-network.reflex.dispatch.connect((actions) => {
-    receiver.dispatch(actions);
 });
 
 export const recieverMiddleware = receiver.middleware;

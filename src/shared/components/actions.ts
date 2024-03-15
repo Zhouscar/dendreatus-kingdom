@@ -1,7 +1,7 @@
-import { AnyEntity, component } from "@rbxts/matter";
 import { t } from "@rbxts/t";
 import variantModule, { TypeNames, VariantOf, fields } from "@rbxts/variant";
 import { Item } from "shared/features/items/types";
+import { ComponentCreator } from "./creators";
 
 type WithItem = {
     item: Item;
@@ -28,7 +28,7 @@ export const Action = variantModule({
 });
 export type Action<T extends TypeNames<typeof Action> = undefined> = VariantOf<typeof Action, T>;
 
-export const Acting = component<{ action: Action }>("Acting");
+export const Acting = ComponentCreator.monitored<{ action: Action }>("Acting");
 export type Acting = ReturnType<typeof Acting>;
 
 // side effects
@@ -36,7 +36,9 @@ export interface ShiftForwardData {
     force: number;
     delay?: number;
 }
-export const ShiftForward = component<ShiftForwardData & { startTime: number }>("ShiftForward");
+export const ShiftForward = ComponentCreator.monitored<ShiftForwardData & { startTime: number }>(
+    "ShiftForward",
+);
 export type ShiftForward = ReturnType<typeof ShiftForward>;
 
 export const ActionComponents = {

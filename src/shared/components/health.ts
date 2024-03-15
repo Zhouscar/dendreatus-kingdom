@@ -1,17 +1,18 @@
 import { AnyEntity, component } from "@rbxts/matter";
+import { ComponentCreator } from "./creators";
 
-export const Health = component<{
+export const Health = ComponentCreator.replicated<{
     current: number;
     maximum: number;
     damageContributors: ReadonlyMap<AnyEntity, number>;
 }>("Health");
 export type Health = ReturnType<typeof Health>;
 
-export const Dead = component<{ startTime: number }>("Dead");
+export const Dead = ComponentCreator.replicated<{ startTime: number }>("Dead");
 export type Dead = ReturnType<typeof Dead>;
 
 export type DamageType = "physical" | "passive";
-export const Damage = component<{
+export const Damage = ComponentCreator.replicated<{
     amount: number;
     contributor?: AnyEntity;
     damageType: DamageType;

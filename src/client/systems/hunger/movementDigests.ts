@@ -8,7 +8,6 @@ import {
     DirectionalMovementType,
     PotentialDirectionalMovement,
 } from "shared/components/movements";
-import { network } from "shared/network";
 
 const MOVEMENT_TYPE_DIGEST_AMOUNT = new ReadonlyMap<DirectionalMovementType, number>([
     ["climb", 0.1],
@@ -35,13 +34,12 @@ function movementDigests(w: World) {
             prevDigestAmount === undefined ||
             (newDigestAmount > prevDigestAmount && useThrottle(0.1))
         ) {
-            network.ecs.playerDigest.fire("Movement", newDigestAmount);
-            // w.insert(
-            //     e,
-            //     stomach.patch({
-            //         digest: Sift.Dictionary.set(stomach.digest, "Movement", newDigestAmount),
-            //     }),
-            // );
+            w.insert(
+                e,
+                stomach.patch({
+                    digest: Sift.Dictionary.set(stomach.digest, "Movement", newDigestAmount),
+                }),
+            );
         }
     }
 }

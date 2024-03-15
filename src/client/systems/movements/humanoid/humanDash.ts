@@ -35,7 +35,6 @@ function humanDash(w: World) {
 
         w.spawn(
             Sound({
-                creator: Players.LocalPlayer,
                 audibility: 1,
                 context: {
                     volume: 1,

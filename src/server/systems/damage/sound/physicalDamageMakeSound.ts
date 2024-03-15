@@ -20,7 +20,6 @@ function physicalDamageMakeSound(w: World) {
         if (hasComponents(w, e, Plr)) {
             w.spawn(
                 Sound({
-                    creator: "server",
                     audibility: 1,
                     context: {
                         volume: 1,
@@ -33,7 +32,6 @@ function physicalDamageMakeSound(w: World) {
         } else if (hasComponents(w, e, Dummy)) {
             w.spawn(
                 Sound({
-                    creator: "server",
                     audibility: 1,
                     context: {
                         volume: 1,

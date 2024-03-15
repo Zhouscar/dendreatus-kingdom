@@ -1,8 +1,6 @@
 import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
-import { Plr } from "shared/components";
 import { Dead } from "shared/components/health";
-import { Equipping, PredictUnequip } from "shared/components/items";
+import { Equipping } from "shared/components/items";
 import { isLocalPlr } from "shared/hooks/components";
 
 function unequipOnDeath(w: World) {
@@ -10,7 +8,6 @@ function unequipOnDeath(w: World) {
         if (!isLocalPlr(w, e)) continue;
 
         w.remove(e, Equipping);
-        w.insert(e, PredictUnequip({}));
     }
 }
 
