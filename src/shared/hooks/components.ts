@@ -3,7 +3,7 @@ import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { LocalPlr } from "shared/components";
 
 export function isLocalPlr(w: World, e: AnyEntity) {
-    return hasComponents(w, e, LocalPlr);
+    return w.contains(e) && hasComponents(w, e, LocalPlr);
 }
 
 export function hasComponents(w: World, e: AnyEntity, ...components: ComponentCtor[]) {

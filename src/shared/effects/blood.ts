@@ -79,7 +79,6 @@ export function bleed(
     offset: number,
     position: Vector3,
 ) {
-    // TODO: dummy bleeding is not working for some reason
     const amount = r(minAmount, maxAmount);
     for (let i = 0; i < amount; i++) {
         const velocity = new Vector3(r(-force, force), r(-force, force) + offset, r(-force, force));

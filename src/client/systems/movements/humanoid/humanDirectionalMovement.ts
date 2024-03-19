@@ -17,9 +17,8 @@ import {
 } from "shared/effects/animations";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { isLocalPlr } from "shared/hooks/components";
-import localPlr from "client/systems/localPlr";
 
-const walkAnimId = withAssetPrefix("14213721870");
+const walkAnimId = withAssetPrefix("16783660835");
 const sprintAnimId = withAssetPrefix("14207192205");
 const sneakAnimId = withAssetPrefix("14215263201");
 const diveAnimId = withAssetPrefix("14215257367"); //TODO: new animation

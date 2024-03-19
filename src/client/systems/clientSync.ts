@@ -1,10 +1,11 @@
-import { World } from "@rbxts/matter";
+import { AnyEntity, World } from "@rbxts/matter";
 import recieveReplication from "./recieveReplication";
 import { MONITORED_COMPONENTS } from "shared/components/creators/monitoredComponent";
 import { DoNotSync } from "shared/components/creators/bidirectionalComponent";
 import { ComponentNames, SyncMap } from "shared/components/serde";
 import { routes } from "shared/routes";
 import { State } from "shared/state";
+import { produce } from "@rbxts/immut";
 
 function clientSync(w: World, s: State) {
     const changes: SyncMap = new Map();
@@ -23,9 +24,15 @@ function clientSync(w: World, s: State) {
                 changes.set(key, new Map());
             }
 
-            changes.get(key)?.set(name, { data: record.new! });
+            changes.get(key)!.set(name, { data: record.new! });
         }
     }
+
+    changes.forEach((componentMap, eId) => {
+        if (componentMap.isEmpty()) {
+            changes.delete(eId);
+        }
+    });
 
     if (!changes.isEmpty()) {
         routes.ecsSync.send(changes);

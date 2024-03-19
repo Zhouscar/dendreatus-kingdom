@@ -17,13 +17,12 @@ function dashDigests(w: World) {
         if (!stomach) continue;
 
         if (!stomach.digest.has("Dash") && useThrottle(0.1)) {
-            //network.ecs.playerDigest.fire("Dash", DASHING_DIGEST_AMOUNT); // TODO:
-            // w.insert(
-            //     e,
-            //     stomach.patch({
-            //         digest: Sift.Dictionary.set(stomach.digest, "Dash", DASHING_DIGEST_AMOUNT),
-            //     }),
-            // );
+            w.insert(
+                e,
+                stomach.patch({
+                    digest: Sift.Dictionary.set(stomach.digest, "Dash", DASHING_DIGEST_AMOUNT),
+                }),
+            );
         }
     }
 }

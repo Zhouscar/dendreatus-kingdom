@@ -1,12 +1,10 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { CollectionService } from "@rbxts/services";
-import { Dummy, Renderable, Test, Transform } from "shared/components";
-import { TestDamagePart } from "shared/components/colliders";
+import { Renderable, Transform } from "shared/components";
+import { TAG_COMPONENTS } from "shared/components/creators/tagComponent";
 import { getIdAttribute } from "shared/idAttribute";
 import { State } from "shared/state";
-
-const boundTags = new Set([Test, TestDamagePart, Dummy]); // TODO deprecated
 
 function crashReportCheckModel(instance: Instance): instance is Model {
     if (!instance.IsA("Model")) {
@@ -26,7 +24,7 @@ function setupTags(w: World, state: State): void {
         model.SetAttribute(getIdAttribute(state.host), e);
     }
 
-    for (const component of boundTags) {
+    for (const component of TAG_COMPONENTS) {
         const tagName = tostring(component);
 
         for (const instance of CollectionService.GetTagged(tagName)) {

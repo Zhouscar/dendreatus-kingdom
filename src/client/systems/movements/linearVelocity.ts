@@ -5,6 +5,7 @@ import { LinearVelocity } from "shared/components/movements";
 
 function linearVelocity(w: World) {
     for (const [e, renderableRecord] of w.queryChanged(Renderable)) {
+        if (!w.contains(e)) continue;
         if (renderableRecord.new !== undefined) continue;
         w.remove(e, LinearVelocity);
     }

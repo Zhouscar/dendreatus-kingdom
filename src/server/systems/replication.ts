@@ -23,6 +23,10 @@ function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap
                     componentMap.delete(name);
                 }
             });
+
+            if (componentMap.size() === 0) {
+                draft.delete(eId);
+            }
         });
     });
 }
@@ -44,7 +48,10 @@ function replication(w: World) {
             }
         }
 
-        routes.ecsReplication.send(filterDoNotReplicate(w, player, payload)).to(player);
+        const filteredPayload = filterDoNotReplicate(w, player, payload);
+        if (filteredPayload.isEmpty()) continue;
+
+        routes.ecsReplication.send(filteredPayload).to(player);
     }
 
     const changes: ReplicationMap = new Map();
@@ -66,7 +73,9 @@ function replication(w: World) {
 
     if (!changes.isEmpty()) {
         Players.GetPlayers().forEach((player) => {
-            routes.ecsReplication.send(filterDoNotReplicate(w, player, changes)).to(player);
+            const filteredChanges = filterDoNotReplicate(w, player, changes);
+            if (filteredChanges.isEmpty()) return;
+            routes.ecsReplication.send(filteredChanges).to(player);
         });
     }
 

@@ -9,7 +9,6 @@ const defaultConfiguration: Configuration = {
     Event: "default",
 };
 
-// TODO: rework the network
 export const routes = {
     ecsReplication: new Route<[ReplicationMap]>(defaultConfiguration),
 
