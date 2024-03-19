@@ -5,7 +5,7 @@ import { ComponentCreator } from "./creators";
 export const EquippingByIndex = ComponentCreator.base<{ index: number }>("EquippingByIndex");
 export type EquippingByIndex = ReturnType<typeof EquippingByIndex>;
 
-export const Equipping = ComponentCreator.ownedBirectional<{ itemGuid: string }>("Equipping");
+export const Equipping = ComponentCreator.protectedBidirectional<{ itemGuid: string }>("Equipping");
 export type Equipping = ReturnType<typeof Equipping>;
 
 export const PhysicallyEquipping = ComponentCreator.base<{ tool: Tool }>("PhysicallyEquipping");

@@ -18,10 +18,10 @@ export default function bidirectionalComponent<T extends object>(name: string, d
     return Ctor;
 }
 
-export const OWNED_BIDIRECTIONAL_COMPONENTS: Set<ComponentCtor> = new Set();
+export const PROTECTED_BIDIRECTIONAL_COMPONENTS: Set<ComponentCtor> = new Set();
 
-export function ownedBidirectionalComponent<T extends object>(name: string, defaultData?: T) {
+export function protectedBidirectionalComponent<T extends object>(name: string, defaultData?: T) {
     const Ctor = bidirectionalComponent(name, defaultData);
-    OWNED_BIDIRECTIONAL_COMPONENTS.add(Ctor);
+    PROTECTED_BIDIRECTIONAL_COMPONENTS.add(Ctor);
     return Ctor;
 }

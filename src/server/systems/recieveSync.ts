@@ -8,7 +8,7 @@ import { ComponentNames, UnionComponentsMap } from "shared/components/serde";
 import {
     BIDIRECTIONAL_COMPONENTS,
     DoNotReplicate,
-    OWNED_BIDIRECTIONAL_COMPONENTS,
+    PROTECTED_BIDIRECTIONAL_COMPONENTS,
 } from "shared/components/creators/bidirectionalComponent";
 import replication from "./replication";
 
@@ -31,7 +31,7 @@ function recieveSync(w: World, s: State) {
 
             for (const [name, container] of componentMap) {
                 const Ctor = Components[name as ComponentNames];
-                if (OWNED_BIDIRECTIONAL_COMPONENTS.has(Ctor)) {
+                if (PROTECTED_BIDIRECTIONAL_COMPONENTS.has(Ctor)) {
                     const plr = w.get(e, Plr);
                     if (plr?.player !== player) {
                         continue;
