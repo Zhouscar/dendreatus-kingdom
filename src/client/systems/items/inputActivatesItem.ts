@@ -17,7 +17,7 @@ function activateItem(w: World) {
     for (const [e, localPlr, equipping] of w.query(LocalPlr, Equipping)) {
         const item = getItem(equipping.itemGuid);
         if (item === undefined) continue;
-        w.insert(e, ActivatingItem({ elapsed: 0, item: item }));
+        w.insert(e, ActivatingItem({ startTime: os.clock(), item: item }));
     }
 }
 

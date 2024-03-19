@@ -37,8 +37,10 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
             const item = activatingItem.item;
             if (item.itemType !== itemType) continue;
             if (!callbacks.canUse(w, e, item)) continue;
+            if (activatingItem.startTime === "temporarily_disabled") continue;
 
-            callbacks.press(w, e, item, activatingItem.elapsed);
+            const elapsed = os.clock() - activatingItem.startTime;
+            callbacks.press(w, e, item, elapsed);
         }
         if (callbacks.release && activatingItemRecord.old === undefined) {
             const activatingItem = activatingItemRecord.new;
@@ -47,8 +49,10 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
             const item = activatingItem.item;
             if (item.itemType !== itemType) continue;
             if (!callbacks.canUse(w, e, item)) continue;
+            if (activatingItem.startTime === "temporarily_disabled") continue;
 
-            callbacks.release(w, e, item, activatingItem.elapsed);
+            const elapsed = os.clock() - activatingItem.startTime;
+            callbacks.release(w, e, item, elapsed);
         }
     }
 
@@ -58,17 +62,22 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
         const item = activatingItem.item;
         if (item.itemType !== itemType) continue;
 
-        if (!callbacks.canUse(w, e, item)) {
-            if (activatingItem.elapsed !== 0) {
-                w.insert(e, activatingItem.patch({ elapsed: 0 }));
+        if (callbacks.canUse(w, e, item)) {
+            if (activatingItem.startTime === "temporarily_disabled") {
+                w.insert(e, activatingItem.patch({ startTime: os.clock() }));
+            }
+        } else {
+            if (activatingItem.startTime !== "temporarily_disabled") {
+                w.insert(e, activatingItem.patch({ startTime: "temporarily_disabled" }));
             }
             continue;
         }
 
-        w.insert(e, activatingItem.patch({ elapsed: activatingItem.elapsed + useDeltaTime() }));
+        if (activatingItem.startTime === "temporarily_disabled") continue;
+        const elapsed = os.clock() - activatingItem.startTime;
 
         if (callbacks.hold) {
-            callbacks.hold(w, e, item, activatingItem.elapsed);
+            callbacks.hold(w, e, item, elapsed);
         }
     }
 }
