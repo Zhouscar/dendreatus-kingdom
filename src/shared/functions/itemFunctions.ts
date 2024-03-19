@@ -1,8 +1,9 @@
 import { AnyEntity, World, useDeltaTime } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 import { Plr } from "shared/components";
 import { ActivatingItem } from "shared/components/items";
 import { Item, ItemType } from "shared/features/items/types";
+import { isLocalPlr } from "shared/hooks/components";
 
 export type ItemActivationCallback = (
     w: World,
@@ -27,8 +28,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
     for (const [e, activatingItemRecord] of w.queryChanged(ActivatingItem)) {
         if (!w.contains(e)) continue;
 
-        const plr = w.get(e, Plr);
-        if (plr?.player !== Players.LocalPlayer) continue;
+        if (RunService.IsClient() && !isLocalPlr(w, e)) continue;
 
         if (callbacks.press && activatingItemRecord.new === undefined) {
             const activatingItem = activatingItemRecord.old;
