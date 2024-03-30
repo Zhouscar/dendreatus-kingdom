@@ -48,4 +48,15 @@ export const ITEM_CONSTANTS: ItemConstants = new ReadonlyMap([
                 "So the crucifix dagger is one of the weapons that could be used but I'm trying to figure out how players would even obtain these objects \nactually, scratch that.",
         },
     ],
+    [
+        "mushroom_soup",
+        {
+            name: "Mushroom Soup",
+            itemType: "mushroom_soup",
+            itemComponentTypes: ["consumable"],
+            stackSize: 1,
+            image: withAssetPrefix("16349074550"), // TODO:
+            description: "",
+        },
+    ],
 ]);

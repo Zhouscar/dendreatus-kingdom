@@ -29,6 +29,7 @@ function App(props: { enabled: boolean; indexEquipped: number | undefined }) {
 
     return (
         <frame
+            Key={"Hotbar"}
             AnchorPoint={new Vector2(0.5, 1)}
             Position={new UDim2(0.5, 0, 1, -10)}
             Size={superPosition}

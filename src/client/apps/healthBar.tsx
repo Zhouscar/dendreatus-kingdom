@@ -1,6 +1,5 @@
 import { Spring, useDebounceEffect, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useEffect } from "@rbxts/roact-hooked";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
 
@@ -38,6 +37,7 @@ function HealthBar(props: {
 
     return (
         <frame
+            Key={"HealthBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
             Position={rootPosition}
             AnchorPoint={props.AnchorPoint}

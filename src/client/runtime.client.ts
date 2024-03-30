@@ -5,6 +5,8 @@ import { start } from "shared/start";
 
 withHookDetection(Roact);
 
+task.wait(2);
+
 start(
     "CLIENT",
     [ReplicatedStorage.client.systems, ReplicatedStorage.shared.systems],

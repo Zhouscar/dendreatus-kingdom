@@ -1,7 +1,7 @@
 import { World } from "@rbxts/matter";
 import { findPlrE } from "shared/calculations/findEntity";
 import { Damage } from "shared/components/health";
-import { itemAttackableContexts } from "shared/features/items/attackables";
+import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { routes } from "shared/routes";
 
 function playerDamage(w: World) {
@@ -9,7 +9,7 @@ function playerDamage(w: World) {
         const plrE = findPlrE(w, player as Player);
         assert(plrE);
 
-        const damageAmount = itemAttackableContexts.get(itemType)?.damage;
+        const damageAmount = ITEM_ATTACKABLE_CONTEXTS.get(itemType)?.damage;
         assert(damageAmount);
 
         w.insert(e, Damage({ amount: damageAmount, contributor: plrE, damageType: "physical" }));

@@ -1,10 +1,14 @@
 import { createBroadcastReceiver } from "@rbxts/reflex";
-import { routes } from "shared/routes";
+import { remos, routes } from "shared/routes";
 
 export const receiver = createBroadcastReceiver({
     start: () => {
-        routes.reflexStart.send();
+        remos.reflexCore.start.fire();
     },
+});
+
+remos.reflexCore.dispatch.connect((actions) => {
+    receiver.dispatch(actions);
 });
 
 export const recieverMiddleware = receiver.middleware;

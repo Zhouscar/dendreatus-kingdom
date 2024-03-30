@@ -29,6 +29,7 @@ function HungerBar(props: {
 
     return (
         <frame
+            Key={"HungerBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
             Position={rootPosition}
             AnchorPoint={props.AnchorPoint}

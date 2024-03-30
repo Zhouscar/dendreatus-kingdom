@@ -6,7 +6,7 @@ import { Acting } from "shared/components/actions";
 import { Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
 import { cast } from "shared/effects/raycastHitbox";
-import { itemAttackableContexts } from "shared/features/items/attackables";
+import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 import { routes } from "shared/routes";
@@ -21,7 +21,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
         if (acting.action.type !== "attacking") continue;
 
         const itemType = acting.action.item.itemType;
-        const context = itemAttackableContexts.get(itemType);
+        const context = ITEM_ATTACKABLE_CONTEXTS.get(itemType);
         if (!context) continue;
 
         const tool = physicallyEquipping.tool;

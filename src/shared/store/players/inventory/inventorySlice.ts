@@ -2,7 +2,7 @@ import { createProducer } from "@rbxts/reflex";
 import { PlayerData, PlayerInventory } from "../types";
 import { Item, ItemType } from "shared/features/items/types";
 import inventoryImmutSetters from "shared/features/inventory/functions/immutSetters";
-import { createGuidPool } from "shared/features/guidUtils";
+import { Draft } from "@rbxts/immut/src/types-external";
 
 export interface InventoryState {
     [plr: string]: PlayerInventory | undefined;
@@ -30,6 +30,20 @@ export const inventorySlice = createProducer(initState, {
         };
     },
 
+    modifyItemAtGuid: (
+        state,
+        plr: string,
+        guid: string,
+        recipe: (draft: Draft<Item>) => Draft<Item> | void | undefined | Item,
+    ) => {
+        const inventory = state[plr];
+        if (inventory === undefined) return state;
+        return {
+            ...state,
+            [plr]: inventoryImmutSetters.immutModifyItemAtGuid(inventory, guid, recipe),
+        };
+    },
+
     putItems: (state, plr: string, itemType: ItemType, amount: number, guidPool: string[]) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
@@ -45,6 +59,15 @@ export const inventorySlice = createProducer(initState, {
         return {
             ...state,
             [plr]: inventoryImmutSetters.immutRemoveItemAt(inventory, index),
+        };
+    },
+
+    removeItemByGuid: (state, plr: string, guid: string) => {
+        const inventory = state[plr];
+        if (inventory === undefined) return state;
+        return {
+            ...state,
+            [plr]: inventoryImmutSetters.immutRemoveItemByGuid(inventory, guid),
         };
     },
 

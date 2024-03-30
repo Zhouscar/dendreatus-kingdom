@@ -7,6 +7,7 @@ export default function EntireScreen(
     props: Roact.PropsWithChildren & {
         handleInset?: boolean;
         superPositionEnabilityMotor?: Roact.Binding<number>;
+        Key?: string;
     },
 ) {
     const handleInset = props.handleInset === true;
@@ -23,7 +24,7 @@ export default function EntireScreen(
 
     return (
         <frame
-            Key={"EntireScreen"}
+            Key={props.Key !== undefined ? props.Key : "EntireScreen"}
             Position={superPosition}
             Size={new UDim2(1, 0, 1, handleInset ? GuiService.GetGuiInset()[0].Y : 0)}
             Transparency={1}

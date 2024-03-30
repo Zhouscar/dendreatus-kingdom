@@ -25,6 +25,7 @@ export const isWithDuration = (value: unknown): value is WithDuration => {
 
 export const Action = variantModule({
     attacking: fields<{ step: number } & WithItem & WithDuration>(),
+    consuming: fields<{ stage: number } & WithItem & WithDuration>(),
 });
 export type Action<T extends TypeNames<typeof Action> = undefined> = VariantOf<typeof Action, T>;
 
@@ -43,4 +44,5 @@ export type ShiftForward = ReturnType<typeof ShiftForward>;
 
 export const ActionComponents = {
     Acting,
+    ShiftForward,
 };
