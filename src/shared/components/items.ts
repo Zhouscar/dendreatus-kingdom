@@ -11,7 +11,7 @@ export type Equipping = ReturnType<typeof Equipping>;
 export const PhysicallyEquipping = ComponentCreator.base<{ tool: Tool }>("PhysicallyEquipping");
 export type PhysicallyEquipping = ReturnType<typeof PhysicallyEquipping>;
 
-export const ActivatingItem = ComponentCreator.protectedBidirectional<{
+export const ActivatingItem = ComponentCreator.base<{
     item: Item;
     startTime: number | "temporarily_disabled";
 }>("ActivatingItem");

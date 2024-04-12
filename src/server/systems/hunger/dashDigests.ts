@@ -2,14 +2,12 @@ import { World, useThrottle } from "@rbxts/matter";
 import Sift from "@rbxts/sift";
 import { Stomach } from "shared/components/hunger";
 import { Dashing } from "shared/components/movements";
-import { isLocalPlr } from "shared/hooks/components";
 
 const DASHING_DIGEST_AMOUNT = 0.3;
 
 function dashDigests(w: World) {
     for (const [e, dashing] of w.queryChanged(Dashing)) {
         if (!w.contains(e)) continue;
-        if (!isLocalPlr(w, e)) continue;
 
         if (dashing.new === undefined) continue;
 

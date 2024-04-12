@@ -1,3 +1,4 @@
+import immutConsumeItem from "./immutConsumeItem";
 import immutInsertItem from "./immutInsertItem";
 import immutModifyItemAtGuid from "./immutModifyItemAtGuid";
 import immutPutItems from "./immutPutItems";
@@ -8,6 +9,7 @@ import immutSwapItems from "./immutSwapItems";
 import immutTakeItems from "./immutTakeItems";
 
 const inventoryImmutSetters = {
+    immutConsumeItem,
     immutInsertItem,
     immutModifyItemAtGuid,
     immutPutItems,

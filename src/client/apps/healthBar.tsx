@@ -2,6 +2,9 @@ import { Spring, useDebounceEffect, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
+import useLocalPlrE from "./hooks/useLocalPlrE";
+import useComponent from "./hooks/useComponent";
+import { Health } from "shared/components/health";
 
 function HealthBar(props: {
     enabled: boolean;
@@ -9,16 +12,16 @@ function HealthBar(props: {
     Size?: UDim2;
     Position?: UDim2;
     AnchorPoint?: Vector2;
-
-    maximum: number;
-    current: number;
 }) {
     const enabled = props.enabled;
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
 
-    const maximum = props.maximum;
-    const current = props.current;
+    const localPlrE = useLocalPlrE();
+    const health = useComponent(localPlrE, Health);
+
+    const maximum = health?.maximum ?? 100;
+    const current = health?.current ?? 100;
 
     const currentPerc = current / maximum;
     const [flashPerc, setFlashPerc] = useMotor(1);

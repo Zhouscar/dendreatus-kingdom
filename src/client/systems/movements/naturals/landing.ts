@@ -8,7 +8,7 @@ import {
     Falling,
     InWater,
     Landing,
-    UsableLandingContext,
+    LandingContext,
 } from "shared/components/movements";
 import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
 import { hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
@@ -86,7 +86,7 @@ function landing(w: World) {
         }
     }
 
-    for (const [e, localPlr, usableLandingContext] of w.query(LocalPlr, UsableLandingContext)) {
+    for (const [e, localPlr, landingContext] of w.query(LocalPlr, LandingContext)) {
         const landing = w.get(e, Landing);
         const crashLanding = w.get(e, CrashLanding);
 
@@ -105,17 +105,13 @@ function landing(w: World) {
             elapsed += useDeltaTime();
         }
 
-        if (landing !== undefined && queried && elapsed >= usableLandingContext.landDuration) {
+        if (landing !== undefined && queried && elapsed >= landingContext.landDuration) {
             w.remove(e, Landing);
             queried = false;
             break;
         }
 
-        if (
-            crashLanding !== undefined &&
-            queried &&
-            elapsed >= usableLandingContext.crashLandDuration
-        ) {
+        if (crashLanding !== undefined && queried && elapsed >= landingContext.crashLandDuration) {
             w.remove(e, CrashLanding);
             queried = false;
             break;

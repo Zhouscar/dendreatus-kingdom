@@ -1,4 +1,5 @@
 import { World } from "@rbxts/matter";
+import { useChange } from "@rbxts/matter-hooks";
 import { Human } from "shared/components";
 import { InAir, InWater, OnLand } from "shared/components/movements";
 
@@ -18,8 +19,10 @@ function archStates(w: World) {
                   ? InWater({})
                   : OnLand({});
 
-        w.remove(e, OnLand, InAir, InWater);
-        w.insert(e, newArchStateComponent);
+        if (useChange([newArchStateComponent], e)) {
+            w.remove(e, OnLand, InAir, InWater);
+            w.insert(e, newArchStateComponent);
+        }
     }
 }
 

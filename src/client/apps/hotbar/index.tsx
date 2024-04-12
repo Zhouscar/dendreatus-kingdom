@@ -1,11 +1,11 @@
 import Roact from "@rbxts/roact";
-import { ReflexProvider } from "@rbxts/roact-reflex";
-import { store } from "client/store";
 import ItemFragments from "./itemFragments";
 import useSuperPosition from "../hooks/useSuperPosition";
 import { useMotor } from "@rbxts/pretty-roact-hooks";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
-import { AnyEntity, World } from "@rbxts/matter";
+import useComponent from "../hooks/useComponent";
+import useLocalPlrE from "../hooks/useLocalPlrE";
+import { EquippingByIndex } from "shared/components/items";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;
@@ -14,9 +14,13 @@ function getLengthBySlots(count: number) {
     return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;
 }
 
-function App(props: { enabled: boolean; indexEquipped: number | undefined }) {
+export default function Hotbar(props: { enabled: boolean }) {
     const enabled = props.enabled;
-    const indexEquipped = props.indexEquipped;
+
+    const localPlrE = useLocalPlrE();
+
+    const equippingByIndex = useComponent(localPlrE, EquippingByIndex);
+    const indexEquipped = equippingByIndex?.index;
 
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
 
@@ -49,13 +53,5 @@ function App(props: { enabled: boolean; indexEquipped: number | undefined }) {
                 to={10}
             ></ItemFragments>
         </frame>
-    );
-}
-
-export default function Hotbar(props: { enabled: boolean; indexEquipped: number | undefined }) {
-    return (
-        <ReflexProvider producer={store}>
-            <App enabled={props.enabled} indexEquipped={props.indexEquipped}></App>
-        </ReflexProvider>
     );
 }

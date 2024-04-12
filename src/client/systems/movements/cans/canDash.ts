@@ -5,13 +5,7 @@ import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { Stomach } from "shared/components/hunger";
-import {
-    CanDash,
-    CrashLanding,
-    Dashing,
-    OnLand,
-    UsableDashContext,
-} from "shared/components/movements";
+import { CanDash, CrashLanding, DashContext, Dashing, OnLand } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
@@ -29,7 +23,7 @@ function canDash(w: World, s: State) {
         lastDashTime = dashing.startTime;
     }
 
-    for (const [e, localPlr, usableDashContext] of w.query(LocalPlr, UsableDashContext)) {
+    for (const [e, localPlr, dashContext] of w.query(LocalPlr, DashContext)) {
         if (hasOneOfComponents(w, e, Dashing, Acting)) {
             w.remove(e, CanDash);
             break;
@@ -42,7 +36,7 @@ function canDash(w: World, s: State) {
         }
 
         if (
-            os.clock() - lastDashTime >= usableDashContext.cooldown &&
+            os.clock() - lastDashTime >= dashContext.cooldown &&
             hasComponents(w, e, OnLand) &&
             !hasOneOfComponents(w, e, CrashLanding, Dead)
         ) {

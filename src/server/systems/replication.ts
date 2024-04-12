@@ -1,6 +1,7 @@
 import { produce } from "@rbxts/immut";
-import { AnyComponent, AnyEntity, World, useEvent } from "@rbxts/matter";
+import { AnyComponent, AnyEntity, World, useEvent, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
+import Sift from "@rbxts/sift";
 import { Components } from "shared/components";
 import { DoNotReplicate } from "shared/components/creators/bidirectionalComponent";
 import { REPLICATED_COMPONENTS } from "shared/components/creators/replicatedComponent";
@@ -31,8 +32,10 @@ function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap
     });
 }
 
+let replicationStreak = 0;
+
 function replication(w: World) {
-    for (const [, player] of useEvent(Players, "PlayerAdded")) {
+    for (const [, player] of routes.ecsRequestPayload.query()) {
         const payload: ReplicationMap = new Map();
 
         for (const [e, entityData] of w) {
@@ -48,7 +51,7 @@ function replication(w: World) {
             }
         }
 
-        const filteredPayload = filterDoNotReplicate(w, player, payload);
+        const filteredPayload = filterDoNotReplicate(w, player as Player, payload);
         if (filteredPayload.isEmpty()) continue;
 
         routes.ecsReplication.send(filteredPayload).to(player);
@@ -60,6 +63,13 @@ function replication(w: World) {
         for (const [e, record] of w.queryChanged(Ctor)) {
             const key = tostring(e);
             const name = tostring(Ctor) as ComponentNames;
+
+            if (
+                record.new !== undefined &&
+                record.old !== undefined &&
+                Sift.Dictionary.equals(record.new, record.old)
+            )
+                continue;
 
             if (!changes.has(key)) {
                 changes.set(key, new Map());
@@ -77,6 +87,13 @@ function replication(w: World) {
             if (filteredChanges.isEmpty()) return;
             routes.ecsReplication.send(filteredChanges).to(player);
         });
+        replicationStreak++;
+    } else {
+        replicationStreak = 0;
+    }
+
+    if (replicationStreak > 10 && useThrottle(1)) {
+        warn("CONSECUTIVE REPLICATION IS DETECTED, COMPONENTS NEEDS OPTIMIZATION");
     }
 
     for (const [e] of w.query(DoNotReplicate)) {

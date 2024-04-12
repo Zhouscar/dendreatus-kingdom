@@ -13,6 +13,7 @@ function testDamagePartsDamage(w: World) {
 
         const colliderE = collisionRecord.new.colliderE;
 
+        if (!w.contains(colliderE)) continue;
         if (!hasComponents(w, colliderE, Health)) continue;
         if (hasOneOfComponents(w, colliderE, Dead)) continue;
 

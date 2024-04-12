@@ -31,6 +31,8 @@ export const remos = createRemotes({
 export const routes = {
     ecsReplication: new Route<[ReplicationMap]>(defaultConfiguration),
 
+    ecsRequestPayload: new Route<[]>(defaultConfiguration),
+
     ecsSync: new Route<[SyncMap]>(defaultConfiguration),
 
     playerDamage: new Route<[AnyEntity, ItemType]>(defaultConfiguration),

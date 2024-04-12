@@ -21,6 +21,15 @@ export const inventorySlice = createProducer(initState, {
         [plr]: undefined,
     }),
 
+    consumeItem: (state, plr: string, guid: string) => {
+        const inventory = state[plr];
+        if (inventory === undefined) return state;
+        return {
+            ...state,
+            [plr]: inventoryImmutSetters.immutConsumeItem(inventory, guid),
+        };
+    },
+
     insertItem: (state, plr: string, item: Item, guidPool: string[]) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
@@ -30,19 +39,19 @@ export const inventorySlice = createProducer(initState, {
         };
     },
 
-    modifyItemAtGuid: (
-        state,
-        plr: string,
-        guid: string,
-        recipe: (draft: Draft<Item>) => Draft<Item> | void | undefined | Item,
-    ) => {
-        const inventory = state[plr];
-        if (inventory === undefined) return state;
-        return {
-            ...state,
-            [plr]: inventoryImmutSetters.immutModifyItemAtGuid(inventory, guid, recipe),
-        };
-    },
+    // modifyItemAtGuid: (
+    //     state,
+    //     plr: string,
+    //     guid: string,
+    //     recipe: (draft: Draft<Item>) => Draft<Item> | void | undefined | Item,
+    // ) => {
+    //     const inventory = state[plr];
+    //     if (inventory === undefined) return state;
+    //     return {
+    //         ...state,
+    //         [plr]: inventoryImmutSetters.immutModifyItemAtGuid(inventory, guid, recipe),
+    //     };
+    // },
 
     putItems: (state, plr: string, itemType: ItemType, amount: number, guidPool: string[]) => {
         const inventory = state[plr];

@@ -1,21 +1,35 @@
-import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
+import { useDeltaTime, World } from "@rbxts/matter";
 import { LocalPlr, Plr } from "shared/components";
 import { CanDash, Dashing } from "shared/components/movements";
-import { isKeyDown } from "shared/hooks/keyInput";
+import { getKeysJustReleased, isKeyDown } from "shared/hooks/keyInput";
 
-let debounce = false;
+const THRESHOLD_TIME = 0.2;
+
+let timeKeyHeld = 0;
+
 function dash(w: World) {
-    for (const [e, localPlr, canDash] of w.query(LocalPlr, CanDash)) {
-        if (!isKeyDown("sprintDash")) {
-            debounce = false;
-            break;
-        }
-        if (debounce) break;
-        debounce = true;
+    let didRun = false;
 
-        w.insert(e, Dashing({ startTime: os.clock() }));
-        break;
+    const keysJustReleased = getKeysJustReleased();
+
+    for (const [e, localPlr, canDash] of w.query(LocalPlr, CanDash)) {
+        didRun = true;
+
+        if (keysJustReleased.includes("sprintDash")) {
+            if (timeKeyHeld <= THRESHOLD_TIME) {
+                w.insert(e, Dashing({ startTime: os.clock() }));
+            }
+            timeKeyHeld = 0;
+            continue;
+        }
+
+        if (isKeyDown("sprintDash")) {
+            timeKeyHeld += useDeltaTime();
+        }
+    }
+
+    if (!didRun) {
+        timeKeyHeld = 0;
     }
 }
 

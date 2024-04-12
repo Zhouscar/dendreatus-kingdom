@@ -4,10 +4,10 @@ import { Animatable, Human, LocalPlr, Plr, Renderable, Sound, Transform } from "
 import {
     CanDirectionallyMove,
     DirectionalMovement,
+    DirectionalMovementContext,
     Landing,
     LinearVelocity,
     PotentialDirectionalMovement,
-    UsableDirectionalMovementContext,
 } from "shared/components/movements";
 import {
     forMovement,
@@ -57,29 +57,29 @@ function humanDirectionalMovement(w: World) {
         human,
         directionalMovement,
         potentialDirectionalMovement,
-        usableDirectionalMovementContext,
+        directionalMovementContext,
         _canDirectionallyMove,
     ] of w.query(
         LocalPlr,
         Human,
         DirectionalMovement,
         PotentialDirectionalMovement,
-        UsableDirectionalMovementContext,
+        DirectionalMovementContext,
         CanDirectionallyMove,
     )) {
         const newWalkSpeed =
             potentialDirectionalMovement.type === "walk"
-                ? usableDirectionalMovementContext.walk
+                ? directionalMovementContext.walk
                 : potentialDirectionalMovement.type === "sprint"
-                  ? usableDirectionalMovementContext.sprint
+                  ? directionalMovementContext.sprint
                   : potentialDirectionalMovement.type === "sneak"
-                    ? usableDirectionalMovementContext.sneak
+                    ? directionalMovementContext.sneak
                     : potentialDirectionalMovement.type === "dive"
-                      ? usableDirectionalMovementContext.dive
+                      ? directionalMovementContext.dive
                       : potentialDirectionalMovement.type === "swim"
-                        ? usableDirectionalMovementContext.swim
+                        ? directionalMovementContext.swim
                         : potentialDirectionalMovement.type === "climb"
-                          ? usableDirectionalMovementContext.climb
+                          ? directionalMovementContext.climb
                           : 0;
 
         human.humanoid.WalkSpeed = newWalkSpeed;

@@ -1,8 +1,11 @@
-import { Spring, useDebounceEffect, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useEffect } from "@rbxts/roact-hooked";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
+import useLocalPlrE from "./hooks/useLocalPlrE";
+import useComponent from "./hooks/useComponent";
+import { Stomach } from "shared/components/hunger";
+import { useEffect } from "@rbxts/roact-hooked";
 
 function HungerBar(props: {
     enabled: boolean;
@@ -10,18 +13,23 @@ function HungerBar(props: {
     Size?: UDim2;
     Position?: UDim2;
     AnchorPoint?: Vector2;
-
-    maximum: number;
-    current: number;
 }) {
     const enabled = props.enabled;
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
 
-    const maximum = props.maximum;
-    const current = props.current;
+    const localPlrE = useLocalPlrE();
+    const stomach = useComponent(localPlrE, Stomach);
+
+    const maximum = stomach?.capacity ?? 100;
+    const current = stomach?.hunger ?? 100;
 
     const currentPerc = current / maximum;
+    const [currentPercMotor, setCurrentPercMotor] = useMotor(1);
+
+    useEffect(() => {
+        setCurrentPercMotor(new Spring(currentPerc));
+    }, [current]);
 
     const rootPosition = useSuperPosition(enabilityMotor, props.Position);
 
@@ -60,7 +68,7 @@ function HungerBar(props: {
                 <frame
                     ZIndex={3}
                     Position={new UDim2(0, 0, 0, 0)}
-                    Size={new UDim2(currentPerc, 0, 1, 0)}
+                    Size={currentPercMotor.map((v) => new UDim2(v, 0, 1, 0))}
                     BorderSizePixel={0}
                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
                     Transparency={enabilityTransparency}

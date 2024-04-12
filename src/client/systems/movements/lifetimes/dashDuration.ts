@@ -1,13 +1,13 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { LocalPlr, Plr } from "shared/components";
-import { Dashing, UsableDashContext } from "shared/components/movements";
+import { DashContext, Dashing } from "shared/components/movements";
 
 function dashDuration(w: World) {
     for (const [e, localPlr, dashing, usableDashContext] of w.query(
         LocalPlr,
         Dashing,
-        UsableDashContext,
+        DashContext,
     )) {
         if (os.clock() - dashing.startTime >= usableDashContext.duration) {
             w.remove(e, Dashing);

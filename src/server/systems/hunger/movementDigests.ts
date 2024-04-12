@@ -5,9 +5,10 @@ import { LocalPlr } from "shared/components";
 import { Stomach } from "shared/components/hunger";
 import {
     DirectionalMovement,
-    DirectionalMovementType,
+    IsDirectionallyMoving,
     PotentialDirectionalMovement,
 } from "shared/components/movements";
+import { DirectionalMovementType } from "shared/features/movements/types";
 
 const MOVEMENT_TYPE_DIGEST_AMOUNT = new ReadonlyMap<DirectionalMovementType, number>([
     ["climb", 0.1],
@@ -19,11 +20,10 @@ const MOVEMENT_TYPE_DIGEST_AMOUNT = new ReadonlyMap<DirectionalMovementType, num
 ]);
 
 function movementDigests(w: World) {
-    for (const [e, localPlr, stomach, potentialDirectionalMovement, directionalMovement] of w.query(
-        LocalPlr,
+    for (const [e, stomach, potentialDirectionalMovement, isDirectionallyMoving] of w.query(
         Stomach,
         PotentialDirectionalMovement,
-        DirectionalMovement,
+        IsDirectionallyMoving,
     )) {
         const newDigestAmount = MOVEMENT_TYPE_DIGEST_AMOUNT.get(potentialDirectionalMovement.type);
         if (newDigestAmount === undefined) continue;

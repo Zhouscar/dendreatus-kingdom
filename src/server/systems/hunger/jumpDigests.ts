@@ -2,14 +2,12 @@ import { World, useThrottle } from "@rbxts/matter";
 import Sift from "@rbxts/sift";
 import { Stomach } from "shared/components/hunger";
 import { Jumping } from "shared/components/movements";
-import { isLocalPlr } from "shared/hooks/components";
 
 const JUMP_DIGEST_AMOUNT = 95;
 
 function jumpDigests(w: World) {
     for (const [e, jumping] of w.queryChanged(Jumping)) {
         if (!w.contains(e)) continue;
-        if (!isLocalPlr(w, e)) continue;
 
         if (jumping.new === undefined) continue;
 

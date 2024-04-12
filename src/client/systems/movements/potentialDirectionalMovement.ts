@@ -1,14 +1,15 @@
 import { World } from "@rbxts/matter";
+import { useChange } from "@rbxts/matter-hooks";
 import { Players } from "@rbxts/services";
 import { LocalPlr, Plr } from "shared/components";
 import {
     Climbing,
-    DirectionalMovementType,
     InAir,
     InWater,
     PotentialDirectionalMovement,
     Sneaking,
 } from "shared/components/movements";
+import { DirectionalMovementType } from "shared/features/movements/types";
 import { hasComponents } from "shared/hooks/components";
 import { isKeyDown } from "shared/hooks/keyInput";
 
@@ -29,9 +30,12 @@ function potentialDirectionalMovement(w: World) {
                   : hasComponents(w, e, Sneaking)
                     ? "sneak"
                     : "walk";
-
-        w.insert(e, PotentialDirectionalMovement({ type: potentialDirectionalMovementType }));
-        break;
+        if (
+            useChange([potentialDirectionalMovementType], e) ||
+            !hasComponents(w, e, PotentialDirectionalMovement)
+        ) {
+            w.insert(e, PotentialDirectionalMovement({ type: potentialDirectionalMovementType }));
+        }
     }
 }
 

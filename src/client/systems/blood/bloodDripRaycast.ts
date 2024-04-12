@@ -40,17 +40,6 @@ function bloodDripRaycast(w: World, s: State) {
             dripped.delete(dripPart);
         });
 
-        w.spawn(
-            Sound({
-                audibility: 0,
-                context: {
-                    volume: 1,
-                    speed: 1,
-                    soundId: dripSoundId,
-                },
-                cf: new CFrame(result.Position),
-            }),
-        );
         doSplatter(new CFrame(result.Position, result.Position.add(result.Normal)));
     });
 }

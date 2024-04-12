@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Animatable, Human, LocalPlr, Plr } from "shared/components";
-import { Jumping, UsableJumpContext, WillJump } from "shared/components/movements";
+import { JumpContext, Jumping, WillJump } from "shared/components/movements";
 import { forMovement, preloadAnimation, resumeAnimation } from "shared/effects/animations";
 import { isLocalPlr } from "shared/hooks/components";
 
@@ -25,13 +25,13 @@ function humanJump(w: World) {
 
         if (jumpingRecord.new === undefined) continue;
 
-        const usableJumpContext = w.get(e, UsableJumpContext);
-        if (!usableJumpContext) continue;
+        const jumpContext = w.get(e, JumpContext);
+        if (!jumpContext) continue;
 
         const human = w.get(e, Human);
         if (!human) continue;
 
-        human.humanoid.JumpPower = usableJumpContext.power;
+        human.humanoid.JumpPower = jumpContext.power;
         human.humanoid.Jump = true;
 
         w.remove(e, Jumping);

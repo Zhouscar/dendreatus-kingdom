@@ -18,8 +18,6 @@ function bloodSplatterOnDamage(w: World, s: State) {
 
     if (!characterPosition) return;
 
-    const l = useTestLog(script);
-
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
         if (!damageRecord.new) continue;

@@ -1,16 +1,14 @@
 import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
-import { LocalPlr, Plr } from "shared/components";
+import { LocalPlr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import {
-    CanDash,
     CanDirectionallyMove,
     CrashLanding,
     DirectionalMovement,
-    UsableDirectionalMovementContext,
+    DirectionalMovementContext,
 } from "shared/components/movements";
-import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
 function canDirectionallyMove(w: World, s: State) {
@@ -21,9 +19,9 @@ function canDirectionallyMove(w: World, s: State) {
         return;
     }
 
-    for (const [e, localPlr, usableDirectionalMovementContext] of w.query(
+    for (const [e, localPlr, directionalMovementContext] of w.query(
         LocalPlr,
-        UsableDirectionalMovementContext,
+        DirectionalMovementContext,
     )) {
         if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting)) {
             w.insert(e, CanDirectionallyMove({}));

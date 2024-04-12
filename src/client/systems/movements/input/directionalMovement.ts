@@ -26,9 +26,9 @@ function directionalMovement(w: World) {
         if (desiredDirection !== Vector3.zero) {
             desiredDirection = desiredDirection.Unit;
             w.insert(e, DirectionalMovement({ direction: desiredDirection }));
-            break;
+        } else {
+            w.remove(e, DirectionalMovement);
         }
-        w.remove(e, DirectionalMovement);
     }
 }
 

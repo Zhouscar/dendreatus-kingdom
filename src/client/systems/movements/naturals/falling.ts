@@ -7,9 +7,9 @@ import {
     Falling,
     InAir,
     Landing,
+    LandingContext,
     LinearVelocity,
     OnLand,
-    UsableLandingContext,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 
@@ -26,11 +26,11 @@ function fallingAndLanding(w: World) {
             }
         } else {
             const falling = w.get(e, Falling);
-            const usableLandingContext = w.get(e, UsableLandingContext);
+            const landingContext = w.get(e, LandingContext);
             if (hasComponents(w, e, OnLand) && falling) {
                 if (
-                    usableLandingContext &&
-                    os.clock() - falling.startTime >= usableLandingContext.timeTilCrashLand
+                    landingContext &&
+                    os.clock() - falling.startTime >= landingContext.timeTilCrashLand
                 ) {
                     w.insert(e, CrashLanding({ startTime: os.clock() }));
                 } else {

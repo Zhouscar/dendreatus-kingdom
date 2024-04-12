@@ -65,7 +65,6 @@ function recieveReplication(w: World, s: State) {
                 }
 
                 if (componentsToRemove.size() > 0) {
-                    print(componentsToRemove);
                     w.remove(clientEntityId, ...componentsToRemove);
                 }
             }

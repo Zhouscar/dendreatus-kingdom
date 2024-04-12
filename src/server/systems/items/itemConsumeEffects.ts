@@ -33,30 +33,23 @@ function itemConsumeEffects(w: World) {
         const guid = w.get(e, Equipping)?.itemGuid;
         if (guid === undefined) continue;
 
-        const lastStage = context.stageAnimationIds.size() - 1;
-        if (action.stage === lastStage) {
-            store.removeItemByGuid(tostring(player.UserId), guid);
-        }
+        // const lastStage = context.stageAnimationIds.size() - 1;
+        // if (action.stage === lastStage) {
+        //     store.removeItemByGuid(tostring(player.UserId), guid);
+        // }
 
         // fill hunger
         const stomach = w.get(e, Stomach);
         if (stomach !== undefined) {
-            w.insert(e, stomach.patch({ hunger: stomach.hunger + context.calories }));
+            w.insert(
+                e,
+                stomach.patch({
+                    hunger: math.min(stomach.hunger + context.calories, stomach.capacity),
+                }),
+            );
         }
 
-        // add another stage to the item
-        // store.modifyItemAtGuid(tostring(player.UserId), guid, (draft) => {
-        //     draft.consumeStage = action.stage;
-        //     print(action.stage);
-        // });
-        print("h");
-
-        Players.GetPlayers().forEach((player) => {
-            const plr = tostring(player.UserId);
-            store.putItems(plr, "stick", 1, createGuidPool(10));
-        });
-        store.putItems(tostring(player.UserId), "stick", 2, createGuidPool(10)); //TODO: why is this not working, it works in test_putItems
-        print("i");
+        store.consumeItem(tostring(player.UserId), guid);
     }
 }
 

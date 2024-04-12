@@ -1,97 +1,59 @@
+import {
+    DashContextData,
+    DirectionalMovementContextData,
+    DirectionalMovementType,
+    JumpContextData,
+    LandingContextData,
+} from "shared/features/movements/types";
 import { ComponentCreator } from "./creators";
 
 // Arch States
-export const OnLand = ComponentCreator.base<{}>("OnLand");
+export const OnLand = ComponentCreator.protectedBidirectional<{}>("OnLand");
 export type OnLand = ReturnType<typeof OnLand>;
 
-export const InWater = ComponentCreator.base<{}>("InWater");
+export const InWater = ComponentCreator.protectedBidirectional<{}>("InWater");
 export type InWater = ReturnType<typeof InWater>;
 
-export const InAir = ComponentCreator.base<{}>("InAir");
+export const InAir = ComponentCreator.protectedBidirectional<{}>("InAir");
 export type InAir = ReturnType<typeof InAir>;
 // \Arch States
 
 export const LinearVelocity = ComponentCreator.base<{ velocity: Vector3 }>("LinearVelocity");
 export type LinearVelocity = ReturnType<typeof LinearVelocity>;
 
-export const Sneaking = ComponentCreator.base<{}>("Sneaking");
+export const Sneaking = ComponentCreator.protectedBidirectional<{}>("Sneaking");
 export type Sneaking = ReturnType<typeof Sneaking>;
 
-export const Falling = ComponentCreator.base<{ startTime: number }>("Falling");
+export const Falling = ComponentCreator.protectedBidirectional<{ startTime: number }>("Falling");
 export type Falling = ReturnType<typeof Falling>;
 
-export const Climbing = ComponentCreator.base<{}>("Climbing");
+export const Climbing = ComponentCreator.protectedBidirectional<{}>("Climbing");
 export type Climbing = ReturnType<typeof Climbing>;
 
-export const Landing = ComponentCreator.base<{}>("Landing");
+export const Landing = ComponentCreator.protectedBidirectional<{}>("Landing");
 export type Landing = ReturnType<typeof Landing>;
 
-export const CrashLanding = ComponentCreator.base<{}>("CrashLanding");
+export const CrashLanding = ComponentCreator.protectedBidirectional<{}>("CrashLanding");
 export type CrashLanding = ReturnType<typeof CrashLanding>;
 
 // Contexts
-export const BaseJumpContext = ComponentCreator.base<{ power: number; delay: number }>(
-    "BaseJumpContext",
+export const JumpContext = ComponentCreator.base<JumpContextData>("JumpContext");
+export type JumpContext = ReturnType<typeof JumpContext>;
+
+export const DirectionalMovementContext = ComponentCreator.base<DirectionalMovementContextData>(
+    "DirectionalMovementContext",
 );
-export type BaseJumpContext = ReturnType<typeof BaseJumpContext>;
+export type DirectionalMovementContext = ReturnType<typeof DirectionalMovementContext>;
 
-export const UsableJumpContext = ComponentCreator.base<{ power: number; delay: number }>(
-    "UsableJumpContext",
-);
-export type UsableJumpContext = ReturnType<typeof UsableJumpContext>;
+export const LandingContext = ComponentCreator.base<LandingContextData>("LandingContext");
+export type LandingContext = ReturnType<typeof LandingContext>;
 
-export const BaseDirectionalMovementContext = ComponentCreator.base<{
-    walk: number;
-    sprint: number;
-    sneak: number;
-    dive: number;
-    swim: number;
-    climb: number;
-}>("BaseDirectionalMovementContext");
-export type BaseDirectionalMovementContext = ReturnType<typeof BaseDirectionalMovementContext>;
+export const DashContext = ComponentCreator.base<DashContextData>("DashContext");
+export type DashContext = ReturnType<typeof DashContext>;
 
-export const UsableDirectionalMovementContext = ComponentCreator.base<{
-    walk: number;
-    sprint: number;
-    sneak: number;
-    dive: number;
-    swim: number;
-    climb: number;
-}>("UsableDirectionalMovementContext");
-export type UsableDirectionalMovementContext = ReturnType<typeof UsableDirectionalMovementContext>;
-
-export const BaseLandingContext = ComponentCreator.base<{
-    landDuration: number;
-    crashLandDuration: number;
-    timeTilCrashLand: number;
-}>("BaseLandingContext");
-export type BaseLandingContext = ReturnType<typeof BaseLandingContext>;
-
-export const UsableLandingContext = ComponentCreator.base<{
-    landDuration: number;
-    crashLandDuration: number;
-    timeTilCrashLand: number;
-}>("UsableLandingContext");
-export type UsableLandingContext = ReturnType<typeof UsableLandingContext>;
-
-export const BaseDashContext = ComponentCreator.base<{
-    duration: number;
-    power: number;
-    cooldown: number;
-}>("BaseDashContext");
-export type BaseDashContext = ReturnType<typeof BaseDashContext>;
-
-export const UsableDashContext = ComponentCreator.base<{
-    duration: number;
-    power: number;
-    cooldown: number;
-}>("UsableDashContext");
-export type UsableDashContext = ReturnType<typeof UsableDashContext>;
 // \Contexts
 
-export type DirectionalMovementType = "walk" | "sprint" | "sneak" | "dive" | "swim" | "climb";
-
-export const PotentialDirectionalMovement = ComponentCreator.base<{
+export const PotentialDirectionalMovement = ComponentCreator.monitored<{
     type: DirectionalMovementType;
 }>("PotentialDirectionalMovement");
 export type PotentialDirectionalMovement = ReturnType<typeof PotentialDirectionalMovement>;
@@ -100,6 +62,9 @@ export const DirectionalMovement = ComponentCreator.base<{
     direction: Vector3;
 }>("DirectionalMovement");
 export type DirectionalMovement = ReturnType<typeof DirectionalMovement>;
+
+export const IsDirectionallyMoving = ComponentCreator.monitored<{}>("IsDirectionallyMoving");
+export type IsDirectionallyMoving = ReturnType<typeof IsDirectionallyMoving>;
 
 // Cans
 
@@ -120,10 +85,10 @@ export type CanSneak = ReturnType<typeof CanSneak>;
 export const WillJump = ComponentCreator.base<{}>("WillJump");
 export type WillJump = ReturnType<typeof WillJump>;
 
-export const Jumping = ComponentCreator.base<{}>("Jumping");
+export const Jumping = ComponentCreator.protectedBidirectional<{}>("Jumping");
 export type Jumping = ReturnType<typeof Jumping>;
 
-export const Dashing = ComponentCreator.base<{ startTime: number }>("Dashing");
+export const Dashing = ComponentCreator.protectedBidirectional<{ startTime: number }>("Dashing");
 export type Dashing = ReturnType<typeof Dashing>;
 // \Movement Actions
 
@@ -137,16 +102,13 @@ export const MovementComponents = {
     Climbing,
     Landing,
     CrashLanding,
-    BaseJumpContext,
-    UsableJumpContext,
-    BaseDirectionalMovementContext,
-    UsableDirectionalMovementContext,
-    BaseLandingContext,
-    UsableLandingContext,
-    BaseDashContext,
-    UsableDashContext,
+    JumpContext,
+    DirectionalMovementContext,
+    LandingContext,
+    DashContext,
     PotentialDirectionalMovement,
     DirectionalMovement,
+    IsDirectionallyMoving,
     CanJump,
     CanDirectionallyMove,
     CanDash,

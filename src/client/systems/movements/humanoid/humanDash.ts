@@ -3,7 +3,7 @@ import { useChange } from "@rbxts/matter-hooks";
 import { ControllerService, Players } from "@rbxts/services";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
-import { Dashing, UsableDashContext } from "shared/components/movements";
+import { DashContext, Dashing } from "shared/components/movements";
 import { FORWARD } from "shared/constants/direction";
 import { forMovement, preloadAnimation, resumeAnimation } from "shared/effects/animations";
 import { hasComponents, isLocalPlr } from "shared/hooks/components";
@@ -48,15 +48,15 @@ function humanDash(w: World) {
         break;
     }
 
-    for (const [e, localPlr, renderable, usableDashContext] of w.query(
+    for (const [e, localPlr, renderable, dashContext] of w.query(
         LocalPlr,
         Renderable,
-        UsableDashContext,
+        DashContext,
     )) {
         if (!renderable.model.PrimaryPart) continue;
 
         const dashVelocity = getDashVelocity(renderable.model.PrimaryPart);
-        dashVelocity.VectorVelocity = FORWARD.mul(usableDashContext.power);
+        dashVelocity.VectorVelocity = FORWARD.mul(dashContext.power);
 
         const isDashing = hasComponents(w, e, Dashing);
         if (useChange([isDashing])) {
