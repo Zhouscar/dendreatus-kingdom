@@ -2,12 +2,14 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { store } from "client/store";
 import { LocalPlr, Plr } from "shared/components";
+import { hasComponents } from "shared/hooks/components";
 
 function localPlr(w: World) {
     for (const [e, plrRecord] of w.queryChanged(Plr)) {
         if (!w.contains(e)) continue;
 
-        if (!plrRecord.new) {
+        if (!plrRecord.new && hasComponents(w, e, LocalPlr)) {
+            store.setLocalPlrE(undefined);
             w.remove(e, LocalPlr);
         }
     }
