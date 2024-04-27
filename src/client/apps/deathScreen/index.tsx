@@ -5,8 +5,8 @@ import { Lighting, SoundService } from "@rbxts/services";
 import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
 import { useState } from "@rbxts/roact-hooked";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Make } from "@rbxts/altmake";
+import { SOUND_IDS } from "shared/features/ids/sounds";
 
 const blackOutAtmosphere = Make("Atmosphere", {
     Name: "BlackOut",
@@ -16,10 +16,8 @@ const blackOutAtmosphere = Make("Atmosphere", {
     Parent: Lighting,
 });
 
-const youDiedSoundId = withAssetPrefix("4817888357");
-
 const youDiedSound = Make("Sound", {
-    SoundId: youDiedSoundId,
+    SoundId: SOUND_IDS.youDied,
     Name: "YouDied",
     Parent: SoundService,
 });

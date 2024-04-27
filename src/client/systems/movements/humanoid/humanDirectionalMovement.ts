@@ -1,5 +1,4 @@
-import { World, useThrottle } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
+import { World, useDeltaTime, useThrottle } from "@rbxts/matter";
 import { Animatable, Human, LocalPlr, Plr, Renderable, Sound, Transform } from "shared/components";
 import {
     CanDirectionallyMove,
@@ -9,46 +8,18 @@ import {
     LinearVelocity,
     PotentialDirectionalMovement,
 } from "shared/components/movements";
-import {
-    forMovement,
-    getTrackLength,
-    preloadAnimations,
-    resumeAnimation,
-} from "shared/effects/animations";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { getTrackLength, preloadAnimations, resumeAnimation } from "shared/effects/animations";
 import { isLocalPlr } from "shared/hooks/components";
+import { SoundName } from "shared/features/ids/sounds";
+import { randomChoice } from "shared/calculations/random";
 
-const walkAnimId = withAssetPrefix("16783660835");
-const sprintAnimId = withAssetPrefix("14207192205");
-const sneakAnimId = withAssetPrefix("14215263201");
-const diveAnimId = withAssetPrefix("14215257367"); //TODO: new animation
-const swimAnimId = withAssetPrefix("14207199744");
-const climbAnimId = withAssetPrefix("14207203133");
-
-const footStepSoundIds = [
-    withAssetPrefix("619083295"),
-    withAssetPrefix("619184927"),
-    withAssetPrefix("619188333"),
-];
-
-function getFootStepSoundId(): string {
-    return footStepSoundIds[math.random(0, footStepSoundIds.size() - 1)];
+function getFootStepSoundName(): SoundName {
+    return randomChoice("footStep1", "footStep2", "footStep3");
 }
 
 function humanDirectionalMovement(w: World) {
-    for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        if (!isLocalPlr(w, e)) continue;
-        if (animatableRecord.new === undefined) continue;
-
-        preloadAnimations(
-            animatableRecord.new.animator,
-            walkAnimId,
-            sprintAnimId,
-            sneakAnimId,
-            diveAnimId,
-            swimAnimId,
-            climbAnimId,
-        );
+    for (const [e, localPlr, human] of w.query(LocalPlr, Human).without(DirectionalMovement)) {
+        human.humanoid.WalkSpeed = 0;
     }
 
     for (const [
@@ -67,7 +38,7 @@ function humanDirectionalMovement(w: World) {
         DirectionalMovementContext,
         CanDirectionallyMove,
     )) {
-        const newWalkSpeed =
+        const targetWalkSpeed =
             potentialDirectionalMovement.type === "walk"
                 ? directionalMovementContext.walk
                 : potentialDirectionalMovement.type === "sprint"
@@ -82,6 +53,19 @@ function humanDirectionalMovement(w: World) {
                           ? directionalMovementContext.climb
                           : 0;
 
+        let newWalkSpeed = human.humanoid.WalkSpeed;
+        if (targetWalkSpeed > newWalkSpeed) {
+            newWalkSpeed = math.min(
+                newWalkSpeed + directionalMovementContext.acceleration * useDeltaTime(),
+                targetWalkSpeed,
+            );
+        } else if (targetWalkSpeed < newWalkSpeed) {
+            newWalkSpeed = math.max(
+                newWalkSpeed - directionalMovementContext.decceleration * useDeltaTime(),
+                targetWalkSpeed,
+            );
+        }
+
         human.humanoid.WalkSpeed = newWalkSpeed;
         human.humanoid.Move(directionalMovement.direction, false);
 
@@ -90,15 +74,15 @@ function humanDirectionalMovement(w: World) {
         const animator = w.get(e, Animatable)?.animator;
         if (animator) {
             if (potentialDirectionalMovement.type === "walk") {
-                resumeAnimation(animator, walkAnimId, forMovement, newWalkSpeed * 0.1, true);
+                resumeAnimation(animator, "walk", "Movement", newWalkSpeed * 0.1, true);
             } else if (potentialDirectionalMovement.type === "sprint") {
-                resumeAnimation(animator, sprintAnimId, forMovement, newWalkSpeed * 0.05, true);
+                resumeAnimation(animator, "sprint", "Movement", newWalkSpeed * 0.05, true);
             } else if (potentialDirectionalMovement.type === "sneak") {
-                resumeAnimation(animator, sneakAnimId, forMovement, newWalkSpeed * 0.2, true);
+                resumeAnimation(animator, "sneak", "Movement", newWalkSpeed * 0.2, true);
             } else if (potentialDirectionalMovement.type === "dive") {
-                resumeAnimation(animator, diveAnimId, forMovement, newWalkSpeed * 0.1, true);
+                resumeAnimation(animator, "dive", "Movement", newWalkSpeed * 0.1, true);
             } else if (potentialDirectionalMovement.type === "swim") {
-                resumeAnimation(animator, swimAnimId, forMovement, newWalkSpeed * 0.1, true);
+                resumeAnimation(animator, "swim", "Movement", newWalkSpeed * 0.1, true);
             } else if (potentialDirectionalMovement.type === "climb") {
                 const linearVelocity = w.get(e, LinearVelocity);
                 if (linearVelocity !== undefined) {
@@ -106,8 +90,8 @@ function humanDirectionalMovement(w: World) {
 
                     resumeAnimation(
                         animator,
-                        climbAnimId,
-                        forMovement,
+                        "climb",
+                        "Movement",
                         newWalkSpeed * 0.2 * (climbingUp ? 1 : -1),
                         true,
                     );
@@ -117,24 +101,24 @@ function humanDirectionalMovement(w: World) {
             const cf = w.get(e, Renderable)!.model.GetPivot();
 
             if (potentialDirectionalMovement.type === "walk") {
-                const trackLength = getTrackLength(animator, walkAnimId);
+                const trackLength = getTrackLength(animator, "walk");
                 if (trackLength !== undefined && useThrottle(trackLength / 2, "walk")) {
                     w.spawn(
                         Sound({
                             cf: cf,
                             audibility: 1,
-                            context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },
+                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
                         }),
                     );
                 }
             } else if (potentialDirectionalMovement.type === "sprint") {
-                const trackLength = getTrackLength(animator, sprintAnimId);
+                const trackLength = getTrackLength(animator, "sprint");
                 if (trackLength !== undefined && useThrottle(trackLength / 2, "sprint")) {
                     w.spawn(
                         Sound({
                             cf: cf,
                             audibility: 1,
-                            context: { soundId: getFootStepSoundId(), speed: 1, volume: 1 },
+                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
                         }),
                     );
                 }

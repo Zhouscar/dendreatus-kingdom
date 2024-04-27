@@ -1,21 +1,29 @@
 import { Make } from "@rbxts/altmake";
+import { ANIM_IDS, AnimName } from "shared/features/ids/animations";
 
 export type MyAnimator = Animator | AnimationController;
 
 type Tracks = Map<string, AnimationTrack>;
 const storage: Map<MyAnimator, Tracks> = new Map();
 
-export const forMovement = Enum.AnimationPriority.Movement;
-export const forAction = Enum.AnimationPriority.Action;
-export const forInevitability = Enum.AnimationPriority.Core;
+const AnimationPriority = {
+    Action: Enum.AnimationPriority.Action,
+    Action2: Enum.AnimationPriority.Action2,
+    Action3: Enum.AnimationPriority.Action3,
+    Action4: Enum.AnimationPriority.Action4,
+    Core: Enum.AnimationPriority.Core,
+    Idle: Enum.AnimationPriority.Idle,
+    Movement: Enum.AnimationPriority.Movement,
+};
 
-export function preloadAnimations(animator: MyAnimator, ...animIds: string[]) {
-    animIds.forEach((animId) => {
-        preloadAnimation(animator, animId);
+export function preloadAnimations(animator: MyAnimator, ...animNames: AnimName[]) {
+    animNames.forEach((animName) => {
+        preloadAnimation(animator, animName);
     });
 }
 
-export function preloadAnimation(animator: MyAnimator, animId: string) {
+export function preloadAnimation(animator: MyAnimator, animName: AnimName) {
+    const animId = ANIM_IDS[animName];
     let tracks = storage.get(animator);
     if (tracks === undefined) {
         tracks = new Map();
@@ -44,7 +52,9 @@ export function preloadAnimation(animator: MyAnimator, animId: string) {
     }
 }
 
-export function getTrackLength(animator: MyAnimator, animId: string): number | undefined {
+export function getTrackLength(animator: MyAnimator, animName: AnimName): number | undefined {
+    const animId = ANIM_IDS[animName];
+
     const tracks = storage.get(animator);
     if (tracks === undefined) {
         return;
@@ -58,10 +68,10 @@ export function getTrackLength(animator: MyAnimator, animId: string): number | u
     return track.Length / track.Speed;
 }
 
-export function startAnimation(
+export function startAnimationById(
     animator: MyAnimator,
     animId: string,
-    priority: Enum.AnimationPriority,
+    priority: keyof typeof AnimationPriority,
     speed: number,
     looped: boolean,
 ) {
@@ -92,27 +102,30 @@ export function startAnimation(
         tracks.set(animId, track);
     }
 
+    const priorityEnum0 = Enum.AnimationPriority[priority];
+    const priorityEnum = priorityEnum0 as Exclude<typeof priorityEnum0, () => any>;
+
     track.AdjustSpeed(speed);
     track.Looped = looped;
-    track.Priority = priority;
+    track.Priority = priorityEnum;
     if (animator.IsA("Animator")) {
         animator.GetPlayingAnimationTracks().forEach((track) => {
-            if (track.Priority.Value > priority.Value) return;
+            if (track.Priority.Value > priorityEnum.Value) return;
             track.Stop();
         });
     } else {
         animator.GetPlayingAnimationTracks().forEach((track) => {
-            if (track.Priority.Value > priority.Value) return;
+            if (track.Priority.Value > priorityEnum.Value) return;
             track.Stop();
         });
     }
     track.Play();
 }
 
-export function resumeAnimation(
+export function resumeAnimationById(
     animator: MyAnimator,
     animId: string,
-    priority: Enum.AnimationPriority,
+    priority: keyof typeof AnimationPriority,
     speed: number,
     looped: boolean,
 ) {
@@ -143,21 +156,42 @@ export function resumeAnimation(
         tracks.set(animId, track);
     }
 
+    const priorityEnum = AnimationPriority[priority];
+
     track.AdjustSpeed(speed);
     track.Looped = looped;
-    track.Priority = priority;
+    track.Priority = priorityEnum;
     if (!track.IsPlaying) {
         if (animator.IsA("Animator")) {
             animator.GetPlayingAnimationTracks().forEach((track) => {
-                if (track.Priority.Value > priority.Value) return;
+                if (track.Priority.Value > priorityEnum.Value) return;
                 track.Stop();
             });
         } else {
             animator.GetPlayingAnimationTracks().forEach((track) => {
-                if (track.Priority.Value > priority.Value) return;
+                if (track.Priority.Value > priorityEnum.Value) return;
                 track.Stop();
             });
         }
         track.Play();
     }
+}
+export function startAnimation(
+    animator: MyAnimator,
+    animName: AnimName,
+    priority: keyof typeof AnimationPriority,
+    speed: number,
+    looped: boolean,
+) {
+    startAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
+}
+
+export function resumeAnimation(
+    animator: MyAnimator,
+    animName: AnimName,
+    priority: keyof typeof AnimationPriority,
+    speed: number,
+    looped: boolean,
+) {
+    resumeAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
 }

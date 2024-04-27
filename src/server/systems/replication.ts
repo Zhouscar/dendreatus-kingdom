@@ -6,7 +6,7 @@ import { Components } from "shared/components";
 import { DoNotReplicate } from "shared/components/creators/bidirectionalComponent";
 import { REPLICATED_COMPONENTS } from "shared/components/creators/replicatedComponent";
 import { ComponentNames, ReplicationMap } from "shared/components/serde";
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 
 function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap) {
     return produce(entities, (draft) => {
@@ -34,8 +34,10 @@ function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap
 
 let replicationStreak = 0;
 
-function replication(w: World) {
-    for (const [, player] of routes.ecsRequestPayload.query()) {
+function replication(w: World, _: any, remoteToken: string) {
+    for (const [, player, token] of routes.ecsRequestPayload.query()) {
+        assert(token === remoteToken, "HAHA YOU HACKER");
+
         const payload: ReplicationMap = new Map();
 
         for (const [e, entityData] of w) {

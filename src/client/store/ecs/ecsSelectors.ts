@@ -11,3 +11,9 @@ export function selectClientState() {
         return state.ecsSlice.clientState;
     };
 }
+
+export function selectInteractEs() {
+    return (state: RootState) => {
+        return state.ecsSlice.interactEs;
+    };
+}

@@ -2,18 +2,15 @@ import { Spring, useDebounceEffect, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
-import useLocalPlrE from "./hooks/useLocalPlrE";
 import useComponent from "./hooks/useComponent";
 import { Health } from "shared/components/health";
+import { useLocalPlrE } from "./hooks/ecsSelectors";
+import { EnabilityProvider } from "./contexts/enability";
+import useEnabled from "./hooks/useEnabled";
 
-function HealthBar(props: {
-    enabled: boolean;
+function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
+    const enabled = useEnabled();
 
-    Size?: UDim2;
-    Position?: UDim2;
-    AnchorPoint?: Vector2;
-}) {
-    const enabled = props.enabled;
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
 
@@ -105,4 +102,15 @@ function HealthBar(props: {
     );
 }
 
-export = HealthBar;
+export default function HealthBar(props: {
+    enabled: boolean;
+    Size?: UDim2;
+    Position?: UDim2;
+    AnchorPoint?: Vector2;
+}) {
+    return (
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App Size={props.Size} Position={props.Position} AnchorPoint={props.AnchorPoint} />
+        </EnabilityProvider>
+    );
+}

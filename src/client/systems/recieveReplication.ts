@@ -2,7 +2,7 @@ import { AnyComponent, AnyEntity, World } from "@rbxts/matter";
 import { Component, ComponentCtor } from "@rbxts/matter/lib/component";
 import { t } from "@rbxts/t";
 import { State } from "shared/state";
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 import { Components } from "shared/components";
 import { ComponentNames, UnionComponentsMap } from "shared/components/serde";
 import {

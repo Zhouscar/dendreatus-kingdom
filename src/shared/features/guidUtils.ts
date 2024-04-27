@@ -1,7 +1,7 @@
 import { HttpService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 
-function newGuid() {
+export function newGuid() {
     return HttpService.GenerateGUID(false);
 }
 

@@ -1,11 +1,7 @@
 import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Plr, Renderable, Sound } from "shared/components";
+import { Renderable, Sound } from "shared/components";
 import { Dead } from "shared/components/health";
 import { isLocalPlr } from "shared/hooks/components";
-
-const deathScreamSoundId = withAssetPrefix("5825316184");
 
 function deathScream(w: World) {
     for (const [e, deadRecord] of w.queryChanged(Dead)) {
@@ -20,7 +16,7 @@ function deathScream(w: World) {
             Sound({
                 audibility: 0,
                 context: {
-                    soundId: deathScreamSoundId,
+                    soundName: "deathScream",
                     volume: 1,
                     speed: 1,
                 },

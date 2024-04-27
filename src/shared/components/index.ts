@@ -9,6 +9,7 @@ import { ItemComponents } from "./items";
 import { ActionComponents } from "./actions";
 import { HungerComponents } from "./hunger";
 import { ComponentCreator } from "./creators";
+import { InteractableComponents } from "./interactables";
 
 export * from "./livingThings";
 
@@ -60,4 +61,5 @@ export const Components = {
     ...ItemComponents,
     ...ActionComponents,
     ...HungerComponents,
+    ...InteractableComponents,
 };

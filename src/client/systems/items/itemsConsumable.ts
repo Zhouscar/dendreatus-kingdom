@@ -3,7 +3,7 @@ import { Animatable } from "shared/components";
 import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
-import { forAction, startAnimation } from "shared/effects/animations";
+import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 import {
     CanUseItemFunction,
@@ -41,7 +41,7 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
     if (animatable) {
         const animId = itemContext.stageAnimationIds[nextCosumeStage];
 
-        startAnimation(animatable.animator, animId, forAction, 1, false);
+        startAnimationById(animatable.animator, animId, "Action", 1, false);
     }
 
     // itemContext.sideEffects.forEach((sideEffect) => {

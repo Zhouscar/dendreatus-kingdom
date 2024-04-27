@@ -1,8 +1,0 @@
-[DONE] make sure that the food will be removed after eaten
-make a ui showing how much the food is eaten
-
-current roact mounting is inefficient and causing tons of problems such as not running systems
-
-having a root functional component means that every other components do not need providers
-
-delete the previous mounting code

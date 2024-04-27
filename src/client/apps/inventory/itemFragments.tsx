@@ -10,14 +10,12 @@ import { createGuidPool } from "shared/features/guidUtils";
 const testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
 
 export default function ItemFragments(props: {
-    enabled: boolean;
     from: number;
     to: number;
     indexCurrentlyHovered: number | undefined;
     setIndexCurrentlyHovered: Dispatch<SetStateAction<number | undefined>>;
     swapItems: (from: number, to: number) => void;
 }) {
-    const enabled = props.enabled;
     const from = props.from;
     const to = props.to;
 
@@ -41,7 +39,6 @@ export default function ItemFragments(props: {
 
             items.push(
                 <ItemSlot
-                    enabled={enabled}
                     item={item}
                     indexCurrentlyHovered={indexCurrentlyHovered}
                     setIndexCurrentlyHovered={setIndexCurrentlyHovered}

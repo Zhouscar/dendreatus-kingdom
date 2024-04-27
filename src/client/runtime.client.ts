@@ -8,7 +8,6 @@ withHookDetection(Roact);
 task.wait(2);
 
 start(
-    "CLIENT",
     [ReplicatedStorage.client.systems, ReplicatedStorage.shared.systems],
     [ReplicatedStorage.client.plugins, ReplicatedStorage.shared.plugins],
 );

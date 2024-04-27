@@ -1,5 +1,5 @@
 import { store } from "server/store";
-import { remos } from "shared/routes";
+import { remos } from "shared/network";
 
 function storeSwapItems() {
     remos.store.swapItems.connect((player, from, to) => {

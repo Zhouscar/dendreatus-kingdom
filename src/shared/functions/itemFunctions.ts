@@ -4,6 +4,7 @@ import { Plr } from "shared/components";
 import { ActivatingItem } from "shared/components/items";
 import { Item, ItemType } from "shared/features/items/types";
 import { isLocalPlr } from "shared/hooks/components";
+import { HOST } from "shared/host";
 
 export type ItemActivationCallback = (
     w: World,
@@ -28,7 +29,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
     for (const [e, activatingItemRecord] of w.queryChanged(ActivatingItem)) {
         if (!w.contains(e)) continue;
 
-        if (RunService.IsClient() && !isLocalPlr(w, e)) continue;
+        if (HOST === "CLIENT" && !isLocalPlr(w, e)) continue;
 
         if (callbacks.press && activatingItemRecord.new === undefined) {
             const activatingItem = activatingItemRecord.old;

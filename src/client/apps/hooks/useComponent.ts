@@ -3,7 +3,7 @@ import useW from "./useW";
 import { useBinding, useEffect, useMutable, useRef, useState } from "@rbxts/roact-hooked";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { RunService } from "@rbxts/services";
-// TODO: not tested
+
 export default function useComponent<T extends ComponentCtor>(e: AnyEntity, Ctor: T) {
     const w = useW();
 

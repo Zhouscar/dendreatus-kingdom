@@ -10,11 +10,7 @@ import { State } from "shared/state";
 const BLEED_RANGE_THRESHOLD = 100;
 
 function bloodSplatterOnDamage(w: World, s: State) {
-    let characterPosition: Vector3 | undefined = undefined;
-
-    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        characterPosition = renderable.model.GetPivot().Position;
-    }
+    const characterPosition = s.characterCF?.Position;
 
     if (!characterPosition) return;
 

@@ -3,7 +3,7 @@ import { Animatable } from "shared/components";
 import { Acting, Action, ShiftForward } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
-import { forAction, startAnimation } from "shared/effects/animations";
+import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { ItemType } from "shared/features/items/types";
 import {
@@ -57,7 +57,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
     if (animatable) {
         const animId = itemContext.stepAnimationIds[nextStep];
 
-        startAnimation(animatable.animator, animId, forAction, 1, false);
+        startAnimationById(animatable.animator, animId, "Action", 1, false);
     }
 
     itemContext.sideEffects.forEach((sideEffect) => {

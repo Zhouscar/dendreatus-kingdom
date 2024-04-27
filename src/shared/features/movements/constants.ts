@@ -12,6 +12,9 @@ export const plrBaseDirectionalMovementContext: DirectionalMovementContextData =
     dive: 20,
     swim: 10,
     climb: 10,
+
+    acceleration: 50,
+    decceleration: 100,
 };
 
 export const plrBaseLandingContext: LandingContextData = {

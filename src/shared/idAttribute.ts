@@ -1,9 +1,4 @@
-import { Host } from "type";
+import { HOST } from "./host";
 
-export function getIdAttribute(host: Host) {
-    return host === "CLIENT"
-        ? "clientEntityId"
-        : host === "SERVER"
-        ? "serverEntityId"
-        : "unknownEntityId";
-}
+export const ID_ATTRIBUTE =
+    HOST === "CLIENT" ? "clientEntityId" : HOST === "SERVER" ? "serverEntityId" : "unknownEntityId";

@@ -7,12 +7,10 @@ import { AnyEntity, World } from "@rbxts/matter";
 import { EquippingByIndex } from "shared/components/items";
 
 export default function ItemFragments(props: {
-    enabled: boolean;
     indexEquipped: number | undefined;
     from: number;
     to: number;
 }) {
-    const enabled = props.enabled;
     const indexEquipped = props.indexEquipped;
     const from = props.from;
     const to = props.to;
@@ -26,9 +24,7 @@ export default function ItemFragments(props: {
             const guid = inventory.slots[i].itemGuid;
             const item = guid !== undefined ? inventory.items.get(guid) : undefined;
 
-            items.push(
-                <ItemSlot enabled={enabled} item={item} equipped={i === indexEquipped}></ItemSlot>,
-            );
+            items.push(<ItemSlot item={item} equipped={i === indexEquipped}></ItemSlot>);
         }
     }
 

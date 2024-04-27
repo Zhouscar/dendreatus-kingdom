@@ -1,6 +1,6 @@
 import { createBroadcaster } from "@rbxts/reflex";
 import { slices } from "shared/store";
-import { remos } from "shared/routes";
+import { remos } from "shared/network";
 
 export const broadcaster = createBroadcaster({
     producers: slices,

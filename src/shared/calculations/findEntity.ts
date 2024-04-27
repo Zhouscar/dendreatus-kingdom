@@ -1,5 +1,5 @@
-import { World } from "@rbxts/matter";
-import { Plr, Renderable } from "shared/components";
+import { AnyEntity, World } from "@rbxts/matter";
+import { Plr, Renderable, Transform } from "shared/components";
 
 export function findPlrE(w: World, player: Player) {
     for (const [e, plr] of w.query(Plr)) {

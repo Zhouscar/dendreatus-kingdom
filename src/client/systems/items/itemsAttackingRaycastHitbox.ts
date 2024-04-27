@@ -9,9 +9,9 @@ import { cast } from "shared/effects/raycastHitbox";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 
-function itemsAttackingRaycastHitbox(w: World, s: State) {
+function itemsAttackingRaycastHitbox(w: World, s: State, remoteToken: string) {
     for (const [e, localPlr, acting, renderable, physicallyEquipping] of w.query(
         LocalPlr,
         Acting,
@@ -53,7 +53,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                     if (serverE === undefined) return;
 
                     // network.ecs.playerDamage.fire(serverE, itemType);
-                    routes.playerDamage.send(serverE, itemType);
+                    routes.playerDamage.send(remoteToken, serverE, itemType);
                 });
             },
         );

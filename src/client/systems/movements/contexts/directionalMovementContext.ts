@@ -21,6 +21,9 @@ function baseDirectionalMovementContext(w: World) {
                 dive: data.dive / 2,
                 swim: data.swim / 2,
                 climb: data.climb / 2,
+
+                acceleration: data.acceleration / 2,
+                decceleration: data.decceleration / 2,
             };
         }
 

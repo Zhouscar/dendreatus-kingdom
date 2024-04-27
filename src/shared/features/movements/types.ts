@@ -5,6 +5,9 @@ export interface DirectionalMovementContextData {
     dive: number;
     swim: number;
     climb: number;
+
+    acceleration: number;
+    decceleration: number;
 }
 
 export interface LandingContextData {

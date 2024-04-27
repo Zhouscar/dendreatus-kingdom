@@ -1,7 +1,7 @@
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 
-function requestPayload() {
-    routes.ecsRequestPayload.send();
+function requestPayload(_: any, __: any, remoteToken: string) {
+    routes.ecsRequestPayload.send(remoteToken);
 }
 
 export = requestPayload;

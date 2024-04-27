@@ -3,7 +3,7 @@ import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { CollectionService } from "@rbxts/services";
 import { Renderable, Transform } from "shared/components";
 import { TAG_COMPONENTS } from "shared/components/creators/tagComponent";
-import { getIdAttribute } from "shared/idAttribute";
+import { ID_ATTRIBUTE } from "shared/idAttribute";
 import { State } from "shared/state";
 
 function crashReportCheckModel(instance: Instance): instance is Model {
@@ -21,7 +21,7 @@ function setupTags(w: World, state: State): void {
             Transform({ cf: model.GetPivot() }),
         );
 
-        model.SetAttribute(getIdAttribute(state.host), e);
+        model.SetAttribute(ID_ATTRIBUTE, e);
     }
 
     for (const component of TAG_COMPONENTS) {
@@ -38,7 +38,7 @@ function setupTags(w: World, state: State): void {
         });
 
         CollectionService.GetInstanceRemovedSignal(tagName).Connect((instance) => {
-            const e = instance.GetAttribute(getIdAttribute(state.host)) as AnyEntity;
+            const e = instance.GetAttribute(ID_ATTRIBUTE) as AnyEntity;
 
             if (e !== undefined) w.despawn(e);
         });

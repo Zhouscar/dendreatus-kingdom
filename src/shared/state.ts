@@ -1,11 +1,11 @@
 import { AnyEntity } from "@rbxts/matter";
-import { Host } from "type";
 
 export type ClientState = "game" | "inventory" | "death";
 
 export class State {
+    characterCF: CFrame | undefined = undefined;
+
     debugEnabled: boolean = false;
-    host: Host = "UNKNOWN";
 
     serverToClientEntityIdMap: Map<string, AnyEntity> = new Map();
     clientToServerEntityIdMap: Map<string, AnyEntity> = new Map();

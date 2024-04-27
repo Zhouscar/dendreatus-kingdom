@@ -1,5 +1,6 @@
 import { Make, Modify } from "@rbxts/altmake";
 import { Players, Workspace } from "@rbxts/services";
+import { SOUND_IDS } from "shared/features/ids/sounds";
 import { SoundContext } from "type";
 
 const NUM_CACHED_PARTS = 500;
@@ -55,7 +56,7 @@ export function makeSound(cf: CFrame, context: SoundContext) {
 
     const sound = part.FindFirstChildWhichIsA("Sound")!;
     Modify(sound, {
-        SoundId: context.soundId,
+        SoundId: SOUND_IDS[context.soundName],
         Volume: context.volume,
         PlaybackSpeed: context.speed,
     });

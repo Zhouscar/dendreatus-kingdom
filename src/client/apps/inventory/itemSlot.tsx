@@ -14,16 +14,17 @@ import { Item } from "shared/features/items/types";
 import { ITEM_CONSTANTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import useEnabled from "../hooks/useEnabled";
 
 export default function ItemSlot(props: {
-    enabled: boolean;
     index: number;
     item?: Item;
     indexCurrentlyHovered: number | undefined;
     setIndexCurrentlyHovered: Dispatch<SetStateAction<number | undefined>>;
     swapItems: (from: number, to: number) => void;
 }) {
-    const enabled = props.enabled;
+    const enabled = useEnabled();
+
     const item = props.item;
     const index = props.index;
 

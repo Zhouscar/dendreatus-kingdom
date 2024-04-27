@@ -1,5 +1,5 @@
 import { createBroadcastReceiver } from "@rbxts/reflex";
-import { remos, routes } from "shared/routes";
+import { remos, routes } from "shared/network";
 
 export const receiver = createBroadcastReceiver({
     start: () => {

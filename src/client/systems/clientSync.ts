@@ -3,13 +3,13 @@ import recieveReplication from "./recieveReplication";
 import { MONITORED_COMPONENTS } from "shared/components/creators/monitoredComponent";
 import { DoNotSync } from "shared/components/creators/bidirectionalComponent";
 import { ComponentNames, SyncMap } from "shared/components/serde";
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 import { State } from "shared/state";
 import Sift from "@rbxts/sift";
 
 let syncStreak = 0;
 
-function clientSync(w: World, s: State) {
+function clientSync(w: World, s: State, remoteToken: string) {
     const changes: SyncMap = new Map();
 
     for (const Ctor of MONITORED_COMPONENTS) {
@@ -46,7 +46,7 @@ function clientSync(w: World, s: State) {
     });
 
     if (!changes.isEmpty()) {
-        routes.ecsSync.send(changes);
+        routes.ecsSync.send(remoteToken, changes);
         syncStreak++;
     } else {
         syncStreak = 0;

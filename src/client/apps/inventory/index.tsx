@@ -11,7 +11,9 @@ import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { ITEM_CONSTANTS } from "shared/features/items/constants";
 import { RootProducer, store } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
-import { remos, routes } from "shared/routes";
+import { remos, routes } from "shared/network";
+import { EnabilityProvider } from "../contexts/enability";
+import useEnabled from "../hooks/useEnabled";
 
 let testInventory = defaultPlayerInventory;
 testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
@@ -24,8 +26,8 @@ function getLengthBySlots(count: number) {
     return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;
 }
 
-function App(props: { enabled: boolean }) {
-    const enabled = props.enabled;
+function App(props: {}) {
+    const enabled = useEnabled();
 
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
@@ -106,7 +108,6 @@ function App(props: { enabled: boolean }) {
                         SortOrder={"LayoutOrder"}
                     ></uigridlayout>
                     <ItemFragments
-                        enabled={enabled}
                         from={10}
                         to={30}
                         indexCurrentlyHovered={indexCurrentlyHovered}
@@ -189,7 +190,6 @@ function App(props: { enabled: boolean }) {
                         SortOrder={"LayoutOrder"}
                     ></uigridlayout>
                     <ItemFragments
-                        enabled={enabled}
                         from={0}
                         to={10}
                         indexCurrentlyHovered={indexCurrentlyHovered}
@@ -204,8 +204,8 @@ function App(props: { enabled: boolean }) {
 
 export default function Inventory(props: { enabled: boolean }) {
     return (
-        <ReflexProvider producer={store}>
-            <App enabled={props.enabled}></App>
-        </ReflexProvider>
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App />
+        </EnabilityProvider>
     );
 }

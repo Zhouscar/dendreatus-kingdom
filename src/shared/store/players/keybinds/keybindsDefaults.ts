@@ -11,6 +11,8 @@ export const defaultPlayerKeybinds: PlayerKeybinds = {
 
     toggleInventory: "E",
 
+    interact: "F",
+
     hotbar1: "One",
     hotbar2: "Two",
     hotbar3: "Three",

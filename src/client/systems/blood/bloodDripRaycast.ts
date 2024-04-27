@@ -12,8 +12,6 @@ const ALPHA = 1;
 
 const dripped: Set<BasePart> = new Set();
 
-const dripSoundId = withAssetPrefix("9120512830");
-
 function bloodDripRaycast(w: World, s: State) {
     s.bloodDrips.forEach((context) => {
         const dripPart = context[0];

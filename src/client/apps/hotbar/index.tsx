@@ -4,8 +4,10 @@ import useSuperPosition from "../hooks/useSuperPosition";
 import { useMotor } from "@rbxts/pretty-roact-hooks";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import useComponent from "../hooks/useComponent";
-import useLocalPlrE from "../hooks/useLocalPlrE";
 import { EquippingByIndex } from "shared/components/items";
+import { useLocalPlrE } from "../hooks/ecsSelectors";
+import useEnabled from "../hooks/useEnabled";
+import { EnabilityProvider } from "../contexts/enability";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;
@@ -14,8 +16,8 @@ function getLengthBySlots(count: number) {
     return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;
 }
 
-export default function Hotbar(props: { enabled: boolean }) {
-    const enabled = props.enabled;
+function App(props: {}) {
+    const enabled = useEnabled();
 
     const localPlrE = useLocalPlrE();
 
@@ -46,12 +48,15 @@ export default function Hotbar(props: { enabled: boolean }) {
                 CellPadding={new UDim2(0, SLOT_PAD, 0, SLOT_PAD)}
                 SortOrder={"LayoutOrder"}
             ></uigridlayout>
-            <ItemFragments
-                enabled={enabled}
-                indexEquipped={indexEquipped}
-                from={0}
-                to={10}
-            ></ItemFragments>
+            <ItemFragments indexEquipped={indexEquipped} from={0} to={10}></ItemFragments>
         </frame>
+    );
+}
+
+export default function Hotbar(props: { enabled: boolean }) {
+    return (
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App />
+        </EnabilityProvider>
     );
 }

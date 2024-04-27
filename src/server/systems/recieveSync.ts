@@ -2,7 +2,7 @@ import { AnyComponent, AnyEntity, World } from "@rbxts/matter";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { t } from "@rbxts/t";
 import { State } from "shared/state";
-import { routes } from "shared/routes";
+import { routes } from "shared/network";
 import { Components, Plr } from "shared/components";
 import { ComponentNames, UnionComponentsMap } from "shared/components/serde";
 import {
@@ -12,8 +12,9 @@ import {
 } from "shared/components/creators/bidirectionalComponent";
 import replication from "./replication";
 
-function recieveSync(w: World, s: State) {
-    for (const [pos, player, entities] of routes.ecsSync.query()) {
+function recieveSync(w: World, s: State, remoteToken: string) {
+    for (const [pos, player, token, entities] of routes.ecsSync.query()) {
+        assert(token === remoteToken, "HAHA YOU HACKER");
         assert(t.map(t.string, t.table)(entities));
 
         for (const [eId, componentMap] of entities) {

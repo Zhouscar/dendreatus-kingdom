@@ -1,6 +1,5 @@
 import { World, useDeltaTime, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
 import {
     CrashLanding,
@@ -10,26 +9,13 @@ import {
     Landing,
     LandingContext,
 } from "shared/components/movements";
-import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
+import { preloadAnimations, resumeAnimation } from "shared/effects/animations";
 import { hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 let queried = false;
 let elapsed = 0;
 
-const landingAnimId = withAssetPrefix("14207189927");
-const crashLandingAnimId = withAssetPrefix("14207211480");
-
-const landingSoundId = withAssetPrefix("268933841");
-const crashLandingSoundId = withAssetPrefix("3802270141");
-
 function landing(w: World) {
-    for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        if (!isLocalPlr(w, e)) continue;
-        if (animatableRecord.new === undefined) continue;
-
-        preloadAnimations(animatableRecord.new.animator, landingAnimId, crashLandingAnimId);
-    }
-
     for (const [e, landingRecord] of w.queryChanged(Landing)) {
         if (!w.contains(e)) continue;
         if (landingRecord.old !== undefined) continue;
@@ -44,7 +30,7 @@ function landing(w: World) {
                 audibility: 1,
                 context: {
                     volume: 1,
-                    soundId: landingSoundId,
+                    soundName: "land",
                     speed: 1,
                 },
                 cf: cf,
@@ -53,7 +39,7 @@ function landing(w: World) {
 
         const animatable = w.get(e, Animatable);
         if (animatable) {
-            resumeAnimation(animatable.animator, landingAnimId, forMovement, 1, false);
+            resumeAnimation(animatable.animator, "landing", "Movement", 1, false);
         }
     }
 
@@ -73,7 +59,7 @@ function landing(w: World) {
                 audibility: 1,
                 context: {
                     volume: 1,
-                    soundId: crashLandingSoundId,
+                    soundName: "crashLanding",
                     speed: 1,
                 },
                 cf: cf,
@@ -82,7 +68,7 @@ function landing(w: World) {
 
         const animatable = w.get(e, Animatable);
         if (animatable) {
-            resumeAnimation(animatable.animator, crashLandingAnimId, forMovement, 1, false);
+            resumeAnimation(animatable.animator, "crashLanding", "Movement", 1, false);
         }
     }
 

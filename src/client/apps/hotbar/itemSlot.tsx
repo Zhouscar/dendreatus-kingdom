@@ -5,14 +5,11 @@ import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { ITEM_CONSTANTS } from "shared/features/items/constants";
 import { useEffect, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import useEnabled from "../hooks/useEnabled";
 
-export default function ItemSlot(props: {
-    enabled: boolean;
-    item: Item | undefined;
-    equipped: boolean;
-}) {
+export default function ItemSlot(props: { item: Item | undefined; equipped: boolean }) {
+    const enabled = useEnabled();
     const equipped = props.equipped;
-    const enabled = props.enabled;
     const item = props.item;
 
     const consumeStagePerc = useMemo(() => {

@@ -18,6 +18,8 @@ export interface PlayerKeybinds {
 
     readonly toggleInventory: KeyCode;
 
+    readonly interact: KeyCode;
+
     readonly hotbar1: KeyCode;
     readonly hotbar2: KeyCode;
     readonly hotbar3: KeyCode;

@@ -10,34 +10,23 @@ import {
     OnLand,
     Sneaking,
 } from "shared/components/movements";
-import { forMovement, preloadAnimations, resumeAnimation } from "shared/effects/animations";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { resumeAnimation } from "shared/effects/animations";
 import { hasComponents, isLocalPlr } from "shared/hooks/components";
 import { Dead } from "shared/components/health";
-
-const idleAnimId = withAssetPrefix("14207151528");
-const sneakIdleAnimId = withAssetPrefix("14215260617");
-const climbAnimId = withAssetPrefix("14207203133"); // shared
+import { AnimName } from "shared/features/ids/animations";
 
 function humanIdleAnim(w: World) {
-    for (const [e, animatableRecord] of w.queryChanged(Animatable)) {
-        if (!isLocalPlr(w, e)) continue;
-        if (animatableRecord.new === undefined) continue;
-
-        preloadAnimations(animatableRecord.new.animator, idleAnimId, sneakIdleAnimId);
-    }
-
     for (const [e, localPlr, animatable, _onLand] of w
         .query(LocalPlr, Animatable, OnLand)
         .without(DirectionalMovement, Dashing, CrashLanding, Landing, Dead)) {
         if (hasComponents(w, e, Climbing)) {
-            resumeAnimation(animatable.animator, climbAnimId, forMovement, 0, true);
+            resumeAnimation(animatable.animator, "climb", "Movement", 0, true);
             continue;
         }
 
-        const animId = hasComponents(w, e, Sneaking) ? sneakIdleAnimId : idleAnimId;
+        const animName: AnimName = hasComponents(w, e, Sneaking) ? "sneakIdle" : "idle";
 
-        resumeAnimation(animatable.animator, animId, forMovement, 1, true);
+        resumeAnimation(animatable.animator, animName, "Movement", 1, true);
     }
 }
 
