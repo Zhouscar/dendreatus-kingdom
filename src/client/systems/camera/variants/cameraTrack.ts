@@ -1,5 +1,5 @@
 import { Make, Modify } from "@rbxts/altmake";
-import { World } from "@rbxts/matter";
+import { useDeltaTime, World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
 import { store } from "client/store";
 import { selectCamera } from "client/store/camera";
@@ -37,9 +37,9 @@ function cameraTrack(w: World) {
 
     const targetCF = variant.target.CFrame;
 
-    const shakeElapsed = os.clock() - lastTimeShaked;
+    const shakeElapsed = tick() - lastTimeShaked;
 
-    cameraTrackPart.CFrame = cameraTrackPart.CFrame.Lerp(targetCF, 0.2).add(
+    cameraTrackPart.CFrame = cameraTrackPart.CFrame.Lerp(targetCF, useDeltaTime() * 5).add(
         new Vector3(r(-1, 1), r(-1, 1), r(-1, 1)).mul(
             SHAKE_INTENSITY_DELTA * math.max(shakeIntensity - shakeElapsed, 0),
         ),

@@ -22,7 +22,7 @@ function fallingAndLanding(w: World) {
         if (linearVelocity && hasComponents(w, e, InAir) && linearVelocity.velocity.Y < -20) {
             w.remove(e, Landing, CrashLanding);
             if (!hasComponents(w, e, Falling)) {
-                w.insert(e, Falling({ startTime: os.clock() }));
+                w.insert(e, Falling({ startTime: tick() }));
             }
         } else {
             const falling = w.get(e, Falling);
@@ -30,9 +30,9 @@ function fallingAndLanding(w: World) {
             if (hasComponents(w, e, OnLand) && falling) {
                 if (
                     landingContext &&
-                    os.clock() - falling.startTime >= landingContext.timeTilCrashLand
+                    tick() - falling.startTime >= landingContext.timeTilCrashLand
                 ) {
-                    w.insert(e, CrashLanding({ startTime: os.clock() }));
+                    w.insert(e, CrashLanding({ startTime: tick() }));
                 } else {
                     w.insert(e, Landing({}));
                 }

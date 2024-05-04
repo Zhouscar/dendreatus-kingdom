@@ -34,7 +34,7 @@ function canDash(w: World, s: State) {
         }
 
         if (
-            os.clock() - lastDashTime >= dashContext.cooldown &&
+            tick() - lastDashTime >= dashContext.cooldown &&
             hasComponents(w, e, OnLand) &&
             !hasOneOfComponents(w, e, CrashLanding, Dead)
         ) {

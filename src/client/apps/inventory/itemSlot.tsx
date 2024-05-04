@@ -11,7 +11,7 @@ import {
 } from "@rbxts/roact-hooked";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { Item } from "shared/features/items/types";
-import { ITEM_CONSTANTS } from "shared/features/items/constants";
+import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 import useEnabled from "../hooks/useEnabled";
@@ -50,7 +50,7 @@ export default function ItemSlot(props: {
     const setIndexCurrentlyHovered = props.setIndexCurrentlyHovered;
     const swapItems = props.swapItems;
 
-    const image = item !== undefined ? ITEM_CONSTANTS.get(item.itemType)?.image : undefined;
+    const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilityTransparency = enabilityMotor.map((v) => 1 - v);

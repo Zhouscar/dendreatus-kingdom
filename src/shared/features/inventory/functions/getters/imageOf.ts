@@ -1,8 +1,8 @@
-import { ITEM_CONSTANTS } from "shared/features/items/constants";
+import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { ItemType } from "shared/features/items/types";
 
 function imageOf(itemType: ItemType): string | undefined {
-    return ITEM_CONSTANTS.get(itemType)?.image;
+    return ITEM_CONTEXTS.get(itemType)?.image;
 }
 
 export = imageOf;

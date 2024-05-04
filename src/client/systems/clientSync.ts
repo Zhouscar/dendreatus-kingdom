@@ -34,7 +34,6 @@ function clientSync(w: World, s: State, remoteToken: string) {
                 changes.set(key, new Map());
             }
 
-            // print(name);
             changes.get(key)!.set(name, { data: record.new! });
         }
     }

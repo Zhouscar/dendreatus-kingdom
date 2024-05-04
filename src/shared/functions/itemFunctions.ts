@@ -40,7 +40,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
             if (!callbacks.canUse(w, e, item)) continue;
             if (activatingItem.startTime === "temporarily_disabled") continue;
 
-            const elapsed = os.clock() - activatingItem.startTime;
+            const elapsed = tick() - activatingItem.startTime;
             callbacks.press(w, e, item, elapsed);
         }
         if (callbacks.release && activatingItemRecord.old === undefined) {
@@ -52,7 +52,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
             if (!callbacks.canUse(w, e, item)) continue;
             if (activatingItem.startTime === "temporarily_disabled") continue;
 
-            const elapsed = os.clock() - activatingItem.startTime;
+            const elapsed = tick() - activatingItem.startTime;
             callbacks.release(w, e, item, elapsed);
         }
     }
@@ -65,7 +65,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
 
         if (callbacks.canUse(w, e, item)) {
             if (activatingItem.startTime === "temporarily_disabled") {
-                w.insert(e, activatingItem.patch({ startTime: os.clock() }));
+                w.insert(e, activatingItem.patch({ startTime: tick() }));
             }
         } else {
             if (activatingItem.startTime !== "temporarily_disabled") {
@@ -75,7 +75,7 @@ export function plrCallItemActivation(w: World, itemType: ItemType, callbacks: C
         }
 
         if (activatingItem.startTime === "temporarily_disabled") continue;
-        const elapsed = os.clock() - activatingItem.startTime;
+        const elapsed = tick() - activatingItem.startTime;
 
         if (callbacks.hold) {
             callbacks.hold(w, e, item, elapsed);

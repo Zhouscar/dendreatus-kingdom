@@ -26,6 +26,3 @@ export const plrBaseLandingContext: LandingContextData = {
 export const plrBaseDashContext: DashContextData = { duration: 0.2, power: 100, cooldown: 1 };
 
 export const plrBaseJumpContext: JumpContextData = { power: 40, delay: 0.2 };
-
-// TODO: so should I do the context conversion in a function then a system or just a system?
-// preferrably a function then system because that is easier to find in the workspace

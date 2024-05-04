@@ -9,6 +9,7 @@ import HealthBar from "./healthBar";
 import HungerBar from "./hungerBar";
 import { useClientState } from "./hooks/ecsSelectors";
 import Interactables from "./interactables";
+import { RemoteTokenProvider } from "./contexts/remoteToken";
 
 function App() {
     const clientState = useClientState();
@@ -36,15 +37,14 @@ function App() {
     );
 }
 
-export default function Root(props: { w: World }) {
-    const w = props.w;
-    const wProviderValue = { w };
-
+export default function Root(props: { w: World; remoteToken: string }) {
     return (
-        <WProvider value={wProviderValue}>
-            <ReflexProvider producer={store}>
-                <App></App>
-            </ReflexProvider>
+        <WProvider value={{ w: props.w }}>
+            <RemoteTokenProvider value={{ remoteToken: props.remoteToken }}>
+                <ReflexProvider producer={store}>
+                    <App></App>
+                </ReflexProvider>
+            </RemoteTokenProvider>
         </WProvider>
     );
 }

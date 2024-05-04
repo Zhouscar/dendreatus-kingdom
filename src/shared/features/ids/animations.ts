@@ -1,14 +1,13 @@
-import Sift from "@rbxts/sift";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 
 export const ANIM_IDS = {
     death: withAssetPrefix("14414130377"),
     dash: withAssetPrefix("14215455071"),
 
-    walk: withAssetPrefix("16783660835"),
+    walk: withAssetPrefix("17376804699"),
     sprint: withAssetPrefix("14207192205"),
     sneak: withAssetPrefix("14215263201"),
-    dive: withAssetPrefix("14215257367"), //TODO: new animation
+    dive: withAssetPrefix("14215257367"),
     swim: withAssetPrefix("14207199744"),
     climb: withAssetPrefix("14207203133"),
 
@@ -21,6 +20,8 @@ export const ANIM_IDS = {
     crashLanding: withAssetPrefix("14207211480"),
 
     falling: withAssetPrefix("14215257367"),
+
+    harvest: withAssetPrefix("13197708605"),
 };
 
 export type AnimName = keyof typeof ANIM_IDS;

@@ -6,10 +6,10 @@ export const ItemConsumeSideEffect = variantModule({});
 export type ItemConsumeSideEffect = VariantOf<typeof ItemConsumeSideEffect>;
 
 export interface ItemConsumableContext {
-    calories: number;
-    duration: number;
-    stageAnimationIds: string[];
-    sideEffects: ItemConsumeSideEffect[];
+    readonly calories: number;
+    readonly duration: number;
+    readonly stageAnimationIds: string[];
+    readonly sideEffects: ItemConsumeSideEffect[];
 }
 
 export const ITEM_CONSUMABLE_CONTEXT: ReadonlyMap<ItemType, ItemConsumableContext> =
@@ -23,7 +23,7 @@ export const ITEM_CONSUMABLE_CONTEXT: ReadonlyMap<ItemType, ItemConsumableContex
                     withAssetPrefix("16651687848"),
                     withAssetPrefix("16651687848"),
                     withAssetPrefix("16651687848"),
-                ], // TODO
+                ],
                 sideEffects: [],
             },
         ],

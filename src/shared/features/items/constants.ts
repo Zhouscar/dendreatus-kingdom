@@ -1,7 +1,7 @@
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { ItemComponentType, ItemType } from "./types";
 
-export type ItemConstant = {
+export type ItemContext = {
     readonly name: string;
     readonly itemType: ItemType;
     readonly itemComponentTypes: ItemComponentType[];
@@ -10,9 +10,9 @@ export type ItemConstant = {
     readonly description: string;
 };
 
-export type ItemConstants = ReadonlyMap<ItemType, ItemConstant>;
+export type ItemContexts = ReadonlyMap<ItemType, ItemContext>;
 
-export const ITEM_CONSTANTS: ItemConstants = new ReadonlyMap([
+export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
     [
         "stick",
         {
@@ -55,8 +55,19 @@ export const ITEM_CONSTANTS: ItemConstants = new ReadonlyMap([
             itemType: "mushroom_soup",
             itemComponentTypes: ["consumable"],
             stackSize: 1,
-            image: withAssetPrefix("16349074550"), // TODO:
+            image: withAssetPrefix("16349074550"),
             description: "",
+        },
+    ],
+    [
+        "sap",
+        {
+            name: "Sap",
+            itemType: "sap",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("16349184242"),
+            description: "TODO",
         },
     ],
 ]);

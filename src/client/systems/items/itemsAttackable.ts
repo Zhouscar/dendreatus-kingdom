@@ -2,6 +2,7 @@ import { AnyEntity, World } from "@rbxts/matter";
 import { Animatable } from "shared/components";
 import { Acting, Action, ShiftForward } from "shared/components/actions";
 import { Dead } from "shared/components/health";
+import { Interacting } from "shared/components/interactables";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
@@ -11,7 +12,7 @@ import {
     ItemActivationCallback,
     plrCallItemActivation,
 } from "shared/functions/itemFunctions";
-import { hasComponents, isLocalPlr } from "shared/hooks/components";
+import { hasComponents, hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 const stepInfoMap: Map<string, { nextStep: number; stepEndTime: number }> = new Map();
 
@@ -25,7 +26,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
 
     let stepInfo = stepInfoMap.get(stepInfoKey);
 
-    const startTime = os.clock();
+    const startTime = tick();
 
     if (!stepInfo) {
         stepInfo = {
@@ -68,7 +69,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
                     ShiftForward({
                         delay: sideEffect.delay,
                         force: sideEffect.force,
-                        startTime: os.clock(),
+                        startTime: tick(),
                     }),
                 );
                 break;
@@ -79,7 +80,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
 const generalCanUse: CanUseItemFunction = (w, e) => {
     return (
         hasComponents(w, e, CanDirectionallyMove, OnLand) &&
-        !hasComponents(w, e, Acting, Climbing, Dead)
+        !hasOneOfComponents(w, e, Interacting, Acting, Climbing, Dead)
     );
 };
 
@@ -107,7 +108,7 @@ function itemsAttackable(w: World) {
         const stepInfo = stepInfoMap.get(getStepInfoKey(e, action.item.itemType));
         if (!stepInfo) continue;
 
-        stepInfo.stepEndTime = os.clock();
+        stepInfo.stepEndTime = tick();
     }
 }
 

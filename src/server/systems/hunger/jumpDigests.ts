@@ -3,7 +3,7 @@ import Sift from "@rbxts/sift";
 import { Stomach } from "shared/components/hunger";
 import { Jumping } from "shared/components/movements";
 
-const JUMP_DIGEST_AMOUNT = 95;
+const JUMP_DIGEST_AMOUNT = 0.2;
 
 function jumpDigests(w: World) {
     for (const [e, jumping] of w.queryChanged(Jumping)) {

@@ -9,12 +9,12 @@ export const ItemAttackSideEffect = variantModule({
 export type ItemAttackSideEffect = VariantOf<typeof ItemAttackSideEffect>;
 
 export interface ItemAttackbleContext {
-    toolHitboxDirectory: string;
-    damage: number;
-    cooldown: number;
-    stepTimeout: number;
-    stepAnimationIds: string[];
-    sideEffects: ItemAttackSideEffect[];
+    readonly toolHitboxDirectory: string;
+    readonly damage: number;
+    readonly cooldown: number;
+    readonly stepTimeout: number;
+    readonly stepAnimationIds: string[];
+    readonly sideEffects: ItemAttackSideEffect[];
 }
 
 export const ITEM_ATTACKABLE_CONTEXTS: ReadonlyMap<ItemType, ItemAttackbleContext> =

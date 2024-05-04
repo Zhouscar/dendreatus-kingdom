@@ -10,5 +10,11 @@ export interface Item {
 
 export type ItemComponentType = "weapon" | "relics" | "consumable";
 
-export const isItemType = t.literal("stick", "bigger_stick", "crucifix_dagger", "mushroom_soup");
+export const isItemType = t.literal(
+    "stick",
+    "bigger_stick",
+    "crucifix_dagger",
+    "mushroom_soup",
+    "sap",
+);
 export type ItemType = t.static<typeof isItemType>;

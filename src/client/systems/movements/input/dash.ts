@@ -17,7 +17,7 @@ function dash(w: World) {
 
         if (keysJustReleased.includes("sprintDash")) {
             if (timeKeyHeld <= THRESHOLD_TIME) {
-                w.insert(e, Dashing({ startTime: os.clock() }));
+                w.insert(e, Dashing({ startTime: tick() }));
             }
             timeKeyHeld = 0;
             continue;

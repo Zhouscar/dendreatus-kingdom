@@ -33,7 +33,7 @@ function cameraView(w: World) {
         .add(targetCF.RightVector.mul(viewVector.right))
         .add(targetCF.UpVector.mul(viewVector.up));
 
-    const shakeElapsed = os.clock() - lastTimeShaked;
+    const shakeElapsed = tick() - lastTimeShaked;
 
     camera.CFrame = new CFrame(goalPosition, targetPosition).add(
         new Vector3(r(-1, 1), r(-1, 1), r(-1, 1)).mul(

@@ -2,6 +2,7 @@ import { World } from "@rbxts/matter";
 import { Animatable } from "shared/components";
 import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
+import { Interacting } from "shared/components/interactables";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
@@ -10,7 +11,7 @@ import {
     ItemActivationCallback,
     plrCallItemActivation,
 } from "shared/functions/itemFunctions";
-import { hasComponents, isLocalPlr } from "shared/hooks/components";
+import { hasComponents, hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 const generalPressCallback: ItemActivationCallback = (w, e, item) => {
     const itemContext = ITEM_CONSUMABLE_CONTEXT.get(item.itemType);
@@ -29,13 +30,12 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
             action: Action.consuming({
                 stage: nextCosumeStage,
                 item: item,
-                startTime: os.clock(),
+                startTime: tick(),
                 duration: itemContext.duration,
             }),
         }),
     );
 
-    print(nextCosumeStage);
 
     const animatable = w.get(e, Animatable);
     if (animatable) {
@@ -51,7 +51,7 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
 const generalCanUse: CanUseItemFunction = (w, e) => {
     return (
         hasComponents(w, e, CanDirectionallyMove, OnLand) &&
-        !hasComponents(w, e, Acting, Climbing, Dead)
+        !hasOneOfComponents(w, e, Interacting, Acting, Climbing, Dead)
     );
 };
 

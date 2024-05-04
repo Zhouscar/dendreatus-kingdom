@@ -9,7 +9,6 @@ function immutModifyItemAtGuid(
     recipe: (draft: Draft<Item>) => Draft<Item> | void | undefined | Item,
 ) {
     return produce(inventory, (draft) => {
-        print(guid);
         const item = draft.items.get(guid);
         if (item === undefined) return;
         draft.items.set(guid, produce(item, recipe));

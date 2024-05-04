@@ -1,12 +1,13 @@
 import { AnyEntity } from "@rbxts/matter";
 import { createProducer } from "@rbxts/reflex";
+import { CannotInteractReason } from "shared/components/interactables";
 import { InteractState } from "shared/features/interactables/types";
 import { ClientState } from "shared/state";
 
 export type ECSState = {
     localPlrE: AnyEntity | undefined;
     clientState: ClientState;
-    interactEs: Map<AnyEntity, InteractState>;
+    interactEs: Map<AnyEntity, [InteractState, CannotInteractReason | undefined]>;
 };
 
 const initState: ECSState = {
@@ -26,7 +27,10 @@ export const ecsSlice = createProducer(initState, {
         clientState: clientState,
     }),
 
-    setInteractEs: (state, interactEs: Map<AnyEntity, InteractState>) => ({
+    setInteractEs: (
+        state,
+        interactEs: Map<AnyEntity, [InteractState, CannotInteractReason | undefined]>,
+    ) => ({
         ...state,
         interactEs: interactEs,
     }),

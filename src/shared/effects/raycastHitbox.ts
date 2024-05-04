@@ -72,14 +72,14 @@ class Caster {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, NONE);
         });
-        this.lastUpdateTime = os.clock();
+        this.lastUpdateTime = tick();
     }
 
     step() {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, attachment.WorldPosition);
         });
-        this.lastUpdateTime = os.clock();
+        this.lastUpdateTime = tick();
     }
 
     cast(
@@ -91,7 +91,7 @@ class Caster {
         const parts: Set<BasePart> = new Set();
         const entities: Set<AnyEntity> = new Set();
 
-        if (autoCut !== false && os.clock() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
+        if (autoCut !== false && tick() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
             this.cut();
         }
 

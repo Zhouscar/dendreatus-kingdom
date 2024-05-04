@@ -8,7 +8,7 @@ import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/play
 import ItemFragments from "./itemFragments";
 import { immutPutItems } from "shared/features/inventory/functions";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
-import { ITEM_CONSTANTS } from "shared/features/items/constants";
+import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { RootProducer, store } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
 import { remos, routes } from "shared/network";
@@ -57,7 +57,7 @@ function App(props: {}) {
 
     useEffect(() => {
         if (itemCurrentlyHovered === undefined) return;
-        const itemConstant = ITEM_CONSTANTS.get(itemCurrentlyHovered.itemType);
+        const itemConstant = ITEM_CONTEXTS.get(itemCurrentlyHovered.itemType);
         if (itemConstant === undefined) return;
 
         setItemName(itemConstant.name);

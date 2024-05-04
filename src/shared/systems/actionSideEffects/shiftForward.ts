@@ -28,7 +28,7 @@ function shiftForward(w: World) {
 
     for (const [e, shiftForward] of w.query(ShiftForward)) {
         const endTime = shiftForward.startTime + SHIFT_FORWARD_DURATION;
-        if (os.clock() >= endTime) {
+        if (tick() >= endTime) {
             w.remove(e, ShiftForward);
         }
     }

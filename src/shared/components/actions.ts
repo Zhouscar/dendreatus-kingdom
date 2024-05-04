@@ -2,6 +2,7 @@ import { t } from "@rbxts/t";
 import variantModule, { TypeNames, VariantOf, fields } from "@rbxts/variant";
 import { Item } from "shared/features/items/types";
 import { ComponentCreator } from "./creators";
+import { WithDuration } from "shared/features/types";
 
 type WithItem = {
     item: Item;
@@ -9,17 +10,6 @@ type WithItem = {
 export const isWithItem = (value: unknown): value is WithItem => {
     return t.interface({
         item: t.table,
-    })(value);
-};
-
-type WithDuration = {
-    startTime: number;
-    duration: number;
-};
-export const isWithDuration = (value: unknown): value is WithDuration => {
-    return t.interface({
-        startTime: t.number,
-        duration: t.number,
     })(value);
 };
 

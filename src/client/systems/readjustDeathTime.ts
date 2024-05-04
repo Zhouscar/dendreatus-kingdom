@@ -10,7 +10,7 @@ function readjustDeathTime(w: World) {
         w.insert(
             e,
             deadRecord.new.patch({
-                startTime: os.clock(),
+                startTime: tick(),
             }),
         );
     }

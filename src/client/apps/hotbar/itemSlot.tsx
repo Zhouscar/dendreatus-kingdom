@@ -2,7 +2,7 @@ import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { Item } from "shared/features/items/types";
 import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
-import { ITEM_CONSTANTS } from "shared/features/items/constants";
+import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { useEffect, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 import useEnabled from "../hooks/useEnabled";
@@ -30,7 +30,7 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
         }
     }, [consumeStagePerc]);
 
-    const image = item !== undefined ? ITEM_CONSTANTS.get(item.itemType)?.image : undefined;
+    const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
     const [enabilityMotor, setEnabilityMotor] = useMotor(0);
     const enabilitySemiTransparency = enabilityMotor.map((v) => 1 - v * 0.3);
