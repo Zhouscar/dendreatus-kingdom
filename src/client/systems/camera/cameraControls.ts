@@ -1,10 +1,7 @@
 import { useDeltaTime, useEvent, World } from "@rbxts/matter";
-import { useChange } from "@rbxts/matter-hooks";
-import { Players, UserInputService, Workspace } from "@rbxts/services";
+import { UserInputService, Workspace } from "@rbxts/services";
 import { LocalPlr, Renderable } from "shared/components";
 import { State } from "shared/state";
-
-const prevMousePos = UserInputService.GetMouseLocation();
 
 let targetRotationX = 0;
 let targetRotationY = 0;
