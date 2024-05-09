@@ -15,4 +15,6 @@ export class State {
     clientState: ClientState = "game";
 
     bloodDrips: Set<[BasePart, Instance]> = new Set();
+
+    cameraShake: number = 0;
 }

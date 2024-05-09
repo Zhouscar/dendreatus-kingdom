@@ -1,14 +1,12 @@
-import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
-import { store } from "client/store";
-import { Plr } from "shared/components";
+import { useDeltaTime, World } from "@rbxts/matter";
 import { Damage } from "shared/components/health";
 import { isLocalPlr } from "shared/hooks/components";
 import { State } from "shared/state";
 
-const shakeIntensity = 0.5;
-
 function cameraShakeOnDamage(w: World, s: State) {
+    s.cameraShake -= useDeltaTime() / 2;
+    s.cameraShake = math.clamp(s.cameraShake, 0, 1);
+
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
         if (!damageRecord.new) continue;
@@ -16,7 +14,8 @@ function cameraShakeOnDamage(w: World, s: State) {
 
         if (damageRecord.new.damageType !== "physical") continue;
 
-        // store.shakeCamera(shakeIntensity, tick()); TODO
+        s.cameraShake += 0.3;
+        s.cameraShake = math.clamp(s.cameraShake, 0, 1);
     }
 }
 

@@ -1,7 +1,6 @@
 import { Make } from "@rbxts/altmake";
 import { World, useDeltaTime } from "@rbxts/matter";
-import { Lighting, Players, Workspace } from "@rbxts/services";
-import { Plr } from "shared/components";
+import { Lighting } from "@rbxts/services";
 import { Damage } from "shared/components/health";
 import { isLocalPlr } from "shared/hooks/components";
 

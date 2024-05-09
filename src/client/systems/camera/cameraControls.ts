@@ -36,7 +36,16 @@ function cameraControls(w: World, s: State) {
                 newRotationX = newRotationX + (targetRotationX - newRotationX) * dt * 15;
                 newRotationY = newRotationY + (targetRotationY - newRotationY) * dt * 15;
 
-                const rotation = CFrame.fromEulerAnglesYXZ(newRotationX, newRotationY, 0);
+                const now = os.clock();
+                const shakeRotationX = 5 * s.cameraShake * math.noise(10, now * 200);
+                const shakeRotationY = 5 * s.cameraShake * math.noise(20, now * 200);
+                const shakeRotationZ = 5 * s.cameraShake * math.noise(30, now * 200);
+
+                const rotation = CFrame.fromEulerAnglesYXZ(
+                    newRotationX + shakeRotationX,
+                    newRotationY + shakeRotationY,
+                    shakeRotationZ,
+                );
                 const _cf = rotation.add(newPosition.add(new Vector3(0, newDistance / 4, 0)));
                 const newCF = _cf.add(_cf.LookVector.mul(-newDistance));
 
