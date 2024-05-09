@@ -1,10 +1,1 @@
-interactable hints
-    hintable entities are stored in reflex
-    mostly done in roact
-
-    hintEs, do it in an ecs system and make sure it doesn't update every frame
-
-    use useCharacterCFrameMutable to determine with hints are visible
-
-interactable
-    preferably only one choice for every
+rework camera controls

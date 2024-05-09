@@ -16,7 +16,7 @@ function cameraShakeOnDamage(w: World, s: State) {
 
         if (damageRecord.new.damageType !== "physical") continue;
 
-        store.shakeCamera(shakeIntensity, tick());
+        // store.shakeCamera(shakeIntensity, tick()); TODO
     }
 }
 
