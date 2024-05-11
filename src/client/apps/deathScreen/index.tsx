@@ -1,4 +1,4 @@
-import { Spring, useBindingListener, useMotor, useTimeout } from "@rbxts/pretty-roact-hooks";
+import { Spring, useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import EntireScreen from "../components/entireScreen";
 import { Lighting, SoundService } from "@rbxts/services";
@@ -7,6 +7,7 @@ import DeathScreenOptionButton from "./deathScreenOptionButton";
 import { useState } from "@rbxts/roact-hooked";
 import { Make } from "@rbxts/altmake";
 import { SOUND_IDS } from "shared/features/ids/sounds";
+import { useSpring } from "../hooks/ripple";
 
 const blackOutAtmosphere = Make("Atmosphere", {
     Name: "BlackOut",
@@ -23,32 +24,34 @@ const youDiedSound = Make("Sound", {
 });
 
 export default function DeathScreen(props: {}) {
-    const [blackOutEnability, setBlackOutEnability] = useMotor(0);
-    const [titleEnability, setTitleEnability] = useMotor(0);
-    const [optionsEnability, setOptionsEnability] = useMotor(0);
+    const [blackOutEnabled, setBlackOutEnabled] = useState(false);
+    const [titleEnabled, setTitleEnabled] = useState(false);
     const [optionsEnabled, setOptionsEnabled] = useState(false);
 
-    const titleTransparency = titleEnability.map((v) => 1 - v);
-    const titleSuperPosition = useSuperPosition(titleEnability, new UDim2(0.5, 0, 0.1, 0));
+    const blackOutSpring = useSpring(blackOutEnabled ? 1 : 0, { frequency: 0.5 });
+    const titleSpring = useSpring(titleEnabled ? 1 : 0, { frequency: 1 });
+    const optionsSpring = useSpring(optionsEnabled ? 1 : 0, { frequency: 1 });
 
-    const optionsSuperPosition = useSuperPosition(optionsEnability, new UDim2(0.5, 0, 0.7, 0));
+    const titleTransparency = titleSpring.map((v) => 1 - v);
+    const titleSuperPosition = useSuperPosition(titleSpring, new UDim2(0.5, 0, 0.1, 0));
 
-    useBindingListener(blackOutEnability, (v) => {
+    const optionsSuperPosition = useSuperPosition(optionsSpring, new UDim2(0.5, 0, 0.7, 0));
+
+    useBindingListener(blackOutSpring, (v) => {
         blackOutAtmosphere.Density = v;
         blackOutAtmosphere.Haze = v * 10;
     });
 
     useTimeout(() => {
-        setBlackOutEnability(new Spring(1, { frequency: 0.5 }));
+        setBlackOutEnabled(true);
     }, 3);
 
     useTimeout(() => {
-        setTitleEnability(new Spring(1, { frequency: 1 }));
+        setTitleEnabled(true);
         youDiedSound.Play();
     }, 5);
 
     useTimeout(() => {
-        setOptionsEnability(new Spring(1, { frequency: 1 }));
         setOptionsEnabled(true);
     }, 6);
 

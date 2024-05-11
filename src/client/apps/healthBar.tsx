@@ -1,18 +1,16 @@
-import { Spring, useDebounceEffect, useMotor } from "@rbxts/pretty-roact-hooks";
+import { useDebounceEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
-import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
 import useComponent from "./hooks/useComponent";
 import { Health } from "shared/components/health";
 import { useLocalPlrE } from "./hooks/ecsSelectors";
 import { EnabilityProvider } from "./contexts/enability";
-import useEnabled from "./hooks/useEnabled";
+import { useMotion } from "./hooks/ripple";
+import { useEnability } from "./hooks/enability";
 
 function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
-    const enabled = useEnabled();
-
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-    const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
+    const enability = useEnability();
+    const enabilityTransparency = enability.map((v) => 1 - v);
 
     const localPlrE = useLocalPlrE();
     const health = useComponent(localPlrE, Health);
@@ -21,15 +19,13 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
     const current = health?.current ?? 100;
 
     const currentPerc = current / maximum;
-    const [flashPerc, setFlashPerc] = useMotor(1);
+    const [flashPerc, flashPercMotion] = useMotion(1);
 
-    const rootPosition = useSuperPosition(enabilityMotor, props.Position);
-
-    useSwitchMotorEffect(enabled, setEnabilityMotor);
+    const rootPosition = useSuperPosition(enability, props.Position);
 
     useDebounceEffect(
         () => {
-            setFlashPerc(new Spring(currentPerc));
+            flashPercMotion.set(currentPerc);
         },
         [current],
         { wait: 0.5 },

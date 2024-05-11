@@ -3,7 +3,15 @@ import { LocalPlr, Plr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { Stomach } from "shared/components/hunger";
-import { CanDash, CrashLanding, DashContext, Dashing, OnLand } from "shared/components/movements";
+import { Interacting } from "shared/components/interactables";
+import {
+    CanDash,
+    Climbing,
+    CrashLanding,
+    DashContext,
+    Dashing,
+    OnLand,
+} from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
@@ -22,7 +30,7 @@ function canDash(w: World, s: State) {
     }
 
     for (const [e, localPlr, dashContext] of w.query(LocalPlr, DashContext)) {
-        if (hasOneOfComponents(w, e, Dashing, Acting)) {
+        if (hasOneOfComponents(w, e, Dashing, Acting, Interacting, Climbing)) {
             w.remove(e, CanDash);
             break;
         }

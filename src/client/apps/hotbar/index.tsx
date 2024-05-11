@@ -1,13 +1,11 @@
 import Roact from "@rbxts/roact";
 import ItemFragments from "./itemFragments";
 import useSuperPosition from "../hooks/useSuperPosition";
-import { useMotor } from "@rbxts/pretty-roact-hooks";
-import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import useComponent from "../hooks/useComponent";
 import { EquippingByIndex } from "shared/components/items";
 import { useLocalPlrE } from "../hooks/ecsSelectors";
-import useEnabled from "../hooks/useEnabled";
 import { EnabilityProvider } from "../contexts/enability";
+import { useEnability } from "../hooks/enability";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;
@@ -17,19 +15,15 @@ function getLengthBySlots(count: number) {
 }
 
 function App(props: {}) {
-    const enabled = useEnabled();
-
     const localPlrE = useLocalPlrE();
 
     const equippingByIndex = useComponent(localPlrE, EquippingByIndex);
     const indexEquipped = equippingByIndex?.index;
 
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-
-    useSwitchMotorEffect(enabled, setEnabilityMotor);
+    const enability = useEnability();
 
     const superPosition = useSuperPosition(
-        enabilityMotor,
+        enability,
         new UDim2(0, getLengthBySlots(10), 0, getLengthBySlots(1)),
     );
 

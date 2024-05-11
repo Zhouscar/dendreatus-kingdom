@@ -1,11 +1,11 @@
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { Item } from "shared/features/items/types";
-import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { useEffect, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
-import useEnabled from "../hooks/useEnabled";
+import { useSpring } from "../hooks/ripple";
+import { useEnability, useEnabled } from "../hooks/enability";
 
 export default function ItemSlot(props: { item: Item | undefined; equipped: boolean }) {
     const enabled = useEnabled();
@@ -22,33 +22,19 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
 
         return 1 - (item.consumeStage + 1) / context.stageAnimationIds.size();
     }, [item, item?.itemType]);
-    const [consumeStagePercMotor, setConsumeStagePercMotor] = useMotor(1);
 
-    useEffect(() => {
-        if (consumeStagePerc !== undefined) {
-            setConsumeStagePercMotor(new Spring(consumeStagePerc));
-        }
-    }, [consumeStagePerc]);
+    const consumeStagePercSpring = useSpring(consumeStagePerc ?? 1);
 
     const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-    const enabilitySemiTransparency = enabilityMotor.map((v) => 1 - v * 0.3);
-    const enabilityTinyTransparency = enabilityMotor.map((v) => 1 - v * 0.8);
-    const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
+    const enability = useEnability();
 
-    const [equippedMotor, setEquippedMotor] = useMotor(0);
-    const equippedTransparency = equippedMotor.map((v) => 1 - v);
+    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.3);
+    const enabilityTinyTransparency = enability.map((v) => 1 - v * 0.8);
+    const enabilityTransparency = enability.map((v) => 1 - v);
 
-    useSwitchMotorEffect(equipped, setEquippedMotor);
-    useSwitchMotorEffect(enabled, setEnabilityMotor);
-
-    useEffect(() => {
-        if (!enabled) setEquippedMotor(new Spring(0));
-        else if (equipped) {
-            setEquippedMotor(new Spring(1));
-        }
-    }, [enabled]);
+    const equippedSpring = useSpring(equipped && enabled ? 1 : 0);
+    const equippedTransparency = equippedSpring.map((v) => 1 - v);
 
     return (
         <frame
@@ -99,7 +85,7 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
                             BackgroundTransparency={enabilityTinyTransparency}
                         >
                             <frame
-                                Size={consumeStagePercMotor.map((v) => new UDim2(v, -4, 1, -4))}
+                                Size={consumeStagePercSpring.map((v) => new UDim2(v, -4, 1, -4))}
                                 AnchorPoint={new Vector2(0, 0.5)}
                                 Position={new UDim2(0, 2, 0.5, 0)}
                                 BorderSizePixel={0}
@@ -107,7 +93,7 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
                                 Transparency={enabilityTransparency}
                             >
                                 <uigradient
-                                    Color={consumeStagePercMotor.map(
+                                    Color={consumeStagePercSpring.map(
                                         (v) =>
                                             new ColorSequence(
                                                 new Color3(1 - v, v, 0),

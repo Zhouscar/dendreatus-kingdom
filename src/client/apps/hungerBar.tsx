@@ -1,19 +1,17 @@
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
-import useSwitchMotorEffect from "./hooks/useSwitchMotorEffect";
 import useComponent from "./hooks/useComponent";
 import { Stomach } from "shared/components/hunger";
 import { useEffect } from "@rbxts/roact-hooked";
 import { useLocalPlrE } from "./hooks/ecsSelectors";
-import useEnabled from "./hooks/useEnabled";
 import { EnabilityProvider } from "./contexts/enability";
+import { useSpring } from "./hooks/ripple";
+import { useEnability } from "./hooks/enability";
 
 function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
-    const enabled = useEnabled();
-
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-    const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
+    const enability = useEnability();
+    const enabilityTransparency = enability.map((v) => 1 - v);
 
     const localPlrE = useLocalPlrE();
     const stomach = useComponent(localPlrE, Stomach);
@@ -21,16 +19,8 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
     const maximum = stomach?.capacity ?? 100;
     const current = stomach?.hunger ?? 100;
 
-    const currentPerc = current / maximum;
-    const [currentPercMotor, setCurrentPercMotor] = useMotor(1);
-
-    useEffect(() => {
-        setCurrentPercMotor(new Spring(currentPerc));
-    }, [current]);
-
-    const rootPosition = useSuperPosition(enabilityMotor, props.Position);
-
-    useSwitchMotorEffect(enabled, setEnabilityMotor);
+    const currentPerc = useSpring(current / maximum);
+    const rootPosition = useSuperPosition(enability, props.Position);
 
     return (
         <frame
@@ -65,7 +55,7 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
                 <frame
                     ZIndex={3}
                     Position={new UDim2(0, 0, 0, 0)}
-                    Size={currentPercMotor.map((v) => new UDim2(v, 0, 1, 0))}
+                    Size={currentPerc.map((v) => new UDim2(v, 0, 1, 0))}
                     BorderSizePixel={0}
                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
                     Transparency={enabilityTransparency}

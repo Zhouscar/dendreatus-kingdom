@@ -1,6 +1,7 @@
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
+import { useSpring } from "../hooks/ripple";
 
 export default function DeathScreenOptionButton(props: {
     enabled: boolean;
@@ -11,25 +12,26 @@ export default function DeathScreenOptionButton(props: {
     const text = props.text;
     const onClick = props.onClick;
 
-    const [enabledMotor, setEnabledMotor] = useMotor(0);
-    const [hoveringMotor, setHoveringMotor] = useMotor(0);
+    const enability = useSpring(enabled ? 1 : 0, { frequency: 1 });
 
-    const hoveringTransparency = hoveringMotor.map((v) => 1 - v);
-    const enabledTransparency = enabledMotor.map((v) => 1 - v);
-    const textColor = hoveringMotor.map((v) => new Color3(1 - v, 0, 0));
+    const [isHovering, setIsHovering] = useState(false);
+    const hovering = useSpring(isHovering ? 1 : 0);
+
+    const hoveringTransparency = hovering.map((v) => 1 - v);
+    const enabilityTransparency = enability.map((v) => 1 - v);
+    const textColor = hovering.map((v) => new Color3(1 - v, 0, 0));
 
     useEffect(() => {
-        setEnabledMotor(new Spring(enabled ? 1 : 0, { frequency: 1 }));
         if (!enabled) {
-            setHoveringMotor(new Spring(0));
+            setIsHovering(false);
         }
     }, [enabled]);
 
     const mouseEnter = useCallback(() => {
-        setHoveringMotor(new Spring(1));
+        setIsHovering(false);
     }, []);
     const mouseLeave = useCallback(() => {
-        setHoveringMotor(new Spring(0));
+        setIsHovering(true);
     }, []);
 
     return (
@@ -48,14 +50,14 @@ export default function DeathScreenOptionButton(props: {
             TextSize={30}
             TextColor3={textColor}
             Active={enabled}
-            TextTransparency={enabledTransparency}
+            TextTransparency={enabilityTransparency}
             Font={"Fantasy"}
         >
             <uicorner CornerRadius={new UDim(0, 10)}></uicorner>
             <uistroke
                 Thickness={1}
                 ApplyStrokeMode={"Contextual"}
-                Transparency={enabledTransparency}
+                Transparency={enabilityTransparency}
             ></uistroke>
         </textbutton>
     );

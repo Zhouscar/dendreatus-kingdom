@@ -2,6 +2,7 @@ import { World } from "@rbxts/matter";
 import { LocalPlr } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
+import { Interacting } from "shared/components/interactables";
 import {
     CanDirectionallyMove,
     CrashLanding,
@@ -23,7 +24,7 @@ function canDirectionallyMove(w: World, s: State) {
         LocalPlr,
         DirectionalMovementContext,
     )) {
-        if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting)) {
+        if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting, Interacting)) {
             w.insert(e, CanDirectionallyMove({}));
         } else {
             w.remove(e, CanDirectionallyMove, DirectionalMovement);

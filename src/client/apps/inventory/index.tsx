@@ -1,19 +1,18 @@
 import Roact from "@rbxts/roact";
-import { ReflexProvider, useProducer, useSelector } from "@rbxts/roact-reflex";
+import { useProducer, useSelector } from "@rbxts/roact-reflex";
 import EntireScreen from "../components/entireScreen";
 import { theLocalPlr } from "client/localPlr";
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import { useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
 import ItemFragments from "./itemFragments";
 import { immutPutItems } from "shared/features/inventory/functions";
-import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { RootProducer, store } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
 import { remos, routes } from "shared/network";
 import { EnabilityProvider } from "../contexts/enability";
-import useEnabled from "../hooks/useEnabled";
+import { useEnability } from "../hooks/enability";
+import { useSpring } from "../hooks/ripple";
 
 let testInventory = defaultPlayerInventory;
 testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
@@ -27,11 +26,9 @@ function getLengthBySlots(count: number) {
 }
 
 function App(props: {}) {
-    const enabled = useEnabled();
-
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-    const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
-    const enabilitySemiTransparency = enabilityMotor.map((v) => 1 - v * 0.3);
+    const enability = useEnability();
+    const enabilityTransparency = enability.map((v) => 1 - v);
+    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.3);
 
     const store = useProducer<RootProducer>();
     const inventory = useSelector(selectPlayerInventory(theLocalPlr));
@@ -49,8 +46,8 @@ function App(props: {}) {
         return inventory.items.get(itemGuid);
     }, [indexCurrentlyHovered, inventory]);
 
-    const [itemDescriptionShowingMotor, setItemDescriptionShowingMotor] = useMotor(0);
-    const itemDescriptionTransparency = itemDescriptionShowingMotor.map((v) => 1 - v);
+    const itemDescriptionShowingSpring = useSpring(itemCurrentlyHovered !== undefined ? 1 : 0);
+    const itemDescriptionTransparency = itemDescriptionShowingSpring.map((v) => 1 - v);
 
     const [itemName, setItemName] = useBinding("");
     const [itemDescription, setItemDescription] = useBinding("");
@@ -64,18 +61,12 @@ function App(props: {}) {
         setItemDescription(itemConstant.description);
     }, [itemCurrentlyHovered]);
 
-    useSwitchMotorEffect(itemCurrentlyHovered !== undefined, setItemDescriptionShowingMotor);
-
     const swapItems = useCallback((from: number, to: number) => {
         remos.store.swapItems.fire(from, to);
     }, []);
 
-    useEffect(() => {
-        setEnabilityMotor(new Spring(enabled ? 1 : 0));
-    }, [enabled]);
-
     return (
-        <EntireScreen superPositionEnabilityMotor={enabilityMotor} Key={"Inventory"}>
+        <EntireScreen superPositionEnability={enability} Key={"Inventory"}>
             <EntireScreen handleInset={true}>
                 <frame
                     Key={"Background"}

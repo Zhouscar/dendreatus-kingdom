@@ -34,6 +34,7 @@
     "@rbxts/profileservice": "^1.4.1",
     "@rbxts/reflex": "^4.2.0",
     "@rbxts/remo": "^1.2.1",
+    "@rbxts/ripple": "^0.8.1",
     "@rbxts/roact": "^1.4.4-ts.0",
     "@rbxts/roact-hooked": "^2.6.1",
     "@rbxts/roact-reflex": "^2.1.0",

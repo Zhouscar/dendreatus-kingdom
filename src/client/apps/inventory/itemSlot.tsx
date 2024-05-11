@@ -1,4 +1,4 @@
-import { Spring, useDeferEffect, useMotor } from "@rbxts/pretty-roact-hooks";
+import { Spring, useDeferEffect } from "@rbxts/pretty-roact-hooks";
 import Roact, { createRef } from "@rbxts/roact";
 import {
     Dispatch,
@@ -9,12 +9,12 @@ import {
     useMemo,
     useState,
 } from "@rbxts/roact-hooked";
-import useSwitchMotorEffect from "../hooks/useSwitchMotorEffect";
 import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
-import useEnabled from "../hooks/useEnabled";
+import { useEnability, useEnabled } from "../hooks/enability";
+import { useSpring } from "../hooks/ripple";
 
 export default function ItemSlot(props: {
     index: number;
@@ -38,13 +38,8 @@ export default function ItemSlot(props: {
 
         return 1 - (item.consumeStage + 1) / context.stageAnimationIds.size();
     }, [item, item?.itemType]);
-    const [consumeStagePercMotor, setConsumeStagePercMotor] = useMotor(1);
 
-    useEffect(() => {
-        if (consumeStagePerc !== undefined) {
-            setConsumeStagePercMotor(new Spring(consumeStagePerc));
-        }
-    }, [consumeStagePerc]);
+    const consumeStagePercSpring = useSpring(consumeStagePerc ?? 1);
 
     const indexCurrentlyHovered = props.indexCurrentlyHovered;
     const setIndexCurrentlyHovered = props.setIndexCurrentlyHovered;
@@ -52,23 +47,22 @@ export default function ItemSlot(props: {
 
     const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
-    const [enabilityMotor, setEnabilityMotor] = useMotor(0);
-    const enabilityTransparency = enabilityMotor.map((v) => 1 - v);
-    const enabilitySemiTransparency = enabilityMotor.map((v) => 1 - v * 0.5);
-    const enabilityTinyTransparency = enabilityMotor.map((v) => 1 - v * 0.8);
+    const enability = useEnability();
+    const enabilityTransparency = enability.map((v) => 1 - v);
+    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.5);
+    const enabilityTinyTransparency = enability.map((v) => 1 - v * 0.8);
 
     const [hovering, setHovering] = useState(false);
-    const [hoverMotor, setHoverMotor] = useMotor(0);
-    const hoverTransparency = hoverMotor.map((v) => 1 - v);
+    const hoverSpring = useSpring(hovering ? 1 : 0);
+    const hoverTransparency = hoverSpring.map((v) => 1 - v);
 
     const [dragging, setDragging] = useState(false);
-    const [dragMotor, setDragMotor] = useMotor(0);
+    const dragSpring = useSpring(dragging ? 1 : 0);
+
     const [draggerOffset, setDraggerOffset] = useBinding(new Vector2(0, 0));
     const [draggerPosition, setDraggerPosition] = useBinding(new UDim2(0, 0, 0, 0));
 
-    useSwitchMotorEffect(dragging, setDragMotor);
-
-    const draggerSize = dragMotor.map((v) => new UDim2(0, 80 - v * 20, 0, 80 - v * 20));
+    const draggerSize = dragSpring.map((v) => new UDim2(0, 80 - v * 20, 0, 80 - v * 20));
 
     const itemImageRef = createRef<ImageLabel>();
 
@@ -129,9 +123,6 @@ export default function ItemSlot(props: {
         if (input.UserInputType !== Enum.UserInputType.MouseButton1) return;
         setDragging(false);
     }, []);
-
-    useSwitchMotorEffect(hovering, setHoverMotor);
-    useSwitchMotorEffect(enabled, setEnabilityMotor);
 
     return (
         <frame
@@ -205,7 +196,9 @@ export default function ItemSlot(props: {
                                 BackgroundTransparency={enabilityTinyTransparency}
                             >
                                 <frame
-                                    Size={consumeStagePercMotor.map((v) => new UDim2(v, -4, 1, -4))}
+                                    Size={consumeStagePercSpring.map(
+                                        (v) => new UDim2(v, -4, 1, -4),
+                                    )}
                                     AnchorPoint={new Vector2(0, 0.5)}
                                     Position={new UDim2(0, 2, 0.5, 0)}
                                     BorderSizePixel={0}
@@ -213,7 +206,7 @@ export default function ItemSlot(props: {
                                     Transparency={enabilityTransparency}
                                 >
                                     <uigradient
-                                        Color={consumeStagePercMotor.map(
+                                        Color={consumeStagePercSpring.map(
                                             (v) =>
                                                 new ColorSequence(
                                                     new Color3(1 - v, v, 0),

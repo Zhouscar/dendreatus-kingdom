@@ -1,10 +1,8 @@
 import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
-import useEnabled from "../hooks/useEnabled";
 import { InteractState } from "shared/features/interactables/types";
 import useComponent from "../hooks/useComponent";
 import { Renderable } from "shared/components";
-import { Spring, useMotor } from "@rbxts/pretty-roact-hooks";
 import { useBinding, useEffect, useMutable, useState } from "@rbxts/roact-hooked";
 import { RunService, UserInputService } from "@rbxts/services";
 import { useSelector } from "@rbxts/roact-reflex";
@@ -13,6 +11,8 @@ import { theLocalPlr } from "client/localPlr";
 import { CannotInteractReason, Harvestable, Interacting } from "shared/components/interactables";
 import { useLocalPlrE } from "../hooks/ecsSelectors";
 import useW from "../hooks/useW";
+import { useEnabled } from "../hooks/enability";
+import { useSpring } from "../hooks/ripple";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -30,40 +30,21 @@ export default function Interactable(props: {
     const renderable = useComponent(e, Renderable);
     const model = renderable?.model;
 
-    const [buttonTransparency, setButtonTransparency] = useMotor(
-        state === "hidden" || !enabled ? 1 : 0,
+    const buttonTransparency = useSpring(
+        state === "hidden" || !enabled || cannotInteractReason?.type === "busy"
+            ? 1
+            : cannotInteractReason !== undefined
+              ? 0.5
+              : 0,
     );
-    useEffect(() => {
-        const interactTransparency = cannotInteractReason !== undefined ? 0.5 : 0;
-        setButtonTransparency(
-            new Spring(
-                state === "hidden" || !enabled || cannotInteractReason?.type === "busy"
-                    ? 1
-                    : interactTransparency,
-            ),
-        );
-    }, [state, enabled, cannotInteractReason]);
 
     const canInteract = enabled && state === "showing" && cannotInteractReason === undefined;
 
-    // const [ableToInteractMotor, setAbleToInteractMotor] = useMotor(
-    //     cannotInteractReason === undefined ? 1 : 0,
-    // );
-    // useEffect(() => {
-    //     const ableToInteract = cannotInteractReason === undefined;
-    //     setAbleToInteractMotor(new Spring(ableToInteract ? 1 : 0));
-    // }, [cannotInteractReason]);
+    const showSpring = useSpring(canInteract && enabled ? 1 : 0);
 
-    const [showMotor, setShowMotor] = useMotor(canInteract ? 1 : 0);
-    useEffect(() => {
-        setShowMotor(new Spring(canInteract && enabled ? 1 : 0));
-    }, [canInteract]);
-
-    const [cooldownTransparency, setCooldownTransparency] = useMotor(1);
-    useEffect(() => {
-        const willShow = cannotInteractReason?.type === "cooldown" && state === "showing";
-        setCooldownTransparency(new Spring(willShow ? 0 : 1));
-    }, [cannotInteractReason, state]);
+    const cooldownTransparency = useSpring(
+        cannotInteractReason?.type === "cooldown" && state === "showing" ? 0 : 1,
+    );
 
     const [cooldownPerc, setCooldownPerc] = useBinding(0);
     useEffect(() => {
@@ -85,9 +66,9 @@ export default function Interactable(props: {
         };
     }, [cannotInteractReason]);
 
-    const frameSize = showMotor.map((v) => new UDim2(0, 10 + v * 20, 0, 10 + v * 20));
-    const textFrameSize = showMotor.map((v) => new UDim2(0, v * 200, 0, 50));
-    const showTransparency = showMotor.map((v) => 1 - v);
+    const frameSize = showSpring.map((v) => new UDim2(0, 10 + v * 20, 0, 10 + v * 20));
+    const textFrameSize = showSpring.map((v) => new UDim2(0, v * 200, 0, 50));
+    const showTransparency = showSpring.map((v) => 1 - v);
 
     const [interactionName, setInteractionName] = useState("");
     const interactionFunction = useMutable(() => {

@@ -1,5 +1,5 @@
 import { useDeltaTime, World } from "@rbxts/matter";
-import { LocalPlr, Plr } from "shared/components";
+import { LocalPlr } from "shared/components";
 import { CanDash, Dashing } from "shared/components/movements";
 import { getKeysJustReleased, isKeyDown } from "shared/hooks/keyInput";
 
