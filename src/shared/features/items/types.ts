@@ -3,7 +3,6 @@ import { t } from "@rbxts/t";
 export interface Item {
     readonly itemType: ItemType;
     readonly stack: number;
-    readonly unique: boolean;
 
     readonly consumeStage?: number;
 }

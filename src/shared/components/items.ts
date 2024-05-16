@@ -17,6 +17,17 @@ export const ActivatingItem = ComponentCreator.base<{
 }>("ActivatingItem");
 export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 
+export const DroppedItem = ComponentCreator.replicated<{
+    item: Item;
+    droppedTime: number;
+    willExpire: boolean;
+}>;
+
+export const DroppingItem = ComponentCreator.replicated<{
+    item: Item;
+    flyingDirection: Vector3;
+}>;
+
 export const ItemComponents = {
     EquippingByIndex,
     Equipping,

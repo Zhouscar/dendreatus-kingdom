@@ -24,7 +24,7 @@ function spaceFor(inventory: PlayerInventory, itemType: ItemType): number {
             // not the same itemType at slot
             return space - stackSize;
         }
-        if (item.unique) {
+        if (item.consumeStage !== undefined) {
             // itemType unique at slot
             return space - stackSize;
         }

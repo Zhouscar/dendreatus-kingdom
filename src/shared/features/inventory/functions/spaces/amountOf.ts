@@ -17,10 +17,6 @@ function amountOf(inventory: PlayerInventory, itemType: ItemType): number {
             // not the same itemType at slot
             return amount;
         }
-        if (item.unique && !UNIQUE_TYPE_COUNTS) {
-            // item unique but unique type doesn't count
-            return amount;
-        }
         // item can be counted
         return amount + item.stack;
     }, 0);

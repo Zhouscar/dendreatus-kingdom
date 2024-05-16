@@ -38,7 +38,6 @@ function immutPutItems(
                 draft.items.set(slot.itemGuid, {
                     itemType: itemType,
                     stack: amountToPutHere,
-                    unique: false,
                 });
                 return amountToPut - amountToPutHere;
             }
@@ -53,7 +52,6 @@ function immutPutItems(
                     draft.items.set(slot.itemGuid, {
                         itemType: itemType,
                         stack: amountToPutHere,
-                        unique: false,
                     });
                     return amountToPut - amountToPutHere;
                 } else {
@@ -61,7 +59,7 @@ function immutPutItems(
                 }
             }
 
-            if (item.itemType === itemType && item.stack < stackSize && !item.unique) {
+            if (item.itemType === itemType && item.stack < stackSize) {
                 // itemType is the same and the slot is not full and the item is not unqiue
                 // will not use unique item counts because that is only to be used in taking items and not inserting
 

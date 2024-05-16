@@ -164,7 +164,6 @@ export = (): void => {
     it("should be able to insert item into inventory", () => {
         const item: Item = {
             stack: 10,
-            unique: false,
             itemType: "stick",
         };
 
@@ -191,7 +190,6 @@ export = (): void => {
 
         const item: Item = {
             stack: 10,
-            unique: false,
             itemType: "stick",
         };
 
@@ -205,7 +203,6 @@ export = (): void => {
         const item: Item = {
             itemType: "stick",
             stack: 9,
-            unique: false,
         };
 
         expect(getItem(getInventory(), 2)?.stack).to.throw();
@@ -219,7 +216,6 @@ export = (): void => {
         const item: Item = {
             itemType: "stick",
             stack: 9,
-            unique: false,
         };
 
         expect(getItem(getInventory(), 2)?.stack).to.throw();
@@ -238,13 +234,11 @@ export = (): void => {
         const fromItem: Item = {
             itemType: "stick",
             stack: 13,
-            unique: false,
         };
 
         const toItem: Item = {
             itemType: "bigger_stick",
             stack: 4,
-            unique: false,
         };
 
         inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
@@ -263,7 +257,6 @@ export = (): void => {
         const fromItem: Item = {
             itemType: "stick",
             stack: 13,
-            unique: false,
         };
 
         inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
@@ -281,13 +274,11 @@ export = (): void => {
         const fromItem: Item = {
             itemType: "stick",
             stack: 13,
-            unique: false,
         };
 
         const toItem: Item = {
             itemType: "stick",
             stack: 22,
-            unique: false,
         };
 
         inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());
@@ -306,13 +297,11 @@ export = (): void => {
         const fromItem: Item = {
             itemType: "stick",
             stack: 13,
-            unique: false,
         };
 
         const toItem: Item = {
             itemType: "stick",
             stack: 12,
-            unique: false,
         };
 
         inventorySlice.setItemAt("__test__", 3, fromItem, createGuidPool());

@@ -13,8 +13,6 @@ function immutSwapItems(inventory: PlayerInventory, from: number, to: number) {
         if (
             fromGuid !== undefined &&
             toGuid !== undefined &&
-            !draft.items.get(fromGuid)?.unique &&
-            !draft.items.get(toGuid)?.unique &&
             draft.items.get(fromGuid)?.itemType === draft.items.get(toGuid)?.itemType
         ) {
             // should fill

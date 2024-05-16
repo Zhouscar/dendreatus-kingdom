@@ -40,12 +40,6 @@ function immutTakeItems(inventory: PlayerInventory, itemType: ItemType, amount: 
                 return amountToTake;
             }
             // rest of it is with matching itemTypes
-            if (item.unique && !UNIQUE_ITEM_COUNTS) {
-                // unique item and UNIQUE_ITEM_COUNTS is not allowed
-                // skip it
-
-                return amountToTake;
-            }
             // now the item is matching and not unique
             // leaving two choices: eithrEr remove the item or decrease the stack
             const amountToTakeHere = math.min(amountToTake, item.stack);
