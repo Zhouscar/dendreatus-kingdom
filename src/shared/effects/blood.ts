@@ -33,7 +33,7 @@ const splatterTweenInfo = new TweenInfo(0.5, Enum.EasingStyle.Quint);
 const getSplatterTweenGoal: () => Partial<ExtractMembers<BasePart, Tweenable>> = () => {
     const size = r(1, 3000) / 1000;
     return {
-        Size: new Vector3(0.05, size, size),
+        Size: new Vector3(0.1, size, size),
     };
 };
 

@@ -33,8 +33,13 @@ function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap
 }
 
 let replicationStreak = 0;
+const payloadedPlayers: Set<Player> = new Set();
 
 function replication(w: World, _: any, remoteToken: string) {
+    for (const [, player] of useEvent(Players, "PlayerRemoving")) {
+        payloadedPlayers.delete(player);
+    }
+
     for (const [, player, token] of routes.ecsRequestPayload.query()) {
         assert(token === remoteToken, "HAHA YOU HACKER");
 
@@ -56,6 +61,7 @@ function replication(w: World, _: any, remoteToken: string) {
         const filteredPayload = filterDoNotReplicate(w, player as Player, payload);
         if (filteredPayload.isEmpty()) continue;
 
+        payloadedPlayers.add(player as Player);
         routes.ecsReplication.send(filteredPayload).to(player);
     }
 
@@ -84,7 +90,8 @@ function replication(w: World, _: any, remoteToken: string) {
     }
 
     if (!changes.isEmpty()) {
-        Players.GetPlayers().forEach((player) => {
+        payloadedPlayers.forEach((player) => {
+            // Players.GetPlayers().forEach((player) => {
             const filteredChanges = filterDoNotReplicate(w, player, changes);
             if (filteredChanges.isEmpty()) return;
             routes.ecsReplication.send(filteredChanges).to(player);
