@@ -1,6 +1,6 @@
 import { useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { UserInputService, Workspace } from "@rbxts/services";
-import { LocalPlr, Renderable } from "shared/components";
+import { LocalPlr, Renderable, Transform } from "shared/components";
 import { State } from "shared/state";
 
 let targetRotationX = 0;
@@ -32,20 +32,18 @@ function cameraControls(w: World, s: State) {
 
     switch (s.clientState) {
         case "game":
-            (() => {
-                if (s.characterCF === undefined) return;
-
+            for (const [e, localPlr, transform] of w.query(LocalPlr, Transform)) {
                 camera.CameraType = Enum.CameraType.Fixed;
-                camera.Focus = s.characterCF;
+                camera.Focus = transform.cf;
 
-                newPosition = newPosition.Lerp(s.characterCF.Position, deltaMult(dt, 10));
+                newPosition = newPosition.Lerp(transform.cf.Position, deltaMult(dt, 10));
                 newDistance = newDistance + (targetDistance - newDistance) * deltaMult(dt, 10);
                 newRotationX = newRotationX + (targetRotationX - newRotationX) * deltaMult(dt, 15);
                 newRotationY = newRotationY + (targetRotationY - newRotationY) * deltaMult(dt, 15);
 
-                let character: Model | undefined = undefined;
+                let character: PVInstance | undefined = undefined;
                 for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-                    character = renderable.model;
+                    character = renderable.pv;
                 }
                 if (character === undefined) return;
                 raycastParams.FilterDescendantsInstances = [character];
@@ -97,37 +95,37 @@ function cameraControls(w: World, s: State) {
                         targetDistance = math.clamp(targetDistance, 5, 50);
                     }
                 }
-            })();
+            }
             break;
         case "death":
-            (() => {
-                for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-                    const head = renderable.model.FindFirstChild("Head");
-                    if (head === undefined) continue;
-                    if (!head.IsA("BasePart")) continue;
-
-                    camera.CameraType = Enum.CameraType.Fixed;
-                    camera.Focus = renderable.model.GetPivot();
-
-                    const fromPos = head.Position.add(head.CFrame.LookVector.mul(15));
-                    const newCF = CFrame.lookAt(fromPos, head.Position);
-
-                    camera.CFrame = camera.CFrame.Lerp(newCF, deltaMult(dt, 10));
-                }
-            })();
-            break;
-        case "inventory":
-            (() => {
-                if (s.characterCF === undefined) return;
+            for (const [e, localPlr, renderable, transform] of w.query(
+                LocalPlr,
+                Renderable,
+                Transform,
+            )) {
+                const head = renderable.pv.FindFirstChild("Head");
+                if (head === undefined) continue;
+                if (!head.IsA("BasePart")) continue;
 
                 camera.CameraType = Enum.CameraType.Fixed;
-                camera.Focus = s.characterCF;
+                camera.Focus = transform.cf;
 
-                const fromPos = s.characterCF.Position.add(s.characterCF.LookVector.mul(15));
-                const newCF = CFrame.lookAt(fromPos, s.characterCF.Position);
+                const fromPos = head.Position.add(head.CFrame.LookVector.mul(15));
+                const newCF = CFrame.lookAt(fromPos, head.Position);
 
                 camera.CFrame = camera.CFrame.Lerp(newCF, deltaMult(dt, 10));
-            })();
+            }
+            break;
+        case "inventory":
+            for (const [e, localPlr, transform] of w.query(LocalPlr, Transform)) {
+                camera.CameraType = Enum.CameraType.Fixed;
+                camera.Focus = transform.cf;
+
+                const fromPos = transform.cf.Position.add(transform.cf.LookVector.mul(15));
+                const newCF = CFrame.lookAt(fromPos, transform.cf.Position);
+
+                camera.CFrame = camera.CFrame.Lerp(newCF, deltaMult(dt, 10));
+            }
             break;
     }
 }

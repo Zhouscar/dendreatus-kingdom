@@ -26,7 +26,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
 
     let stepInfo = stepInfoMap.get(stepInfoKey);
 
-    const startTime = tick();
+    const startTime = os.clock();
 
     if (!stepInfo) {
         stepInfo = {
@@ -69,7 +69,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
                     ShiftForward({
                         delay: sideEffect.delay,
                         force: sideEffect.force,
-                        startTime: tick(),
+                        startTime: os.clock(),
                     }),
                 );
                 break;
@@ -108,7 +108,7 @@ function itemsAttackable(w: World) {
         const stepInfo = stepInfoMap.get(getStepInfoKey(e, action.item.itemType));
         if (!stepInfo) continue;
 
-        stepInfo.stepEndTime = tick();
+        stepInfo.stepEndTime = os.clock();
     }
 }
 

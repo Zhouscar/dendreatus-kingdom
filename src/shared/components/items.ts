@@ -21,12 +21,15 @@ export const DroppedItem = ComponentCreator.replicated<{
     item: Item;
     droppedTime: number;
     willExpire: boolean;
-}>;
+}>("DroppedItem");
+export type DroppedItem = ReturnType<typeof DroppedItem>;
 
-export const DroppingItem = ComponentCreator.replicated<{
+export const DroppingItem = ComponentCreator.base<{
     item: Item;
-    flyingDirection: Vector3;
-}>;
+    impulse: Vector3;
+    position: Vector3;
+}>("DroppingItem");
+export type DroppingItem = ReturnType<typeof DroppedItem>;
 
 export const ItemComponents = {
     EquippingByIndex,

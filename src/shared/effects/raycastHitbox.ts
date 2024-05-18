@@ -46,7 +46,7 @@ export function cast(
     return caster.cast(w, autoCut, customParams, callback);
 }
 
-function raycastVisualize(from: Vector3, to: Vector3) {
+export function visualize(from: Vector3, to: Vector3) {
     const distance = from.sub(to).Magnitude;
     const p = Make("Part", {
         Anchored: true,
@@ -72,14 +72,14 @@ class Caster {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, NONE);
         });
-        this.lastUpdateTime = tick();
+        this.lastUpdateTime = os.clock();
     }
 
     step() {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, attachment.WorldPosition);
         });
-        this.lastUpdateTime = tick();
+        this.lastUpdateTime = os.clock();
     }
 
     cast(
@@ -91,7 +91,7 @@ class Caster {
         const parts: Set<BasePart> = new Set();
         const entities: Set<AnyEntity> = new Set();
 
-        if (autoCut !== false && tick() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
+        if (autoCut !== false && os.clock() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
             this.cut();
         }
 
@@ -100,7 +100,7 @@ class Caster {
         params.AddToFilter(raycastVisualizePartsContainer);
 
         if (customParams.hostE !== undefined) {
-            const hostModel = w.get(customParams.hostE, Renderable)?.model;
+            const hostModel = w.get(customParams.hostE, Renderable)?.pv;
             if (hostModel) {
                 params.AddToFilter(hostModel);
             }
@@ -123,7 +123,7 @@ class Caster {
             }
 
             if (VISUALIZE) {
-                raycastVisualize(from, to);
+                visualize(from, to);
             }
         });
 

@@ -29,7 +29,8 @@ function humanDirectionalMovement(w: World) {
         directionalMovement,
         potentialDirectionalMovement,
         directionalMovementContext,
-        _canDirectionallyMove,
+        _,
+        transform,
     ] of w.query(
         LocalPlr,
         Human,
@@ -37,6 +38,7 @@ function humanDirectionalMovement(w: World) {
         PotentialDirectionalMovement,
         DirectionalMovementContext,
         CanDirectionallyMove,
+        Transform,
     )) {
         const targetWalkSpeed =
             potentialDirectionalMovement.type === "walk"
@@ -98,7 +100,7 @@ function humanDirectionalMovement(w: World) {
                 }
             }
 
-            const cf = w.get(e, Renderable)!.model.GetPivot();
+            const cf = transform.cf;
 
             if (potentialDirectionalMovement.type === "walk") {
                 const trackLength = getTrackLength(animator, "walk");

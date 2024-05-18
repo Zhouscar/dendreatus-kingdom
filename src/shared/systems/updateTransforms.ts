@@ -9,25 +9,38 @@ function updateTransforms(w: World) {
 
     for (const [e, record] of w.queryChanged(Transform)) {
         if (!w.contains(e)) continue;
+
         const renderable = w.get(e, Renderable);
         if (!renderable || !record.new || record.new._doNotReconcile) continue;
-        renderable.model?.PivotTo(record.new.cf);
+
+        renderable.pv?.PivotTo(record.new.cf);
     }
 
     for (const [e, record] of w.queryChanged(Renderable)) {
         if (!w.contains(e)) continue;
+
         const transform = w.get(e, Transform);
+
         if (!transform) {
-            w.insert(e, Transform({ _doNotReconcile: true, cf: CFrame.identity }));
+            w.insert(
+                e,
+                Transform({
+                    _doNotReconcile: true,
+                    cf: record.new?.pv.GetPivot() ?? CFrame.identity,
+                }),
+            );
             continue;
         }
-        record.new?.model?.PivotTo(transform.cf);
+
+        record.new?.pv.PivotTo(transform.cf);
     }
 
     for (const [e, renderable, transform] of w.query(Renderable, Transform)) {
-        if (!renderable.model) continue;
+        if (!renderable.pv) continue;
 
-        const primaryPart = renderable.model.PrimaryPart;
+        if (!renderable.pv.IsA("Model")) continue;
+
+        const primaryPart = renderable.pv.PrimaryPart;
         if (!primaryPart) continue;
 
         if (primaryPart.Anchored) continue;

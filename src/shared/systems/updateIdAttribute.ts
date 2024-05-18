@@ -5,7 +5,7 @@ import { State } from "shared/state";
 
 function updateIdAttribute(w: World, state: State): void {
     for (const [e, record] of w.queryChanged(Renderable)) {
-        record.new?.model?.SetAttribute(ID_ATTRIBUTE, e);
+        record.new?.pv?.SetAttribute(ID_ATTRIBUTE, e);
     }
 }
 

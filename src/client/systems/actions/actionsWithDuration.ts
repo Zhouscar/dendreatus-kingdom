@@ -10,7 +10,7 @@ function actionsWithDuration(w: World) {
 
         const endTime = action.startTime + action.duration;
 
-        if (tick() >= endTime) {
+        if (os.clock() >= endTime) {
             w.remove(e, Acting);
         }
     }

@@ -1,6 +1,6 @@
 import { World, useDeltaTime, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
+import { Animatable, LocalPlr, Plr, Renderable, Sound, Transform } from "shared/components";
 import {
     CrashLanding,
     Dashing,
@@ -22,7 +22,7 @@ function landing(w: World) {
 
         if (!isLocalPlr(w, e)) continue;
 
-        const cf = w.get(e, Renderable)?.model.PrimaryPart?.CFrame;
+        const cf = w.get(e, Transform)?.cf;
         if (!cf) break;
 
         w.spawn(
@@ -51,7 +51,7 @@ function landing(w: World) {
 
         w.remove(e, Dashing);
 
-        const cf = w.get(e, Renderable)?.model.PrimaryPart?.CFrame;
+        const cf = w.get(e, Transform)?.cf;
         if (!cf) break;
 
         w.spawn(

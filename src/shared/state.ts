@@ -3,8 +3,6 @@ import { AnyEntity } from "@rbxts/matter";
 export type ClientState = "game" | "inventory" | "death";
 
 export class State {
-    characterCF: CFrame | undefined = undefined;
-
     debugEnabled: boolean = false;
 
     serverToClientEntityIdMap: Map<string, AnyEntity> = new Map();
@@ -13,8 +11,6 @@ export class State {
     canOpenInventory: boolean = false;
 
     clientState: ClientState = "game";
-
-    bloodDrips: Set<[BasePart, Instance]> = new Set();
 
     cameraShake: number = 0;
 }

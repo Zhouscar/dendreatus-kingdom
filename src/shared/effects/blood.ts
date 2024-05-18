@@ -2,6 +2,8 @@ import { Make } from "@rbxts/altmake";
 import { ReplicatedStorage, TweenService, Workspace } from "@rbxts/services";
 import { State } from "shared/state";
 import { raycastVisualizePartsContainer } from "./raycastHitbox";
+import { AnyEntity, World } from "@rbxts/matter";
+import { BloodDrip, Positioner, Renderable } from "shared/components";
 
 const r = math.random;
 
@@ -10,23 +12,43 @@ const bloodContainer = Make("Folder", {
     Parent: Workspace,
 });
 
-export function doDrip(s: State, creator: Instance, position: Vector3, velocity: Vector3) {
-    const dripPart = ReplicatedStorage.assets.blood.dripPart.Clone();
+const GRAVITY = new Vector3(0, -50, 0);
 
+export function doDrip(w: World, creator: Instance, position: Vector3, velocity: Vector3) {
+    const dripPart = ReplicatedStorage.assets.blood.dripPart.Clone();
     dripPart.Position = position;
     dripPart.Parent = bloodContainer;
+    dripPart.Anchored = true;
+    dripPart.CanCollide = false;
 
-    dripPart.ApplyImpulse(velocity.mul(dripPart.GetMass()));
+    // dripPart.ApplyImpulse(velocity.mul(dripPart.GetMass()));
 
-    const context: [BasePart, Instance] = [dripPart, creator];
+    // const context: [BasePart, Instance] = [dripPart, creator];
 
-    s.bloodDrips.add(context);
-    dripPart.Touched.Connect((hit) => {
-        if (!hit.Anchored || !hit.CanCollide || hit.Transparency === 1) return;
-        if (hit.IsDescendantOf(raycastVisualizePartsContainer)) return;
-        s.bloodDrips.delete(context);
-        dripPart.Destroy();
-    });
+    // s.bloodDrips.add(context);
+    // dripPart.Touched.Connect((hit) => {
+    //     if (!hit.Anchored || !hit.CanCollide || hit.Transparency === 1) return;
+    //     if (hit.IsDescendantOf(raycastVisualizePartsContainer)) return;
+    //     s.bloodDrips.delete(context);
+    //     dripPart.Destroy();
+    // });
+
+    const params = new RaycastParams();
+    params.FilterType = Enum.RaycastFilterType.Exclude;
+    params.IgnoreWater = true;
+    params.AddToFilter([dripPart, creator, raycastVisualizePartsContainer, bloodContainer]);
+
+    w.spawn(
+        BloodDrip({}),
+        Renderable({ pv: dripPart }),
+        Positioner({
+            initialPosition: position,
+            initialVelocity: velocity,
+            acceleration: GRAVITY,
+            startTime: os.clock(),
+            raycastParams: params,
+        }),
+    );
 }
 
 const splatterTweenInfo = new TweenInfo(0.5, Enum.EasingStyle.Quint);
@@ -42,7 +64,11 @@ const hideSplatterTweenGoal: Partial<ExtractMembers<BasePart, Tweenable>> = {
     Transparency: 1,
 };
 
-export function doSplatter(cf: CFrame) {
+export function doSplatter(w: World, e: AnyEntity, cf: CFrame) {
+    if (w.contains(e)) {
+        w.despawn(e);
+    }
+
     const splatterPart = ReplicatedStorage.assets.blood.splatterPart.Clone();
 
     splatterPart.CFrame = cf.mul(CFrame.Angles(0, math.rad(90), 0));
@@ -71,7 +97,7 @@ export function doSplatter(cf: CFrame) {
 }
 
 export function bleed(
-    s: State,
+    w: World,
     creator: Instance,
     minAmount: number,
     maxAmount: number,
@@ -83,6 +109,6 @@ export function bleed(
     for (let i = 0; i < amount; i++) {
         const velocity = new Vector3(r(-force, force), r(-force, force) + offset, r(-force, force));
 
-        doDrip(s, creator, position, velocity);
+        doDrip(w, creator, position, velocity);
     }
 }

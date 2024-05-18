@@ -17,7 +17,7 @@ function setupTags(w: World, state: State): void {
     function spawnBound(model: Model, component: ComponentCtor): void {
         const e = w.spawn(
             component(),
-            Renderable({ model: model }),
+            Renderable({ pv: model }),
             Transform({ cf: model.GetPivot() }),
         );
 

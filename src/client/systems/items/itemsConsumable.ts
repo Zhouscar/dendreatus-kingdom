@@ -30,7 +30,7 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
             action: Action.consuming({
                 stage: nextCosumeStage,
                 item: item,
-                startTime: tick(),
+                startTime: os.clock(),
                 duration: itemContext.duration,
             }),
         }),

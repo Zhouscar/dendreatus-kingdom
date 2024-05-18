@@ -11,7 +11,11 @@ function shiftForward(w: World) {
     for (const [e, shiftForwardRecord] of w.queryChanged(ShiftForward)) {
         if (!w.contains(e)) continue;
 
-        const rootPart = w.get(e, Renderable)?.model.PrimaryPart;
+        const renderable = w.get(e, Renderable);
+        if (renderable === undefined) continue;
+        if (!renderable.pv.IsA("Model")) continue;
+
+        const rootPart = renderable.pv.PrimaryPart;
         if (!rootPart) continue;
 
         const linearVelocity = getCustomLinearVelocity(rootPart, "ShiftForward");
@@ -28,7 +32,7 @@ function shiftForward(w: World) {
 
     for (const [e, shiftForward] of w.query(ShiftForward)) {
         const endTime = shiftForward.startTime + SHIFT_FORWARD_DURATION;
-        if (tick() >= endTime) {
+        if (os.clock() >= endTime) {
             w.remove(e, ShiftForward);
         }
     }

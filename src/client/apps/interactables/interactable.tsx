@@ -28,7 +28,7 @@ export default function Interactable(props: {
     const cannotInteractReason = props.cannotInteractReason;
 
     const renderable = useComponent(e, Renderable);
-    const model = renderable?.model;
+    const model = renderable?.pv;
 
     const buttonTransparency = useSpring(
         state === "hidden" || !enabled || cannotInteractReason?.type === "busy"
@@ -54,7 +54,7 @@ export default function Interactable(props: {
         }
 
         const connection = RunService.Heartbeat.Connect(() => {
-            const timeLeft = tick() - cannotInteractReason.startTime;
+            const timeLeft = os.clock() - cannotInteractReason.startTime;
             const perc = timeLeft / cannotInteractReason.duration;
 
             if (perc !== perc || perc < 0 || perc > 1) return;

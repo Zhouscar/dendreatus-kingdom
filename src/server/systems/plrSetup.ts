@@ -7,12 +7,12 @@ import { Stomach } from "shared/components/hunger";
 function plrSetup(w: World) {
     Players.GetPlayers().forEach((player) => {
         for (const [_, character] of useEvent(player, "CharacterAdded")) {
-            w.spawn(Plr({ player: player }), Renderable({ model: character }));
+            w.spawn(Plr({ player: player }), Renderable({ pv: character }));
         }
     });
 
     for (const [e, _plr, renderable] of w.query(Plr, Renderable).without(Human)) {
-        const humanoid = renderable.model.FindFirstChildWhichIsA("Humanoid");
+        const humanoid = renderable.pv.FindFirstChildWhichIsA("Humanoid");
         if (humanoid) {
             w.insert(e, Human({ humanoid: humanoid }));
         } else {

@@ -15,7 +15,9 @@ const defaultSoundNames = [
 
 function disableDefaultCharacterSounds(w: World) {
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        renderable.model.PrimaryPart?.GetChildren()
+        if (!renderable.pv.IsA("Model")) continue;
+
+        renderable.pv.PrimaryPart?.GetChildren()
             .filter(
                 (child): child is Sound =>
                     child.IsA("Sound") && defaultSoundNames.includes(child.Name),

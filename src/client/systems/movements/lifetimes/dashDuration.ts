@@ -9,7 +9,7 @@ function dashDuration(w: World) {
         Dashing,
         DashContext,
     )) {
-        if (tick() - dashing.startTime >= usableDashContext.duration) {
+        if (os.clock() - dashing.startTime >= usableDashContext.duration) {
             w.remove(e, Dashing);
             break;
         }

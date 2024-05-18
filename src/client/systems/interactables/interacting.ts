@@ -20,7 +20,7 @@ function interacting(w: World, s: State, remoteToken: string) {
         const serverE = s.clientToServerEntityIdMap.get(tostring(interacting.interactE));
         if (serverE === undefined) continue;
 
-        startTime = tick();
+        startTime = os.clock();
         routes.playerInteract.send(remoteToken, serverE, "harvest");
 
         const animatable = w.get(e, Animatable);
@@ -29,7 +29,7 @@ function interacting(w: World, s: State, remoteToken: string) {
         }
     }
 
-    if (tick() > startTime + 0.5) {
+    if (os.clock() > startTime + 0.5) {
         for (const [e, localPlr, interacting] of w.query(LocalPlr, Interacting)) {
             w.remove(e, Interacting);
         }

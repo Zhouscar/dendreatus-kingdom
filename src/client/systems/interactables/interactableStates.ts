@@ -1,7 +1,7 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import Sift from "@rbxts/sift";
 import { store } from "client/store";
-import { LocalPlr, Renderable } from "shared/components";
+import { LocalPlr, Renderable, Transform } from "shared/components";
 import { Acting } from "shared/components/actions";
 import {
     CannotInteract,
@@ -12,7 +12,6 @@ import {
 import { CrashLanding, Falling, Jumping } from "shared/components/movements";
 import { InteractState } from "shared/features/interactables/types";
 import { hasOneOfComponents } from "shared/hooks/components";
-import { State } from "shared/state";
 
 function canInteract(w: World) {
     for (const [e] of w.query(LocalPlr)) {
@@ -20,10 +19,17 @@ function canInteract(w: World) {
     }
 }
 
-function interactableStates(w: World, s: State) {
+function interactableStates(w: World) {
     const ecsState = store.getState().ecsSlice;
 
-    if (!s.characterCF) {
+    const characterCF = (() => {
+        for (const [e, localPlr, transform] of w.query(LocalPlr, Transform)) {
+            return transform.cf;
+        }
+        return undefined;
+    })();
+
+    if (characterCF === undefined) {
         if (!ecsState.interactEs.isEmpty()) {
             store.setInteractEs(new Map());
         }
@@ -37,12 +43,12 @@ function interactableStates(w: World, s: State) {
     let showingECannotInteractReason: CannotInteractReason | undefined = undefined;
     let showingEDistance = math.huge;
 
-    for (const [e, renderable, interactable] of w.query(Renderable, Interactable)) {
-        const cf = renderable.model.GetPivot();
-        const distance = s.characterCF.Position.sub(cf.Position).Magnitude;
+    for (const [e, transform, interactable] of w.query(Transform, Interactable)) {
+        const cf = transform.cf;
+        const distance = cf.Position.sub(characterCF.Position).Magnitude;
         const dot = (() => {
-            const u = s.characterCF.LookVector;
-            const v = cf.Position.sub(s.characterCF.Position).Unit;
+            const u = characterCF.LookVector;
+            const v = cf.Position.sub(characterCF.Position).Unit;
             return u.Dot(v);
         })();
 

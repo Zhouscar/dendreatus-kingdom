@@ -24,7 +24,7 @@ export function start(systemContainers: Instance[], pluginContainers: Instance[]
     debug.findInstanceFromEntity = (e: AnyEntity): Instance | undefined => {
         if (!w.contains(e)) return;
         const model = w.get(e, Renderable);
-        return model?.model;
+        return model?.pv;
     };
 
     const loop = new Loop(w, state, remoteToken, debug.getWidgets());

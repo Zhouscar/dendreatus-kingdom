@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Renderable, Sound } from "shared/components";
+import { Renderable, Sound, Transform } from "shared/components";
 import { Dead } from "shared/components/health";
 import { isLocalPlr } from "shared/hooks/components";
 
@@ -9,7 +9,7 @@ function deathScream(w: World) {
 
         if (!isLocalPlr(w, e)) continue;
 
-        const cf = w.get(e, Renderable)?.model.GetPivot();
+        const cf = w.get(e, Transform)?.cf;
         if (!cf) break;
 
         w.spawn(

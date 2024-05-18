@@ -11,7 +11,9 @@ function linearVelocity(w: World) {
     }
 
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        const linearVelocity = renderable.model.PrimaryPart?.AssemblyLinearVelocity;
+        if (!renderable.pv.IsA("Model")) continue;
+
+        const linearVelocity = renderable.pv.PrimaryPart?.AssemblyLinearVelocity;
         if (linearVelocity && linearVelocity.Magnitude > 5) {
             w.insert(e, LinearVelocity({ velocity: linearVelocity }));
         } else {

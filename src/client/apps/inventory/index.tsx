@@ -7,16 +7,16 @@ import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/play
 import ItemFragments from "./itemFragments";
 import { immutPutItems } from "shared/features/inventory/functions";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
-import { RootProducer, store } from "client/store";
+import { RootProducer } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
-import { remos, routes } from "shared/network";
+import { remos } from "shared/network";
 import { EnabilityProvider } from "../contexts/enability";
 import { useEnability } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 
 let testInventory = defaultPlayerInventory;
-testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
-testInventory = immutPutItems(testInventory, "bigger_stick", 50, createGuidPool());
+testInventory = immutPutItems(defaultPlayerInventory, "sos.clock", 500, createGuidPool());
+testInventory = immutPutItems(testInventory, "bigger_sos.clock", 50, createGuidPool());
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;

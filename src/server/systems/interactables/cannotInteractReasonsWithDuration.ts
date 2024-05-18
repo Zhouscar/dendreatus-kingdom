@@ -7,7 +7,7 @@ function cannotInteractReasonsWithDuration(w: World) {
         if (!isWithDuration(cannotInteract.reason)) continue;
 
         const endTime = cannotInteract.reason.startTime + cannotInteract.reason.duration;
-        if (tick() >= endTime) {
+        if (os.clock() >= endTime) {
             w.remove(e, CannotInteract);
         }
     }

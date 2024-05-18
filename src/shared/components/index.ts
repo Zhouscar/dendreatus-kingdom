@@ -16,7 +16,7 @@ export * from "./livingThings";
 export const Dummy = ComponentCreator.tag("Dummy");
 export type Dummy = ReturnType<typeof Dummy>;
 
-export const Renderable = ComponentCreator.replicated<{ model: Model }>("Renderable");
+export const Renderable = ComponentCreator.replicated<{ pv: PVInstance }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
 export const Transform = ComponentCreator.base<{ cf: CFrame; _doNotReconcile?: true }>("Transform");
@@ -45,6 +45,20 @@ export const Collision = ComponentCreator.base<{
 }>("Collision");
 export type Collision = ReturnType<typeof Collision>;
 
+export const Positioner = ComponentCreator.base<{
+    initialPosition: Vector3;
+    initialVelocity: Vector3;
+    acceleration: Vector3;
+
+    startTime: number;
+
+    raycastParams: RaycastParams;
+}>("Positioner");
+export type Positioner = ReturnType<typeof Positioner>;
+
+export const BloodDrip = ComponentCreator.base<{}>("BloodDrip");
+export type BloodDrip = ReturnType<typeof BloodDrip>;
+
 export const Components = {
     Dummy,
     Renderable,
@@ -54,6 +68,7 @@ export const Components = {
     Animatable,
     Sound,
     Collision,
+    Positioner,
     ...LivingThingComponents,
     ...MovementComponents,
     ...HealthComponents,

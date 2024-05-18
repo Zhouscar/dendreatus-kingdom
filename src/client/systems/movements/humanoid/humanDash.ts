@@ -1,11 +1,9 @@
 import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
-import { Animatable, LocalPlr, Plr, Renderable, Sound } from "shared/components";
+import { Animatable, LocalPlr, Renderable, Sound, Transform } from "shared/components";
 import { DashContext, Dashing } from "shared/components/movements";
 import { FORWARD } from "shared/constants/direction";
 import { resumeAnimation } from "shared/effects/animations";
-import { ANIM_IDS } from "shared/features/ids/animations";
-import { SOUND_IDS } from "shared/features/ids/sounds";
 import { hasComponents, isLocalPlr } from "shared/hooks/components";
 import { getCustomLinearVelocity } from "shared/hooks/memoForces";
 
@@ -20,7 +18,7 @@ function humanDash(w: World) {
 
         if (!isLocalPlr(w, e)) continue;
 
-        const cf = w.get(e, Renderable)?.model.PrimaryPart?.CFrame;
+        const cf = w.get(e, Transform)?.cf;
         if (!cf) break;
 
         w.spawn(
@@ -43,9 +41,10 @@ function humanDash(w: World) {
         Renderable,
         DashContext,
     )) {
-        if (!renderable.model.PrimaryPart) continue;
+        if (!renderable.pv.IsA("Model")) continue;
+        if (!renderable.pv.PrimaryPart) continue;
 
-        const dashVelocity = getDashVelocity(renderable.model.PrimaryPart);
+        const dashVelocity = getDashVelocity(renderable.pv.PrimaryPart);
         dashVelocity.VectorVelocity = FORWARD.mul(dashContext.power);
 
         const isDashing = hasComponents(w, e, Dashing);

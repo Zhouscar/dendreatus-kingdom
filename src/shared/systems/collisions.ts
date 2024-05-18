@@ -12,7 +12,7 @@ function collisions(w: World, s: State) {
             if (plr?.player !== Players.LocalPlayer) continue;
         }
 
-        renderable.model
+        renderable.pv
             .GetDescendants()
             .filter((descendant): descendant is BasePart => descendant.IsA("BasePart"))
             .forEach((part) => {
