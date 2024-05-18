@@ -7,7 +7,7 @@ import { theLocalPlr } from "client/localPlr";
 import { Dispatch, SetStateAction } from "@rbxts/roact-hooked";
 import { createGuidPool } from "shared/features/guidUtils";
 
-const testInventory = immutPutItems(defaultPlayerInventory, "sos.clock", 500, createGuidPool());
+const testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
 
 export default function ItemFragments(props: {
     from: number;

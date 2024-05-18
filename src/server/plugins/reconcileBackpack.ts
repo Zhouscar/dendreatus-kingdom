@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players, ReplicatedStorage, RunService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 import { store } from "server/store";
-import getItemAsTool from "shared/features/items/getItemAsTool";
+import { getItemAsTool } from "shared/features/items/getItem";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
 import { PlayerInventory } from "shared/store/players/types";
 

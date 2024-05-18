@@ -28,10 +28,10 @@ export default function DeathScreenOptionButton(props: {
     }, [enabled]);
 
     const mouseEnter = useCallback(() => {
-        setIsHovering(false);
+        setIsHovering(true);
     }, []);
     const mouseLeave = useCallback(() => {
-        setIsHovering(true);
+        setIsHovering(false);
     }, []);
 
     return (

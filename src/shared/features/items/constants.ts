@@ -14,10 +14,10 @@ export type ItemContexts = ReadonlyMap<ItemType, ItemContext>;
 
 export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
     [
-        "sos.clock",
+        "stick",
         {
-            name: "Sos.clock",
-            itemType: "sos.clock",
+            name: "stick",
+            itemType: "stick",
             itemComponentTypes: [],
             stackSize: 30,
             image: withAssetPrefix("14942969504"),
@@ -26,10 +26,10 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         },
     ],
     [
-        "bigger_sos.clock",
+        "bigger_stick",
         {
             name: "Bigger Sos.clock",
-            itemType: "bigger_sos.clock",
+            itemType: "bigger_stick",
             itemComponentTypes: [],
             stackSize: 20,
             image: withAssetPrefix("14942969504"),

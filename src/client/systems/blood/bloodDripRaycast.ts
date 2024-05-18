@@ -2,11 +2,8 @@ import { World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
 import { findInstanceE } from "shared/calculations/findEntity";
 import { getPositionerCurrent } from "shared/calculations/positioner";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { Animatable, BloodDrip, Human, Positioner, Sound } from "shared/components";
+import { BloodDrip, Positioner } from "shared/components";
 import { doSplatter } from "shared/effects/blood";
-import { raycastVisualizePartsContainer, visualize } from "shared/effects/raycastHitbox";
-import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
 const ALPHA = 1;
@@ -22,11 +19,6 @@ function bloodDripRaycast(w: World, s: State) {
             positionerCurrent.velocity.Unit.mul(ALPHA),
             positioner.raycastParams,
         );
-        // visualize(
-        //     positionerCurrent.position,
-        //     positionerCurrent.position.add(positionerCurrent.velocity.mul(ALPHA)),
-        // );
-        // TODO weird that only one or two parts are actually working
 
         if (!result) continue;
         if (!result.Instance.Anchored || !result.Instance.CanCollide) continue;

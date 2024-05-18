@@ -1,5 +1,5 @@
 import { component } from "@rbxts/matter";
-import { Item } from "shared/features/items/types";
+import { Item, ItemType } from "shared/features/items/types";
 import { ComponentCreator } from "./creators";
 
 export const EquippingByIndex = ComponentCreator.base<{ index: number }>("EquippingByIndex");
@@ -17,15 +17,19 @@ export const ActivatingItem = ComponentCreator.base<{
 }>("ActivatingItem");
 export type ActivatingItem = ReturnType<typeof ActivatingItem>;
 
+export const TestItemDropper = ComponentCreator.tag("TestItemDropper");
+export type TestItemDropper = ReturnType<typeof TestItemDropper>;
+
 export const DroppedItem = ComponentCreator.replicated<{
-    item: Item;
+    item: Item | ItemType;
+    position: Vector3;
     droppedTime: number;
     willExpire: boolean;
 }>("DroppedItem");
 export type DroppedItem = ReturnType<typeof DroppedItem>;
 
-export const DroppingItem = ComponentCreator.base<{
-    item: Item;
+export const DroppingItem = ComponentCreator.replicated<{
+    item: Item | ItemType;
     impulse: Vector3;
     position: Vector3;
 }>("DroppingItem");
@@ -36,4 +40,7 @@ export const ItemComponents = {
     Equipping,
     PhysicallyEquipping,
     ActivatingItem,
+    DroppedItem,
+    DroppingItem,
+    TestItemDropper,
 };

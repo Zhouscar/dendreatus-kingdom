@@ -104,6 +104,7 @@ export default function Interactable(props: {
                 if (localPlrE === undefined) return;
                 w.insert(localPlrE, Interacting({ interactE: e, interactType: "harvest" }));
             };
+            // TODO dropped item pickup
         } else {
             setInteractionName("");
             interactionFunction.current = () => {

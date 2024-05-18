@@ -2,7 +2,6 @@ import { World, useThrottle } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { store } from "server/store";
 import { createGuidPool } from "shared/features/guidUtils";
-import { defaultPlayerData } from "shared/store/players/playerDefaults";
 
 export = function (w: World) {
     if (useThrottle(10, "putItems")) {

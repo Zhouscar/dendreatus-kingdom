@@ -10,6 +10,7 @@ import HungerBar from "./hungerBar";
 import { useClientState } from "./hooks/ecsSelectors";
 import Interactables from "./interactables";
 import { RemoteTokenProvider } from "./contexts/remoteToken";
+import DeathScreen from "./deathScreen";
 
 function App() {
     const clientState = useClientState();
@@ -32,6 +33,7 @@ function App() {
                     AnchorPoint={new Vector2(0.5, 0)}
                 />
                 <Interactables enabled={clientState === "game"} />
+                <DeathScreen enabled={clientState === "death"} />
             </screengui>
         </>
     );

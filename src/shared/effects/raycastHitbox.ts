@@ -1,6 +1,7 @@
 import { Make } from "@rbxts/altmake";
 import { AnyEntity, World, useDeltaTime } from "@rbxts/matter";
 import { Debris, Workspace } from "@rbxts/services";
+import { raycastVisualizePartsContainer } from "client/containers";
 import { findInstanceE } from "shared/calculations/findEntity";
 import { Renderable } from "shared/components";
 
@@ -17,11 +18,6 @@ export type CustomRayCastParams = {
 };
 
 const ATTACHMENT_NAME = "CASTER_ATTACHMENT";
-
-export const raycastVisualizePartsContainer = Make("Folder", {
-    Name: "RaycastVisualizeParts",
-    Parent: Workspace,
-});
 
 export function cut(part: BasePart) {
     const caster = storage.get(part);

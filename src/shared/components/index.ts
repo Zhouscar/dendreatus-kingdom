@@ -45,7 +45,7 @@ export const Collision = ComponentCreator.base<{
 }>("Collision");
 export type Collision = ReturnType<typeof Collision>;
 
-export const Positioner = ComponentCreator.base<{
+export const Positioner = ComponentCreator.replicated<{
     initialPosition: Vector3;
     initialVelocity: Vector3;
     acceleration: Vector3;

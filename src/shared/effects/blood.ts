@@ -1,18 +1,10 @@
-import { Make } from "@rbxts/altmake";
 import { ReplicatedStorage, TweenService, Workspace } from "@rbxts/services";
-import { State } from "shared/state";
-import { raycastVisualizePartsContainer } from "./raycastHitbox";
 import { AnyEntity, World } from "@rbxts/matter";
 import { BloodDrip, Positioner, Renderable } from "shared/components";
+import { GRAVITY } from "shared/constants/gravity";
+import { bloodContainer, raycastVisualizePartsContainer } from "client/containers";
 
 const r = math.random;
-
-const bloodContainer = Make("Folder", {
-    Name: "BloodContainer",
-    Parent: Workspace,
-});
-
-const GRAVITY = new Vector3(0, -50, 0);
 
 export function doDrip(w: World, creator: Instance, position: Vector3, velocity: Vector3) {
     const dripPart = ReplicatedStorage.assets.blood.dripPart.Clone();
@@ -20,18 +12,6 @@ export function doDrip(w: World, creator: Instance, position: Vector3, velocity:
     dripPart.Parent = bloodContainer;
     dripPart.Anchored = true;
     dripPart.CanCollide = false;
-
-    // dripPart.ApplyImpulse(velocity.mul(dripPart.GetMass()));
-
-    // const context: [BasePart, Instance] = [dripPart, creator];
-
-    // s.bloodDrips.add(context);
-    // dripPart.Touched.Connect((hit) => {
-    //     if (!hit.Anchored || !hit.CanCollide || hit.Transparency === 1) return;
-    //     if (hit.IsDescendantOf(raycastVisualizePartsContainer)) return;
-    //     s.bloodDrips.delete(context);
-    //     dripPart.Destroy();
-    // });
 
     const params = new RaycastParams();
     params.FilterType = Enum.RaycastFilterType.Exclude;

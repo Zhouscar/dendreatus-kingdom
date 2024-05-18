@@ -12,6 +12,7 @@ function playerInteract(w: World, _: any, remoteToken: string) {
         if (!w.contains(e)) continue;
         if (hasComponents(w, e, CannotInteract)) continue;
 
+        // dropped item pickup
         if (interactType === "harvest") {
             const harvestable = w.get(e, Harvestable);
             if (harvestable === undefined) continue;

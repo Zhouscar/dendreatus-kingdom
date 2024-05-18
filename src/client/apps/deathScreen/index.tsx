@@ -8,6 +8,8 @@ import { useState } from "@rbxts/roact-hooked";
 import { Make } from "@rbxts/altmake";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { useSpring } from "../hooks/ripple";
+import { useEnability, useEnabled } from "../hooks/enability";
+import { EnabilityProvider } from "../contexts/enability";
 
 const blackOutAtmosphere = Make("Atmosphere", {
     Name: "BlackOut",
@@ -23,7 +25,10 @@ const youDiedSound = Make("Sound", {
     Parent: SoundService,
 });
 
-export default function DeathScreen(props: {}) {
+function App(props: {}) {
+    const enabled = useEnabled();
+    const enability = useEnability();
+
     const [blackOutEnabled, setBlackOutEnabled] = useState(false);
     const [titleEnabled, setTitleEnabled] = useState(false);
     const [optionsEnabled, setOptionsEnabled] = useState(false);
@@ -42,18 +47,27 @@ export default function DeathScreen(props: {}) {
         blackOutAtmosphere.Haze = v * 10;
     });
 
-    useTimeout(() => {
-        setBlackOutEnabled(true);
-    }, 3);
+    useTimeout(
+        () => {
+            setBlackOutEnabled(true);
+        },
+        enabled ? 3 : math.huge,
+    );
 
-    useTimeout(() => {
-        setTitleEnabled(true);
-        youDiedSound.Play();
-    }, 5);
+    useTimeout(
+        () => {
+            setTitleEnabled(true);
+            youDiedSound.Play();
+        },
+        enabled ? 5 : math.huge,
+    );
 
-    useTimeout(() => {
-        setOptionsEnabled(true);
-    }, 6);
+    useTimeout(
+        () => {
+            setOptionsEnabled(true);
+        },
+        enabled ? 6 : math.huge,
+    );
 
     const options = (
         <DeathScreenOptionButton
@@ -66,7 +80,7 @@ export default function DeathScreen(props: {}) {
     );
 
     return (
-        <EntireScreen>
+        <EntireScreen superPositionEnability={enability}>
             <textlabel
                 Key={"YouDied"}
                 Size={new UDim2(0, 500, 0, 100)}
@@ -103,5 +117,13 @@ export default function DeathScreen(props: {}) {
                 {options}
             </frame>
         </EntireScreen>
+    );
+}
+
+export default function DeathScreen(props: { enabled: boolean }) {
+    return (
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App></App>
+        </EnabilityProvider>
     );
 }

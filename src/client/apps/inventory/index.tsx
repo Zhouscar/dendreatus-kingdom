@@ -15,8 +15,8 @@ import { useEnability } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 
 let testInventory = defaultPlayerInventory;
-testInventory = immutPutItems(defaultPlayerInventory, "sos.clock", 500, createGuidPool());
-testInventory = immutPutItems(testInventory, "bigger_sos.clock", 50, createGuidPool());
+testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
+testInventory = immutPutItems(testInventory, "bigger_stick", 50, createGuidPool());
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;

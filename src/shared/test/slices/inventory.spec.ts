@@ -36,10 +36,10 @@ export = (): void => {
         expect(inventory?.slots).to.be.a("table");
     });
 
-    it("should add sos.clocks to one slot", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 2)).to.equal(true);
+    it("should add sticks to one slot", () => {
+        expect(canPutItems(getInventory(), "stick", 2)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 2, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 2, createGuidPool());
         const inventory = getInventory();
 
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
@@ -49,10 +49,10 @@ export = (): void => {
         expect(getItem(inventory, 1)?.stack).to.throw();
     });
 
-    it("should add sos.clocks to two slots", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 31)).to.equal(true);
+    it("should add sticks to two slots", () => {
+        expect(canPutItems(getInventory(), "stick", 31)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 31, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 31, createGuidPool());
         const inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -62,30 +62,30 @@ export = (): void => {
         expect(getItem(inventory, 2)?.stack).to.throw();
     });
 
-    it("should continuously add sos.clocks and be working", () => {
+    it("should continuously add sticks and be working", () => {
         expect(getItem(getInventory(), 0)?.stack).to.throw();
 
-        inventorySlice.putItems("__test__", "sos.clock", 1, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(1);
 
-        inventorySlice.putItems("__test__", "sos.clock", 1, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(2);
 
-        inventorySlice.putItems("__test__", "sos.clock", 1, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(3);
 
-        inventorySlice.putItems("__test__", "sos.clock", 1, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 1, createGuidPool());
 
         expect(getItem(getInventory(), 0)?.stack).to.equal(4);
     });
 
-    it("should not be able to add sos.clocks when inventory cannot add that much", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 890)).to.equal(true);
+    it("should not be able to add sticks when inventory cannot add that much", () => {
+        expect(canPutItems(getInventory(), "stick", 890)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 890, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 890, createGuidPool());
         const inventory = getInventory();
         for (let i = 0; i < INVENTORY_SLOT_SIZE; i++) {
             expect(inventory.slots[i].itemGuid).to.never.equal(undefined);
@@ -96,15 +96,15 @@ export = (): void => {
             }
         }
 
-        expect(canPutItems(getInventory(), "sos.clock", 20)).to.equal(false);
-        inventorySlice.putItems("__test__", "sos.clock", 20, createGuidPool());
+        expect(canPutItems(getInventory(), "stick", 20)).to.equal(false);
+        inventorySlice.putItems("__test__", "stick", 20, createGuidPool());
         expect(inventory).to.be.equal(getInventory());
     });
 
-    it("should add sos.clocks to two slots and remove resulting still two slots", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 40)).to.equal(true);
+    it("should add sticks to two slots and remove resulting still two slots", () => {
+        expect(canPutItems(getInventory(), "stick", 40)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 40, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 40, createGuidPool());
         let inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -113,9 +113,9 @@ export = (): void => {
         expect(getItem(inventory, 1)?.stack).to.equal(10);
         expect(getItem(inventory, 2)?.stack).to.throw();
 
-        expect(canTakeItems(getInventory(), "sos.clock", 5)).to.equal(true);
+        expect(canTakeItems(getInventory(), "stick", 5)).to.equal(true);
 
-        inventorySlice.takeItems("__test__", "sos.clock", 5);
+        inventorySlice.takeItems("__test__", "stick", 5);
         inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -125,10 +125,10 @@ export = (): void => {
         expect(getItem(inventory, 2)?.stack).to.throw();
     });
 
-    it("should add sos.clocks to two slots and remove resulting one slot", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 40)).to.equal(true);
+    it("should add sticks to two slots and remove resulting one slot", () => {
+        expect(canPutItems(getInventory(), "stick", 40)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 40, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 40, createGuidPool());
         let inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.never.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -137,9 +137,9 @@ export = (): void => {
         expect(getItem(inventory, 1)?.stack).to.equal(10);
         expect(getItem(inventory, 2)?.stack).to.throw();
 
-        expect(canTakeItems(getInventory(), "sos.clock", 35)).to.equal(true);
+        expect(canTakeItems(getInventory(), "stick", 35)).to.equal(true);
 
-        inventorySlice.takeItems("__test__", "sos.clock", 35);
+        inventorySlice.takeItems("__test__", "stick", 35);
         inventory = getInventory();
         expect(inventory.slots[0].itemGuid).to.equal(undefined);
         expect(inventory.slots[1].itemGuid).to.never.equal(undefined);
@@ -149,35 +149,35 @@ export = (): void => {
         expect(getItem(inventory, 2)?.stack).to.throw();
     });
 
-    it("should not be able to take sos.clocks when inventory cannot take that much", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 10)).to.equal(true);
+    it("should not be able to take sticks when inventory cannot take that much", () => {
+        expect(canPutItems(getInventory(), "stick", 10)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 10, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 10, createGuidPool());
         const inventory = getInventory();
         expect(getItem(inventory, 0)?.stack).to.be.equal(10);
 
-        expect(canTakeItems(getInventory(), "sos.clock", 20)).to.equal(false);
-        inventorySlice.takeItems("__test__", "sos.clock", 20);
+        expect(canTakeItems(getInventory(), "stick", 20)).to.equal(false);
+        inventorySlice.takeItems("__test__", "stick", 20);
         expect(inventory).to.be.equal(getInventory());
     });
 
     it("should be able to insert item into inventory", () => {
         const item: Item = {
             stack: 10,
-            itemType: "sos.clock",
+            itemType: "stick",
         };
 
         expect(hasOpenSlot(getInventory())).to.equal(true);
 
         inventorySlice.insertItem("__test__", item, createGuidPool());
-        expect(getItem(getInventory(), 0)?.itemType).to.be.equal("sos.clock");
+        expect(getItem(getInventory(), 0)?.itemType).to.be.equal("stick");
         expect(getItem(getInventory(), 0)?.stack).to.be.equal(10);
     });
 
     it("should not be able to insert item into inventory when the inventory is full", () => {
-        expect(canPutItems(getInventory(), "sos.clock", 890)).to.equal(true);
+        expect(canPutItems(getInventory(), "stick", 890)).to.equal(true);
 
-        inventorySlice.putItems("__test__", "sos.clock", 890, createGuidPool());
+        inventorySlice.putItems("__test__", "stick", 890, createGuidPool());
         const inventory = getInventory();
         for (let i = 0; i < INVENTORY_SLOT_SIZE; i++) {
             expect(inventory.slots[i].itemGuid).to.never.equal(undefined);
@@ -190,7 +190,7 @@ export = (): void => {
 
         const item: Item = {
             stack: 10,
-            itemType: "sos.clock",
+            itemType: "stick",
         };
 
         expect(hasOpenSlot(getInventory())).to.equal(false);
@@ -199,9 +199,9 @@ export = (): void => {
         expect(getInventory()).to.be.equal(inventory);
     });
 
-    it("should be setting the second index to sos.clock", () => {
+    it("should be setting the second index to stick", () => {
         const item: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 9,
         };
 
@@ -212,9 +212,9 @@ export = (): void => {
         expect(getItem(getInventory(), 2)?.stack).to.be.equal(9);
     });
 
-    it("should be setting the second index to sos.clock and be removed", () => {
+    it("should be setting the second index to stick and be removed", () => {
         const item: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 9,
         };
 
@@ -232,12 +232,12 @@ export = (): void => {
 
     it("should be switching items with the different item types", () => {
         const fromItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 13,
         };
 
         const toItem: Item = {
-            itemType: "bigger_sos.clock",
+            itemType: "bigger_stick",
             stack: 4,
         };
 
@@ -255,7 +255,7 @@ export = (): void => {
 
     it("should be switching an item with an empty slot", () => {
         const fromItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 13,
         };
 
@@ -272,12 +272,12 @@ export = (): void => {
 
     it("should be filling the second item if item types are same and the first item is still existent", () => {
         const fromItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 13,
         };
 
         const toItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 22,
         };
 
@@ -295,12 +295,12 @@ export = (): void => {
 
     it("should be filling the second item if item types are same and the first item is merged with the second one", () => {
         const fromItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 13,
         };
 
         const toItem: Item = {
-            itemType: "sos.clock",
+            itemType: "stick",
             stack: 12,
         };
 

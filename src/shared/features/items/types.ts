@@ -10,8 +10,8 @@ export interface Item {
 export type ItemComponentType = "weapon" | "relics" | "consumable";
 
 export const isItemType = t.literal(
-    "sos.clock",
-    "bigger_sos.clock",
+    "stick",
+    "bigger_stick",
     "crucifix_dagger",
     "mushroom_soup",
     "sap",
