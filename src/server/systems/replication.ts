@@ -13,6 +13,8 @@ function filterDoNotReplicate(w: World, player: Player, entities: ReplicationMap
         draft.forEach((componentMap, eId) => {
             const e = tonumber(eId) as AnyEntity;
 
+            if (!w.contains(e)) return;
+
             const doNotReplicate = w.get(e, DoNotReplicate);
             if (!doNotReplicate) return;
 

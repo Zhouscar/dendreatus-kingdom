@@ -66,7 +66,7 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
                         }
                         Rotation={90}
                         Offset={new Vector2(0, 0.5)}
-                    ></uigradient>
+                    />
                 </frame>
             </frame>
         </frame>

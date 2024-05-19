@@ -13,6 +13,7 @@ import { useLocalPlrE } from "../hooks/ecsSelectors";
 import useW from "../hooks/useW";
 import { useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
+import { DroppedItem } from "shared/components/items";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -69,6 +70,7 @@ export default function Interactable(props: {
     const frameSize = showSpring.map((v) => new UDim2(0, 10 + v * 20, 0, 10 + v * 20));
     const textFrameSize = showSpring.map((v) => new UDim2(0, v * 200, 0, 50));
     const showTransparency = showSpring.map((v) => 1 - v);
+    const buttonColor = showSpring.map((v) => new Color3(1 - v * 0.7, 1 - v * 0.7, 1 - v * 0.7));
 
     const [interactionName, setInteractionName] = useState("");
     const interactionFunction = useMutable(() => {
@@ -77,6 +79,7 @@ export default function Interactable(props: {
 
     // components
     const harvestable = useComponent(e, Harvestable);
+    const droppedItem = useComponent(e, DroppedItem);
 
     // \components
 
@@ -104,7 +107,12 @@ export default function Interactable(props: {
                 if (localPlrE === undefined) return;
                 w.insert(localPlrE, Interacting({ interactE: e, interactType: "harvest" }));
             };
-            // TODO dropped item pickup
+        } else if (droppedItem !== undefined) {
+            setInteractionName("Pick up");
+            interactionFunction.current = () => {
+                if (localPlrE === undefined) return;
+                w.insert(localPlrE, Interacting({ interactE: e, interactType: "pickup" }));
+            };
         } else {
             setInteractionName("");
             interactionFunction.current = () => {
@@ -122,14 +130,16 @@ export default function Interactable(props: {
         >
             <textlabel
                 BorderSizePixel={0}
-                BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+                BackgroundColor3={buttonColor}
                 AnchorPoint={new Vector2(0.5, 0.5)}
                 Position={new UDim2(0.5, 0, 0.5, 0)}
                 Size={frameSize}
                 BackgroundTransparency={buttonTransparency}
                 TextXAlignment={"Center"}
-                TextColor3={Color3.fromRGB(0, 0, 0)}
+                TextColor3={Color3.fromRGB(255, 255, 255)}
                 Text={interactKey ?? ""}
+                TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
+                TextStrokeTransparency={showTransparency}
                 TextSize={20}
                 Font={"Garamond"}
                 TextTransparency={showTransparency}

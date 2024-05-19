@@ -1,5 +1,4 @@
 import { World } from "@rbxts/matter";
-import { has } from "@rbxts/sift/out/Dictionary";
 import { Animatable, LocalPlr } from "shared/components";
 import { Interacting } from "shared/components/interactables";
 import { startAnimation } from "shared/effects/animations";
@@ -21,11 +20,17 @@ function interacting(w: World, s: State, remoteToken: string) {
         if (serverE === undefined) continue;
 
         startTime = os.clock();
-        routes.playerInteract.send(remoteToken, serverE, "harvest");
 
-        const animatable = w.get(e, Animatable);
-        if (animatable !== undefined) {
-            startAnimation(animatable.animator, "harvest", "Action", 1, false);
+        if (interacting.interactType === "harvest") {
+            routes.playerInteract.send(remoteToken, serverE, "harvest");
+
+            const animatable = w.get(e, Animatable);
+            if (animatable !== undefined) {
+                startAnimation(animatable.animator, "harvest", "Action", 1, false);
+            }
+        } else if (interacting.interactType === "pickup") {
+            routes.playerInteract.send(remoteToken, serverE, "pickup");
+            // TODO animation?
         }
     }
 
