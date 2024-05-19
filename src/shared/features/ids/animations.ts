@@ -4,7 +4,7 @@ export const ANIM_IDS = {
     death: withAssetPrefix("14414130377"),
     dash: withAssetPrefix("14215455071"),
 
-    walk: withAssetPrefix("17376804699"),
+    walk: withAssetPrefix("17539558778"),
     sprint: withAssetPrefix("14207192205"),
     sneak: withAssetPrefix("14215263201"),
     dive: withAssetPrefix("14215257367"),
@@ -21,7 +21,7 @@ export const ANIM_IDS = {
 
     falling: withAssetPrefix("14215257367"),
 
-    harvest: withAssetPrefix("13197708605"),
+    harvest: withAssetPrefix("17384907436"),
 };
 
 export type AnimName = keyof typeof ANIM_IDS;

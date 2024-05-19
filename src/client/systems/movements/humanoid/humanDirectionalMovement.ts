@@ -76,7 +76,7 @@ function humanDirectionalMovement(w: World) {
         const animator = w.get(e, Animatable)?.animator;
         if (animator) {
             if (potentialDirectionalMovement.type === "walk") {
-                resumeAnimation(animator, "walk", "Movement", newWalkSpeed * 0.1, true);
+                resumeAnimation(animator, "walk", "Movement", newWalkSpeed * 0.15, true);
             } else if (potentialDirectionalMovement.type === "sprint") {
                 resumeAnimation(animator, "sprint", "Movement", newWalkSpeed * 0.05, true);
             } else if (potentialDirectionalMovement.type === "sneak") {
