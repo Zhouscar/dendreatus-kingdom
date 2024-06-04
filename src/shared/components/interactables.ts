@@ -1,4 +1,4 @@
-import { ItemType } from "shared/features/items/types";
+import { Item, ItemType } from "shared/features/items/types";
 import { ComponentCreator } from "./creators";
 import variantModule, { fields, TypeNames, VariantOf } from "@rbxts/variant";
 import { WithDuration } from "shared/features/types";
@@ -35,9 +35,17 @@ export const Harvestable = ComponentCreator.replicated<{
 }>("Harvestable");
 export type Harvestable = ReturnType<typeof Harvestable>;
 
+export const Cookable = ComponentCreator.replicated<{
+    items: Item[];
+}>("Cookable");
+
 // interactables
 
 export const SapOre = ComponentCreator.tag("SapOre");
+export type SapOre = ReturnType<typeof SapOre>;
+
+export const CookTable = ComponentCreator.tag("CookTable");
+export type CookTable = ReturnType<typeof CookTable>;
 
 // \interactables
 
@@ -48,4 +56,5 @@ export const InteractableComponents = {
     Harvestable,
     TestInteractable,
     SapOre,
+    CookTable,
 };
