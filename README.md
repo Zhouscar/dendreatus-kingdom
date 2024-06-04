@@ -15,8 +15,6 @@ drops out the cooking item
 
 ### plan
 
--I could add a local cannot interact, replicated cannot interact would override though.
-
 [done] create cookable component and initialize it from the tag with interactable
 create an item bar ui for the cookable, make sure it hides and shows
 create the action including taking it away the item from the reflex store and inserting it into the component
