@@ -1,14 +1,16 @@
 import { World } from "@rbxts/matter";
 import { Dummy, Plr, Sound, Transform } from "shared/components";
 import { Damage } from "shared/components/health";
-import { hasComponents } from "shared/hooks/components";
+import { hasComponents, isLocalPlr } from "shared/hooks/components";
 
 function physicalDamageMakeSound(w: World) {
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
         if (!w.contains(e)) continue;
-        if (!damageRecord.new) continue;
 
-        if (damageRecord.new.damageType !== "physical") continue;
+        const damage = damageRecord.new;
+        if (damage === undefined) continue;
+
+        if (damage.damageType !== "physical") continue;
 
         const transform = w.get(e, Transform);
         if (!transform) continue;

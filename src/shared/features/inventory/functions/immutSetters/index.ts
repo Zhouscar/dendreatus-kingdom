@@ -7,6 +7,7 @@ import immutRemoveItemByGuid from "./immutRemoveItemByGuid";
 import immutSetItemAt from "./immutSetItemAt";
 import immutSwapItems from "./immutSwapItems";
 import immutTakeItems from "./immutTakeItems";
+import immutTakeItemsAtGuid from "./immutTakeItemsAtGuid";
 
 const inventoryImmutSetters = {
     immutConsumeItem,
@@ -18,6 +19,7 @@ const inventoryImmutSetters = {
     immutSetItemAt,
     immutSwapItems,
     immutTakeItems,
+    immutTakeItemsAtGuid,
 };
 
 export = inventoryImmutSetters;

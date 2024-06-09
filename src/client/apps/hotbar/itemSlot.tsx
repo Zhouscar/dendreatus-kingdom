@@ -1,8 +1,7 @@
-import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
-import { useEffect, useMemo } from "@rbxts/roact-hooked";
+import { useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 import { useSpring } from "../hooks/ripple";
 import { useEnability, useEnabled } from "../hooks/enability";
@@ -49,7 +48,7 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
                 Color={Color3.fromRGB(255, 255, 150)}
                 ApplyStrokeMode={"Border"}
                 Transparency={equippedTransparency}
-            ></uistroke>
+            />
             {item !== undefined && (
                 <imagelabel
                     Size={new UDim2(1, 0, 1, 0)}

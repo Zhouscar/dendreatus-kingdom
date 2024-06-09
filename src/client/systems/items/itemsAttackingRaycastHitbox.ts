@@ -1,17 +1,16 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { useChange, useMap } from "@rbxts/matter-hooks";
 import { index } from "shared/calculations/indexing";
-import { LocalPlr, Plr, Renderable } from "shared/components";
+import { LocalPlr, Renderable } from "shared/components";
 import { Acting } from "shared/components/actions";
-import { Health } from "shared/components/health";
+import { Damage, Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
 import { cast } from "shared/effects/raycastHitbox";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
-import { routes } from "shared/network";
 
-function itemsAttackingRaycastHitbox(w: World, s: State, remoteToken: string) {
+function itemsAttackingRaycastHitbox(w: World, s: State) {
     for (const [e, localPlr, acting, renderable, physicallyEquipping] of w.query(
         LocalPlr,
         Acting,
@@ -19,6 +18,9 @@ function itemsAttackingRaycastHitbox(w: World, s: State, remoteToken: string) {
         PhysicallyEquipping,
     )) {
         if (acting.action.type !== "attacking") continue;
+
+        const serverE = s.clientToServerEntityIdMap.get(tostring(e));
+        if (serverE === undefined) continue;
 
         const itemType = acting.action.item.itemType;
         const context = ITEM_ATTACKABLE_CONTEXTS.get(itemType);
@@ -49,11 +51,17 @@ function itemsAttackingRaycastHitbox(w: World, s: State, remoteToken: string) {
 
                     eAttackeds.value.add(e);
 
-                    const serverE = s.clientToServerEntityIdMap.get(tostring(e));
-                    if (serverE === undefined) return;
+                    const damageAmount = ITEM_ATTACKABLE_CONTEXTS.get(itemType)?.damage;
+                    assert(damageAmount);
 
-                    // network.ecs.playerDamage.fire(serverE, itemType);
-                    routes.playerDamage.send(remoteToken, serverE, itemType);
+                    w.insert(
+                        e,
+                        Damage({
+                            amount: damageAmount,
+                            serverContributor: serverE,
+                            damageType: "physical",
+                        }),
+                    );
                 });
             },
         );

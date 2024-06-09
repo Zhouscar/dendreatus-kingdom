@@ -5,7 +5,7 @@ const itemsAsToolsAssets = ReplicatedStorage.assets.itemsAsTools;
 
 export function getItemAsTool(guid: string, item: Item) {
     const tool = itemsAsToolsAssets.FindFirstChild(item.itemType)?.Clone();
-    assert(tool);
+    assert(tool, `${item.itemType} not found`);
     tool.Name = guid;
     return tool;
 }

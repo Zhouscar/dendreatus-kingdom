@@ -23,7 +23,7 @@ function damageHurts(w: World) {
 
         const newCurrentHealth = calculateNewCurrentHealth(e, health, damageRecord.new);
         const newDamageContributors = produce(health.damageContributors, (draft) => {
-            const contributor = damageRecord.new!.contributor;
+            const contributor = damageRecord.new!.serverContributor;
             if (contributor === undefined) return;
 
             let damageAlreadyDone = draft.get(contributor);

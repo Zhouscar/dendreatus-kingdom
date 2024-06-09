@@ -68,6 +68,7 @@ function forEachPlayer(player: Player) {
         if (!inventory || !prevInventory) return;
 
         const toolEquipped = player.Character?.FindFirstChildOfClass("Tool");
+        const human = player.Character?.FindFirstChildOfClass("Humanoid");
 
         const guidsToAdd = getItemGuidsToAdd(inventory, prevInventory);
         const toolsToAdd = getItemsAsTools(inventory, guidsToAdd);
@@ -78,6 +79,7 @@ function forEachPlayer(player: Player) {
         const guidsToRemove = getItemGuidsToRemove(inventory, prevInventory);
         guidsToRemove.forEach((guid) => {
             if (guid === toolEquipped?.Name) {
+                human?.UnequipTools();
                 toolEquipped.Destroy();
                 return;
             }
@@ -90,8 +92,10 @@ function forEachPlayer(player: Player) {
             const guid = tool.Name;
 
             if (guid === toolEquipped?.Name) {
+                human?.UnequipTools();
                 toolEquipped.Destroy();
             }
+            // TODO: fix reconcile backpack
 
             player.Backpack.FindFirstChild(guid)?.Destroy();
             tool.Parent = player.Backpack;

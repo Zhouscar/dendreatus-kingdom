@@ -7,7 +7,7 @@ import {
     CannotInteract,
     CannotInteractReason,
     Interactable,
-    Interacting,
+    LocalCannotInteract,
 } from "shared/components/interactables";
 import { CrashLanding, Falling, Jumping } from "shared/components/movements";
 import { InteractState } from "shared/features/interactables/types";
@@ -15,7 +15,7 @@ import { hasOneOfComponents } from "shared/hooks/components";
 
 function canInteract(w: World) {
     for (const [e] of w.query(LocalPlr)) {
-        return !hasOneOfComponents(w, e, CrashLanding, Interacting, Acting, Jumping, Falling);
+        return !hasOneOfComponents(w, e, CrashLanding, Acting, Jumping, Falling);
     }
 }
 
@@ -40,7 +40,7 @@ function interactableStates(w: World) {
     const newInteractEs: typeof oldInteractEs = new Map();
 
     let showingE: AnyEntity | undefined = undefined;
-    let showingECannotInteractReason: CannotInteractReason | undefined = undefined;
+    let showingECannotInteractReason: CannotInteractReason | "NONE" = "NONE";
     let showingEDistance = math.huge;
 
     for (const [e, transform, interactable] of w.query(Transform, Interactable)) {
@@ -55,17 +55,25 @@ function interactableStates(w: World) {
         if (distance > 50) continue;
 
         const cannotInteract = w.get(e, CannotInteract);
+        const localCannotInteract = w.get(e, LocalCannotInteract);
+
+        let reason: CannotInteractReason | "NONE" = "NONE";
+        if (cannotInteract !== undefined) {
+            reason = cannotInteract.reason;
+        } else if (localCannotInteract !== undefined) {
+            reason = localCannotInteract.reason;
+        }
 
         const isHidden = distance > 20;
 
         if (distance < 10 && dot > 0.2 && distance < showingEDistance) {
             showingE = e;
             showingEDistance = distance;
-            showingECannotInteractReason = cannotInteract?.reason;
+            showingECannotInteractReason = reason;
         }
 
         const interactState: InteractState = isHidden ? "hidden" : "hinting";
-        newInteractEs.set(e, [interactState, cannotInteract?.reason]);
+        newInteractEs.set(e, [interactState, reason]);
     }
 
     if (showingE !== undefined && canInteract(w)) {

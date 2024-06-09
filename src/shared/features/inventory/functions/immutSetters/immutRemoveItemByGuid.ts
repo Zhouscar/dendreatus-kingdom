@@ -5,7 +5,7 @@ function immutRemoveItemByGuid(inventory: PlayerInventory, guid: string) {
     return produce(inventory, (draft) => {
         draft.slots.forEach((slot, index) => {
             if (slot.itemGuid === guid) {
-                draft.slots.remove(index);
+                draft.slots[index].itemGuid = undefined;
             }
         });
         draft.items.delete(guid);

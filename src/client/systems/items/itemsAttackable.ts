@@ -2,7 +2,6 @@ import { AnyEntity, World } from "@rbxts/matter";
 import { Animatable } from "shared/components";
 import { Acting, Action, ShiftForward } from "shared/components/actions";
 import { Dead } from "shared/components/health";
-import { Interacting } from "shared/components/interactables";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
@@ -80,7 +79,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
 const generalCanUse: CanUseItemFunction = (w, e) => {
     return (
         hasComponents(w, e, CanDirectionallyMove, OnLand) &&
-        !hasOneOfComponents(w, e, Interacting, Acting, Climbing, Dead)
+        !hasOneOfComponents(w, e, Acting, Climbing, Dead)
     );
 };
 

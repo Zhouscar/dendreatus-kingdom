@@ -70,4 +70,37 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
             description: "TODO",
         },
     ],
+    [
+        "egg",
+        {
+            name: "Egg",
+            itemType: "egg",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17165290853"),
+            description: "TODO",
+        }, // TODO: egg item as tool
+    ],
+    [
+        "flour",
+        {
+            name: "Flour",
+            itemType: "flour",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17165267270"),
+            description: "TODO",
+        }, // TODO: flour item as tool
+    ],
+    [
+        "mushroom",
+        {
+            name: "Mushroom",
+            itemType: "mushroom",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("13033967093"),
+            description: "TODO",
+        }, // TODO: mushroom item as tool
+    ],
 ]);

@@ -3,17 +3,23 @@ import Roact from "@rbxts/roact";
 import { InteractState } from "shared/features/interactables/types";
 import useComponent from "../hooks/useComponent";
 import { Renderable } from "shared/components";
-import { useBinding, useEffect, useMutable, useState } from "@rbxts/roact-hooked";
-import { RunService, UserInputService } from "@rbxts/services";
+import { useBinding, useEffect, useMemo, useMutable, useState } from "@rbxts/roact-hooked";
+import { Players, RunService, UserInputService } from "@rbxts/services";
 import { useSelector } from "@rbxts/roact-reflex";
 import { selectPlayerKeybinds } from "shared/store/players/keybinds";
 import { theLocalPlr } from "client/localPlr";
-import { CannotInteractReason, Harvestable, Interacting } from "shared/components/interactables";
+import {
+    CannotInteractReason,
+    Cookable,
+    Harvestable,
+    Interacted,
+} from "shared/components/interactables";
 import { useLocalPlrE } from "../hooks/ecsSelectors";
 import useW from "../hooks/useW";
 import { useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 import { DroppedItem } from "shared/components/items";
+import CookableItems from "./misc/cookableItems";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -70,7 +76,7 @@ export default function Interactable(props: {
     const frameSize = showSpring.map((v) => new UDim2(0, 10 + v * 20, 0, 10 + v * 20));
     const textFrameSize = showSpring.map((v) => new UDim2(0, v * 200, 0, 50));
     const showTransparency = showSpring.map((v) => 1 - v);
-    const buttonColor = showSpring.map((v) => new Color3(1 - v * 0.7, 1 - v * 0.7, 1 - v * 0.7));
+    const buttonColor = showSpring.map((v) => new Color3(1 - v * 0.8, 1 - v * 0.8, 1 - v * 0.8));
 
     const [interactionName, setInteractionName] = useState("");
     const interactionFunction = useMutable(() => {
@@ -80,8 +86,20 @@ export default function Interactable(props: {
     // components
     const harvestable = useComponent(e, Harvestable);
     const droppedItem = useComponent(e, DroppedItem);
+    const cookable = useComponent(e, Cookable);
 
     // \components
+
+    const isCookableFull = useMemo(() => {
+        if (cookable === undefined) return false;
+
+        let size = 0;
+        cookable.items.forEach((container) => {
+            if (container.item !== undefined) size++;
+        });
+
+        return size >= 3;
+    }, [cookable]);
 
     useEffect(() => {
         if (!canInteract || !enabled) return;
@@ -101,18 +119,57 @@ export default function Interactable(props: {
     const w = useW();
 
     useEffect(() => {
+        if (localPlrE === undefined) return;
         if (harvestable !== undefined) {
             setInteractionName("Harvest");
             interactionFunction.current = () => {
-                if (localPlrE === undefined) return;
-                w.insert(localPlrE, Interacting({ interactE: e, interactType: "harvest" }));
+                w.insert(
+                    e,
+                    Interacted({
+                        player: Players.LocalPlayer,
+                        interactType: "harvest",
+                        interactTime: os.clock(),
+                    }),
+                );
             };
         } else if (droppedItem !== undefined) {
-            setInteractionName("Pick up");
+            setInteractionName("Pick Up");
             interactionFunction.current = () => {
-                if (localPlrE === undefined) return;
-                w.insert(localPlrE, Interacting({ interactE: e, interactType: "pickup" }));
+                w.insert(
+                    e,
+                    Interacted({
+                        player: Players.LocalPlayer,
+                        interactType: "pickup",
+                        interactTime: os.clock(),
+                    }),
+                );
             };
+        } else if (cookable !== undefined) {
+            if (isCookableFull) {
+                setInteractionName("Cook");
+                interactionFunction.current = () => {
+                    w.insert(
+                        e,
+                        Interacted({
+                            player: Players.LocalPlayer,
+                            interactType: "cook",
+                            interactTime: os.clock(),
+                        }),
+                    );
+                };
+            } else {
+                setInteractionName("Place Item");
+                interactionFunction.current = () => {
+                    w.insert(
+                        e,
+                        Interacted({
+                            player: Players.LocalPlayer,
+                            interactType: "place_item",
+                            interactTime: os.clock(),
+                        }),
+                    );
+                };
+            }
         } else {
             setInteractionName("");
             interactionFunction.current = () => {
@@ -128,6 +185,13 @@ export default function Interactable(props: {
             AlwaysOnTop={true}
             Size={new UDim2(0, 200, 0, 200)}
         >
+            {cookable !== undefined && (
+                <CookableItems
+                    cookable={cookable}
+                    state={state}
+                    cannotInteractReason={cannotInteractReason}
+                />
+            )}
             <textlabel
                 BorderSizePixel={0}
                 BackgroundColor3={buttonColor}

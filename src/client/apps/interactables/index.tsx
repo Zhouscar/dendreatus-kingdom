@@ -14,7 +14,7 @@ function App(props: {}) {
                 Key={e}
                 e={e}
                 state={context[0]}
-                cannotInteractReason={context[1]}
+                cannotInteractReason={context[1] !== "NONE" ? context[1] : undefined}
             ></Interactable>,
         );
     });

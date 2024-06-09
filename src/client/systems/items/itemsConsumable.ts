@@ -2,7 +2,6 @@ import { World } from "@rbxts/matter";
 import { Animatable } from "shared/components";
 import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
-import { Interacting } from "shared/components/interactables";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
@@ -36,7 +35,6 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
         }),
     );
 
-
     const animatable = w.get(e, Animatable);
     if (animatable) {
         const animId = itemContext.stageAnimationIds[nextCosumeStage];
@@ -51,7 +49,7 @@ const generalPressCallback: ItemActivationCallback = (w, e, item) => {
 const generalCanUse: CanUseItemFunction = (w, e) => {
     return (
         hasComponents(w, e, CanDirectionallyMove, OnLand) &&
-        !hasOneOfComponents(w, e, Interacting, Acting, Climbing, Dead)
+        !hasOneOfComponents(w, e, Acting, Climbing, Dead)
     );
 };
 

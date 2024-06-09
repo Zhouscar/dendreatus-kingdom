@@ -12,9 +12,9 @@ export const Dead = ComponentCreator.replicated<{ startTime: number }>("Dead");
 export type Dead = ReturnType<typeof Dead>;
 
 export type DamageType = "physical" | "passive";
-export const Damage = ComponentCreator.replicated<{
+export const Damage = ComponentCreator.bidirectional<{
     amount: number;
-    contributor?: AnyEntity;
+    serverContributor?: AnyEntity;
     damageType: DamageType;
 }>("Damage");
 export type Damage = ReturnType<typeof Damage>;

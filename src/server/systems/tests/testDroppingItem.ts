@@ -11,11 +11,33 @@ function testDroppingItem(w: World) {
             DroppingItem({
                 position: transform.cf.Position.add(UP.mul(2)),
                 impulse: new Vector3(
-                    math.random(-20, 20),
-                    math.random(20, 50),
-                    math.random(-20, 20),
+                    math.random(-10, 10),
+                    math.random(10, 30),
+                    math.random(-10, 10),
                 ),
-                item: "mushroom_soup",
+                item: "egg",
+            }),
+        );
+        w.spawn(
+            DroppingItem({
+                position: transform.cf.Position.add(UP.mul(2)),
+                impulse: new Vector3(
+                    math.random(-10, 10),
+                    math.random(10, 30),
+                    math.random(-10, 10),
+                ),
+                item: "flour",
+            }),
+        );
+        w.spawn(
+            DroppingItem({
+                position: transform.cf.Position.add(UP.mul(2)),
+                impulse: new Vector3(
+                    math.random(-10, 10),
+                    math.random(10, 30),
+                    math.random(-10, 10),
+                ),
+                item: "mushroom",
             }),
         );
     }

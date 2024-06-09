@@ -3,8 +3,9 @@ import { Collision } from "shared/components";
 import { TestDamagePart } from "shared/components/colliders";
 import { Damage, Dead, Health } from "shared/components/health";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { State } from "shared/state";
 
-function testDamagePartsDamage(w: World) {
+function testDamagePartsDamage(w: World, s: State) {
     for (const [e, collisionRecord] of w.queryChanged(Collision)) {
         if (!w.contains(e)) continue;
         if (collisionRecord.new === undefined) continue;
@@ -19,11 +20,12 @@ function testDamagePartsDamage(w: World) {
 
         if (!useThrottle(0.5, colliderE)) continue;
 
+        print("Damageee");
         w.insert(
             colliderE,
             Damage({
                 amount: math.round(collisionRecord.new.force / 3),
-                contributor: e,
+                serverContributor: e,
                 damageType: "physical",
             }),
         );

@@ -1,24 +1,38 @@
-import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
-import { useEnability, useEnabled } from "client/apps/hooks/enability";
-import { CannotInteractReason } from "shared/components/interactables";
+import { CannotInteractReason, Cookable } from "shared/components/interactables";
 import { InteractState } from "shared/features/interactables/types";
+import CookableItemFragments from "./itemFragments";
+import { keybindsSlice } from "shared/store/players/keybinds";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;
 
 export default function CookableItems(props: {
-    e: AnyEntity;
+    cookable: Cookable;
     state: InteractState;
     cannotInteractReason?: CannotInteractReason;
 }) {
-    const e = props.e;
+    const cookable = props.cookable;
     const state = props.state;
     const cannotInteractReason = props.cannotInteractReason;
 
-    const enabled = useEnabled();
+    const showing = state === "showing" && cannotInteractReason === undefined;
 
-    const showing = enabled && state === "showing" && cannotInteractReason === undefined;
-
-    return <frame BackgroundTransparency={1}></frame>;
+    return (
+        <frame
+            BackgroundTransparency={1}
+            Size={new UDim2(0, SLOT_LEN * 3 + SLOT_PAD * 4, 0, SLOT_LEN + SLOT_PAD * 2)}
+            Position={new UDim2(0.5, 0, 0.5, -20)}
+            AnchorPoint={new Vector2(0.5, 1)}
+        >
+            <CookableItemFragments showing={showing} cookable={cookable} />
+            <uigridlayout
+                VerticalAlignment={"Center"}
+                HorizontalAlignment={"Center"}
+                CellSize={new UDim2(0, SLOT_LEN, 0, SLOT_LEN)}
+                CellPadding={new UDim2(0, SLOT_PAD, 0, SLOT_PAD)}
+                SortOrder={"LayoutOrder"}
+            />
+        </frame>
+    );
 }

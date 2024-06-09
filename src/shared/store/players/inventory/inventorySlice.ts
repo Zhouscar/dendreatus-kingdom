@@ -106,4 +106,13 @@ export const inventorySlice = createProducer(initState, {
             [plr]: inventoryImmutSetters.immutTakeItems(inventory, itemType, amount),
         };
     },
+
+    takeItemAtGuid: (state, plr: string, guid: string, amount: number) => {
+        const inventory = state[plr];
+        if (inventory === undefined) return state;
+        return {
+            ...state,
+            [plr]: inventoryImmutSetters.immutTakeItemsAtGuid(inventory, guid, amount),
+        };
+    },
 });

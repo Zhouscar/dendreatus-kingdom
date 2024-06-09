@@ -15,5 +15,8 @@ export const isItemType = t.literal(
     "crucifix_dagger",
     "mushroom_soup",
     "sap",
+    "egg",
+    "flour",
+    "mushroom",
 );
 export type ItemType = t.static<typeof isItemType>;

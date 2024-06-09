@@ -15,11 +15,12 @@ export type CannotInteractReason<T extends TypeNames<typeof CannotInteractReason
 export const Interactable = ComponentCreator.replicated<{}>("Interactable");
 export type Interactable = ReturnType<typeof Interactable>;
 
-export const Interacting = ComponentCreator.base<{
-    interactE: AnyEntity;
+export const Interacted = ComponentCreator.bidirectional<{
+    player: Player;
     interactType: InteractType;
-}>("Interacting"); // not sure if this will become synced
-export type Interacting = ReturnType<typeof Interacting>;
+    interactTime: number;
+}>("Interacted");
+export type Interacted = ReturnType<typeof Interacted>;
 
 export const TestInteractable = ComponentCreator.tag("TestInteractable");
 export type TestInteractable = ReturnType<typeof TestInteractable>;
@@ -29,6 +30,11 @@ export const CannotInteract = ComponentCreator.replicated<{ reason: CannotIntera
 );
 export type CannotInteract = ReturnType<typeof CannotInteract>;
 
+export const LocalCannotInteract = ComponentCreator.base<{ reason: CannotInteractReason }>(
+    "LocalCannotInteract",
+);
+export type LocalCannotInteract = ReturnType<typeof LocalCannotInteract>;
+
 export const Harvestable = ComponentCreator.replicated<{
     itemType: ItemType;
     amountLeftToHarvest: number;
@@ -36,8 +42,9 @@ export const Harvestable = ComponentCreator.replicated<{
 export type Harvestable = ReturnType<typeof Harvestable>;
 
 export const Cookable = ComponentCreator.replicated<{
-    items: Item[];
+    items: { item: Item | undefined }[];
 }>("Cookable");
+export type Cookable = ReturnType<typeof Cookable>;
 
 // interactables
 
@@ -51,9 +58,11 @@ export type CookTable = ReturnType<typeof CookTable>;
 
 export const InteractableComponents = {
     Interactable,
-    Interacting,
+    Interacted,
     CannotInteract,
+    LocalCannotInteract,
     Harvestable,
+    Cookable,
     TestInteractable,
     SapOre,
     CookTable,
