@@ -11,6 +11,7 @@ import { theLocalPlr } from "client/localPlr";
 import {
     CannotInteractReason,
     Cookable,
+    Craftable,
     Harvestable,
     Interacted,
 } from "shared/components/interactables";
@@ -20,6 +21,7 @@ import { useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 import { DroppedItem } from "shared/components/items";
 import CookableItems from "./misc/cookableItems";
+import CraftableItems from "./misc/craftableItems";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -87,6 +89,7 @@ export default function Interactable(props: {
     const harvestable = useComponent(e, Harvestable);
     const droppedItem = useComponent(e, DroppedItem);
     const cookable = useComponent(e, Cookable);
+    const craftable = useComponent(e, Craftable);
 
     // \components
 
@@ -100,6 +103,17 @@ export default function Interactable(props: {
 
         return size >= 3;
     }, [cookable]);
+
+    const isCraftableFull = useMemo(() => {
+        if (craftable === undefined) return false;
+
+        let size = 0;
+        craftable.items.forEach((container) => {
+            if (container.item !== undefined) size++;
+        });
+
+        return size >= 3;
+    }, [craftable]);
 
     useEffect(() => {
         if (!canInteract || !enabled) return;
@@ -145,31 +159,29 @@ export default function Interactable(props: {
                 );
             };
         } else if (cookable !== undefined) {
-            if (isCookableFull) {
-                setInteractionName("Cook");
-                interactionFunction.current = () => {
-                    w.insert(
-                        e,
-                        Interacted({
-                            player: Players.LocalPlayer,
-                            interactType: "cook",
-                            interactTime: os.clock(),
-                        }),
-                    );
-                };
-            } else {
-                setInteractionName("Place Item");
-                interactionFunction.current = () => {
-                    w.insert(
-                        e,
-                        Interacted({
-                            player: Players.LocalPlayer,
-                            interactType: "place_item",
-                            interactTime: os.clock(),
-                        }),
-                    );
-                };
-            }
+            setInteractionName("Place Item");
+            interactionFunction.current = () => {
+                w.insert(
+                    e,
+                    Interacted({
+                        player: Players.LocalPlayer,
+                        interactType: "place_item",
+                        interactTime: os.clock(),
+                    }),
+                );
+            };
+        } else if (craftable !== undefined) {
+            setInteractionName("Place Item");
+            interactionFunction.current = () => {
+                w.insert(
+                    e,
+                    Interacted({
+                        player: Players.LocalPlayer,
+                        interactType: "place_item",
+                        interactTime: os.clock(),
+                    }),
+                );
+            };
         } else {
             setInteractionName("");
             interactionFunction.current = () => {
@@ -188,6 +200,13 @@ export default function Interactable(props: {
             {cookable !== undefined && (
                 <CookableItems
                     cookable={cookable}
+                    state={state}
+                    cannotInteractReason={cannotInteractReason}
+                />
+            )}
+            {craftable !== undefined && (
+                <CraftableItems
+                    craftable={craftable}
                     state={state}
                     cannotInteractReason={cannotInteractReason}
                 />

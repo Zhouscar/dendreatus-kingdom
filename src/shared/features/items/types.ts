@@ -18,5 +18,10 @@ export const isItemType = t.literal(
     "egg",
     "flour",
     "mushroom",
+    "scrap_metal", // TODO
+    "rope", // TODO
+    "nails", // TODO
+    "spikeball", // TODO
+    "scrap_blade", // TODO
 );
 export type ItemType = t.static<typeof isItemType>;

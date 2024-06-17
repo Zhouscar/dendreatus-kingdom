@@ -16,9 +16,8 @@ export const COOKABLE_RECIPES: ReadonlyMap<ItemType, CookableRecipe> = new Map([
         },
     ],
 ]);
-// TODO: test recipe
 
-export function getItemTypeFromRecipe(recipe: CookableRecipe): ItemType | undefined {
+export function getItemTypeFromCookingRecipe(recipe: CookableRecipe): ItemType | undefined {
     const recipeSet = new Set([recipe.itemType1, recipe.itemType2, recipe.itemType3]);
 
     let itemType: ItemType | undefined = undefined;

@@ -12,7 +12,7 @@ export function getItemAsTool(guid: string, item: Item) {
 
 export function getToolAsDisplayByItemType(itemType: ItemType) {
     const tool = itemsAsToolsAssets.FindFirstChild(itemType)?.Clone() as Tool | undefined;
-    assert(tool);
+    assert(tool, `${itemType} does not have item as tool`);
     const handle = tool.FindFirstChild("Handle");
     if (handle && handle.IsA("BasePart")) {
         handle.CanTouch = false;

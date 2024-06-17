@@ -2,7 +2,13 @@ import { produce } from "@rbxts/immut";
 import { World } from "@rbxts/matter";
 import { store } from "server/store";
 import { findPlrE } from "shared/calculations/findEntity";
-import { CannotInteract, Cookable, Harvestable, Interacted } from "shared/components/interactables";
+import {
+    CannotInteract,
+    Cookable,
+    Craftable,
+    Harvestable,
+    Interacted,
+} from "shared/components/interactables";
 import { DroppedItem, Equipping } from "shared/components/items";
 import { createGuidPool, newGuid } from "shared/features/guidUtils";
 import { hasOpenSlot } from "shared/features/inventory/functions";
@@ -61,9 +67,6 @@ function playerInteract(w: World, _: any) {
             const equipping = w.get(plrE, Equipping);
             if (equipping === undefined) continue;
 
-            const cookable = w.get(e, Cookable);
-            if (cookable === undefined) continue;
-
             const inventory = store.getState().players.inventory[plr];
             if (inventory === undefined) continue;
 
@@ -76,21 +79,39 @@ function playerInteract(w: World, _: any) {
 
             let putItem = false;
 
-            const newItems = produce(cookable.items, (draft) => {
-                draft.forEach((container) => {
-                    if (putItem) return;
-                    if (container.item === undefined) {
-                        container.item = itemWithOneStack;
-                        putItem = true;
-                    }
-                });
-            });
-
-            if (!putItem) continue;
-
-            w.insert(e, cookable.patch({ items: newItems }));
-
             store.takeItemAtGuid(plr, equipping.itemGuid, 1);
+
+            const cookable = w.get(e, Cookable);
+            const craftable = w.get(e, Craftable);
+            if (cookable !== undefined) {
+                const newItems = produce(cookable.items, (draft) => {
+                    draft.forEach((container) => {
+                        if (putItem) return;
+                        if (container.item === undefined) {
+                            container.item = itemWithOneStack;
+                            putItem = true;
+                        }
+                    });
+                });
+
+                if (!putItem) continue;
+
+                w.insert(e, cookable.patch({ items: newItems }));
+            } else if (craftable !== undefined) {
+                const newItems = produce(craftable.items, (draft) => {
+                    draft.forEach((container) => {
+                        if (putItem) return;
+                        if (container.item === undefined) {
+                            container.item = itemWithOneStack;
+                            putItem = true;
+                        }
+                    });
+                });
+
+                if (!putItem) continue;
+
+                w.insert(e, craftable.patch({ items: newItems }));
+            }
         } else if (interactType === "cook") {
             const cookable = w.get(e, Cookable);
             if (cookable === undefined) continue;

@@ -46,7 +46,15 @@ export const Cookable = ComponentCreator.replicated<{
 }>("Cookable");
 export type Cookable = ReturnType<typeof Cookable>;
 
+export const Craftable = ComponentCreator.replicated<{
+    items: { item: Item | undefined }[];
+}>("Craftable");
+export type Craftable = ReturnType<typeof Craftable>;
+
 // interactables
+
+export const CraftTable = ComponentCreator.tag("CraftTable");
+export type CraftTable = ReturnType<typeof CraftTable>;
 
 export const SapOre = ComponentCreator.tag("SapOre");
 export type SapOre = ReturnType<typeof SapOre>;
@@ -66,4 +74,6 @@ export const InteractableComponents = {
     TestInteractable,
     SapOre,
     CookTable,
+    CraftTable,
+    Craftable,
 };

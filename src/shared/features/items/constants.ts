@@ -103,4 +103,59 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
             description: "TODO",
         }, // TODO: mushroom item as tool
     ],
+    [
+        "scrap_metal",
+        {
+            name: "Scrap Metal",
+            itemType: "scrap_metal",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17165197728"),
+            description: "TODO",
+        },
+    ],
+    [
+        "rope",
+        {
+            name: "Rope",
+            itemType: "rope",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17134358548"),
+            description: "TODO",
+        },
+    ],
+    [
+        "nails",
+        {
+            name: "Nails",
+            itemType: "nails",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17165310845"),
+            description: "TODO",
+        },
+    ],
+    [
+        "scrap_blade",
+        {
+            name: "Scrap Blade",
+            itemType: "scrap_blade",
+            itemComponentTypes: [],
+            stackSize: 1,
+            image: withAssetPrefix("17837106969"),
+            description: "TODO",
+        },
+    ],
+    [
+        "spikeball",
+        {
+            name: "Spikeball",
+            itemType: "spikeball",
+            itemComponentTypes: [],
+            stackSize: 10,
+            image: withAssetPrefix("17837113516"),
+            description: "TODO",
+        },
+    ],
 ]);
