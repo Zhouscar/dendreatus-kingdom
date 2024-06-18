@@ -9,7 +9,7 @@ import {
     Landing,
     LandingContext,
 } from "shared/components/movements";
-import { preloadAnimations, resumeAnimation } from "shared/effects/animations";
+import { resumeAnimation } from "shared/effects/animations";
 import { hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 let queried = false;

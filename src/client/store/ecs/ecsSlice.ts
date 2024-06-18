@@ -12,7 +12,7 @@ export type ECSState = {
 
 const initState: ECSState = {
     localPlrE: undefined,
-    clientState: "game", // change this to "init" when moving onto loading screen
+    clientState: "title",
     interactEs: new Map(),
 };
 

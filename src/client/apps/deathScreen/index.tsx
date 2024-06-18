@@ -1,10 +1,10 @@
-import { Spring, useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
+import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import EntireScreen from "../components/entireScreen";
 import { Lighting, SoundService } from "@rbxts/services";
 import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
-import { useBinding, useState } from "@rbxts/roact-hooked";
+import { useState } from "@rbxts/roact-hooked";
 import { Make } from "@rbxts/altmake";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { useSpring } from "../hooks/ripple";
@@ -124,7 +124,7 @@ function App(props: {}) {
 export default function DeathScreen(props: { enabled: boolean }) {
     return (
         <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App></App>
+            <App />
         </EnabilityProvider>
     );
 }

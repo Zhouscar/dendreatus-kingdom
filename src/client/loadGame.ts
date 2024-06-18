@@ -1,6 +1,14 @@
 import { Make } from "@rbxts/altmake";
-import { ContentProvider, Players, ReplicatedFirst, TweenService } from "@rbxts/services";
+import {
+    ContentProvider,
+    Players,
+    ReplicatedFirst,
+    ReplicatedStorage,
+    TweenService,
+    Workspace,
+} from "@rbxts/services";
 import Sift from "@rbxts/sift";
+import { assetIds as ASSET_IDS } from "shared/assetIds";
 import { ANIM_IDS } from "shared/features/ids/animations";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
@@ -9,34 +17,6 @@ import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 
 export default function loadGame() {
     ReplicatedFirst.RemoveDefaultLoadingScreen();
-
-    const contentIds: (string | Instance)[] = [];
-
-    contentIds.push(game);
-
-    Sift.Dictionary.values(ANIM_IDS).forEach((id) => {
-        contentIds.push(id);
-    });
-
-    Sift.Dictionary.values(SOUND_IDS).forEach((id) => {
-        contentIds.push(id);
-    });
-
-    ITEM_ATTACKABLE_CONTEXTS.forEach((context) => {
-        context.stepAnimationIds.forEach((id) => {
-            contentIds.push(id);
-        });
-    });
-
-    ITEM_CONSUMABLE_CONTEXT.forEach((context) => {
-        context.stageAnimationIds.forEach((id) => {
-            contentIds.push(id);
-        });
-    });
-
-    ITEM_CONTEXTS.forEach((context) => {
-        contentIds.push(context.image);
-    });
 
     const screen = Make("ScreenGui", {
         Name: "LoadingScreen",
@@ -79,7 +59,7 @@ export default function loadGame() {
     });
 
     let i = 0;
-    ContentProvider.PreloadAsync([...contentIds], () => {
+    ContentProvider.PreloadAsync([ReplicatedStorage, ...ASSET_IDS], () => {
         text.Text = tostring(++i);
     });
 

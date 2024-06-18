@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { Animatable, LocalPlr, Plr } from "shared/components";
 import { DirectionalMovement, Falling } from "shared/components/movements";
-import { preloadAnimation, resumeAnimation } from "shared/effects/animations";
+import { resumeAnimation } from "shared/effects/animations";
 import { isLocalPlr } from "shared/hooks/components";
 
 function humanFallingAnim(w: World) {

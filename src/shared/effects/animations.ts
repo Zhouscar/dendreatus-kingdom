@@ -16,42 +16,6 @@ const AnimationPriority = {
     Movement: Enum.AnimationPriority.Movement,
 };
 
-export function preloadAnimations(animator: MyAnimator, ...animNames: AnimName[]) {
-    animNames.forEach((animName) => {
-        preloadAnimation(animator, animName);
-    });
-}
-
-export function preloadAnimation(animator: MyAnimator, animName: AnimName) {
-    const animId = ANIM_IDS[animName];
-    let tracks = storage.get(animator);
-    if (tracks === undefined) {
-        tracks = new Map();
-        storage.set(animator, tracks);
-        animator.Destroying.Connect(() => {
-            storage.delete(animator);
-        });
-    }
-
-    let track = tracks.get(animId);
-    if (track === undefined) {
-        const animationInstance = Make("Animation", {
-            AnimationId: animId,
-        });
-        const [ok, tryTrack] = pcall(() => {
-            return animator.IsA("Animator")
-                ? animator.LoadAnimation(animationInstance)
-                : animator.LoadAnimation(animationInstance);
-        });
-        if (!ok) {
-            warn(`Error loading animation id: ${animId}`);
-            return;
-        }
-        track = tryTrack as AnimationTrack;
-        tracks.set(animId, track);
-    }
-}
-
 export function getTrackLength(animator: MyAnimator, animName: AnimName): number | undefined {
     const animId = ANIM_IDS[animName];
 

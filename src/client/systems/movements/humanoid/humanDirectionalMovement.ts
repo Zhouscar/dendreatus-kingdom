@@ -8,8 +8,7 @@ import {
     LinearVelocity,
     PotentialDirectionalMovement,
 } from "shared/components/movements";
-import { getTrackLength, preloadAnimations, resumeAnimation } from "shared/effects/animations";
-import { isLocalPlr } from "shared/hooks/components";
+import { getTrackLength, resumeAnimation } from "shared/effects/animations";
 import { SoundName } from "shared/features/ids/sounds";
 import { randomChoice } from "shared/calculations/random";
 
