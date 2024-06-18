@@ -2,7 +2,7 @@ import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
 import { LocalPlr, Plr } from "shared/components";
 import { CanSneak, Sneaking } from "shared/components/movements";
-import { hasComponents } from "shared/hooks/components";
+import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { isKeyDown } from "shared/hooks/keyInput";
 
 let debounce = false;

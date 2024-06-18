@@ -14,7 +14,7 @@ import { State } from "shared/state";
 function canDirectionallyMove(w: World, s: State) {
     if (s.clientState !== "game") {
         for (const [e, localPlr, canDirectionallyMove] of w.query(LocalPlr, CanDirectionallyMove)) {
-            w.remove(e, CanDirectionallyMove);
+            w.remove(e, CanDirectionallyMove, DirectionalMovement);
         }
         return;
     }

@@ -8,6 +8,9 @@ const THRESHOLD_TIME = 0.2;
 let timeKeyHeld = 0;
 
 function dash(w: World) {
+    return;
+    // wait til it's ready
+
     let didRun = false;
 
     const keysJustReleased = getKeysJustReleased();

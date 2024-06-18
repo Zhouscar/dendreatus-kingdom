@@ -4,6 +4,7 @@ import { Acting } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanSneak, OnLand, Sneaking } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import { isKeyDown } from "shared/hooks/keyInput";
 import { State } from "shared/state";
 
 function canSneak(w: World, s: State) {
@@ -15,7 +16,11 @@ function canSneak(w: World, s: State) {
     }
 
     for (const [e, localPlr] of w.query(LocalPlr)) {
-        if (hasComponents(w, e, OnLand) && !hasOneOfComponents(w, e, Dead, Acting)) {
+        if (
+            hasComponents(w, e, OnLand) &&
+            !hasOneOfComponents(w, e, Dead, Acting) &&
+            !isKeyDown("sprintDash")
+        ) {
             w.insert(e, CanSneak({}));
         } else {
             w.remove(e, CanSneak, Sneaking);

@@ -8,7 +8,7 @@ function doorLike(w: World) {
             DoorLike({
                 state: "closed",
                 openingOrClosingStartTime: -1,
-                openDuration: 1.3,
+                openDuration: 1.4,
                 closeDuration: 1.4,
             }),
             Interactable({}),
