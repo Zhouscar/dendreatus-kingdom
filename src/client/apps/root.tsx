@@ -12,6 +12,7 @@ import Interactables from "./interactables";
 import { RemoteTokenProvider } from "./contexts/remoteToken";
 import DeathScreen from "./deathScreen";
 import ClockTimeHandler from "./clockTimeHandler";
+import TitleCard from "./titleCard";
 
 function App() {
     const clientState = useClientState();
@@ -20,6 +21,7 @@ function App() {
         <>
             <ClockTimeHandler />
             <screengui Key={"Root"} ResetOnSpawn={false}>
+                <TitleCard enabled={clientState === "title"} />
                 <Inventory enabled={clientState === "inventory"} />
                 <Hotbar enabled={clientState === "game"} />
                 <HealthBar

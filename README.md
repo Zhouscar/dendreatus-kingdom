@@ -1,21 +1,31 @@
+# Backlog
+
+## Item Setup
+
+- The items need to be setup with models and images, and descriptions and stack sizes
+- The consumables and attackables need to be setup
+
+## Adding Sound
+
+- Sound such as eating, picking up, harvesting, all sorts of stuff
+
+## Fixing character deleting
+
+## Player leaving character fade
+
 # TODO
 
-## local cannot interact
-- [done] replicated cannot interact would override though.
-- [done] I can use it for player acting cooldown
+## Title Card / Cutscene Intro
 
-## protected bidirectional component based remote
-- create protectedBidirectional components to send data to the server instead of creating more events
+- Title Card is just a ui
+- Intro needs the animations and sound
 
 ### plan
-- [done not tested] replace "playerDamage" route by making "Damage" bidirectional
-- replace "playerInteract" route by making "Interacted" bidirectional
+- create two new client state, one called "Title Card" and one called "Intro"
+- Title Card just create the ui, make everything clickable and stuff, as well as the camera panning
+- redo the character spawning
 
-## player crafting
+## Safe Zones
 
-### plan
+## Rank Based Tools
 
-- [done] create craftable component and initialize it from the tag with interactable
-- [done] create an item bar ui for the craftable, make sure it hides and shows
-- [done] create the action including taking it away the item from the reflex store and inserting it into the component
-- insert cannot interact with cooldown and once the cooldown ends the item is popped out, if it doesn't have a recipe then the original items are popped out

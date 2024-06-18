@@ -4,7 +4,7 @@ import EntireScreen from "../components/entireScreen";
 import { Lighting, SoundService } from "@rbxts/services";
 import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
-import { useState } from "@rbxts/roact-hooked";
+import { useBinding, useState } from "@rbxts/roact-hooked";
 import { Make } from "@rbxts/altmake";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { useSpring } from "../hooks/ripple";
@@ -71,12 +71,12 @@ function App(props: {}) {
 
     const options = (
         <DeathScreenOptionButton
-            enabled={optionsEnabled}
+            enabled={optionsEnabled && enabled}
             text={"Cry about it"}
             onClick={() => {
-                ("lol");
+                print("lol");
             }}
-        ></DeathScreenOptionButton>
+        />
     );
 
     return (
@@ -96,6 +96,7 @@ function App(props: {}) {
             >
                 <uistroke
                     ApplyStrokeMode={"Contextual"}
+                    Transparency={titleTransparency}
                     Color={Color3.fromRGB(0, 0, 0)}
                     Thickness={2}
                 ></uistroke>

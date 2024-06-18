@@ -1,7 +1,9 @@
 import { useDeltaTime, useEvent, World } from "@rbxts/matter";
-import { UserInputService, Workspace } from "@rbxts/services";
-import { LocalPlr, Renderable, Transform } from "shared/components";
+import { GuiService, UserInputService, Workspace } from "@rbxts/services";
+import { LocalPlr, Renderable, TitleCamPart, Transform } from "shared/components";
 import { State } from "shared/state";
+
+let titleRotation = CFrame.identity;
 
 let targetRotationX = 0;
 let targetRotationY = 0;
@@ -129,6 +131,34 @@ function cameraControls(w: World, s: State) {
                 const newCF = CFrame.lookAt(fromPos, transform.cf.Position);
 
                 camera.CFrame = camera.CFrame.Lerp(newCF, deltaMult(dt, 10));
+            }
+            break;
+        case "title":
+            for (const [e, titleCamPart, renderable] of w.query(TitleCamPart, Renderable)) {
+                if (renderable.pv.IsA("BasePart")) {
+                    renderable.pv.Transparency = 1;
+                }
+            }
+
+            for (const [e, titleCamPart, transform] of w.query(TitleCamPart, Transform)) {
+                camera.CameraType = Enum.CameraType.Fixed;
+                camera.Focus = transform.cf;
+
+                const center = new Vector2(
+                    camera.ViewportSize.X / 2,
+                    camera.ViewportSize.Y / 2 - GuiService.GetGuiInset()[0].Y / 2,
+                );
+
+                const location = UserInputService.GetMouseLocation().sub(center);
+
+                const rotationX = -location.Y / 1000;
+                const rotationY = -location.X / 1000;
+
+                const targetRotation = CFrame.fromEulerAnglesYXZ(rotationX, rotationY, 0);
+
+                titleRotation = titleRotation.Lerp(targetRotation, 0.2);
+
+                camera.CFrame = transform.cf.mul(titleRotation);
             }
             break;
     }

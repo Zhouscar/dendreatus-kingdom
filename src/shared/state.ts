@@ -1,6 +1,6 @@
 import { AnyEntity } from "@rbxts/matter";
 
-export type ClientState = "game" | "inventory" | "death";
+export type ClientState = "game" | "inventory" | "death" | "title" | "intro";
 
 export class State {
     debugEnabled: boolean = false;
@@ -10,7 +10,7 @@ export class State {
 
     canOpenInventory: boolean = false;
 
-    clientState: ClientState = "game";
+    clientState: ClientState = "title";
 
     cameraShake: number = 0;
 }

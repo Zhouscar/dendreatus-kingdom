@@ -13,6 +13,9 @@ import { InteractableComponents } from "./interactables";
 
 export * from "./livingThings";
 
+export const TitleCamPart = ComponentCreator.tag("TitleCamPart");
+export type TitleCamPart = ReturnType<typeof TitleCamPart>;
+
 export const Dummy = ComponentCreator.tag("Dummy");
 export type Dummy = ReturnType<typeof Dummy>;
 
@@ -69,6 +72,7 @@ export const Components = {
     Sound,
     Collision,
     Positioner,
+    TitleCamPart,
     ...LivingThingComponents,
     ...MovementComponents,
     ...HealthComponents,

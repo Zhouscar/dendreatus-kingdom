@@ -61,5 +61,5 @@ export const routes = {
 
     ecsSync: new Route<[Token, SyncMap]>(defaultConfiguration),
 
-    // TODO: removed player interact and player damage so I need to replace it with protected bidirectional components
+    requestSpawn: new Route<[Token]>(defaultConfiguration),
 };
