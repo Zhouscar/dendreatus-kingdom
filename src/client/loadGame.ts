@@ -5,15 +5,8 @@ import {
     ReplicatedFirst,
     ReplicatedStorage,
     TweenService,
-    Workspace,
 } from "@rbxts/services";
-import Sift from "@rbxts/sift";
 import { assetIds as ASSET_IDS } from "shared/assetIds";
-import { ANIM_IDS } from "shared/features/ids/animations";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
-import { ITEM_CONTEXTS } from "shared/features/items/constants";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
 
 export default function loadGame() {
     ReplicatedFirst.RemoveDefaultLoadingScreen();
