@@ -1,1 +1,1 @@
-export = (id: string) => "http://www.roblox.com/asset/?id=" + id;
+export = (id: string | number) => "http://www.roblox.com/asset/?id=" + tostring(id);

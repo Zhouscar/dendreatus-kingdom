@@ -11,12 +11,14 @@ import { useClientState } from "./hooks/ecsSelectors";
 import Interactables from "./interactables";
 import { RemoteTokenProvider } from "./contexts/remoteToken";
 import DeathScreen from "./deathScreen";
+import ClockTimeHandler from "./clockTimeHandler";
 
 function App() {
     const clientState = useClientState();
 
     return (
         <>
+            <ClockTimeHandler />
             <screengui Key={"Root"} ResetOnSpawn={false}>
                 <Inventory enabled={clientState === "inventory"} />
                 <Hotbar enabled={clientState === "game"} />

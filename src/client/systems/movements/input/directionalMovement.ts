@@ -4,12 +4,17 @@ import { LocalPlr, Plr } from "shared/components";
 import { DirectionalMovement } from "shared/components/movements";
 import { isKeyDown } from "shared/hooks/keyInput";
 import { getDirectionalVector3 } from "shared/calculations/coordinates";
+import { ClientState, State } from "shared/state";
 
-function directionalMovement(w: World) {
+function directionalMovement(w: World, s: State) {
     const camera = Workspace.CurrentCamera;
-    if (!camera) return;
 
     for (const [e, localPlr] of w.query(LocalPlr)) {
+        if (!camera || s.clientState !== "game") {
+            w.remove(e, DirectionalMovement);
+            continue;
+        }
+
         let desiredDirection = Vector3.zero;
         if (isKeyDown("moveForward"))
             desiredDirection = desiredDirection.add(
