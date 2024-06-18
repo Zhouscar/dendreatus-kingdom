@@ -1,9 +1,7 @@
-import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useComponent from "./hooks/useComponent";
 import { Stomach } from "shared/components/hunger";
-import { useEffect } from "@rbxts/roact-hooked";
 import { useLocalPlrE } from "./hooks/ecsSelectors";
 import { EnabilityProvider } from "./contexts/enability";
 import { useSpring } from "./hooks/ripple";
