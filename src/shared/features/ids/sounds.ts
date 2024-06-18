@@ -15,6 +15,9 @@ export const SOUND_IDS = {
     footStep1: withAssetPrefix("619083295"),
     footStep2: withAssetPrefix("619184927"),
     footStep3: withAssetPrefix("619188333"),
+
+    doorOpen: withAssetPrefix("6739752366"),
+    doorClose: withAssetPrefix("4583672060"),
 };
 
 export type SoundName = keyof typeof SOUND_IDS;

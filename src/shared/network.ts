@@ -1,7 +1,6 @@
 import { Configuration, Route } from "@rbxts/yetanothernet";
 import { ReplicationMap, SyncMap } from "./components/serde";
 import { BroadcastAction } from "@rbxts/reflex";
-import { AnyEntity } from "@rbxts/matter";
 import {
     Client as ServerToClient,
     Server as ClientToServer,
@@ -14,8 +13,6 @@ import { Make } from "@rbxts/altmake";
 import { ReplicatedStorage } from "@rbxts/services";
 import { newGuid } from "./features/guidUtils";
 import { HOST } from "./host";
-import { ItemType } from "./features/items/types";
-import { InteractType } from "./features/interactables/types";
 
 type Token = string;
 

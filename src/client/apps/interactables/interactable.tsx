@@ -12,6 +12,7 @@ import {
     CannotInteractReason,
     Cookable,
     Craftable,
+    DoorLike,
     Harvestable,
     Interacted,
 } from "shared/components/interactables";
@@ -90,6 +91,9 @@ export default function Interactable(props: {
     const droppedItem = useComponent(e, DroppedItem);
     const cookable = useComponent(e, Cookable);
     const craftable = useComponent(e, Craftable);
+    const doorLike = useComponent(e, DoorLike);
+
+    const components = [harvestable, droppedItem, cookable, craftable, doorLike];
 
     // \components
 
@@ -182,13 +186,40 @@ export default function Interactable(props: {
                     }),
                 );
             };
+        } else if (doorLike !== undefined) {
+            if (doorLike.state === "opened") {
+                setInteractionName("Close");
+                interactionFunction.current = () => {
+                    w.insert(
+                        e,
+                        Interacted({
+                            player: Players.LocalPlayer,
+                            interactType: "door_close",
+                            interactTime: os.clock(),
+                        }),
+                    );
+                };
+            } else if (doorLike.state === "closed") {
+                setInteractionName("Open");
+                interactionFunction.current = () => {
+                    w.insert(
+                        e,
+                        Interacted({
+                            player: Players.LocalPlayer,
+                            interactType: "door_open",
+                            interactTime: os.clock(),
+                        }),
+                    );
+                };
+                // TODO: interacted door makes it open or close
+            }
         } else {
             setInteractionName("");
             interactionFunction.current = () => {
                 print("Hi");
             };
         }
-    }, [harvestable, e, localPlrE]);
+    }, [e, localPlrE, ...components]);
 
     return (
         <billboardgui

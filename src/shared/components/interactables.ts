@@ -51,6 +51,14 @@ export const Craftable = ComponentCreator.replicated<{
 }>("Craftable");
 export type Craftable = ReturnType<typeof Craftable>;
 
+export const DoorLike = ComponentCreator.bidirectional<{
+    state: "opening" | "closing" | "opened" | "closed";
+    openingOrClosingStartTime: number;
+    openDuration: number;
+    closeDuration: number;
+}>("DoorLike");
+export type DoorLike = ReturnType<typeof DoorLike>;
+
 // interactables
 
 export const CraftTable = ComponentCreator.tag("CraftTable");
@@ -61,6 +69,9 @@ export type SapOre = ReturnType<typeof SapOre>;
 
 export const CookTable = ComponentCreator.tag("CookTable");
 export type CookTable = ReturnType<typeof CookTable>;
+
+export const Door = ComponentCreator.tag("Door");
+export type Door = ReturnType<typeof Door>;
 
 // \interactables
 
@@ -76,4 +87,6 @@ export const InteractableComponents = {
     CookTable,
     CraftTable,
     Craftable,
+    Door,
+    DoorLike,
 };
