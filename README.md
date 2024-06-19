@@ -15,15 +15,14 @@
 
 # TODO
 
-## Title Card / Cutscene Intro
+## Respawning after death
 
-- Title Card is just a ui
-- Intro needs the animations and sound
+## Replacing possible client systems into roact components
 
-### plan
-- create two new client state, one called "Title Card" and one called "Intro"
-- Title Card just create the ui, make everything clickable and stuff, as well as the camera panning
-- redo the character spawning
+- this does not decrease performance because it's only referencing to one entity
+- replace things such as movements, cameras
+- I'm pretty sure I can put the entire movements systems into the components
+- remove stuff like canOpenInventory
 
 ## Safe Zones
 
