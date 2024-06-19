@@ -2,12 +2,22 @@ import Roact from "@rbxts/roact";
 import { EnabilityProvider } from "../contexts/enability";
 import EntireScreen from "../components/entireScreen";
 import { useEnability, useEnabled } from "../hooks/enability";
-import { useTimeout } from "@rbxts/pretty-roact-hooks";
+import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import { useSpring } from "../hooks/ripple";
 import TitleCardOptionButton from "./titleCardOptionButton";
 import { routes } from "shared/network";
 import useRemoteToken from "../hooks/useRemoteToken";
 import { useState } from "@rbxts/roact-hooked";
+import { Make } from "@rbxts/altmake";
+import { SOUND_IDS } from "shared/features/ids/sounds";
+import { SoundService } from "@rbxts/services";
+
+const dkThemeSong = Make("Sound", {
+    SoundId: SOUND_IDS.dkTheme,
+    Name: "DkThemeSong",
+    Parent: SoundService,
+    Looped: true,
+});
 
 function App(props: {}) {
     const enability = useEnability();
@@ -30,6 +40,11 @@ function App(props: {}) {
     const presentsTransparency = presentsSpring.map((v) => 1 - v);
     const titleTransparency = titleSpring.map((v) => 1 - v);
 
+    useBindingListener(titleSpring, (value) => {
+        if (titleEnabled) return;
+        dkThemeSong.Volume = value;
+    });
+
     useTimeout(() => {
         setPresentsEnabled(true);
     }, 1);
@@ -44,6 +59,8 @@ function App(props: {}) {
 
     useTimeout(() => {
         setTitleEnabled(true);
+        dkThemeSong.TimePosition = 0;
+        dkThemeSong.Play();
     }, 5);
 
     useTimeout(() => {

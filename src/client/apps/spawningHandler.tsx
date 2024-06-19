@@ -50,14 +50,14 @@ function App(props: {}) {
                 startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 1, false);
             }
         },
-        enabled ? 3.5 : math.huge,
+        enabled ? 9 : math.huge,
     );
 
     useTimeout(
         () => {
             setClientState("game");
         },
-        enabled ? 14 : math.huge,
+        enabled ? 20 : math.huge,
     );
 
     return (

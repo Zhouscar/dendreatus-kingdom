@@ -1,4 +1,4 @@
-import { Item, ItemType } from "../items/types";
+import { ItemType } from "../items/types";
 
 export type CookableRecipe = {
     itemType1: ItemType;

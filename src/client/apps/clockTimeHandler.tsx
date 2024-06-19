@@ -4,8 +4,12 @@ import { Lighting, RunService, SoundService } from "@rbxts/services";
 import { getClockTime } from "shared/hooks/clockTime";
 import { useSpring } from "./hooks/ripple";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { useClientState } from "./hooks/ecsSelectors";
+import { ClientState } from "shared/state";
 
 const e = Roact.createElement;
+
+const DISABLED_CLIENT_STATES: ClientState[] = ["death", "spawning", "title"];
 
 export default function ClockTimeHandler(props: {}) {
     const [clockTime, setClockTime] = useBinding(getClockTime());
@@ -13,8 +17,20 @@ export default function ClockTimeHandler(props: {}) {
 
     const isDayTimeMutable = useMutable(getClockTime() > 6 && getClockTime() < 18);
 
-    const nightSpring = useSpring(isDayTimeMutable.current ? 0 : 1, { frequency: 5 });
-    const daySpring = useSpring(isDayTimeMutable.current ? 1 : 0, { frequency: 5 });
+    const clientState = useClientState();
+
+    const daySpring = useSpring(
+        isDayTimeMutable.current && !DISABLED_CLIENT_STATES.includes(clientState) ? 1 : 0,
+        {
+            frequency: 5,
+        },
+    );
+    const nightSpring = useSpring(
+        !isDayTimeMutable.current && !DISABLED_CLIENT_STATES.includes(clientState) ? 1 : 0,
+        {
+            frequency: 5,
+        },
+    );
 
     useEffect(() => {
         const connection = RunService.Heartbeat.Connect(() => {
