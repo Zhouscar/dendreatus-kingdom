@@ -12,7 +12,7 @@ import {
 import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { useEnability, useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 
@@ -31,7 +31,7 @@ export default function ItemSlot(props: {
     const consumeStagePerc = useMemo(() => {
         if (item?.itemType === undefined) return undefined;
 
-        const context = ITEM_CONSUMABLE_CONTEXT.get(item?.itemType);
+        const context = ITEM_CONSUMABLE_CONTEXTS.get(item?.itemType);
         if (context === undefined) return undefined;
 
         if (item.consumeStage === undefined) return undefined;

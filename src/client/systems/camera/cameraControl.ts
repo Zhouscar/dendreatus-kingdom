@@ -11,7 +11,7 @@ let targetDistance = 10;
 
 let newRotationX = 0;
 let newRotationY = 0;
-let newDistance = 10;
+let newDistance = 0;
 
 let newPosition = Vector3.zero;
 
@@ -159,6 +159,19 @@ function cameraControls(w: World, s: State) {
                 titleRotation = titleRotation.Lerp(targetRotation, 0.2);
 
                 camera.CFrame = transform.cf.mul(titleRotation);
+            }
+            break;
+        case "spawning":
+            for (const [e, renderable, localPlr] of w.query(Renderable, LocalPlr)) {
+                camera.CameraType = Enum.CameraType.Fixed;
+                camera.Focus = camera.CFrame;
+
+                const head = renderable.pv.FindFirstChild("Head");
+                if (head === undefined || !head.IsA("PVInstance")) continue;
+
+                camera.CFrame = head.GetPivot();
+
+                newPosition = head.GetPivot().Position;
             }
             break;
     }

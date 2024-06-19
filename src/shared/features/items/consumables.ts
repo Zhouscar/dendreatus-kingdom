@@ -12,7 +12,7 @@ export interface ItemConsumableContext {
     readonly sideEffects: ItemConsumeSideEffect[];
 }
 
-export const ITEM_CONSUMABLE_CONTEXT: ReadonlyMap<ItemType, ItemConsumableContext> =
+export const ITEM_CONSUMABLE_CONTEXTS: ReadonlyMap<ItemType, ItemConsumableContext> =
     new ReadonlyMap([
         [
             "mushroom_soup",

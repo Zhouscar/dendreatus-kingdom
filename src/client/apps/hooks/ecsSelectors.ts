@@ -7,10 +7,10 @@ export function useLocalPlrE() {
     return localPlrE !== undefined ? localPlrE : (-1 as AnyEntity);
 }
 
-export function useClientState() {
-    return useSelector(selectClientState());
-}
-
 export function useInteractEs() {
     return useSelector(selectInteractEs());
+}
+
+export function useClientState() {
+    return useSelector(selectClientState());
 }

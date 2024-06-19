@@ -3,10 +3,11 @@ import { World, useDeltaTime } from "@rbxts/matter";
 import { LocalPlr, Plr, Renderable } from "shared/components";
 import { LinearVelocity } from "shared/components/movements";
 import { SOUND_IDS } from "shared/features/ids/sounds";
+import { State } from "shared/state";
 
 const MAX_VOLUME = 5;
 
-function movingWithWindSound(w: World) {
+function movingWithWindSound(w: World, s: State) {
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
         if (!renderable.pv.IsA("Model")) continue;
 
@@ -32,6 +33,10 @@ function movingWithWindSound(w: World) {
                 ? math.min(movementSpeed / 100, MAX_VOLUME)
                 : sound.Volume - useDeltaTime();
 
+        if (s.clientState === "spawning") {
+            sound.Volume = 0;
+            break;
+        }
         sound.Volume = newVolume;
 
         break;

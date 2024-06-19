@@ -6,8 +6,8 @@ export function useEnabled() {
     return useContext(EnabilityContext).enabled;
 }
 
-export function useEnability(instant?: boolean) {
+export function useEnability() {
     const enabled = useEnabled();
-    const enability = useSpring(enabled ? 1 : 0, instant ? { frequency: 0.0001 } : undefined);
+    const enability = useSpring(enabled ? 1 : 0);
     return enability;
 }

@@ -18,6 +18,8 @@ export const SOUND_IDS = {
 
     doorOpen: withAssetPrefix("6739752366"),
     doorClose: withAssetPrefix("4583672060"),
+
+    wakeUpFromTrauma: withAssetPrefix("18112889134"),
 };
 
 export type SoundName = keyof typeof SOUND_IDS;

@@ -4,7 +4,7 @@ import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import {
     CanUseItemFunction,
     ItemActivationCallback,
@@ -13,7 +13,7 @@ import {
 import { hasComponents, hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 const generalPressCallback: ItemActivationCallback = (w, e, item) => {
-    const itemContext = ITEM_CONSUMABLE_CONTEXT.get(item.itemType);
+    const itemContext = ITEM_CONSUMABLE_CONTEXTS.get(item.itemType);
     if (!itemContext) return;
 
     let nextCosumeStage = 0;
@@ -59,7 +59,7 @@ const generalCallbacks = {
 };
 
 function itemConsumable(w: World) {
-    ITEM_CONSUMABLE_CONTEXT.forEach((_itemContext, itemType) => {
+    ITEM_CONSUMABLE_CONTEXTS.forEach((_itemContext, itemType) => {
         plrCallItemActivation(w, itemType, generalCallbacks);
     });
 }

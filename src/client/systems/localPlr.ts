@@ -11,7 +11,7 @@ function localPlr(w: World, s: State) {
 
         if (localPlrRecord.new === undefined) continue;
 
-        s.clientState = "game";
+        s.clientState = "spawning";
     }
 
     for (const [e, plrRecord] of w.queryChanged(Plr)) {

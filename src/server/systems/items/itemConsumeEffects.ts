@@ -6,7 +6,7 @@ import { Acting } from "shared/components/actions";
 import { Stomach } from "shared/components/hunger";
 import { Equipping } from "shared/components/items";
 import { createGuidPool } from "shared/features/guidUtils";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 
 function itemConsumeEffects(w: World) {
     // if (useThrottle(2, "putItems")) {
@@ -27,7 +27,7 @@ function itemConsumeEffects(w: World) {
         if (action === undefined) continue;
         if (action.type !== "consuming") continue;
 
-        const context = ITEM_CONSUMABLE_CONTEXT.get(action.item.itemType);
+        const context = ITEM_CONSUMABLE_CONTEXTS.get(action.item.itemType);
         if (context === undefined) continue;
 
         const guid = w.get(e, Equipping)?.itemGuid;

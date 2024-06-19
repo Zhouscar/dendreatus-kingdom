@@ -7,12 +7,14 @@ import Inventory from "./inventory";
 import Hotbar from "./hotbar";
 import HealthBar from "./healthBar";
 import HungerBar from "./hungerBar";
-import { useClientState } from "./hooks/ecsSelectors";
 import Interactables from "./interactables";
 import { RemoteTokenProvider } from "./contexts/remoteToken";
 import DeathScreen from "./deathScreen";
 import ClockTimeHandler from "./clockTimeHandler";
 import TitleCard from "./titleCard";
+import { ClientState, State } from "shared/state";
+import SpawningHandler from "./spawningHandler";
+import { useClientState } from "./hooks/ecsSelectors";
 
 function App() {
     const clientState = useClientState();
@@ -21,6 +23,7 @@ function App() {
         <>
             <ClockTimeHandler />
             <screengui Key={"Root"} ResetOnSpawn={false}>
+                <SpawningHandler enabled={clientState === "spawning"} />
                 <TitleCard enabled={clientState === "title"} />
                 <Inventory enabled={clientState === "inventory"} />
                 <Hotbar enabled={clientState === "game"} />
@@ -43,9 +46,13 @@ function App() {
     );
 }
 
-export default function Root(props: { w: World; remoteToken: string }) {
+export default function Root(props: {
+    w: World;
+    setClientState: (state: ClientState) => void;
+    remoteToken: string;
+}) {
     return (
-        <WProvider value={{ w: props.w }}>
+        <WProvider value={{ w: props.w, setClientState: props.setClientState }}>
             <RemoteTokenProvider value={{ remoteToken: props.remoteToken }}>
                 <ReflexProvider producer={store}>
                     <App></App>

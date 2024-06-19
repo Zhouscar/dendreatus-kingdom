@@ -60,11 +60,11 @@ function recieveReplication(w: World, s: State) {
                     tonumber(serverEntityId) as AnyEntity,
                 );
             } else {
-                if (componentsToInsert.size() > 0) {
+                if (componentsToInsert.size() > 0 && w.contains(clientEntityId)) {
                     w.insert(clientEntityId, ...componentsToInsert.map((context) => context[1]));
                 }
 
-                if (componentsToRemove.size() > 0) {
+                if (componentsToRemove.size() > 0 && w.contains(clientEntityId)) {
                     w.remove(clientEntityId, ...componentsToRemove);
                 }
             }
@@ -81,7 +81,7 @@ function recieveReplication(w: World, s: State) {
                     doNotSyncCtors.add(Ctor);
                 });
 
-            if (doNotSyncCtors.size() > 0) {
+            if (doNotSyncCtors.size() > 0 && w.contains(clientEntityId)) {
                 w.insert(clientEntityId, DoNotSync({ ctors: doNotSyncCtors }));
             }
         }

@@ -22,6 +22,8 @@ export const ANIM_IDS = {
     falling: withAssetPrefix("14215257367"),
 
     harvest: withAssetPrefix("17384907436"),
+
+    wakingUpFromTrauma: withAssetPrefix("16861265426"),
 };
 
 export type AnimName = keyof typeof ANIM_IDS;

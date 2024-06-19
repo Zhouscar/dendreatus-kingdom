@@ -1,5 +1,5 @@
 import { produce } from "@rbxts/immut";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { PlayerInventory } from "shared/store/players/types";
 import immutRemoveItemByGuid from "./immutRemoveItemByGuid";
 
@@ -10,7 +10,7 @@ function immutConsumeItem(inventory: PlayerInventory, guid: string) {
         return inventory;
     }
 
-    const context = ITEM_CONSUMABLE_CONTEXT.get(item.itemType);
+    const context = ITEM_CONSUMABLE_CONTEXTS.get(item.itemType);
     if (!context) {
         warn("Item is not a consumable");
         return inventory;

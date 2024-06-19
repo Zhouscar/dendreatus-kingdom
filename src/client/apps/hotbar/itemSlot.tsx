@@ -2,7 +2,7 @@ import Roact from "@rbxts/roact";
 import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { useMemo } from "@rbxts/roact-hooked";
-import { ITEM_CONSUMABLE_CONTEXT } from "shared/features/items/consumables";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { useSpring } from "../hooks/ripple";
 import { useEnability, useEnabled } from "../hooks/enability";
 
@@ -14,7 +14,7 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
     const consumeStagePerc = useMemo(() => {
         if (item?.itemType === undefined) return undefined;
 
-        const context = ITEM_CONSUMABLE_CONTEXT.get(item?.itemType);
+        const context = ITEM_CONSUMABLE_CONTEXTS.get(item?.itemType);
         if (context === undefined) return undefined;
 
         if (item.consumeStage === undefined) return undefined;

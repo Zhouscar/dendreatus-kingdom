@@ -59,7 +59,6 @@ export function startAnimationById(
                 : animator.LoadAnimation(animationInstance);
         });
         if (!ok) {
-            warn(`Error loading animation id: ${animId}`);
             return;
         }
         track = tryTrack as AnimationTrack;
@@ -69,7 +68,6 @@ export function startAnimationById(
     const priorityEnum0 = Enum.AnimationPriority[priority];
     const priorityEnum = priorityEnum0 as Exclude<typeof priorityEnum0, () => any>;
 
-    track.AdjustSpeed(speed);
     track.Looped = looped;
     track.Priority = priorityEnum;
     if (animator.IsA("Animator")) {
@@ -84,6 +82,7 @@ export function startAnimationById(
         });
     }
     track.Play();
+    track.AdjustSpeed(speed);
 }
 
 export function resumeAnimationById(
@@ -113,7 +112,6 @@ export function resumeAnimationById(
                 : animator.LoadAnimation(animationInstance);
         });
         if (!ok) {
-            warn(`Error loading animation id: ${animId}`);
             return;
         }
         track = tryTrack as AnimationTrack;
@@ -122,7 +120,6 @@ export function resumeAnimationById(
 
     const priorityEnum = AnimationPriority[priority];
 
-    track.AdjustSpeed(speed);
     track.Looped = looped;
     track.Priority = priorityEnum;
     if (!track.IsPlaying) {
@@ -139,6 +136,7 @@ export function resumeAnimationById(
         }
         track.Play();
     }
+    track.AdjustSpeed(speed);
 }
 export function startAnimation(
     animator: MyAnimator,

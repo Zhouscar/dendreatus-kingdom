@@ -18,8 +18,12 @@ function App(props: {}) {
     const [titleEnabled, setTitleEnabled] = useState(false);
     const [optionsEnabled, setOptionsEnabled] = useState(false);
 
-    const blackScreenSpring = useSpring(blackScreenEnabled ? 1 : 0, { frequency: 1 });
-    const presentsSpring = useSpring(presentsEnabled ? 1 : 0, { frequency: 1 });
+    const blackScreenSpring = useSpring(blackScreenEnabled && enabled ? 1 : 0, {
+        frequency: 1,
+    });
+    const presentsSpring = useSpring(presentsEnabled && enabled ? 1 : 0, {
+        frequency: 1,
+    });
     const titleSpring = useSpring(titleEnabled && enabled ? 1 : 0, { frequency: 1 });
 
     const blackScreenTransparency = blackScreenSpring.map((v) => 1 - v);
@@ -53,7 +57,12 @@ function App(props: {}) {
             enabled={optionsEnabled && enabled}
             text={"Start"}
             onClick={() => {
-                task.spawn(() => {
+                setBlackScreenEnabled(true);
+                setOptionsEnabled(false);
+                setPresentsEnabled(false);
+                setTitleEnabled(false);
+
+                task.delay(1, () => {
                     routes.requestSpawn.send(token);
                 });
             }}

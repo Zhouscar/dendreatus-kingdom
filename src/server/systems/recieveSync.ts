@@ -33,6 +33,7 @@ function recieveSync(w: World, s: State, remoteToken: string) {
             for (const [name, container] of componentMap) {
                 const Ctor = Components[name as ComponentNames];
                 if (PROTECTED_BIDIRECTIONAL_COMPONENTS.has(Ctor)) {
+                    if (!w.contains(e)) continue;
                     const plr = w.get(e, Plr);
                     if (plr?.player !== player) {
                         continue;
@@ -58,11 +59,11 @@ function recieveSync(w: World, s: State, remoteToken: string) {
             if (e === undefined) {
                 e = w.spawn(...componentsToInsert.map((context) => context[1]));
             } else {
-                if (componentsToInsert.size() > 0) {
+                if (componentsToInsert.size() > 0 && w.contains(e)) {
                     w.insert(e, ...componentsToInsert.map((context) => context[1]));
                 }
 
-                if (componentsToRemove.size() > 0) {
+                if (componentsToRemove.size() > 0 && w.contains(e)) {
                     w.remove(e, ...componentsToRemove);
                 }
             }
@@ -80,7 +81,7 @@ function recieveSync(w: World, s: State, remoteToken: string) {
                     doNotReplicatePlayersOfCtors.set(Ctor, player as Player);
                 });
 
-            if (doNotReplicatePlayersOfCtors.size() > 0) {
+            if (doNotReplicatePlayersOfCtors.size() > 0 && w.contains(e)) {
                 w.insert(e, DoNotReplicate({ playersOfCtors: doNotReplicatePlayersOfCtors }));
             }
         }

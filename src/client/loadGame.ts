@@ -6,10 +6,46 @@ import {
     ReplicatedStorage,
     TweenService,
 } from "@rbxts/services";
-import { assetIds as ASSET_IDS } from "shared/assetIds";
+import Sift from "@rbxts/sift";
+import { ANIM_IDS } from "shared/features/ids/animations";
+import { SOUND_IDS } from "shared/features/ids/sounds";
+import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
+import { ITEM_CONTEXTS } from "shared/features/items/constants";
+import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 
 export default function loadGame() {
     ReplicatedFirst.RemoveDefaultLoadingScreen();
+
+    const contentIdSet: Set<string | Instance> = new Set();
+
+    Sift.Dictionary.values(ANIM_IDS).forEach((id) => {
+        if (!id.match("TODO").isEmpty()) return;
+        contentIdSet.add(id);
+    });
+
+    Sift.Dictionary.values(SOUND_IDS).forEach((id) => {
+        if (!id.match("TODO").isEmpty()) return;
+        contentIdSet.add(id);
+    });
+
+    ITEM_ATTACKABLE_CONTEXTS.forEach((context) => {
+        context.stepAnimationIds.forEach((id) => {
+            if (!id.match("TODO").isEmpty()) return;
+            contentIdSet.add(id);
+        });
+    });
+
+    ITEM_CONSUMABLE_CONTEXTS.forEach((context) => {
+        context.stageAnimationIds.forEach((id) => {
+            if (!id.match("TODO").isEmpty()) return;
+            contentIdSet.add(id);
+        });
+    });
+
+    ITEM_CONTEXTS.forEach((context) => {
+        if (!context.image.match("TODO").isEmpty()) return;
+        contentIdSet.add(context.image);
+    });
 
     const screen = Make("ScreenGui", {
         Name: "LoadingScreen",
@@ -52,7 +88,7 @@ export default function loadGame() {
     });
 
     let i = 0;
-    ContentProvider.PreloadAsync([ReplicatedStorage, ...ASSET_IDS], () => {
+    ContentProvider.PreloadAsync([ReplicatedStorage, ...contentIdSet], () => {
         text.Text = tostring(++i);
     });
 

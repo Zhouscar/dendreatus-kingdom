@@ -1,5 +1,4 @@
 import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
 import { Animatable, LocalPlr, Plr } from "shared/components";
 import {
     Climbing,
