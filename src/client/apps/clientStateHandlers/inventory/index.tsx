@@ -1,6 +1,5 @@
 import Roact from "@rbxts/roact";
 import { useProducer, useSelector } from "@rbxts/roact-reflex";
-import EntireScreen from "../components/entireScreen";
 import { theLocalPlr } from "client/localPlr";
 import { useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
@@ -10,9 +9,12 @@ import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { RootProducer } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
 import { remos } from "shared/network";
-import { EnabilityProvider } from "../contexts/enability";
-import { useEnability } from "../hooks/enability";
-import { useSpring } from "../hooks/ripple";
+import { useEnability } from "client/apps/hooks/enability";
+import { useSpring } from "client/apps/hooks/ripple";
+import EntireScreen from "client/apps/components/entireScreen";
+import { EnabilityProvider } from "client/apps/contexts/enability";
+import { useClientState } from "client/apps/hooks/ecsSelectors";
+import InventoryCameraHandler from "./camera";
 
 let testInventory = defaultPlayerInventory;
 testInventory = immutPutItems(defaultPlayerInventory, "stick", 500, createGuidPool());
@@ -193,10 +195,13 @@ function App(props: {}) {
     );
 }
 
-export default function Inventory(props: { enabled: boolean }) {
+export default function InventoryHandler() {
+    const [clientState, setClientState] = useClientState();
+
     return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
+        <EnabilityProvider value={{ enabled: clientState === "inventory" }}>
             <App />
+            <InventoryCameraHandler />
         </EnabilityProvider>
     );
 }

@@ -1,7 +1,6 @@
 import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import { InteractState } from "shared/features/interactables/types";
-import useComponent from "../hooks/useComponent";
 import { Renderable } from "shared/components";
 import { useBinding, useEffect, useMemo, useMutable, useState } from "@rbxts/roact-hooked";
 import { Players, RunService, UserInputService } from "@rbxts/services";
@@ -16,13 +15,15 @@ import {
     Harvestable,
     Interacted,
 } from "shared/components/interactables";
-import { useLocalPlrE } from "../hooks/ecsSelectors";
-import useW from "../hooks/useW";
-import { useEnabled } from "../hooks/enability";
-import { useSpring } from "../hooks/ripple";
+
 import { DroppedItem } from "shared/components/items";
 import CookableItems from "./misc/cookableItems";
 import CraftableItems from "./misc/craftableItems";
+import { useEnabled } from "client/apps/hooks/enability";
+import { useSpring } from "client/apps/hooks/ripple";
+import useComponent from "client/apps/hooks/useComponent";
+import { useLocalPlrE, useW } from "client/apps/hooks/wContext";
+import useKeybindPress from "client/apps/hooks/useKeybindPress";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -86,6 +87,8 @@ export default function Interactable(props: {
         print("Hi");
     });
 
+    const isInteractKeyPressed = useKeybindPress("interact");
+
     // components
     const harvestable = useComponent(e, Harvestable);
     const droppedItem = useComponent(e, DroppedItem);
@@ -120,18 +123,10 @@ export default function Interactable(props: {
     }, [craftable]);
 
     useEffect(() => {
-        if (!canInteract || !enabled) return;
+        if (!canInteract || !enabled || !isInteractKeyPressed) return;
 
-        const connection = UserInputService.InputBegan.Connect((input, gPE) => {
-            if (gPE) return;
-            if (input.KeyCode.Name !== interactKey) return;
-            interactionFunction.current();
-        });
-
-        return () => {
-            connection.Disconnect();
-        };
-    }, [canInteract, interactKey, enabled]);
+        interactionFunction.current();
+    }, [canInteract, isInteractKeyPressed, enabled]);
 
     const localPlrE = useLocalPlrE();
     const w = useW();

@@ -6,6 +6,7 @@ import { useSpring } from "./hooks/ripple";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { useClientState } from "./hooks/ecsSelectors";
 import { ClientState } from "shared/state";
+import { adjustDefaultAtmosphere } from "shared/effects/lightings";
 
 const e = Roact.createElement;
 
@@ -17,7 +18,7 @@ export default function ClockTimeHandler(props: {}) {
 
     const isDayTimeMutable = useMutable(getClockTime() > 6 && getClockTime() < 18);
 
-    const clientState = useClientState();
+    const [clientState, setClientState] = useClientState();
 
     const daySpring = useSpring(
         isDayTimeMutable.current && !DISABLED_CLIENT_STATES.includes(clientState) ? 1 : 0,
@@ -47,12 +48,10 @@ export default function ClockTimeHandler(props: {}) {
 
             Lighting.ClockTime = ct;
 
-            const atmosphere = Lighting.FindFirstChildWhichIsA("Atmosphere");
-
-            if (atmosphere !== undefined) {
-                atmosphere.Haze = trigValue * 2;
-                atmosphere.Glare = trigValue * 0.08;
-            }
+            adjustDefaultAtmosphere({
+                Haze: trigValue * 2,
+                Glare: trigValue * 0.08,
+            });
         });
 
         return () => {

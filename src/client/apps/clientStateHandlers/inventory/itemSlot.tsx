@@ -13,8 +13,8 @@ import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
-import { useEnability, useEnabled } from "../hooks/enability";
-import { useSpring } from "../hooks/ripple";
+import { useEnability, useEnabled } from "client/apps/hooks/enability";
+import { useSpring } from "client/apps/hooks/ripple";
 
 export default function ItemSlot(props: {
     index: number;

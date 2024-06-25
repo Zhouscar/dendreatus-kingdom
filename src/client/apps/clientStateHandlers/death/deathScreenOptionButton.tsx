@@ -1,7 +1,7 @@
 import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
-import { useSpring } from "../hooks/ripple";
+import { useSpring } from "client/apps/hooks/ripple";
 
 export default function DeathScreenOptionButton(props: {
     enabled: boolean;

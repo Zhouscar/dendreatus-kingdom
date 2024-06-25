@@ -25,9 +25,7 @@ function humanDash(w: World) {
             Sound({
                 audibility: 1,
                 context: {
-                    volume: 1,
                     soundName: "dash",
-                    speed: 1,
                 },
                 cf: cf,
             }),

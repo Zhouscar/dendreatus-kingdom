@@ -1,6 +1,5 @@
 import { World } from "@rbxts/matter";
 import { Players } from "@rbxts/services";
-import { store } from "client/store";
 import { LocalPlr, Plr } from "shared/components";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
@@ -18,7 +17,6 @@ function localPlr(w: World, s: State) {
         if (!w.contains(e)) continue;
 
         if (!plrRecord.new && hasComponents(w, e, LocalPlr)) {
-            store.setLocalPlrE(undefined);
             w.remove(e, LocalPlr);
         }
     }
@@ -27,8 +25,6 @@ function localPlr(w: World, s: State) {
         if (plr.player !== Players.LocalPlayer) continue;
 
         w.insert(e, LocalPlr({}));
-
-        store.setLocalPlrE(e);
     }
 }
 

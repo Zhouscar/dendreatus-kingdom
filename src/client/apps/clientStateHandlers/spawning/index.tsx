@@ -1,31 +1,23 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "./contexts/enability";
-import EntireScreen from "./components/entireScreen";
-import { useEnability, useEnabled } from "./hooks/enability";
+import { EnabilityProvider } from "../../contexts/enability";
+import EntireScreen from "../../components/entireScreen";
+import { useEnability, useEnabled } from "../../hooks/enability";
 import { useTimeout } from "@rbxts/pretty-roact-hooks";
 import { useBinding, useEffect, useRef } from "@rbxts/roact-hooked";
-import { useLocalPlrE } from "./hooks/ecsSelectors";
-import useComponent from "./hooks/useComponent";
+import useComponent from "../../hooks/useComponent";
 import { Animatable } from "shared/components";
 import { startAnimation } from "shared/effects/animations";
-import useW, { useSetClientState } from "./hooks/useW";
-import { SoundService } from "@rbxts/services";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { Make } from "@rbxts/altmake";
-
-const spawningSound = Make("Sound", {
-    SoundId: SOUND_IDS.wakeUpFromTrauma,
-    Name: "SpawningSound",
-    Parent: SoundService,
-});
+import { playSound } from "shared/effects/sounds";
+import SpawningCameraHandler from "./camera";
+import { useClientState } from "client/apps/hooks/ecsSelectors";
+import { useLocalPlrE } from "client/apps/hooks/wContext";
 
 function App(props: {}) {
-    const w = useW();
     const enabled = useEnabled();
     const enability = useEnability();
 
     const localPlrE = useLocalPlrE();
-    const setClientState = useSetClientState();
+    const [clientState, setClientState] = useClientState();
 
     const animatable = useComponent(localPlrE, Animatable);
 
@@ -34,7 +26,7 @@ function App(props: {}) {
     useEffect(() => {
         if (!enabled) return;
         setBlackScreenTransparency(0);
-        spawningSound.Play();
+        playSound({ soundName: "wakeUpFromTrauma", volume: 1, speed: 1 });
     }, [enabled]);
 
     useEffect(() => {
@@ -73,10 +65,13 @@ function App(props: {}) {
     );
 }
 
-export default function SpawningHandler(props: { enabled: boolean }) {
+export default function SpawningHandler(props: {}) {
+    const [clientState, setClientState] = useClientState();
+
     return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
+        <EnabilityProvider value={{ enabled: clientState === "spawning" }}>
             <App />
+            <SpawningCameraHandler />
         </EnabilityProvider>
     );
 }

@@ -1,10 +1,9 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "../contexts/enability";
 
 import Interactable from "./interactable";
-import { useInteractEs } from "../hooks/ecsSelectors";
+import { useInteractEs } from "client/apps/hooks/ecsSelectors";
 
-function App(props: {}) {
+export default function Interactables(props: {}) {
     const interactEs = useInteractEs();
 
     const elements: Roact.Element[] = [];
@@ -15,17 +14,9 @@ function App(props: {}) {
                 e={e}
                 state={context[0]}
                 cannotInteractReason={context[1] !== "NONE" ? context[1] : undefined}
-            ></Interactable>,
+            />,
         );
     });
 
     return <>{elements}</>;
-}
-
-export default function Interactables(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
-    );
 }

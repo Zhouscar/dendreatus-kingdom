@@ -1,23 +1,16 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "../contexts/enability";
-import EntireScreen from "../components/entireScreen";
-import { useEnability, useEnabled } from "../hooks/enability";
+import { EnabilityProvider } from "../../contexts/enability";
+import EntireScreen from "../../components/entireScreen";
+import { useEnability, useEnabled } from "../../hooks/enability";
 import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
-import { useSpring } from "../hooks/ripple";
-import TitleCardOptionButton from "./titleCardOptionButton";
+import { useSpring } from "../../hooks/ripple";
+import TitleCardOptionButton from "../../titleCard/titleCardOptionButton";
 import { routes } from "shared/network";
-import useRemoteToken from "../hooks/useRemoteToken";
+import useRemoteToken from "../../hooks/useRemoteToken";
 import { useState } from "@rbxts/roact-hooked";
-import { Make } from "@rbxts/altmake";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { SoundService } from "@rbxts/services";
-
-const dkThemeSong = Make("Sound", {
-    SoundId: SOUND_IDS.dkTheme,
-    Name: "DkThemeSong",
-    Parent: SoundService,
-    Looped: true,
-});
+import { loopSound } from "shared/effects/sounds";
+import { useClientState } from "client/apps/hooks/ecsSelectors";
+import TitleCameraHandler from "./camera";
 
 function App(props: {}) {
     const enability = useEnability();
@@ -42,7 +35,10 @@ function App(props: {}) {
 
     useBindingListener(titleSpring, (value) => {
         if (titleEnabled) return;
-        dkThemeSong.Volume = value;
+        loopSound({
+            soundName: "dkTheme",
+            volume: value,
+        });
     });
 
     useTimeout(() => {
@@ -59,8 +55,10 @@ function App(props: {}) {
 
     useTimeout(() => {
         setTitleEnabled(true);
-        dkThemeSong.TimePosition = 0;
-        dkThemeSong.Play();
+        loopSound({
+            soundName: "dkTheme",
+            timePosition: 0,
+        });
     }, 5);
 
     useTimeout(() => {
@@ -150,10 +148,13 @@ function App(props: {}) {
     );
 }
 
-export default function TitleCard(props: { enabled: boolean }) {
+export default function TitleHandler(props: {}) {
+    const [clientState, setClientState] = useClientState();
+
     return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
+        <EnabilityProvider value={{ enabled: clientState === "title" }}>
             <App />
+            <TitleCameraHandler />
         </EnabilityProvider>
     );
 }
