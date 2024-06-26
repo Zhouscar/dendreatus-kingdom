@@ -36,8 +36,8 @@ export function startAnimationById(
     animator: MyAnimator,
     animId: string,
     priority: keyof typeof AnimationPriority,
-    speed: number,
-    looped: boolean,
+    speed: number = 1,
+    looped: boolean = false,
 ) {
     let tracks = storage.get(animator);
     if (tracks === undefined) {
@@ -89,8 +89,8 @@ export function resumeAnimationById(
     animator: MyAnimator,
     animId: string,
     priority: keyof typeof AnimationPriority,
-    speed: number,
-    looped: boolean,
+    speed: number = 1,
+    looped: boolean = false,
 ) {
     let tracks = storage.get(animator);
     if (tracks === undefined) {
@@ -142,8 +142,8 @@ export function startAnimation(
     animator: MyAnimator,
     animName: AnimName,
     priority: keyof typeof AnimationPriority,
-    speed: number,
-    looped: boolean,
+    speed: number = 1,
+    looped: boolean = false,
 ) {
     startAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
 }
@@ -152,8 +152,8 @@ export function resumeAnimation(
     animator: MyAnimator,
     animName: AnimName,
     priority: keyof typeof AnimationPriority,
-    speed: number,
-    looped: boolean,
+    speed: number = 1,
+    looped: boolean = false,
 ) {
     resumeAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
 }

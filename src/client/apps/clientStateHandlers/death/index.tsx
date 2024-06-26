@@ -2,7 +2,7 @@ import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import EntireScreen from "../../components/entireScreen";
 import useSuperPosition from "../../hooks/useSuperPosition";
-import { useState } from "@rbxts/roact-hooked";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { useSpring } from "../../hooks/ripple";
 import { useEnability, useEnabled } from "../../hooks/enability";
 import { EnabilityProvider } from "../../contexts/enability";
@@ -11,6 +11,9 @@ import { playSound } from "shared/effects/sounds";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
 import { useClientState } from "client/apps/hooks/ecsSelectors";
 import DeathCameraHandler from "./camera";
+import { useLocalPlrE } from "client/apps/hooks/wContext";
+import useComponent from "client/apps/hooks/useComponent";
+import { Dead } from "shared/components/health";
 
 function App(props: {}) {
     const enabled = useEnabled();
@@ -118,6 +121,12 @@ function App(props: {}) {
 
 export default function DeathHandler(props: {}) {
     const [clientState, setClientState] = useClientState();
+
+    const localPlrE = useLocalPlrE();
+    const dead = useComponent(localPlrE, Dead);
+    useEffect(() => {
+        setClientState("death");
+    }, [dead]);
 
     return (
         <EnabilityProvider value={{ enabled: clientState === "death" }}>

@@ -31,7 +31,7 @@ function App(props: {}) {
 
     useEffect(() => {
         if (enabled && animatable !== undefined) {
-            startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 0, false);
+            startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 0);
         }
     }, [enabled, animatable]);
 
@@ -39,7 +39,7 @@ function App(props: {}) {
         () => {
             setBlackScreenTransparency(1);
             if (animatable !== undefined) {
-                startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 1, false);
+                startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 1);
             }
         },
         enabled ? 9 : math.huge,

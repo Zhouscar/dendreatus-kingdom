@@ -6,7 +6,7 @@ import { useLocalPlrE } from "../hooks/wContext";
 import useComponent from "../hooks/useComponent";
 import { Damage } from "shared/components/health";
 
-export default function ClientStateSwitcher(props: {}) {
+export default function ClientStateKeybinds(props: {}) {
     const isInventoryKeyPressed = useKeybindPress("toggleInventory");
     const [clientState, setClientState] = useClientState();
 

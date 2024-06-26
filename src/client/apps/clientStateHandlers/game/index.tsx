@@ -8,6 +8,7 @@ import Hotbar from "client/apps/hotbar";
 import HungerBar from "client/apps/hungerBar";
 import Interactables from "./interactables";
 import GameCameraHandler from "./camera";
+import EquippingHandler from "./equipping";
 
 export default function GameHandler(props: {}) {
     const [clientState, setClientState] = useClientState();
@@ -16,6 +17,7 @@ export default function GameHandler(props: {}) {
         <EnabilityProvider value={{ enabled: clientState === "game" }}>
             <GameCameraHandler />
             <Interactables />
+            <EquippingHandler />
             <EntireScreen handleInset={false} superPositionEnability={enability}>
                 <HealthBar
                     Size={new UDim2(0.5, 0, 0, 20)}

@@ -30,13 +30,13 @@
 - [x] spawning: camera, relocate ui,
 - [x] title: camera, relocate ui,
 - [x] death: camera, reolcate ui,
-- [ ] death scream, human stay still, death client state
+- [x] death scream, human stay still, death client state, death animation
 - game:
 - [x] camera
 - [x] relocate healthbar, hungerbar, hotbar
 - [x] interactables
-- [ ] toggle inventory
-- [ ] equipping by index to equipping, equip input, human equip, unequip on death
+- [x] toggle inventory
+- [x] equipping by index to equipping, equip input, human equip, unequip on death
 - [ ] rework item activation, items attackable, items attacking raycast, items consumable, and the call item functions
 - [ ] all movements
 

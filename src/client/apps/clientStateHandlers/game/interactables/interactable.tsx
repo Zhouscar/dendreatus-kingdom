@@ -3,7 +3,7 @@ import Roact from "@rbxts/roact";
 import { InteractState } from "shared/features/interactables/types";
 import { Renderable } from "shared/components";
 import { useBinding, useEffect, useMemo, useMutable, useState } from "@rbxts/roact-hooked";
-import { Players, RunService, UserInputService } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 import { useSelector } from "@rbxts/roact-reflex";
 import { selectPlayerKeybinds } from "shared/store/players/keybinds";
 import { theLocalPlr } from "client/localPlr";
