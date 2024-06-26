@@ -3,6 +3,8 @@ import { useSelector } from "@rbxts/roact-reflex";
 import { selectPlayerInventory } from "shared/store/players/inventory";
 import ItemSlot from "./itemSlot";
 import { theLocalPlr } from "client/localPlr";
+import { AnyEntity, World } from "@rbxts/matter";
+import { EquippingByIndex } from "shared/components/items";
 
 export default function ItemFragments(props: {
     indexEquipped: number | undefined;

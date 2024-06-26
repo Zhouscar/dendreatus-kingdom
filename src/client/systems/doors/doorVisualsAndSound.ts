@@ -36,6 +36,8 @@ function doorVisualsAndSound(w: World) {
                 Sound({
                     audibility: 1,
                     context: {
+                        volume: 1,
+                        speed: 1,
                         soundName: "doorOpen",
                     },
                     cf: transform.cf,

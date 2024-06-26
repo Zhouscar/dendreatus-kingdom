@@ -35,7 +35,7 @@ function interacting(w: World) {
         if (interacted.interactType === "harvest") {
             const animatable = w.get(e, Animatable);
             if (animatable !== undefined) {
-                startAnimation(animatable.animator, "harvest", "Action");
+                startAnimation(animatable.animator, "harvest", "Action", 1, false);
             }
         } else if (interacted.interactType === "pickup") {
             // TODO animation?

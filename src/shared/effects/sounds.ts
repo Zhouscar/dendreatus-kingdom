@@ -1,39 +1,23 @@
 import { Make, Modify } from "@rbxts/altmake";
-import { Players, SoundService, Workspace } from "@rbxts/services";
+import { Players, Workspace } from "@rbxts/services";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { SoundContext } from "type";
 
-const NUM_CACHED_WORLD_SOUND_PARTS = 500;
-const NUM_CACHED_SOUNDS = 100;
+const NUM_CACHED_PARTS = 500;
 const CACHE_CF = new CFrame(0, 10000, 0);
 const SOUND_RANGE = 500;
 
-const cachedSoundContainer = Make("Folder", {
-    Parent: SoundService,
-    Name: "CachedSounds",
-});
-
-const usingSoundContainer = Make("Folder", {
-    Parent: SoundService,
-    Name: "UsingSounds",
-});
-
-const loopedSoundContainer = Make("Folder", {
-    Parent: SoundService,
-    Name: "LoopedSounds",
-});
-
-const cachedWorldSoundPartsContainer = Make("Folder", {
+const cachedPartsParent = Make("Folder", {
     Parent: Workspace,
-    Name: "CachedWorldSoundParts",
+    Name: "CachedSoundParts",
 });
 
-const usingWorldSoundPartsContainer = Make("Folder", {
+const usingPartsParent = Make("Folder", {
     Parent: Workspace,
-    Name: "UsingWorldSoundParts",
+    Name: "UsingSoundParts",
 });
 
-for (let i = 0; i < NUM_CACHED_WORLD_SOUND_PARTS; i++) {
+for (let i = 0; i < NUM_CACHED_PARTS; i++) {
     const part = Make("Part", {
         Name: `SoundPart_${i}`,
         Transparency: 1,
@@ -41,91 +25,40 @@ for (let i = 0; i < NUM_CACHED_WORLD_SOUND_PARTS; i++) {
         Anchored: true,
         Locked: true,
         CFrame: CACHE_CF,
-        Parent: cachedWorldSoundPartsContainer,
+        Parent: cachedPartsParent,
     });
 
-    const partSound = Make("Sound", {
+    const sound = Make("Sound", {
         Parent: part,
         Looped: false,
     });
 
-    partSound.Ended.Connect(() => {
+    sound.Ended.Connect(() => {
         Modify(part, {
-            Parent: cachedWorldSoundPartsContainer,
+            Parent: cachedPartsParent,
             CFrame: CACHE_CF,
         });
     });
 }
 
-for (let i = 0; i < NUM_CACHED_SOUNDS; i++) {
-    const sound = Make("Sound", {
-        Parent: cachedSoundContainer,
-        Looped: false,
-    });
-
-    sound.Ended.Connect(() => {
-        sound.Parent = cachedSoundContainer;
-    });
-}
-
-export function loopSound(context: SoundContext) {
-    let sound = loopedSoundContainer.FindFirstChild(context.soundName) as Sound | undefined;
-    if (sound === undefined) {
-        sound = Make("Sound", {
-            Name: context.soundName,
-            Parent: loopedSoundContainer,
-            SoundId: SOUND_IDS[context.soundName],
-
-            Looped: true,
-            Playing: true,
-        });
-    }
-
-    Modify(sound, {
-        Volume: context.volume,
-        PlaybackSpeed: context.speed,
-    });
-}
-
-export function playSound(context: SoundContext) {
-    const cachedSounds = cachedSoundContainer.GetChildren();
-    if (cachedSounds.isEmpty()) {
-        warn("Out of sounds");
-        return;
-    }
-
-    const sound = cachedSounds[0] as Sound;
-    sound.Parent = usingSoundContainer;
-
-    Modify(sound, {
-        SoundId: SOUND_IDS[context.soundName],
-        Volume: context.volume,
-        PlaybackSpeed: context.speed,
-        TimePosition: context.timePosition,
-    });
-
-    sound.Play();
-}
-
-export function makeSoundInWorld(cf: CFrame, context: SoundContext) {
+export function makeSound(cf: CFrame, context: SoundContext) {
     const playerCFrame = Players.LocalPlayer.Character?.GetPivot();
     if (!playerCFrame || playerCFrame.Position.sub(cf.Position).Magnitude > SOUND_RANGE) return;
 
-    const cachedParts = cachedWorldSoundPartsContainer.GetChildren();
+    const cachedParts = cachedPartsParent.GetChildren();
     if (cachedParts.isEmpty()) {
         warn("Out of sound parts");
         return;
     }
 
     const part = cachedParts[0] as Part;
-    Modify(part, { Parent: usingWorldSoundPartsContainer, CFrame: cf });
+    Modify(part, { Parent: usingPartsParent, CFrame: cf });
 
     const sound = part.FindFirstChildWhichIsA("Sound")!;
     Modify(sound, {
         SoundId: SOUND_IDS[context.soundName],
         Volume: context.volume,
         PlaybackSpeed: context.speed,
-        TimePosition: context.timePosition,
     });
 
     sound.Play();

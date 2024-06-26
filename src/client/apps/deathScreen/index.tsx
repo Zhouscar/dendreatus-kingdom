@@ -1,19 +1,29 @@
 import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import EntireScreen from "../../components/entireScreen";
-import useSuperPosition from "../../hooks/useSuperPosition";
-import { useEffect, useState } from "@rbxts/roact-hooked";
-import { useSpring } from "../../hooks/ripple";
-import { useEnability, useEnabled } from "../../hooks/enability";
-import { EnabilityProvider } from "../../contexts/enability";
-import { adjustAtmosphere } from "shared/effects/lightings";
-import { playSound } from "shared/effects/sounds";
+import EntireScreen from "../components/entireScreen";
+import { Lighting, SoundService } from "@rbxts/services";
+import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
-import { useClientState } from "client/apps/hooks/ecsSelectors";
-import DeathCameraHandler from "./camera";
-import { useLocalPlrE } from "client/apps/hooks/wContext";
-import useComponent from "client/apps/hooks/useComponent";
-import { Dead } from "shared/components/health";
+import { useState } from "@rbxts/roact-hooked";
+import { Make } from "@rbxts/altmake";
+import { SOUND_IDS } from "shared/features/ids/sounds";
+import { useSpring } from "../hooks/ripple";
+import { useEnability, useEnabled } from "../hooks/enability";
+import { EnabilityProvider } from "../contexts/enability";
+
+const blackOutAtmosphere = Make("Atmosphere", {
+    Name: "BlackOut",
+    Color: Color3.fromRGB(0, 0, 0),
+    Density: 0,
+    Haze: 0,
+    Parent: Lighting,
+});
+
+const youDiedSound = Make("Sound", {
+    SoundId: SOUND_IDS.youDied,
+    Name: "YouDied",
+    Parent: SoundService,
+});
 
 function App(props: {}) {
     const enabled = useEnabled();
@@ -33,11 +43,8 @@ function App(props: {}) {
     const optionsSuperPosition = useSuperPosition(optionsSpring, new UDim2(0.5, 0, 0.7, 0));
 
     useBindingListener(blackOutSpring, (v) => {
-        adjustAtmosphere("BlackOut", {
-            Color: Color3.fromRGB(0, 0, 0),
-            Density: v,
-            Haze: v * 10,
-        });
+        blackOutAtmosphere.Density = v;
+        blackOutAtmosphere.Haze = v * 10;
     });
 
     useTimeout(
@@ -50,12 +57,7 @@ function App(props: {}) {
     useTimeout(
         () => {
             setTitleEnabled(true);
-
-            playSound({
-                soundName: "youDied",
-                volume: 1,
-                speed: 1,
-            });
+            youDiedSound.Play();
         },
         enabled ? 5 : math.huge,
     );
@@ -119,19 +121,10 @@ function App(props: {}) {
     );
 }
 
-export default function DeathHandler(props: {}) {
-    const [clientState, setClientState] = useClientState();
-
-    const localPlrE = useLocalPlrE();
-    const dead = useComponent(localPlrE, Dead);
-    useEffect(() => {
-        setClientState("death");
-    }, [dead]);
-
+export default function DeathScreen(props: { enabled: boolean }) {
     return (
-        <EnabilityProvider value={{ enabled: clientState === "death" }}>
+        <EnabilityProvider value={{ enabled: props.enabled }}>
             <App />
-            <DeathCameraHandler />
         </EnabilityProvider>
     );
 }

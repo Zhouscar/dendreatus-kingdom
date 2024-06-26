@@ -17,6 +17,8 @@ function deathScream(w: World) {
                 audibility: 0,
                 context: {
                     soundName: "deathScream",
+                    volume: 1,
+                    speed: 1,
                 },
                 cf: cf,
             }),

@@ -2,13 +2,12 @@ import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { SoundName } from "shared/features/ids/sounds";
 import { PlayerKeybinds } from "shared/store/players/types";
 
-export type KeyCode = Exclude<keyof typeof Enum.KeyCode, "GetEnumItems">;
+export type KeyCode = keyof typeof Enum.KeyCode;
 export type KeyName = keyof PlayerKeybinds;
 export type SoundContext = {
+    volume: number;
     soundName: SoundName;
-    volume?: number;
-    speed?: number;
-    timePosition?: number;
+    speed: number;
 };
 
 export type ComponentRecord<C extends ComponentCtor> = {

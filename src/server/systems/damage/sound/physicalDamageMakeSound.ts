@@ -32,7 +32,9 @@ function physicalDamageMakeSound(w: World) {
                 Sound({
                     audibility: 1,
                     context: {
+                        volume: 1,
                         soundName: "dummyDamage",
+                        speed: 1,
                     },
                     cf: transform.cf,
                 }),

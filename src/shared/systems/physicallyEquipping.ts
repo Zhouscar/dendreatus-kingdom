@@ -1,5 +1,5 @@
-import { World } from "@rbxts/matter";
-import { Plr, Renderable } from "shared/components";
+import { World, useEvent } from "@rbxts/matter";
+import { Human, Plr, Renderable } from "shared/components";
 import { PhysicallyEquipping } from "shared/components/items";
 
 function physicallyEquipping(w: World) {

@@ -1,6 +1,6 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Sound } from "shared/components";
-import { makeSoundInWorld } from "shared/effects/sounds";
+import { makeSound } from "shared/effects/sounds";
 import { State } from "shared/state";
 
 const playedSound: Set<AnyEntity> = new Set();
@@ -16,7 +16,7 @@ function soundPlaySound(w: World, s: State) {
     for (const [e, sound] of w.query(Sound)) {
         if (playedSound.has(e)) continue;
         playedSound.add(e);
-        makeSoundInWorld(sound.cf, sound.context);
+        makeSound(sound.cf, sound.context);
     }
 }
 

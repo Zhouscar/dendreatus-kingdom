@@ -1,16 +1,14 @@
 import { useDebounceEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
+import useSuperPosition from "./hooks/useSuperPosition";
 import useComponent from "./hooks/useComponent";
 import { Health } from "shared/components/health";
+import { useLocalPlrE } from "./hooks/ecsSelectors";
+import { EnabilityProvider } from "./contexts/enability";
 import { useMotion } from "./hooks/ripple";
 import { useEnability } from "./hooks/enability";
-import { useLocalPlrE } from "./hooks/wContext";
 
-export default function HealthBar(props: {
-    Size?: UDim2;
-    Position?: UDim2;
-    AnchorPoint?: Vector2;
-}) {
+function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
     const enability = useEnability();
     const enabilityTransparency = enability.map((v) => 1 - v);
 
@@ -22,6 +20,8 @@ export default function HealthBar(props: {
 
     const currentPerc = current / maximum;
     const [flashPerc, flashPercMotion] = useMotion(1);
+
+    const rootPosition = useSuperPosition(enability, props.Position);
 
     useDebounceEffect(
         () => {
@@ -35,7 +35,7 @@ export default function HealthBar(props: {
         <frame
             Key={"HealthBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
-            Position={props.Position}
+            Position={rootPosition}
             AnchorPoint={props.AnchorPoint}
             BorderSizePixel={0}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
@@ -95,5 +95,18 @@ export default function HealthBar(props: {
                 </frame>
             </frame>
         </frame>
+    );
+}
+
+export default function HealthBar(props: {
+    enabled: boolean;
+    Size?: UDim2;
+    Position?: UDim2;
+    AnchorPoint?: Vector2;
+}) {
+    return (
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App Size={props.Size} Position={props.Position} AnchorPoint={props.AnchorPoint} />
+        </EnabilityProvider>
     );
 }

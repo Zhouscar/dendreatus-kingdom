@@ -29,7 +29,9 @@ function landing(w: World) {
             Sound({
                 audibility: 1,
                 context: {
+                    volume: 1,
                     soundName: "land",
+                    speed: 1,
                 },
                 cf: cf,
             }),
@@ -56,7 +58,9 @@ function landing(w: World) {
             Sound({
                 audibility: 1,
                 context: {
+                    volume: 1,
                     soundName: "crashLanding",
+                    speed: 1,
                 },
                 cf: cf,
             }),

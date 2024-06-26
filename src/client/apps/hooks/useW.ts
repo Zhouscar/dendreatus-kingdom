@@ -1,10 +1,10 @@
 import { useContext } from "@rbxts/roact-hooked";
 import { WContext } from "../contexts/world";
 
-export function useW() {
+export default function useW() {
     return useContext(WContext).w;
 }
 
-export function useLocalPlrE() {
-    return useContext(WContext).localPlrE;
+export function useSetClientState() {
+    return useContext(WContext).setClientState;
 }

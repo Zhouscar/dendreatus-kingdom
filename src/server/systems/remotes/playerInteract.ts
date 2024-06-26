@@ -10,11 +10,12 @@ import {
     Interacted,
 } from "shared/components/interactables";
 import { DroppedItem, Equipping } from "shared/components/items";
-import { createGuidPool } from "shared/features/guidUtils";
+import { createGuidPool, newGuid } from "shared/features/guidUtils";
 import { hasOpenSlot } from "shared/features/inventory/functions";
 import spaceFor from "shared/features/inventory/functions/spaces/spaceFor";
 import { isItemType } from "shared/features/items/types";
 import { hasComponents } from "shared/hooks/components";
+import { useTestLog } from "shared/hooks/debug";
 
 function playerInteract(w: World, _: any) {
     for (const [e, interactedRecord] of w.queryChanged(Interacted)) {

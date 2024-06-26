@@ -2,6 +2,7 @@ import Roact from "@rbxts/roact";
 import { CannotInteractReason, Cookable } from "shared/components/interactables";
 import { InteractState } from "shared/features/interactables/types";
 import CookableItemFragments from "./itemFragments";
+import { keybindsSlice } from "shared/store/players/keybinds";
 
 const SLOT_LEN = 80;
 const SLOT_PAD = 10;

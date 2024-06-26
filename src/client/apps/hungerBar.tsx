@@ -2,16 +2,12 @@ import Roact from "@rbxts/roact";
 import useSuperPosition from "./hooks/useSuperPosition";
 import useComponent from "./hooks/useComponent";
 import { Stomach } from "shared/components/hunger";
+import { useLocalPlrE } from "./hooks/ecsSelectors";
 import { EnabilityProvider } from "./contexts/enability";
 import { useSpring } from "./hooks/ripple";
 import { useEnability } from "./hooks/enability";
-import { useLocalPlrE } from "./hooks/wContext";
 
-export default function HungerBar(props: {
-    Size?: UDim2;
-    Position?: UDim2;
-    AnchorPoint?: Vector2;
-}) {
+function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
     const enability = useEnability();
     const enabilityTransparency = enability.map((v) => 1 - v);
 
@@ -22,12 +18,13 @@ export default function HungerBar(props: {
     const current = stomach?.hunger ?? 100;
 
     const currentPerc = useSpring(current / maximum);
+    const rootPosition = useSuperPosition(enability, props.Position);
 
     return (
         <frame
             Key={"HungerBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
-            Position={props.Position}
+            Position={rootPosition}
             AnchorPoint={props.AnchorPoint}
             BorderSizePixel={0}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
@@ -71,5 +68,18 @@ export default function HungerBar(props: {
                 </frame>
             </frame>
         </frame>
+    );
+}
+
+export default function HungerBar(props: {
+    enabled: boolean;
+    Size?: UDim2;
+    Position?: UDim2;
+    AnchorPoint?: Vector2;
+}) {
+    return (
+        <EnabilityProvider value={{ enabled: props.enabled }}>
+            <App Size={props.Size} Position={props.Position} AnchorPoint={props.AnchorPoint} />
+        </EnabilityProvider>
     );
 }

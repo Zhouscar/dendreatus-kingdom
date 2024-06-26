@@ -108,7 +108,7 @@ function humanDirectionalMovement(w: World) {
                         Sound({
                             cf: cf,
                             audibility: 1,
-                            context: { soundName: getFootStepSoundName() },
+                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
                         }),
                     );
                 }
@@ -119,7 +119,7 @@ function humanDirectionalMovement(w: World) {
                         Sound({
                             cf: cf,
                             audibility: 1,
-                            context: { soundName: getFootStepSoundName() },
+                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
                         }),
                     );
                 }

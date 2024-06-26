@@ -57,7 +57,7 @@ const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
     if (animatable) {
         const animId = itemContext.stepAnimationIds[nextStep];
 
-        startAnimationById(animatable.animator, animId, "Action");
+        startAnimationById(animatable.animator, animId, "Action", 1, false);
     }
 
     itemContext.sideEffects.forEach((sideEffect) => {
