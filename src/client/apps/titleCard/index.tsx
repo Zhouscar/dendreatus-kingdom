@@ -11,13 +11,7 @@ import { useState } from "@rbxts/roact-hooked";
 import { Make } from "@rbxts/altmake";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { SoundService } from "@rbxts/services";
-
-const dkThemeSong = Make("Sound", {
-    SoundId: SOUND_IDS.dkTheme,
-    Name: "DkThemeSong",
-    Parent: SoundService,
-    Looped: true,
-});
+import { loopSound } from "shared/effects/sounds";
 
 function App(props: {}) {
     const enability = useEnability();
@@ -41,8 +35,7 @@ function App(props: {}) {
     const titleTransparency = titleSpring.map((v) => 1 - v);
 
     useBindingListener(titleSpring, (value) => {
-        if (titleEnabled) return;
-        dkThemeSong.Volume = value;
+        loopSound({ soundName: "dkTheme", volume: value });
     });
 
     useTimeout(() => {
@@ -59,8 +52,7 @@ function App(props: {}) {
 
     useTimeout(() => {
         setTitleEnabled(true);
-        dkThemeSong.TimePosition = 0;
-        dkThemeSong.Play();
+        loopSound({ soundName: "dkTheme", timePosition: 0 });
     }, 5);
 
     useTimeout(() => {

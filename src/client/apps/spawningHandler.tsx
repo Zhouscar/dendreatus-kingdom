@@ -8,19 +8,10 @@ import { useLocalPlrE } from "./hooks/ecsSelectors";
 import useComponent from "./hooks/useComponent";
 import { Animatable } from "shared/components";
 import { startAnimation } from "shared/effects/animations";
-import useW, { useSetClientState } from "./hooks/useW";
-import { SoundService } from "@rbxts/services";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { Make } from "@rbxts/altmake";
-
-const spawningSound = Make("Sound", {
-    SoundId: SOUND_IDS.wakeUpFromTrauma,
-    Name: "SpawningSound",
-    Parent: SoundService,
-});
+import { useSetClientState } from "./hooks/useW";
+import { playSound } from "shared/effects/sounds";
 
 function App(props: {}) {
-    const w = useW();
     const enabled = useEnabled();
     const enability = useEnability();
 
@@ -34,12 +25,12 @@ function App(props: {}) {
     useEffect(() => {
         if (!enabled) return;
         setBlackScreenTransparency(0);
-        spawningSound.Play();
+        playSound({ soundName: "wakeUpFromTrauma" });
     }, [enabled]);
 
     useEffect(() => {
         if (enabled && animatable !== undefined) {
-            startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 0, false);
+            startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 0);
         }
     }, [enabled, animatable]);
 
@@ -47,7 +38,7 @@ function App(props: {}) {
         () => {
             setBlackScreenTransparency(1);
             if (animatable !== undefined) {
-                startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 1, false);
+                startAnimation(animatable.animator, "wakingUpFromTrauma", "Action");
             }
         },
         enabled ? 9 : math.huge,

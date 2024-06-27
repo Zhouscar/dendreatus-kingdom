@@ -5,9 +5,10 @@ import { PlayerKeybinds } from "shared/store/players/types";
 export type KeyCode = keyof typeof Enum.KeyCode;
 export type KeyName = keyof PlayerKeybinds;
 export type SoundContext = {
-    volume: number;
+    volume?: number;
     soundName: SoundName;
-    speed: number;
+    speed?: number;
+    timePosition?: number;
 };
 
 export type ComponentRecord<C extends ComponentCtor> = {

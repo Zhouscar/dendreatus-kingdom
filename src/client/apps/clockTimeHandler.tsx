@@ -3,9 +3,10 @@ import { useBinding, useEffect, useMutable, useState } from "@rbxts/roact-hooked
 import { Lighting, RunService, SoundService } from "@rbxts/services";
 import { getClockTime } from "shared/hooks/clockTime";
 import { useSpring } from "./hooks/ripple";
-import withAssetPrefix from "shared/calculations/withAssetPrefix";
 import { useClientState } from "./hooks/ecsSelectors";
 import { ClientState } from "shared/state";
+import { SOUND_IDS } from "shared/features/ids/sounds";
+import { adjustDefaultAtmosphere } from "shared/effects/lightings";
 
 const e = Roact.createElement;
 
@@ -47,12 +48,10 @@ export default function ClockTimeHandler(props: {}) {
 
             Lighting.ClockTime = ct;
 
-            const atmosphere = Lighting.FindFirstChildWhichIsA("Atmosphere");
-
-            if (atmosphere !== undefined) {
-                atmosphere.Haze = trigValue * 2;
-                atmosphere.Glare = trigValue * 0.08;
-            }
+            adjustDefaultAtmosphere({
+                Haze: trigValue * 2,
+                Glare: trigValue * 0.08,
+            });
         });
 
         return () => {
@@ -65,14 +64,14 @@ export default function ClockTimeHandler(props: {}) {
             <Portal target={SoundService}>
                 {e("Sound", {
                     Name: "DayTimeMusic",
-                    SoundId: withAssetPrefix("9112799929"),
+                    SoundId: SOUND_IDS.dayTimeMusic,
                     Volume: daySpring,
                     Playing: true,
                     Looped: true,
                 })}
                 {e("Sound", {
                     Name: "NightTimeMusic",
-                    SoundId: withAssetPrefix("390457804"),
+                    SoundId: SOUND_IDS.nightTimeMusic,
                     Volume: nightSpring,
                     Playing: true,
                     Looped: true,

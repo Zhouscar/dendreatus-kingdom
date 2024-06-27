@@ -22,6 +22,9 @@ export const SOUND_IDS = {
     wakeUpFromTrauma: withAssetPrefix("18115139328"),
 
     dkTheme: withAssetPrefix("18115288211"),
+
+    dayTimeMusic: withAssetPrefix("9112799929"),
+    nightTimeMusic: withAssetPrefix("390457804"),
 };
 
 export type SoundName = keyof typeof SOUND_IDS;

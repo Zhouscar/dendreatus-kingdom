@@ -55,7 +55,7 @@ export default function Root(props: {
         <WProvider value={{ w: props.w, setClientState: props.setClientState }}>
             <RemoteTokenProvider value={{ remoteToken: props.remoteToken }}>
                 <ReflexProvider producer={store}>
-                    <App></App>
+                    <App />
                 </ReflexProvider>
             </RemoteTokenProvider>
         </WProvider>
