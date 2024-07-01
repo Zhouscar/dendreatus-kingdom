@@ -73,11 +73,11 @@ function interactableStates(w: World) {
         }
 
         const interactState: InteractState = isHidden ? "hidden" : "hinting";
-        newInteractEs.set(e, [interactState, reason]);
+        newInteractEs.set(tostring(e), [interactState, reason]);
     }
 
     if (showingE !== undefined && canInteract(w)) {
-        newInteractEs.set(showingE, ["showing", showingECannotInteractReason]);
+        newInteractEs.set(tostring(showingE), ["showing", showingECannotInteractReason]);
     }
 
     if (!Sift.Dictionary.equals(newInteractEs, oldInteractEs)) {

@@ -1,7 +1,7 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { useChange, useMap } from "@rbxts/matter-hooks";
 import { index } from "shared/calculations/indexing";
-import { LocalPlr, Renderable } from "shared/components";
+import { LocalPlr, Renderable, SafeZone } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Damage, Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
@@ -47,6 +47,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                 entities.forEach((e) => {
                     if (!w.contains(e)) return;
                     if (!hasComponents(w, e, Health)) return;
+                    if (hasComponents(w, e, SafeZone)) return;
                     if (eAttackeds.value.has(e)) return;
 
                     eAttackeds.value.add(e);

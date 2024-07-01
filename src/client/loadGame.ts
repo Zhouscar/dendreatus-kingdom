@@ -5,6 +5,7 @@ import {
     ReplicatedFirst,
     ReplicatedStorage,
     TweenService,
+    Workspace,
 } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 import { ANIM_IDS } from "shared/features/ids/animations";

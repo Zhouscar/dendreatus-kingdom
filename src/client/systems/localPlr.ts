@@ -9,9 +9,10 @@ function localPlr(w: World, s: State) {
     for (const [e, localPlrRecord] of w.queryChanged(LocalPlr)) {
         if (!w.contains(e)) continue;
 
-        if (localPlrRecord.new === undefined) continue;
-
-        s.clientState = "spawning";
+        if (localPlrRecord.new !== undefined) {
+            // s.clientState = "spawning";
+            s.clientState = "game";
+        }
     }
 
     for (const [e, plrRecord] of w.queryChanged(Plr)) {

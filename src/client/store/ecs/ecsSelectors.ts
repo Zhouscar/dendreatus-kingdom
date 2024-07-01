@@ -17,3 +17,9 @@ export function selectInteractEs() {
         return state.ecsSlice.interactEs;
     };
 }
+
+export function selectProximityPlrEs() {
+    return (state: RootState) => {
+        return state.ecsSlice.proximityPlrEs;
+    };
+}

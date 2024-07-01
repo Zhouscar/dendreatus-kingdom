@@ -79,7 +79,7 @@ export default function Interactable(props: {
     const frameSize = showSpring.map((v) => new UDim2(0, 10 + v * 20, 0, 10 + v * 20));
     const textFrameSize = showSpring.map((v) => new UDim2(0, v * 200, 0, 50));
     const showTransparency = showSpring.map((v) => 1 - v);
-    const buttonColor = showSpring.map((v) => new Color3(1 - v * 0.8, 1 - v * 0.8, 1 - v * 0.8));
+    const buttonColor = showSpring.map((v) => new Color3(1 - v, 1 - v, 1 - v));
 
     const [interactionName, setInteractionName] = useState("");
     const interactionFunction = useMutable(() => {

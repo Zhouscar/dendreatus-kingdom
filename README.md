@@ -1,25 +1,28 @@
 A bit disappointed in how some stuff are handled by roact and some are handled by ecs system
 
-# Backlog
+# TODO
 
-## Item Setup
+## [x] Respawning after death
+
+## [x] Safe Zones (not tested)
+
+## [ ] Rank Based Tools
+
+## [ ] Item Setup
 
 - The items need to be setup with models and images, and descriptions and stack sizes
 - The consumables and attackables need to be setup
 
-## Adding Sound
+## [ ] Adding Sound
 
 - Sound such as eating, picking up, harvesting, all sorts of stuff
 
-## Fixing character deleting
+## [x] Fixing character deleting
 
-## Player leaving character fade
+## [x] character fade when delete
 
-# TODO
+## [ ] Rework Chat system
 
-## Respawning after death
+## [ ] Rework other player billboards
 
-## Safe Zones
-
-## Rank Based Tools
-
+## [ ] Rework health bar and hunger bar to the top of the screen

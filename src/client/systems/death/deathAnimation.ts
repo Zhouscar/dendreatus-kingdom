@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Animatable, LocalPlr, Plr } from "shared/components";
+import { Animatable, LocalPlr } from "shared/components";
 import { Dead } from "shared/components/health";
 import { resumeAnimation } from "shared/effects/animations";
 

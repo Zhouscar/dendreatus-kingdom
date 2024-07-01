@@ -13,6 +13,15 @@ import { InteractableComponents } from "./interactables";
 
 export * from "./livingThings";
 
+export const Chatting = ComponentCreator.protectedBidirectional<{ message: string }>("Chatting");
+export type Chatting = ReturnType<typeof Chatting>;
+
+export const InSafeZone = ComponentCreator.replicated("InSafeZone");
+export type InSafeZone = ReturnType<typeof InSafeZone>;
+
+export const SafeZone = ComponentCreator.tag("SafeZone");
+export type SafeZone = ReturnType<typeof SafeZone>;
+
 export const TitleCamPart = ComponentCreator.tag("TitleCamPart");
 export type TitleCamPart = ReturnType<typeof TitleCamPart>;
 
@@ -63,6 +72,7 @@ export const BloodDrip = ComponentCreator.base<{}>("BloodDrip");
 export type BloodDrip = ReturnType<typeof BloodDrip>;
 
 export const Components = {
+    Chatting,
     Dummy,
     Renderable,
     Transform,

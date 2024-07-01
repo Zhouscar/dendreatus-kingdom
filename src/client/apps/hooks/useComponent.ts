@@ -3,12 +3,13 @@ import useW from "./useW";
 import { useBinding, useEffect, useMutable, useRef, useState } from "@rbxts/roact-hooked";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { RunService } from "@rbxts/services";
+import { useLatest } from "@rbxts/pretty-roact-hooks";
 
 export default function useComponent<T extends ComponentCtor>(e: AnyEntity, Ctor: T) {
     const w = useW();
 
     const [data, setData] = useState(() => (w.contains(e) ? w.get(e, Ctor) : undefined));
-    const dataMutable = useMutable(data);
+    const lastestData = useLatest(data);
 
     useEffect(() => {
         const connection = RunService.Heartbeat.Connect(() => {
@@ -18,8 +19,7 @@ export default function useComponent<T extends ComponentCtor>(e: AnyEntity, Ctor
                 newData = w.get(e, Ctor);
             }
 
-            if (newData !== dataMutable.current) {
-                dataMutable.current = newData;
+            if (newData !== lastestData.current) {
                 setData(newData);
             }
         });

@@ -3,12 +3,14 @@ import Roact from "@rbxts/roact";
 import EntireScreen from "../components/entireScreen";
 import useSuperPosition from "../hooks/useSuperPosition";
 import DeathScreenOptionButton from "./deathScreenOptionButton";
-import { useState } from "@rbxts/roact-hooked";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { useSpring } from "../hooks/ripple";
 import { useEnability, useEnabled } from "../hooks/enability";
 import { EnabilityProvider } from "../contexts/enability";
 import { playSound } from "shared/effects/sounds";
 import { adjustAtmosphere } from "shared/effects/lightings";
+import { routes } from "shared/network";
+import useRemoteToken from "../hooks/useRemoteToken";
 
 function App(props: {}) {
     const enabled = useEnabled();
@@ -35,6 +37,13 @@ function App(props: {}) {
         });
     });
 
+    useEffect(() => {
+        if (enabled) return;
+        setOptionsEnabled(false);
+        setBlackOutEnabled(false);
+        setTitleEnabled(false);
+    }, [enabled]);
+
     useTimeout(
         () => {
             setBlackOutEnabled(true);
@@ -57,12 +66,14 @@ function App(props: {}) {
         enabled ? 6 : math.huge,
     );
 
+    const token = useRemoteToken();
+
     const options = (
         <DeathScreenOptionButton
             enabled={optionsEnabled && enabled}
-            text={"Cry about it"}
+            text={"Respawn"}
             onClick={() => {
-                print("lol");
+                routes.requestSpawn.send(token);
             }}
         />
     );

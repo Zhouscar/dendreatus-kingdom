@@ -7,13 +7,15 @@ import { ClientState } from "shared/state";
 export type ECSState = {
     localPlrE: AnyEntity | undefined;
     clientState: ClientState;
-    interactEs: Map<AnyEntity, [InteractState, CannotInteractReason | "NONE"]>;
+    interactEs: Map<string, [InteractState, CannotInteractReason | "NONE"]>;
+    proximityPlrEs: Map<string, boolean>;
 };
 
 const initState: ECSState = {
     localPlrE: undefined,
     clientState: "title",
     interactEs: new Map(),
+    proximityPlrEs: new Map(),
 };
 
 export const ecsSlice = createProducer(initState, {
@@ -29,9 +31,14 @@ export const ecsSlice = createProducer(initState, {
 
     setInteractEs: (
         state,
-        interactEs: Map<AnyEntity, [InteractState, CannotInteractReason | "NONE"]>,
+        interactEs: Map<string, [InteractState, CannotInteractReason | "NONE"]>,
     ) => ({
         ...state,
         interactEs: interactEs,
+    }),
+
+    setProximityPlrEs: (state, plrEs: Map<string, boolean>) => ({
+        ...state,
+        proximityPlrEs: plrEs,
     }),
 });

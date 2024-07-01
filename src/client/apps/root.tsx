@@ -15,6 +15,7 @@ import TitleCard from "./titleCard";
 import { ClientState, State } from "shared/state";
 import SpawningHandler from "./spawningHandler";
 import { useClientState } from "./hooks/ecsSelectors";
+import ProximityPlrs from "./proximityPlrs";
 
 function App() {
     const clientState = useClientState();
@@ -40,6 +41,7 @@ function App() {
                     AnchorPoint={new Vector2(0.5, 0)}
                 />
                 <Interactables enabled={clientState === "game"} />
+                <ProximityPlrs enabled={clientState === "game"} />
                 <DeathScreen enabled={clientState === "death"} />
             </screengui>
         </>

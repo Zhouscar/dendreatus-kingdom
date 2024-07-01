@@ -81,7 +81,7 @@ function cameraControls(w: World, s: State) {
 
                 const newCF = _cf.add(_cf.LookVector.mul(-correctedDistance));
 
-                camera.CFrame = camera.CFrame.Lerp(newCF, deltaMult(dt, 50));
+                camera.CFrame = newCF;
 
                 for (const [_, input, gPE] of useEvent(UserInputService, "InputChanged")) {
                     if (gPE) continue;

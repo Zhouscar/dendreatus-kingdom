@@ -1,6 +1,12 @@
 import { AnyEntity } from "@rbxts/matter";
 import { useSelector } from "@rbxts/roact-reflex";
-import { selectClientState, selectInteractEs, selectLocalPlrE } from "client/store/ecs";
+import { RootState } from "client/store";
+import {
+    selectClientState,
+    selectInteractEs,
+    selectLocalPlrE,
+    selectProximityPlrEs,
+} from "client/store/ecs";
 
 export function useLocalPlrE() {
     const localPlrE = useSelector(selectLocalPlrE());
@@ -13,4 +19,8 @@ export function useInteractEs() {
 
 export function useClientState() {
     return useSelector(selectClientState());
+}
+
+export function useProximityPlrEs() {
+    return useSelector(selectProximityPlrEs());
 }
