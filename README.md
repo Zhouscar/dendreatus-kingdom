@@ -13,7 +13,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Rework Chat system
 
 
-
+- [ ] Make stuff clickable (interactables, hotbar)
 
 - [ ] Rework other player billboards
 

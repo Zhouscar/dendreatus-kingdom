@@ -2,7 +2,7 @@ import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import useComponent from "../hooks/useComponent";
 import { Chatting, Renderable } from "shared/components";
-import { useEffect, useState } from "@rbxts/roact-hooked";
+import { useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { produce } from "@rbxts/immut";
 import { useEventListener, useLatest } from "@rbxts/pretty-roact-hooks";
 import { RunService } from "@rbxts/services";
@@ -21,7 +21,13 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
     const renderable = useComponent(e, Renderable);
     const chatting = useComponent(e, Chatting);
 
-    const model = renderable?.pv;
+    const adnornee = useMemo(() => {
+        if (renderable?.pv.IsA("Model") && renderable.pv.PrimaryPart !== undefined) {
+            return renderable.pv.PrimaryPart;
+        } else {
+            return renderable?.pv;
+        }
+    }, [e, renderable]);
 
     const elements = new Map<string, Roact.Element>();
     chats.forEach((chat, i) => {
@@ -68,7 +74,7 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
 
     return (
         <billboardgui
-            Adornee={model?.IsA("Model") ? model.PrimaryPart : undefined}
+            Adornee={adnornee}
             ResetOnSpawn={false}
             AlwaysOnTop={true}
             Size={new UDim2(0, 500, 0, 500)}
