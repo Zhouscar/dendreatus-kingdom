@@ -1,24 +1,33 @@
-import { useBinding, useEffect } from "@rbxts/roact-hooked";
+import { useBinding, useEffect, useState } from "@rbxts/roact-hooked";
 import { useMotion, useSpring } from "./hooks/ripple";
 import { useBindingListener, useMotor, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { TextService } from "@rbxts/services";
 import { useEnability, useEnabled } from "./hooks/enability";
 import { makeDraftSafe } from "@rbxts/immut/src/makeDraftSafe";
+import { AnyEntity } from "@rbxts/matter";
+import useComponent from "./hooks/useComponent";
+import { Transform } from "shared/components";
+import { makeSoundInWorld } from "shared/effects/sounds";
 
 export default function ChatBox(props: {
+    e: AnyEntity;
+    duration: number;
     index: number;
     message: string;
     textSize: number;
     font: Enum.Font;
 }) {
+    const e = props.e;
+    const duration = props.duration;
     const index = props.index;
     const message = props.message;
     const textSize = props.textSize;
     const font = props.font;
 
     const enabled = useEnabled();
-    const enability = useEnability();
+
+    const transform = useComponent(e, Transform);
 
     const indexSpring = useSpring(index);
     const [messageSpring, messageMotion] = useMotion(0);
@@ -31,9 +40,30 @@ export default function ChatBox(props: {
         ),
     );
 
+    const [timedOut, setTimedOut] = useState(false);
+
     const labelPosition = indexSpring.map((v) => new UDim2(0.5, 0, 0.5, -v * 25));
     const labelSize = messageBounds.map((v) => new UDim2(0, v.X, 0, v.Y));
-    const labelTransparency = useSpring(index / 3 + (enabled ? 0.2 : 1));
+    const labelTransparency = useSpring(index / 3 + (enabled ? 0.2 : 1) + (timedOut ? 1 : 0));
+
+    useBindingListener(messageText, () => {
+        if (transform === undefined) return;
+        makeSoundInWorld(transform.cf, {
+            soundName: "letterByLetter",
+        });
+    });
+
+    const [hasPoped, setHasPoped] = useState(false);
+
+    useEffect(() => {
+        if (transform === undefined) return;
+        if (hasPoped) return;
+        setHasPoped(true);
+
+        makeSoundInWorld(transform.cf, {
+            soundName: "chatPopUp",
+        });
+    }, [transform, hasPoped]);
 
     useBindingListener(messageSpring, (value) => {
         const entireLength = message.size();
@@ -51,6 +81,10 @@ export default function ChatBox(props: {
         messageMotion.set(0);
         messageMotion.linear(1, { speed: 20 / length });
     }, 0.5);
+
+    useTimeout(() => {
+        setTimedOut(true);
+    }, duration);
 
     return (
         <textlabel

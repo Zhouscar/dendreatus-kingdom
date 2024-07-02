@@ -16,6 +16,7 @@ import { ClientState, State } from "shared/state";
 import SpawningHandler from "./spawningHandler";
 import { useClientState } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
+import ChatScreen from "./chatScreen";
 
 function App() {
     const clientState = useClientState();
@@ -41,8 +42,9 @@ function App() {
                     AnchorPoint={new Vector2(0.5, 0)}
                 />
                 <Interactables enabled={clientState === "game"} />
-                <ProximityPlrs enabled={clientState === "game"} />
+                <ProximityPlrs enabled={clientState === "game" || clientState === "chat"} />
                 <DeathScreen enabled={clientState === "death"} />
+                <ChatScreen enabled={clientState === "chat"} />
             </screengui>
         </>
     );

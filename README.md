@@ -6,6 +6,19 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 ## [x] Safe Zones (not tested)
 
+## [x] Fixing character deleting
+
+## [x] character fade when delete
+
+## [x] Rework Chat system
+
+
+
+
+## [ ] Rework other player billboards
+
+## [ ] Rework health bar and hunger bar to the top of the screen
+
 ## [ ] Rank Based Tools
 
 ## [ ] Item Setup
@@ -16,13 +29,3 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 ## [ ] Adding Sound
 
 - Sound such as eating, picking up, harvesting, all sorts of stuff
-
-## [x] Fixing character deleting
-
-## [x] character fade when delete
-
-## [ ] Rework Chat system
-
-## [ ] Rework other player billboards
-
-## [ ] Rework health bar and hunger bar to the top of the screen

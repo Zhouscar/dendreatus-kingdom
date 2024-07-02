@@ -9,6 +9,7 @@ export const defaultPlayerKeybinds: PlayerKeybinds = {
     sprintDash: "LeftShift",
     sneak: "C",
 
+    chat: "Slash",
     toggleInventory: "E",
 
     interact: "F",

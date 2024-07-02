@@ -25,6 +25,9 @@ export const SOUND_IDS = {
 
     dayTimeMusic: withAssetPrefix("9112799929"),
     nightTimeMusic: withAssetPrefix("390457804"),
+
+    letterByLetter: withAssetPrefix("929615155"),
+    chatPopUp: withAssetPrefix("552654993"),
 };
 
 export type SoundName = keyof typeof SOUND_IDS;

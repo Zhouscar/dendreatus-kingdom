@@ -17,6 +17,7 @@ export interface PlayerKeybinds {
     readonly sneak: KeyCode;
 
     readonly toggleInventory: KeyCode;
+    readonly chat: KeyCode;
 
     readonly interact: KeyCode;
 

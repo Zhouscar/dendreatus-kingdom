@@ -126,6 +126,7 @@ export function makeSoundInWorld(cf: CFrame, context: SoundContext) {
         Volume: context.volume,
         PlaybackSpeed: context.speed,
         TimePosition: context.timePosition,
+        Looped: false,
     });
 
     sound.Play();

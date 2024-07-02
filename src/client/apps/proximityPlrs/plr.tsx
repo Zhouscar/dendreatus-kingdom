@@ -10,7 +10,7 @@ import Sift from "@rbxts/sift";
 import ChatBox from "../chatBox";
 import { UP } from "shared/constants/direction";
 
-const CHAT_DURATION = 10;
+const CHAT_DURATION = 5;
 
 export default function ProximityPlr(props: { e: AnyEntity }) {
     const e = props.e;
@@ -28,11 +28,13 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
         elements.set(
             tostring(chat.time),
             <ChatBox
-                Key={tostring(chat.time)} //TODO: key is not keying
+                Key={tostring(chat.time)}
+                duration={CHAT_DURATION}
+                e={e}
                 index={i}
                 message={chat.message}
                 textSize={16}
-                font={Enum.Font.Arial}
+                font={Enum.Font.Fantasy}
             />,
         );
     });
@@ -42,25 +44,21 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
         print(chatting.message);
         const newChats = Sift.Array.copy(chats);
 
-        newChats.unshift({ time: os.clock(), message: chatting.message });
+        newChats.unshift({ time: chatting.time, message: chatting.message });
         if (newChats.size() > 4) {
             newChats.pop();
         }
-
-        print(newChats);
-        print(newChats);
         setChats(newChats);
     }, [chatting]);
 
     useEventListener(RunService.Heartbeat, () => {
         const oldChat = latestChats.current;
 
-        const newChat = produce(oldChat, (draft) => {
-            draft.forEach((chat, i) => {
-                if (os.clock() - chat.time > CHAT_DURATION) {
-                    draft.remove(i);
-                }
-            });
+        const newChat = Sift.Array.copy(oldChat);
+        newChat.forEach((chat, i) => {
+            if (os.clock() - chat.time > CHAT_DURATION + 1) {
+                newChat.remove(i);
+            }
         });
 
         if (!Sift.Array.equalsDeep(newChat, oldChat)) {
@@ -70,7 +68,7 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
 
     return (
         <billboardgui
-            Adornee={(model as Model).PrimaryPart!}
+            Adornee={model?.IsA("Model") ? model.PrimaryPart : undefined}
             ResetOnSpawn={false}
             AlwaysOnTop={true}
             Size={new UDim2(0, 500, 0, 500)}

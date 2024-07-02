@@ -13,7 +13,12 @@ import { InteractableComponents } from "./interactables";
 
 export * from "./livingThings";
 
-export const Chatting = ComponentCreator.protectedBidirectional<{ message: string }>("Chatting");
+export const ChattingRaw = ComponentCreator.protectedBidirectional<{ message: string }>(
+    "ChattingRaw",
+);
+export type ChattingRaw = ReturnType<typeof ChattingRaw>;
+
+export const Chatting = ComponentCreator.replicated<{ message: string; time: number }>("Chatting");
 export type Chatting = ReturnType<typeof Chatting>;
 
 export const InSafeZone = ComponentCreator.replicated("InSafeZone");
@@ -72,7 +77,10 @@ export const BloodDrip = ComponentCreator.base<{}>("BloodDrip");
 export type BloodDrip = ReturnType<typeof BloodDrip>;
 
 export const Components = {
+    ChattingRaw,
     Chatting,
+    InSafeZone,
+    SafeZone,
     Dummy,
     Renderable,
     Transform,
