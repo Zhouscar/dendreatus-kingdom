@@ -2,30 +2,25 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 # TODO
 
-## [x] Respawning after death
+- [x] Respawning after death
 
-## [x] Safe Zones (not tested)
+- [x] Safe Zones (not tested)
 
-## [x] Fixing character deleting
+- [x] Fixing character deleting
 
-## [x] character fade when delete
+- [x] character fade when delete
 
-## [x] Rework Chat system
-
-
+- [x] Rework Chat system
 
 
-## [ ] Rework other player billboards
 
-## [ ] Rework health bar and hunger bar to the top of the screen
 
-## [ ] Rank Based Tools
+- [ ] Rework other player billboards
 
-## [ ] Item Setup
+- [ ] Rework health bar and hunger bar to the top of the screen
 
-- The items need to be setup with models and images, and descriptions and stack sizes
-- The consumables and attackables need to be setup
+- [ ] Rank Based Tools
 
-## [ ] Adding Sound
+- [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 
-- Sound such as eating, picking up, harvesting, all sorts of stuff
+- [ ] Adding Sound
