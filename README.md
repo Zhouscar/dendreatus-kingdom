@@ -20,9 +20,9 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Make damage camera shake less buggy
 
-- [ ] Drowning respawns
+- [x] Drowning respawns
 
-- [ ] Improve title card and death screen buttons
+- [x] Improve title card and death screen buttons
 
 - [ ] Rework player nametags
 

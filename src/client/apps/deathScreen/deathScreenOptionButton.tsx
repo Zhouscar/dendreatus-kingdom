@@ -20,9 +20,10 @@ export default function DeathScreenOptionButton(props: {
     const [isHovering, setIsHovering] = useState(false);
     const hovering = useSpring(isHovering ? 1 : 0);
 
-    const hoveringTransparency = hovering.map((v) => 1 - v);
+    const hoveringTransparency = hovering.map((v) => 0.5 - v);
     const enabilityTransparency = enability.map((v) => 1 - v);
     const textColor = hovering.map((v) => new Color3(1 - v, 0, 0));
+    const buttonColor = hovering.map((v) => new Color3(v, 0, 0));
 
     useEffect(() => {
         if (!enabled) {
@@ -48,7 +49,7 @@ export default function DeathScreenOptionButton(props: {
                 MouseButton1Click: enabled ? onClick : undefined,
             }}
             BackgroundTransparency={hoveringTransparency}
-            BackgroundColor3={Color3.fromRGB(255, 0, 0)}
+            BackgroundColor3={buttonColor}
             BorderSizePixel={0}
             Text={text}
             TextSize={30}
