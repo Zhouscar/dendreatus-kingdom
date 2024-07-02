@@ -10,6 +10,7 @@ function humanJump(w: World) {
     }
 
     for (const [e, jumpingRecord] of w.queryChanged(Jumping)) {
+        if (!w.contains(e)) continue;
         if (!isLocalPlr(w, e)) continue;
 
         if (jumpingRecord.new === undefined) continue;

@@ -14,6 +14,8 @@ function getDashVelocity(part: BasePart) {
 
 function humanDash(w: World) {
     for (const [e, dashingRecord] of w.queryChanged(Dashing)) {
+        if (!w.contains(e)) continue;
+
         if (dashingRecord.old !== undefined) continue;
 
         if (!isLocalPlr(w, e)) continue;

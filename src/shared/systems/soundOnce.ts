@@ -8,6 +8,8 @@ const onces: Set<AnyEntity> = new Set();
 
 function soundOnce(w: World, s: State) {
     for (const [e, soundRecord] of w.queryChanged(Sound)) {
+        if (!w.contains(e)) continue;
+
         if (soundRecord.new !== undefined) continue;
         onces.delete(e);
     }

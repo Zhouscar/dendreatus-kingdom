@@ -3,6 +3,8 @@ import { DirectionalMovement, IsDirectionallyMoving } from "shared/components/mo
 
 function isDirectionallyMoving(w: World) {
     for (const [e, directionalMovementRecord] of w.queryChanged(DirectionalMovement)) {
+        if (!w.contains(e)) continue;
+
         if (directionalMovementRecord.old === undefined) {
             w.insert(e, IsDirectionallyMoving({}));
         }

@@ -4,6 +4,8 @@ import { hasComponents } from "shared/hooks/components";
 
 function deathAtZeroHealth(w: World) {
     for (const [e, healthRecord] of w.queryChanged(Health)) {
+        if (!w.contains(e)) continue;
+
         if (healthRecord.new === undefined) continue;
 
         if (hasComponents(w, e, Dead)) continue;

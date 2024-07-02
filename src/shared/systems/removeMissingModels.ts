@@ -13,7 +13,9 @@ function removeMissingModels(w: World): void {
         }
     }
 
-    for (const [_, record] of w.queryChanged(Renderable)) {
+    for (const [e, record] of w.queryChanged(Renderable)) {
+        if (!w.contains(e)) continue;
+
         if (record.new) continue;
         record.old?.pv?.Destroy();
     }

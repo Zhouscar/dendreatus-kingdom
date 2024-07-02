@@ -9,6 +9,8 @@ function soundPlaySound(w: World, s: State) {
     if (s.clientState === "title" || s.clientState === "spawning") require;
 
     for (const [e, soundRecord] of w.queryChanged(Sound)) {
+        if (!w.contains(e)) continue;
+
         if (soundRecord.new !== undefined) continue;
         playedSound.delete(e);
     }

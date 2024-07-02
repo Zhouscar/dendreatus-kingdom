@@ -20,11 +20,13 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Make damage camera shake less buggy
 
-- [ ] Drowning dies or respawns
+- [ ] Drowning respawns
 
 - [ ] Improve title card and death screen buttons
 
 - [ ] Rework player nametags
+
+- [ ] different footstep sound on different surfaces
 
 - [ ] Improve health bar and hunger bar to the top of the screen
 

@@ -18,7 +18,6 @@ function cameraShake(w: World, s: State) {
     }
 
     for (const [e, damageRecord] of w.queryChanged(Damage)) {
-        print("hoo");
         if (!w.contains(e)) continue;
         if (damageRecord.new === undefined) continue;
         if (!isLocalPlr(w, e)) continue;
