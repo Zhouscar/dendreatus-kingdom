@@ -15,9 +15,11 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [ ] Make stuff clickable (interactables, hotbar)
 
-- [ ] Rework other player billboards
+- [ ] Improve title card and death screen buttons
 
-- [ ] Rework health bar and hunger bar to the top of the screen
+- [ ] Rework player nametags
+
+- [ ] Improve health bar and hunger bar to the top of the screen
 
 - [ ] Rank Based Tools
 
