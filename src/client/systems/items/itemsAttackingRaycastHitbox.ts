@@ -58,6 +58,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                     w.insert(
                         e,
                         Damage({
+                            time: os.clock(),
                             amount: damageAmount,
                             serverContributor: serverE,
                             damageType: "physical",

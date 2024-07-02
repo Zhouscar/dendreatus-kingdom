@@ -24,8 +24,8 @@ function plrSetup(w: World) {
         w.insert(
             e,
             Health({
-                current: 100,
-                maximum: 100,
+                current: 1000,
+                maximum: 1000,
                 damageContributors: new Map(),
             }),
             Stomach({

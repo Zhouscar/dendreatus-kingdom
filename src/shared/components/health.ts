@@ -13,6 +13,7 @@ export type Dead = ReturnType<typeof Dead>;
 
 export type DamageType = "physical" | "passive";
 export const Damage = ComponentCreator.bidirectional<{
+    time: number;
     amount: number;
     serverContributor?: AnyEntity;
     damageType: DamageType;

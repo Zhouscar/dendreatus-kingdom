@@ -20,10 +20,11 @@ function testDamagePartsDamage(w: World, s: State) {
 
         if (!useThrottle(0.5, colliderE)) continue;
 
-        print("Damageee");
+        print("boo");
         w.insert(
             colliderE,
             Damage({
+                time: os.clock(),
                 amount: math.round(collisionRecord.new.force / 3),
                 serverContributor: e,
                 damageType: "physical",

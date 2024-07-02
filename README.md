@@ -18,7 +18,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Rework reset character button
 
-- [ ] Make damage camera shake less buggy
+- [x] Make damage camera shake less buggy
 
 - [ ] Drowning dies or respawns
 
@@ -27,6 +27,8 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [ ] Rework player nametags
 
 - [ ] Improve health bar and hunger bar to the top of the screen
+
+- [ ] Seats
 
 - [ ] Rank Based Tools
 
