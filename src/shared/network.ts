@@ -62,4 +62,6 @@ export const routes = {
     ecsSync: new Route<[Token, SyncMap]>(defaultConfiguration),
 
     requestSpawn: new Route<[Token]>(defaultConfiguration),
+
+    requestReset: new Route<[Token]>(defaultConfiguration),
 };

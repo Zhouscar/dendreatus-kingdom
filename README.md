@@ -16,7 +16,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Given button click and hover sound
 
-- [ ] Rework reset character button
+- [x] Rework reset character button
 
 - [ ] Make damage camera shake less buggy
 
