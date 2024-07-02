@@ -28,6 +28,9 @@ export const SOUND_IDS = {
 
     letterByLetter: withAssetPrefix("929615155"),
     chatPopUp: withAssetPrefix("552654993"),
+
+    buttonClick: withAssetPrefix("876939830"),
+    buttonHover: withAssetPrefix("6333717580"),
 };
 
 export type SoundName = keyof typeof SOUND_IDS;

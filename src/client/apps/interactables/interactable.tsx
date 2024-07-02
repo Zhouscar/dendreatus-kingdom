@@ -3,7 +3,14 @@ import Roact from "@rbxts/roact";
 import { InteractState } from "shared/features/interactables/types";
 import useComponent from "../hooks/useComponent";
 import { Renderable } from "shared/components";
-import { useBinding, useEffect, useMemo, useMutable, useState } from "@rbxts/roact-hooked";
+import {
+    useBinding,
+    useCallback,
+    useEffect,
+    useMemo,
+    useMutable,
+    useState,
+} from "@rbxts/roact-hooked";
 import { Players, RunService, UserInputService } from "@rbxts/services";
 import { useSelector } from "@rbxts/roact-reflex";
 import { selectPlayerKeybinds } from "shared/store/players/keybinds";
@@ -50,7 +57,8 @@ export default function Interactable(props: {
 
     const canInteract = enabled && state === "showing" && cannotInteractReason === undefined;
 
-    const showSpring = useSpring(canInteract && enabled ? 1 : 0);
+    const showing = canInteract && enabled;
+    const showSpring = useSpring(showing ? 1 : 0);
 
     const cooldownTransparency = useSpring(
         cannotInteractReason?.type === "cooldown" && state === "showing" ? 0 : 1,
@@ -118,6 +126,10 @@ export default function Interactable(props: {
 
         return size >= 3;
     }, [craftable]);
+
+    const clicked = useCallback(() => {
+        interactionFunction.current();
+    }, []);
 
     useEffect(() => {
         if (!canInteract || !enabled) return;
@@ -211,7 +223,6 @@ export default function Interactable(props: {
                         }),
                     );
                 };
-                // TODO: interacted door makes it open or close
             }
         } else {
             setInteractionName("");
@@ -227,6 +238,7 @@ export default function Interactable(props: {
             ResetOnSpawn={false}
             AlwaysOnTop={true}
             Size={new UDim2(0, 200, 0, 200)}
+            Active={showing}
         >
             {cookable !== undefined && (
                 <CookableItems
@@ -242,7 +254,10 @@ export default function Interactable(props: {
                     cannotInteractReason={cannotInteractReason}
                 />
             )}
-            <textlabel
+            <textbutton
+                Active={showing}
+                AutoButtonColor={false}
+                Event={{ MouseButton1Click: showing ? clicked : undefined }}
                 BorderSizePixel={0}
                 BackgroundColor3={buttonColor}
                 AnchorPoint={new Vector2(0.5, 0.5)}
@@ -255,11 +270,11 @@ export default function Interactable(props: {
                 TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
                 TextStrokeTransparency={showTransparency}
                 TextSize={20}
-                Font={"Garamond"}
+                Font={"Fantasy"}
                 TextTransparency={showTransparency}
             >
                 <uicorner CornerRadius={new UDim(1, 0)} />
-            </textlabel>
+            </textbutton>
             <frame
                 BorderSizePixel={0}
                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}

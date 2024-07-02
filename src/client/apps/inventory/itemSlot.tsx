@@ -15,6 +15,7 @@ import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { useEnability, useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
+import { playSound } from "shared/effects/sounds";
 
 export default function ItemSlot(props: {
     index: number;
@@ -96,6 +97,7 @@ export default function ItemSlot(props: {
 
     const onHover = useCallback(() => {
         setHovering(true);
+        playSound({ soundName: "buttonHover" });
     }, []);
 
     const onUnhover = useCallback(() => {

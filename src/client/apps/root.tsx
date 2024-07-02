@@ -17,6 +17,7 @@ import SpawningHandler from "./spawningHandler";
 import { useClientState } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
+import MouseClickEffects from "./mouseClickSound";
 
 function App() {
     const clientState = useClientState();
@@ -25,6 +26,7 @@ function App() {
         <>
             <ClockTimeHandler />
             <screengui Key={"Root"} ResetOnSpawn={false}>
+                <MouseClickEffects />
                 <SpawningHandler enabled={clientState === "spawning"} />
                 <TitleCard enabled={clientState === "title"} />
                 <Inventory enabled={clientState === "inventory"} />

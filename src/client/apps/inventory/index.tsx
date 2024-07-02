@@ -54,6 +54,7 @@ function App(props: {}) {
 
     useEffect(() => {
         if (itemCurrentlyHovered === undefined) return;
+
         const itemConstant = ITEM_CONTEXTS.get(itemCurrentlyHovered.itemType);
         if (itemConstant === undefined) return;
 

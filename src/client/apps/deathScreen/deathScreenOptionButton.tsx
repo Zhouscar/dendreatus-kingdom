@@ -2,6 +2,7 @@ import { Spring } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { useCallback, useEffect, useState } from "@rbxts/roact-hooked";
 import { useSpring } from "../hooks/ripple";
+import { playSound } from "shared/effects/sounds";
 
 export default function DeathScreenOptionButton(props: {
     enabled: boolean;
@@ -13,6 +14,8 @@ export default function DeathScreenOptionButton(props: {
     const onClick = props.onClick;
 
     const enability = useSpring(enabled ? 1 : 0, { frequency: 1 });
+
+    const size = enability.map((v) => (v > 0 ? new UDim2(0, 200, 0, 50) : new UDim2(0, 0, 0, 0)));
 
     const [isHovering, setIsHovering] = useState(false);
     const hovering = useSpring(isHovering ? 1 : 0);
@@ -29,6 +32,7 @@ export default function DeathScreenOptionButton(props: {
 
     const mouseEnter = useCallback(() => {
         setIsHovering(true);
+        playSound({ soundName: "buttonHover" });
     }, []);
     const mouseLeave = useCallback(() => {
         setIsHovering(false);
@@ -36,7 +40,7 @@ export default function DeathScreenOptionButton(props: {
 
     return (
         <textbutton
-            Size={new UDim2(0, 200, 0, 50)}
+            Size={size}
             AutoButtonColor={false}
             Event={{
                 MouseEnter: enabled ? mouseEnter : undefined,

@@ -12,8 +12,15 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Rework Chat system
 
+- [x] Make stuff clickable (interactables, hotbar)
 
-- [ ] Make stuff clickable (interactables, hotbar)
+- [x] Given button click and hover sound
+
+- [ ] Rework reset character button
+
+- [ ] Make damage camera shake less buggy
+
+- [ ] Drowning dies or respawns
 
 - [ ] Improve title card and death screen buttons
 

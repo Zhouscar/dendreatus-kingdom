@@ -1,15 +1,39 @@
 import Roact from "@rbxts/roact";
 import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
-import { useMemo } from "@rbxts/roact-hooked";
+import { useCallback, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { useSpring } from "../hooks/ripple";
 import { useEnability, useEnabled } from "../hooks/enability";
+import { useLocalPlrE } from "../hooks/ecsSelectors";
+import useW from "../hooks/useW";
+import useComponent from "../hooks/useComponent";
+import { EquippingByIndex } from "shared/components/items";
 
-export default function ItemSlot(props: { item: Item | undefined; equipped: boolean }) {
+export default function ItemSlot(props: {
+    indexEquipped: number | undefined;
+    index: number;
+    item: Item | undefined;
+}) {
     const enabled = useEnabled();
-    const equipped = props.equipped;
     const item = props.item;
+    const index = props.index;
+    const indexEquipped = props.indexEquipped;
+
+    const equipped = index === indexEquipped;
+
+    const localPlrE = useLocalPlrE();
+    const w = useW();
+
+    const clicked = useCallback(() => {
+        if (!w.contains(localPlrE)) return;
+
+        if (equipped) {
+            w.remove(localPlrE, EquippingByIndex);
+        } else {
+            w.insert(localPlrE, EquippingByIndex({ index: index }));
+        }
+    }, [w, indexEquipped, localPlrE, index]);
 
     const consumeStagePerc = useMemo(() => {
         if (item?.itemType === undefined) return undefined;
@@ -36,12 +60,16 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
     const equippedTransparency = equippedSpring.map((v) => 1 - v);
 
     return (
-        <frame
+        <textbutton
+            AutoButtonColor={false}
             Size={new UDim2(0, 80, 0, 80)}
             ZIndex={1}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
             BackgroundTransparency={enabilitySemiTransparency}
             BorderSizePixel={0}
+            Active={enabled}
+            Event={{ MouseButton1Click: enabled ? clicked : undefined }}
+            Text={""}
         >
             <uistroke
                 Thickness={5}
@@ -108,6 +136,6 @@ export default function ItemSlot(props: { item: Item | undefined; equipped: bool
                     )}
                 </imagelabel>
             )}
-        </frame>
+        </textbutton>
     );
 }

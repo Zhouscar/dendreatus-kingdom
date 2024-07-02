@@ -24,7 +24,7 @@ export default function ItemFragments(props: {
             const guid = inventory.slots[i].itemGuid;
             const item = guid !== undefined ? inventory.items.get(guid) : undefined;
 
-            items.push(<ItemSlot item={item} equipped={i === indexEquipped}></ItemSlot>);
+            items.push(<ItemSlot item={item} indexEquipped={indexEquipped} index={i}></ItemSlot>);
         }
     }
 
