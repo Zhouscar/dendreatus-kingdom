@@ -1,0 +1,79 @@
+import { Make } from "@rbxts/altmake";
+import { World } from "@rbxts/matter";
+import { useChange } from "@rbxts/matter-hooks";
+import { Human, Renderable } from "shared/components";
+import { IsDirectionallyMoving, OnLand } from "shared/components/movements";
+import { SOUND_IDS, SoundName } from "shared/features/ids/sounds";
+import { MATERIAL_CATEGORIES, PLACEHOLDER_CATERORY } from "shared/features/materials/constants";
+import { hasComponents } from "shared/hooks/components";
+
+function findSound(pv: PVInstance) {
+    if (!pv.IsA("Model") || pv.PrimaryPart === undefined) return undefined;
+    return (
+        (pv.PrimaryPart.FindFirstChild("MovingSound") as Sound | undefined) ??
+        Make("Sound", {
+            Parent: pv.PrimaryPart,
+            Name: "MovingSound",
+            Playing: false,
+            Looped: true,
+        })
+    );
+}
+
+function plrHumanMovementSound(w: World) {
+    for (const [e, human, renderable] of w.query(Human, Renderable)) {
+        const playSound = hasComponents(w, e, OnLand, IsDirectionallyMoving);
+        if (playSound) {
+            const trackLength = w.get(e, IsDirectionallyMoving)!.animTrackLength;
+            const sound = findSound(renderable.pv);
+            if (sound !== undefined) {
+                const floorCategory =
+                    MATERIAL_CATEGORIES.get(human.humanoid.FloorMaterial.Name) ??
+                    PLACEHOLDER_CATERORY;
+
+                if (useChange([floorCategory], e)) {
+                    sound.TimePosition = 0;
+                }
+
+                const soundName: SoundName =
+                    floorCategory === "grass"
+                        ? "footStepGrass"
+                        : floorCategory === "mud"
+                          ? "footStepMud"
+                          : floorCategory === "stone"
+                            ? "footStepStone"
+                            : floorCategory === "wood"
+                              ? "footStepWood"
+                              : "footStepStone";
+
+                const soundId = SOUND_IDS[soundName];
+
+                sound.SoundId = soundId;
+                sound.Playing = true;
+
+                const stepsInAnim = 2;
+                const stepsInSound =
+                    soundName === "footStepGrass"
+                        ? 8
+                        : soundName === "footStepMud"
+                          ? 18
+                          : soundName === "footStepWood"
+                            ? 14
+                            : soundName === "footStepStone"
+                              ? 12
+                              : 100;
+
+                const adjustedSoundLength = (trackLength / stepsInAnim) * stepsInSound;
+                sound.PlaybackSpeed = sound.TimeLength / adjustedSoundLength;
+            }
+        } else {
+            const sound = findSound(renderable.pv);
+            if (sound !== undefined) {
+                sound.TimePosition = 0;
+                sound.Playing = false;
+            }
+        }
+    }
+}
+
+export = { system: plrHumanMovementSound, event: "onPhysics" };

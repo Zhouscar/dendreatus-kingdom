@@ -6,15 +6,16 @@ import {
     LandingContextData,
 } from "shared/features/movements/types";
 import { ComponentCreator } from "./creators";
+import { Material } from "type";
 
 // Arch States
-export const OnLand = ComponentCreator.protectedBidirectional<{}>("OnLand");
+export const OnLand = ComponentCreator.base<{}>("OnLand");
 export type OnLand = ReturnType<typeof OnLand>;
 
-export const InWater = ComponentCreator.protectedBidirectional<{}>("InWater");
+export const InWater = ComponentCreator.base<{}>("InWater");
 export type InWater = ReturnType<typeof InWater>;
 
-export const InAir = ComponentCreator.protectedBidirectional<{}>("InAir");
+export const InAir = ComponentCreator.base<{}>("InAir");
 export type InAir = ReturnType<typeof InAir>;
 // \Arch States
 
@@ -63,7 +64,9 @@ export const DirectionalMovement = ComponentCreator.base<{
 }>("DirectionalMovement");
 export type DirectionalMovement = ReturnType<typeof DirectionalMovement>;
 
-export const IsDirectionallyMoving = ComponentCreator.monitored<{}>("IsDirectionallyMoving");
+export const IsDirectionallyMoving = ComponentCreator.protectedBidirectional<{
+    animTrackLength: number;
+}>("IsDirectionallyMoving");
 export type IsDirectionallyMoving = ReturnType<typeof IsDirectionallyMoving>;
 
 // Cans
@@ -92,6 +95,11 @@ export const Dashing = ComponentCreator.protectedBidirectional<{ startTime: numb
 export type Dashing = ReturnType<typeof Dashing>;
 // \Movement Actions
 
+export const SteppingOn = ComponentCreator.base<{
+    material: Material;
+}>("SteppingOn");
+export type SteppingOn = ReturnType<typeof SteppingOn>;
+
 export const MovementComponents = {
     OnLand,
     InWater,
@@ -116,4 +124,5 @@ export const MovementComponents = {
     WillJump,
     Jumping,
     Dashing,
+    SteppingOn,
 };

@@ -8,13 +8,7 @@ import {
     LinearVelocity,
     PotentialDirectionalMovement,
 } from "shared/components/movements";
-import { getTrackLength, resumeAnimation } from "shared/effects/animations";
-import { SoundName } from "shared/features/ids/sounds";
-import { randomChoice } from "shared/calculations/random";
-
-function getFootStepSoundName(): SoundName {
-    return randomChoice("footStep1", "footStep2", "footStep3");
-}
+import { resumeAnimation } from "shared/effects/animations";
 
 function humanDirectionalMovement(w: World) {
     for (const [e, localPlr, human] of w.query(LocalPlr, Human).without(DirectionalMovement)) {
@@ -95,32 +89,6 @@ function humanDirectionalMovement(w: World) {
                         "Movement",
                         newWalkSpeed * 0.2 * (climbingUp ? 1 : -1),
                         true,
-                    );
-                }
-            }
-
-            const cf = transform.cf;
-
-            if (potentialDirectionalMovement.type === "walk") {
-                const trackLength = getTrackLength(animator, "walk");
-                if (trackLength !== undefined && useThrottle(trackLength / 2, "walk")) {
-                    w.spawn(
-                        Sound({
-                            cf: cf,
-                            audibility: 1,
-                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
-                        }),
-                    );
-                }
-            } else if (potentialDirectionalMovement.type === "sprint") {
-                const trackLength = getTrackLength(animator, "sprint");
-                if (trackLength !== undefined && useThrottle(trackLength / 2, "sprint")) {
-                    w.spawn(
-                        Sound({
-                            cf: cf,
-                            audibility: 1,
-                            context: { soundName: getFootStepSoundName(), speed: 1, volume: 1 },
-                        }),
                     );
                 }
             }

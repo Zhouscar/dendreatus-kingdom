@@ -1,17 +1,27 @@
 import { World } from "@rbxts/matter";
-import { DirectionalMovement, IsDirectionallyMoving } from "shared/components/movements";
+import { Animatable } from "shared/components";
+import {
+    DirectionalMovement,
+    IsDirectionallyMoving,
+    OnLand,
+    PotentialDirectionalMovement,
+} from "shared/components/movements";
+import { getTrackLength } from "shared/effects/animations";
 
 function isDirectionallyMoving(w: World) {
-    for (const [e, directionalMovementRecord] of w.queryChanged(DirectionalMovement)) {
-        if (!w.contains(e)) continue;
-
-        if (directionalMovementRecord.old === undefined) {
-            w.insert(e, IsDirectionallyMoving({}));
-        }
-
-        if (directionalMovementRecord.new === undefined) {
+    for (const [e, potentialDirectionalMovement, animatable] of w.query(
+        PotentialDirectionalMovement,
+        Animatable,
+    )) {
+        const directionalMovement = w.get(e, DirectionalMovement);
+        if (directionalMovement === undefined) {
             w.remove(e, IsDirectionallyMoving);
+            continue;
         }
+
+        const trackLength = getTrackLength(animatable.animator, potentialDirectionalMovement.type);
+
+        w.insert(e, IsDirectionallyMoving({ animTrackLength: trackLength ?? math.huge }));
     }
 }
 
