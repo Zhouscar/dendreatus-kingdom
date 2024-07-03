@@ -1,11 +1,12 @@
 import { useDeltaTime, World } from "@rbxts/matter";
+import { Human } from "shared/components";
 import { Damage } from "shared/components/health";
 import { CrashLanding } from "shared/components/movements";
 import { isLocalPlr } from "shared/hooks/components";
 import { State } from "shared/state";
 
 function cameraShake(w: World, s: State) {
-    s.cameraShake -= useDeltaTime() / 2;
+    s.cameraShake -= useDeltaTime() / 1.5;
     s.cameraShake = math.clamp(s.cameraShake, 0, 1);
 
     for (const [e, crashLandingRecord] of w.queryChanged(CrashLanding)) {

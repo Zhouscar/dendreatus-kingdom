@@ -59,7 +59,7 @@ export const Sound = ComponentCreator.bidirectional<{
 export type Sound = ReturnType<typeof Sound>;
 
 export const Collision = ComponentCreator.base<{
-    force: number;
+    impulse: Vector3;
     colliderE: AnyEntity;
     part: BasePart;
 }>("Collision");

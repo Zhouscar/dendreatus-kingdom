@@ -136,6 +136,7 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
             />
             <HealthBar
                 e={e}
+                showNumber={false}
                 enabled={showHealth && enabled}
                 Position={new UDim2(0.5, 0, 0.5, -15)}
                 Size={new UDim2(0, 200, 0, 10)}

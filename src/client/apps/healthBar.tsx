@@ -10,9 +10,17 @@ import { useEnability } from "./hooks/enability";
 import { AnyEntity } from "@rbxts/matter";
 import { useEffect } from "@rbxts/roact-hooked";
 
-function App(props: { e: AnyEntity; Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
+function App(props: {
+    e: AnyEntity;
+    showNumber: boolean;
+    Size?: UDim2;
+    Position?: UDim2;
+    AnchorPoint?: Vector2;
+}) {
     const enability = useEnability();
     const enabilityTransparency = enability.map((v) => 1 - v);
+
+    const showNumber = props.showNumber;
 
     const e = props.e;
     const health = useComponent(e, Health);
@@ -50,7 +58,7 @@ function App(props: { e: AnyEntity; Size?: UDim2; Position?: UDim2; AnchorPoint?
                 BorderSizePixel={0}
                 BackgroundTransparency={1}
             >
-                {props.Size !== undefined && props.Size.Height.Offset < 15 ? undefined : (
+                {!showNumber ? undefined : (
                     <textlabel
                         ZIndex={4}
                         Position={new UDim2(0, 3, 0, 0)}
@@ -104,6 +112,7 @@ function App(props: { e: AnyEntity; Size?: UDim2; Position?: UDim2; AnchorPoint?
 
 export default function HealthBar(props: {
     e: AnyEntity;
+    showNumber: boolean;
     enabled: boolean;
     Size?: UDim2;
     Position?: UDim2;
@@ -113,6 +122,7 @@ export default function HealthBar(props: {
         <EnabilityProvider value={{ enabled: props.enabled }}>
             <App
                 e={props.e}
+                showNumber={props.showNumber}
                 Size={props.Size}
                 Position={props.Position}
                 AnchorPoint={props.AnchorPoint}

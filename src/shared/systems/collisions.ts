@@ -20,14 +20,12 @@ function collisions(w: World, s: State) {
                     const hitE = getEntityFromPart(w, hit);
                     if (hitE === undefined) return;
 
-                    const force = part.AssemblyLinearVelocity.sub(
-                        hit.AssemblyLinearVelocity,
-                    ).Magnitude;
+                    const impulse = hit.AssemblyLinearVelocity.sub(part.AssemblyLinearVelocity);
 
                     w.insert(
                         e,
                         Collision({
-                            force: force,
+                            impulse: impulse,
                             part: hit,
                             colliderE: hitE,
                         }),

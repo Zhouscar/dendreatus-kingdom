@@ -1,6 +1,7 @@
 import { World } from "@rbxts/matter";
-import { LocalPlr, Plr, Renderable, Transform } from "shared/components";
+import { Collision, LocalPlr, Plr, Renderable, Transform } from "shared/components";
 import { Damage, Health } from "shared/components/health";
+import { LinearVelocity } from "shared/components/movements";
 import { bleed } from "shared/effects/blood";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
@@ -31,7 +32,9 @@ function bloodSplatterOnDamage(w: World, s: State) {
         const position = model.GetPivot().Position;
         if (characterPosition.sub(position).Magnitude > BLEED_RANGE_THRESHOLD) continue;
 
-        bleed(w, model, 10, 20, 10, 5, position);
+        const impulse = w.get(e, Collision)?.impulse;
+
+        bleed(w, impulse?.div(3) ?? Vector3.zero, model, 10, 20, 10, 5, position);
     }
 }
 

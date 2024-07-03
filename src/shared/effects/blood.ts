@@ -78,6 +78,7 @@ export function doSplatter(w: World, e: AnyEntity, cf: CFrame) {
 
 export function bleed(
     w: World,
+    inheritedVelocity: Vector3,
     creator: Instance,
     minAmount: number,
     maxAmount: number,
@@ -85,12 +86,13 @@ export function bleed(
     offset: number,
     position: Vector3,
 ) {
-    return;
-    // against the terms of use
-
     const amount = r(minAmount, maxAmount);
     for (let i = 0; i < amount; i++) {
-        const velocity = new Vector3(r(-force, force), r(-force, force) + offset, r(-force, force));
+        const velocity = new Vector3(
+            r(-force, force),
+            r(-force, force) + offset,
+            r(-force, force),
+        ).add(inheritedVelocity);
 
         doDrip(w, creator, position, velocity);
     }

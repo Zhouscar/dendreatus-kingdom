@@ -18,6 +18,7 @@ import { useClientState, useLocalPlrE } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
 import MouseClickEffects from "./mouseClickSound";
+import GameScreen from "./gameScreen";
 
 function App() {
     const clientState = useClientState();
@@ -31,21 +32,7 @@ function App() {
                 <SpawningHandler enabled={clientState === "spawning"} />
                 <TitleCard enabled={clientState === "title"} />
                 <Inventory enabled={clientState === "inventory"} />
-                <Hotbar enabled={clientState === "game"} />
-                <HealthBar
-                    e={localPlrE}
-                    enabled={clientState === "game"}
-                    Size={new UDim2(0.5, 0, 0, 20)}
-                    Position={new UDim2(0.5, 0, 1, -150)}
-                    AnchorPoint={new Vector2(0.5, 0)}
-                />
-                <HungerBar
-                    e={localPlrE}
-                    enabled={clientState === "game"}
-                    Size={new UDim2(0.5, 0, 0, 20)}
-                    Position={new UDim2(0.5, 0, 1, -130)}
-                    AnchorPoint={new Vector2(0.5, 0)}
-                />
+                <GameScreen enabled={clientState === "game"} />
                 <Interactables enabled={clientState === "game"} />
                 <ProximityPlrs enabled={clientState === "game" || clientState === "chat"} />
                 <DeathScreen enabled={clientState === "death"} />

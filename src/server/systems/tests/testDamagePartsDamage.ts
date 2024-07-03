@@ -25,7 +25,7 @@ function testDamagePartsDamage(w: World, s: State) {
             colliderE,
             Damage({
                 time: os.clock(),
-                amount: math.round(collisionRecord.new.force / 3),
+                amount: math.round(collisionRecord.new.impulse.Magnitude / 3),
                 serverContributor: e,
                 damageType: "physical",
             }),

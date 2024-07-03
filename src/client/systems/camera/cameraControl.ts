@@ -50,13 +50,13 @@ function cameraControls(w: World, s: State) {
             raycastParams.FilterDescendantsInstances = [character];
 
             const now = os.clock();
-            // const shakeRotationX = 5 * s.cameraShake * math.noise(10, now * 200);
-            // const shakeRotationY = 5 * s.cameraShake * math.noise(20, now * 200);
-            // const shakeRotationZ = 5 * s.cameraShake * math.noise(30, now * 200);
+            const shakeRotationX = 2 * s.cameraShake * math.noise(0.5, 1.5, now * 200);
+            const shakeRotationY = 2 * s.cameraShake * math.noise(1.5, 0.5, now * 200);
+            const shakeRotationZ = 2 * s.cameraShake * math.noise(1.5, 1.5, now * 200);
 
-            const shakeRotationX = s.cameraShake * math.random(-1, 1);
-            const shakeRotationY = s.cameraShake * math.random(-1, 1);
-            const shakeRotationZ = s.cameraShake * math.random(-1, 1);
+            // const shakeRotationX = s.cameraShake * math.random(-1, 1);
+            // const shakeRotationY = s.cameraShake * math.random(-1, 1);
+            // const shakeRotationZ = s.cameraShake * math.random(-1, 1);
 
             const rotation = CFrame.fromEulerAnglesYXZ(
                 newRotationX + shakeRotationX,
