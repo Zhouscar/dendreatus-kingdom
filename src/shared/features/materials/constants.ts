@@ -24,7 +24,7 @@ export const MATERIAL_CATEGORIES: Map<Material, Catergory> = new Map([
     ["Glass", "stone"],
     ["Granite", "stone"],
     ["Grass", "grass"],
-    ["Ground", "stone"],
+    ["Ground", "mud"],
     ["Ice", "stone"],
     ["LeafyGrass", "grass"],
     ["Leather", "grass"],
