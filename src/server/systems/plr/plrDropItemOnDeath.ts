@@ -12,14 +12,14 @@ function plrDropItemOnDeath(w: World) {
         if (deadRecord.new === undefined) continue;
 
         const plr = w.get(e, Plr);
-        if (plr === undefined) return;
+        if (plr === undefined) continue;
 
         const transform = w.get(e, Transform);
-        if (transform === undefined) return;
+        if (transform === undefined) continue;
 
         const plrId = tostring(plr.player.UserId);
         const inventory = state.players.inventory[plrId];
-        if (inventory === undefined) return;
+        if (inventory === undefined) continue;
 
         inventory.items.forEach((item) => {
             w.spawn(

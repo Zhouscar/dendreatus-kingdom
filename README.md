@@ -24,11 +24,11 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Improve title card and death screen buttons
 
-- [ ] Rework player nametags
-
-- [ ] different footstep sound on different surfaces
+- [x] Rework player nametags (ranks)
 
 - [ ] Improve health bar and hunger bar to the top of the screen
+
+- [ ] different footstep sound on different surfaces
 
 - [ ] Seats
 

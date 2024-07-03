@@ -1,10 +1,9 @@
 import { useBinding, useEffect, useState } from "@rbxts/roact-hooked";
 import { useMotion, useSpring } from "./hooks/ripple";
-import { useBindingListener, useMotor, useTimeout } from "@rbxts/pretty-roact-hooks";
+import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { TextService } from "@rbxts/services";
-import { useEnability, useEnabled } from "./hooks/enability";
-import { makeDraftSafe } from "@rbxts/immut/src/makeDraftSafe";
+import { useEnabled } from "./hooks/enability";
 import { AnyEntity } from "@rbxts/matter";
 import useComponent from "./hooks/useComponent";
 import { Transform } from "shared/components";
@@ -35,14 +34,14 @@ export default function ChatBox(props: {
     const [messageText, setMessageText] = useBinding("");
     // const [messageBounds, setMessageBounds] = useBinding(new Vector2(0, 0));
     const messageBounds = messageText.map((v) =>
-        TextService.GetTextSize(" " + v + " ", textSize, font, new Vector2(100000, 1)).add(
+        TextService.GetTextSize(" " + v + " ", textSize, font, new Vector2(1000, 1)).add(
             new Vector2(0, 6),
         ),
     );
 
     const [timedOut, setTimedOut] = useState(false);
 
-    const labelPosition = indexSpring.map((v) => new UDim2(0.5, 0, 0.5, -v * 25));
+    const labelPosition = indexSpring.map((v) => new UDim2(0.5, 0, 0.5, -v * 25 - 20));
     const labelSize = messageBounds.map((v) => new UDim2(0, v.X, 0, v.Y));
     const labelTransparency = useSpring(index / 3 + (enabled ? 0.2 : 1) + (timedOut ? 1 : 0));
 

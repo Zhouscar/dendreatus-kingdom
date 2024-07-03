@@ -20,7 +20,7 @@ export default function DeathScreenOptionButton(props: {
     const [isHovering, setIsHovering] = useState(false);
     const hovering = useSpring(isHovering ? 1 : 0);
 
-    const hoveringTransparency = hovering.map((v) => 0.5 - v);
+    const hoveringTransparency = useSpring(enabled ? (isHovering ? 0 : 0.5) : 1);
     const enabilityTransparency = enability.map((v) => 1 - v);
     const textColor = hovering.map((v) => new Color3(1 - v, 0, 0));
     const buttonColor = hovering.map((v) => new Color3(v, 0, 0));

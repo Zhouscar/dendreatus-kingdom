@@ -9,6 +9,7 @@ import {
 } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 import { ANIM_IDS } from "shared/features/ids/animations";
+import { IMAGE_IDS } from "shared/features/ids/images";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
@@ -25,6 +26,11 @@ export default function loadGame() {
     });
 
     Sift.Dictionary.values(SOUND_IDS).forEach((id) => {
+        if (!id.match("TODO").isEmpty()) return;
+        contentIdSet.add(id);
+    });
+
+    Sift.Dictionary.values(IMAGE_IDS).forEach((id) => {
         if (!id.match("TODO").isEmpty()) return;
         contentIdSet.add(id);
     });

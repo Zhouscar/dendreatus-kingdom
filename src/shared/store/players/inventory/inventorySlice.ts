@@ -2,7 +2,6 @@ import { createProducer } from "@rbxts/reflex";
 import { PlayerData, PlayerInventory } from "../types";
 import { Item, ItemType } from "shared/features/items/types";
 import inventoryImmutSetters from "shared/features/inventory/functions/immutSetters";
-import { Draft } from "@rbxts/immut/src/types-external";
 import { defaultPlayerInventory } from "./inventoryDefaults";
 
 export interface InventoryState {

@@ -64,12 +64,12 @@ function App(props: {}) {
         <EntireScreen superPositionEnability={enability}>
             <textbox
                 ClearTextOnFocus={false}
-                Size={new UDim2(0, 300, 0, 20)}
+                Size={new UDim2(0, 300, 0, 30)}
                 Position={new UDim2(0.5, 0, 1, -100)}
                 AnchorPoint={new Vector2(0.5, 0.5)}
                 Ref={textboxRef}
                 Font={"Fantasy"}
-                TextSize={12}
+                TextSize={16}
                 BackgroundTransparency={transparency}
                 TextTransparency={transparency}
                 Text={""}

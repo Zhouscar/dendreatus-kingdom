@@ -14,13 +14,14 @@ import ClockTimeHandler from "./clockTimeHandler";
 import TitleCard from "./titleCard";
 import { ClientState, State } from "shared/state";
 import SpawningHandler from "./spawningHandler";
-import { useClientState } from "./hooks/ecsSelectors";
+import { useClientState, useLocalPlrE } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
 import MouseClickEffects from "./mouseClickSound";
 
 function App() {
     const clientState = useClientState();
+    const localPlrE = useLocalPlrE();
 
     return (
         <>
@@ -32,12 +33,14 @@ function App() {
                 <Inventory enabled={clientState === "inventory"} />
                 <Hotbar enabled={clientState === "game"} />
                 <HealthBar
+                    e={localPlrE}
                     enabled={clientState === "game"}
                     Size={new UDim2(0.5, 0, 0, 20)}
                     Position={new UDim2(0.5, 0, 1, -150)}
                     AnchorPoint={new Vector2(0.5, 0)}
                 />
                 <HungerBar
+                    e={localPlrE}
                     enabled={clientState === "game"}
                     Size={new UDim2(0.5, 0, 0, 20)}
                     Position={new UDim2(0.5, 0, 1, -130)}

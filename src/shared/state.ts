@@ -5,6 +5,8 @@ export type ClientState = "game" | "inventory" | "death" | "title" | "spawning" 
 export class State {
     debugEnabled: boolean = false;
 
+    plrGroupDatas: Map<Player, { role: string; rank: number }> = new Map();
+
     serverToClientEntityIdMap: Map<string, AnyEntity> = new Map();
     clientToServerEntityIdMap: Map<string, AnyEntity> = new Map();
 

@@ -7,13 +7,15 @@ import { useLocalPlrE } from "./hooks/ecsSelectors";
 import { EnabilityProvider } from "./contexts/enability";
 import { useMotion } from "./hooks/ripple";
 import { useEnability } from "./hooks/enability";
+import { AnyEntity } from "@rbxts/matter";
+import { useEffect } from "@rbxts/roact-hooked";
 
-function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
+function App(props: { e: AnyEntity; Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
     const enability = useEnability();
     const enabilityTransparency = enability.map((v) => 1 - v);
 
-    const localPlrE = useLocalPlrE();
-    const health = useComponent(localPlrE, Health);
+    const e = props.e;
+    const health = useComponent(e, Health);
 
     const maximum = health?.maximum ?? 100;
     const current = health?.current ?? 100;
@@ -48,19 +50,21 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
                 BorderSizePixel={0}
                 BackgroundTransparency={1}
             >
-                <textlabel
-                    ZIndex={4}
-                    Position={new UDim2(0, -3, 0, 0)}
-                    Size={new UDim2(1, 0, 1, 0)}
-                    TextColor3={Color3.fromRGB(255, 255, 255)}
-                    TextXAlignment={"Right"}
-                    TextStrokeTransparency={enabilityTransparency}
-                    TextTransparency={enabilityTransparency}
-                    BackgroundTransparency={1}
-                    Text={tostring(current)}
-                    Font={"Fantasy"}
-                    TextScaled={true}
-                ></textlabel>
+                {props.Size !== undefined && props.Size.Height.Offset < 15 ? undefined : (
+                    <textlabel
+                        ZIndex={4}
+                        Position={new UDim2(0, 3, 0, 0)}
+                        Size={new UDim2(1, 0, 1, 0)}
+                        TextColor3={Color3.fromRGB(255, 255, 255)}
+                        TextXAlignment={"Left"}
+                        TextStrokeTransparency={enabilityTransparency}
+                        TextTransparency={enabilityTransparency}
+                        BackgroundTransparency={1}
+                        Text={tostring(current)}
+                        Font={"Fantasy"}
+                        TextScaled={true}
+                    />
+                )}
                 <frame
                     ZIndex={3}
                     Position={new UDim2(0, 0, 0, 0)}
@@ -99,6 +103,7 @@ function App(props: { Size?: UDim2; Position?: UDim2; AnchorPoint?: Vector2 }) {
 }
 
 export default function HealthBar(props: {
+    e: AnyEntity;
     enabled: boolean;
     Size?: UDim2;
     Position?: UDim2;
@@ -106,7 +111,12 @@ export default function HealthBar(props: {
 }) {
     return (
         <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App Size={props.Size} Position={props.Position} AnchorPoint={props.AnchorPoint} />
+            <App
+                e={props.e}
+                Size={props.Size}
+                Position={props.Position}
+                AnchorPoint={props.AnchorPoint}
+            />
         </EnabilityProvider>
     );
 }

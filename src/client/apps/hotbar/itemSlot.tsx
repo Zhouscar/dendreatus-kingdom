@@ -62,7 +62,7 @@ export default function ItemSlot(props: {
     return (
         <textbutton
             AutoButtonColor={false}
-            Size={new UDim2(0, 80, 0, 80)}
+            Size={new UDim2(0, 50, 0, 50)}
             ZIndex={1}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
             BackgroundTransparency={enabilitySemiTransparency}

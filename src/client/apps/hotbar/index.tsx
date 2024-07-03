@@ -7,8 +7,8 @@ import { useLocalPlrE } from "../hooks/ecsSelectors";
 import { EnabilityProvider } from "../contexts/enability";
 import { useEnability } from "../hooks/enability";
 
-const SLOT_LEN = 80;
-const SLOT_PAD = 10;
+const SLOT_LEN = 50;
+const SLOT_PAD = 5;
 
 function getLengthBySlots(count: number) {
     return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;

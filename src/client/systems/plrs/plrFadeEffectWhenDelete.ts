@@ -1,5 +1,6 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { Plr, Transform } from "shared/components";
+import { DEATH_PARTICLE_PROPS } from "shared/constants/deathParticleProps";
 import { emitParticle } from "shared/effects/particles";
 
 const plrECFs: Map<AnyEntity, CFrame> = new Map();
@@ -10,9 +11,10 @@ function plrFadeEffectWhenDelete(w: World) {
     }
 
     plrECFs.forEach((cf, e) => {
-        if (w.contains(e)) return; // the entity has to not exist anymore for it to fade
-        emitParticle(cf, 1, {});
-        plrECFs.delete(e);
+        if (!w.contains(e)) {
+            emitParticle(cf, 1, DEATH_PARTICLE_PROPS);
+            plrECFs.delete(e);
+        }
     });
 }
 

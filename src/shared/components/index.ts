@@ -13,6 +13,9 @@ import { InteractableComponents } from "./interactables";
 
 export * from "./livingThings";
 
+export const Member = ComponentCreator.replicated<{ role: string; rank: number }>("GroupRole");
+export type Member = ReturnType<typeof Member>;
+
 export const ChattingRaw = ComponentCreator.protectedBidirectional<{ message: string }>(
     "ChattingRaw",
 );
@@ -77,6 +80,7 @@ export const BloodDrip = ComponentCreator.base<{}>("BloodDrip");
 export type BloodDrip = ReturnType<typeof BloodDrip>;
 
 export const Components = {
+    GroupRole: Member,
     ChattingRaw,
     Chatting,
     InSafeZone,
