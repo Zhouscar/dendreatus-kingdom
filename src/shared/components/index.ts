@@ -10,10 +10,11 @@ import { ActionComponents } from "./actions";
 import { HungerComponents } from "./hunger";
 import { ComponentCreator } from "./creators";
 import { InteractableComponents } from "./interactables";
+import { SignComponents } from "./signs";
 
 export * from "./livingThings";
 
-export const Member = ComponentCreator.replicated<{ role: string; rank: number }>("GroupRole");
+export const Member = ComponentCreator.replicated<{ role: string; rank: number }>("Member");
 export type Member = ReturnType<typeof Member>;
 
 export const ChattingRaw = ComponentCreator.protectedBidirectional<{ message: string }>(
@@ -80,7 +81,7 @@ export const BloodDrip = ComponentCreator.base<{}>("BloodDrip");
 export type BloodDrip = ReturnType<typeof BloodDrip>;
 
 export const Components = {
-    GroupRole: Member,
+    Member,
     ChattingRaw,
     Chatting,
     InSafeZone,
@@ -103,4 +104,5 @@ export const Components = {
     ...ActionComponents,
     ...HungerComponents,
     ...InteractableComponents,
+    ...SignComponents,
 };

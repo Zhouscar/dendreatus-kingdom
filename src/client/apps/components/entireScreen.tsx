@@ -14,7 +14,21 @@ export default function EntireScreen(
     const superPositionEnability = props.superPositionEnability;
 
     const position = useMemo(() => {
-        return new UDim2(0, 0, 0, handleInset ? -GuiService.GetGuiInset()[0].Y : 0);
+        return new UDim2(
+            0,
+            handleInset ? -GuiService.GetGuiInset()[0].X : 0,
+            0,
+            handleInset ? -GuiService.GetGuiInset()[0].Y : 0,
+        );
+    }, [handleInset]);
+
+    const size = useMemo(() => {
+        return new UDim2(
+            1,
+            handleInset ? GuiService.GetGuiInset()[0].X + GuiService.GetGuiInset()[1].X : 0,
+            1,
+            handleInset ? GuiService.GetGuiInset()[0].Y + GuiService.GetGuiInset()[1].Y : 0,
+        );
     }, [handleInset]);
 
     const superPosition = useMemo(() => {
@@ -26,7 +40,7 @@ export default function EntireScreen(
         <frame
             Key={props.Key !== undefined ? props.Key : "EntireScreen"}
             Position={superPosition}
-            Size={new UDim2(1, 0, 1, handleInset ? GuiService.GetGuiInset()[0].Y : 0)}
+            Size={size}
             Transparency={1}
             BorderSizePixel={0}
             ClipsDescendants={false}

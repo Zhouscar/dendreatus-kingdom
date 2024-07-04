@@ -30,6 +30,8 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] different footstep sound on different surfaces
 
+- [ ] Signs (component, state, ui)
+
 - [ ] Seats
 
 - [ ] Rank Based Tools
@@ -37,3 +39,5 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 
 - [ ] Adding Sound
+
+- [ ] Finalizing

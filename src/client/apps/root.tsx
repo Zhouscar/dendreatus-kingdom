@@ -4,21 +4,19 @@ import Roact from "@rbxts/roact";
 import { ReflexProvider } from "@rbxts/roact-reflex";
 import { store } from "client/store";
 import Inventory from "./inventory";
-import Hotbar from "./hotbar";
-import HealthBar from "./healthBar";
-import HungerBar from "./hungerBar";
 import Interactables from "./interactables";
 import { RemoteTokenProvider } from "./contexts/remoteToken";
 import DeathScreen from "./deathScreen";
 import ClockTimeHandler from "./clockTimeHandler";
 import TitleCard from "./titleCard";
-import { ClientState, State } from "shared/state";
+import { ClientState } from "shared/state";
 import SpawningHandler from "./spawningHandler";
 import { useClientState, useLocalPlrE } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
 import MouseClickEffects from "./mouseClickSound";
 import GameScreen from "./gameScreen";
+import SignScreen from "./signScreen";
 
 function App() {
     const clientState = useClientState();
@@ -37,6 +35,7 @@ function App() {
                 <ProximityPlrs enabled={clientState === "game" || clientState === "chat"} />
                 <DeathScreen enabled={clientState === "death"} />
                 <ChatScreen enabled={clientState === "chat"} />
+                <SignScreen enabled={clientState === "sign"} />
             </screengui>
         </>
     );

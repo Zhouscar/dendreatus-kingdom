@@ -30,6 +30,7 @@ import { useSpring } from "../hooks/ripple";
 import { DroppedItem } from "shared/components/items";
 import CookableItems from "./misc/cookableItems";
 import CraftableItems from "./misc/craftableItems";
+import { ReadingSign, Sign } from "shared/components/signs";
 
 export default function Interactable(props: {
     e: AnyEntity;
@@ -100,6 +101,7 @@ export default function Interactable(props: {
     const cookable = useComponent(e, Cookable);
     const craftable = useComponent(e, Craftable);
     const doorLike = useComponent(e, DoorLike);
+    const sign = useComponent(e, Sign);
 
     const components = [harvestable, droppedItem, cookable, craftable, doorLike];
 
@@ -224,6 +226,19 @@ export default function Interactable(props: {
                     );
                 };
             }
+        } else if (sign !== undefined) {
+            setInteractionName("Read");
+            interactionFunction.current = () => {
+                w.insert(localPlrE, ReadingSign({ signCtor: sign.signCtor }));
+                w.insert(
+                    e,
+                    Interacted({
+                        player: Players.LocalPlayer,
+                        interactType: "read_sign",
+                        interactTime: os.clock(),
+                    }),
+                );
+            };
         } else {
             setInteractionName("");
             interactionFunction.current = () => {

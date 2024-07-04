@@ -8,6 +8,7 @@ export const isInteractType = t.literal(
     "craft",
     "door_open",
     "door_close",
+    "read_sign",
 );
 export type InteractType = t.static<typeof isInteractType>;
 

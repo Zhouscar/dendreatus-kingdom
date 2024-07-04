@@ -1,6 +1,6 @@
 import { AnyEntity } from "@rbxts/matter";
 
-export type ClientState = "game" | "inventory" | "death" | "title" | "spawning" | "chat";
+export type ClientState = "game" | "inventory" | "death" | "title" | "spawning" | "chat" | "sign";
 
 export class State {
     debugEnabled: boolean = false;
