@@ -7,6 +7,11 @@ function immutTakeItemsAtGuid(inventory: PlayerInventory, guid: string, amount: 
         if (item === undefined) {
             return draft;
         }
+        if (item.soulbound) {
+            warn("Cannot remove soulbound items");
+            return draft;
+        }
+
         if (item.stack < amount) {
             warn("Not enough to be taken from");
             return draft;

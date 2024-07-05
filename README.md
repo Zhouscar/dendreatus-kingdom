@@ -36,6 +36,8 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [ ] Rank Based Tools
 
+- [ ] Item holding animations
+
 - [ ] Seats
 
 - [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)

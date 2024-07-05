@@ -40,7 +40,15 @@ function immutTakeItems(inventory: PlayerInventory, itemType: ItemType, amount: 
                 return amountToTake;
             }
             // rest of it is with matching itemTypes
-            // now the item is matching and not unique
+
+            if (item.soulbound) {
+                // soulbound item
+                // skip it
+
+                return amountToTake;
+            }
+
+            // now the item is matching and not soulbound
             // leaving two choices: either remove the item or decrease the stack
             const amountToTakeHere = math.min(amountToTake, item.stack);
             if (amountToTakeHere === item.stack) {

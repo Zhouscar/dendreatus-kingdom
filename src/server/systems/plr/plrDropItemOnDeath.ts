@@ -22,6 +22,8 @@ function plrDropItemOnDeath(w: World) {
         if (inventory === undefined) continue;
 
         inventory.items.forEach((item) => {
+            if (item.soulbound) return;
+
             w.spawn(
                 DroppingItem({
                     position: transform.cf.Position.add(UP.mul(2)),
@@ -35,7 +37,7 @@ function plrDropItemOnDeath(w: World) {
             );
         });
 
-        store.clearInventory(plrId);
+        store.clearInventoryKeepSoulBound(plrId);
     }
 }
 

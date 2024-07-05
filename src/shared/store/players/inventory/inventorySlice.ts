@@ -30,12 +30,12 @@ export const inventorySlice = createProducer(initState, {
         };
     },
 
-    clearInventory: (state, plr: string) => {
+    clearInventoryKeepSoulBound: (state, plr: string) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
         return {
             ...state,
-            [plr]: defaultPlayerInventory,
+            [plr]: inventoryImmutSetters.immutClearInventoryKeepSoulbound(inventory),
         };
     },
 

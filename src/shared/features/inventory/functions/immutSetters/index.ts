@@ -1,3 +1,4 @@
+import immutClearInventoryKeepSoulbound from "./immutCleanInventoryKeepSoulbound";
 import immutConsumeItem from "./immutConsumeItem";
 import immutInsertItem from "./immutInsertItem";
 import immutModifyItemAtGuid from "./immutModifyItemAtGuid";
@@ -10,6 +11,7 @@ import immutTakeItems from "./immutTakeItems";
 import immutTakeItemsAtGuid from "./immutTakeItemsAtGuid";
 
 const inventoryImmutSetters = {
+    immutClearInventoryKeepSoulbound,
     immutConsumeItem,
     immutInsertItem,
     immutModifyItemAtGuid,
