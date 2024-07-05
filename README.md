@@ -32,7 +32,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Rework Roact (deathscreen, gamescreen, inventory, sign screen, title card, chat screen)
 
-- [ ] Signs (component, state, ui)
+- [x] Signs (component, state, ui)
 
 - [ ] Seats
 

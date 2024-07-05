@@ -1,7 +1,8 @@
 import Roact from "@rbxts/roact";
 import { useSpring } from "../hooks/ripple";
-import { useState } from "@rbxts/roact-hooked";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { playSound } from "shared/effects/sounds";
+import { useBindingListener } from "@rbxts/pretty-roact-hooks";
 
 export default function Button(props: {
     clicked: () => void;
@@ -37,7 +38,7 @@ export default function Button(props: {
     const neutralButtonColor = props.neutralButtonColor ?? Color3.fromRGB(0, 0, 0);
     const neutralTextColor = props.neutralTextColor ?? Color3.fromRGB(255, 255, 255);
     const neutralTextStrokeColor = props.neutralTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
-    const neutralTransparency = props.neutralTransparency ?? 0.5;
+    const neutralTransparency = props.neutralTransparency ?? 0;
 
     const hoverButtonColor = props.neutralButtonColor ?? Color3.fromRGB(255, 255, 255);
     const hoverTextColor = props.neutralTextColor ?? Color3.fromRGB(0, 0, 0);
@@ -66,6 +67,10 @@ export default function Button(props: {
         press ? pressTransparency : hover ? hoverTransparency : neutralTransparency,
     );
 
+    useEffect(() => {
+        print(`${press}, ${hover}`);
+    }, [press, hover]);
+
     return (
         <textbutton
             AutoButtonColor={false}
@@ -87,12 +92,13 @@ export default function Button(props: {
                 },
                 MouseLeave: () => {
                     setHover(false);
+                    setPress(false);
                 },
                 MouseButton1Down: () => {
                     setPress(true);
                     playSound({ soundName: "buttonClick" });
                 },
-                MouseButton2Up: () => {
+                MouseButton1Up: () => {
                     setHover(false);
                 },
                 MouseButton1Click: clicked,

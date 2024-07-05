@@ -43,6 +43,7 @@ export default function Transition(
             Size={new UDim2(1, 0, 1, 0)}
             BorderSizePixel={0}
             BackgroundTransparency={1}
+            // Active={enabled}
             GroupTransparency={
                 springOptions !== "instant" ? transparencySpring : transarencyInstant
             }

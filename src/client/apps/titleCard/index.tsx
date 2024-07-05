@@ -104,7 +104,7 @@ export default function TitleCard(props: { enabled: boolean }) {
                         Padding={new UDim(0, 10)}
                     />
                     <Button
-                        text={"Respawn"}
+                        text={"Start"}
                         size={new UDim2(0, 200, 0, 50)}
                         clicked={() => {
                             setWillSpawn(true);

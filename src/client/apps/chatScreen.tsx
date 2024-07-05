@@ -7,6 +7,7 @@ import { ChattingRaw } from "shared/components";
 import { useEventListener, useLatest } from "@rbxts/pretty-roact-hooks";
 import { useSpring } from "./hooks/ripple";
 import useLocalPlrE from "./hooks/useLocalPlrE";
+import useSetClientState from "./hooks/useSetClientState";
 
 const MAX_MESSAGE_LENGTH = 50;
 
@@ -17,7 +18,7 @@ export default function ChatScreen(props: { enabled: boolean }) {
 
     const localPlrE = useLocalPlrE();
 
-    const s = useS();
+    const setClientState = useSetClientState();
     const w = useW();
 
     const entered = useCallback(() => {
@@ -34,9 +35,11 @@ export default function ChatScreen(props: { enabled: boolean }) {
 
         textbox.Text = "";
 
-        s.clientState = "game";
+        setClientState("game");
 
-        w.insert(localPlrE, ChattingRaw({ message: text }));
+        if (w.contains(localPlrE)) {
+            w.insert(localPlrE, ChattingRaw({ message: text }));
+        }
     }, [enabled, localPlrE, w]);
 
     useEventListener(RunService.Heartbeat, () => {

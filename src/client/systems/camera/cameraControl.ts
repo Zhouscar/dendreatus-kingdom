@@ -32,7 +32,7 @@ function cameraControls(w: World, s: State) {
 
     const dt = useDeltaTime();
 
-    if (s.clientState === "game" || s.clientState === "chat") {
+    if (s.clientState === "game" || s.clientState === "chat" || s.clientState === "sign") {
         for (const [e, localPlr, transform] of w.query(LocalPlr, Transform)) {
             camera.CameraType = Enum.CameraType.Fixed;
             camera.Focus = transform.cf;
@@ -80,6 +80,7 @@ function cameraControls(w: World, s: State) {
             camera.CFrame = newCF;
 
             for (const [_, input, gPE] of useEvent(UserInputService, "InputChanged")) {
+                if (s.clientState === "sign") continue;
                 if (gPE) continue;
                 if (input.UserInputType === Enum.UserInputType.MouseMovement) {
                     const diffX = input.Delta.X;

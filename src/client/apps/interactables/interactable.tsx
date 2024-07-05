@@ -226,7 +226,9 @@ export default function Interactable(props: {
         } else if (sign !== undefined) {
             setInteractionName("Read");
             interactionFunction.current = () => {
-                w.insert(localPlrE, ReadingSign({ signCtor: sign.signCtor }));
+                if (w.contains(localPlrE)) {
+                    w.insert(localPlrE, ReadingSign({ signComponentName: sign.signComponentName }));
+                }
                 w.insert(
                     e,
                     Interacted({
