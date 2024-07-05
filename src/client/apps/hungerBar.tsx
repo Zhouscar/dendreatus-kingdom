@@ -1,23 +1,17 @@
 import Roact from "@rbxts/roact";
-import useSuperPosition from "./hooks/useSuperPosition";
+import useSuperSize from "./hooks/useSuperPosition";
 import useComponent from "./hooks/useComponent";
 import { Stomach } from "shared/components/hunger";
-import { useLocalPlrE } from "./hooks/ecsSelectors";
-import { EnabilityProvider } from "./contexts/enability";
 import { useSpring } from "./hooks/ripple";
-import { useEnability } from "./hooks/enability";
 import { AnyEntity } from "@rbxts/matter";
 
-function App(props: {
+export default function HungerBar(props: {
     e: AnyEntity;
     showNumber: boolean;
     Size?: UDim2;
     Position?: UDim2;
     AnchorPoint?: Vector2;
 }) {
-    const enability = useEnability();
-    const enabilityTransparency = enability.map((v) => 1 - v);
-
     const showNumber = props.showNumber;
 
     const e = props.e;
@@ -27,17 +21,15 @@ function App(props: {
     const current = stomach?.hunger ?? 100;
 
     const currentPerc = useSpring(current / maximum);
-    const rootPosition = useSuperPosition(enability, props.Position);
 
     return (
         <frame
             Key={"HungerBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
-            Position={rootPosition}
+            Position={props.Position}
             AnchorPoint={props.AnchorPoint}
             BorderSizePixel={0}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-            Transparency={enabilityTransparency}
         >
             <frame
                 Size={new UDim2(1, -3, 1, -3)}
@@ -53,8 +45,6 @@ function App(props: {
                         Size={new UDim2(1, 0, 1, 0)}
                         TextColor3={Color3.fromRGB(255, 255, 255)}
                         TextXAlignment={"Left"}
-                        TextStrokeTransparency={enabilityTransparency}
-                        TextTransparency={enabilityTransparency}
                         BackgroundTransparency={1}
                         Text={tostring(math.floor(current))}
                         Font={"Fantasy"}
@@ -67,7 +57,6 @@ function App(props: {
                     Size={currentPerc.map((v) => new UDim2(v, 0, 1, 0))}
                     BorderSizePixel={0}
                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                    Transparency={enabilityTransparency}
                 >
                     <uigradient
                         Color={
@@ -79,26 +68,5 @@ function App(props: {
                 </frame>
             </frame>
         </frame>
-    );
-}
-
-export default function HungerBar(props: {
-    e: AnyEntity;
-    showNumber: boolean;
-    enabled: boolean;
-    Size?: UDim2;
-    Position?: UDim2;
-    AnchorPoint?: Vector2;
-}) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App
-                e={props.e}
-                showNumber={props.showNumber}
-                Size={props.Size}
-                Position={props.Position}
-                AnchorPoint={props.AnchorPoint}
-            />
-        </EnabilityProvider>
     );
 }

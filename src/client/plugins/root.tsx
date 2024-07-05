@@ -7,13 +7,9 @@ import { ClientState, State } from "shared/state";
 function root(w: World, s: State, remoteToken: string) {
     const player = Players.LocalPlayer!;
 
-    const setClientState = (state: ClientState) => {
-        s.clientState = state;
-    };
-
     task.spawn(() => {
         Roact.mount(
-            <Root w={w} setClientState={setClientState} remoteToken={remoteToken} />,
+            <Root w={w} s={s} remoteToken={remoteToken} />,
             player.WaitForChild("PlayerGui")!,
         );
     });

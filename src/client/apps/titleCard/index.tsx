@@ -1,92 +1,59 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "../contexts/enability";
-import EntireScreen from "../components/entireScreen";
-import { useEnability, useEnabled } from "../hooks/enability";
-import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
-import { useSpring } from "../hooks/ripple";
-import TitleCardOptionButton from "./titleCardOptionButton";
-import { routes } from "shared/network";
-import useRemoteToken from "../hooks/useRemoteToken";
-import { useState } from "@rbxts/roact-hooked";
-import { Make } from "@rbxts/altmake";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { SoundService } from "@rbxts/services";
+import Transition from "../components/transition";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { loopSound } from "shared/effects/sounds";
+import useWait from "../hooks/useWait";
+import { useRemoteToken } from "../hooks/useW";
+import SpringLoopedSound from "../components/springLoopedSound";
+import Button from "../components/button";
+import { routes } from "shared/network";
+import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
+import useDeferred from "../hooks/useDeferred";
 
-function App(props: {}) {
-    const enability = useEnability();
-    const enabled = useEnabled();
+export default function TitleCard(props: { enabled: boolean }) {
+    const enabled = props.enabled;
+    const deferredEnabled = useDeferred(enabled);
 
-    const [blackScreenEnabled, setBlackScreenEnabled] = useState(true);
-    const [presentsEnabled, setPresentsEnabled] = useState(false);
-    const [titleEnabled, setTitleEnabled] = useState(false);
-    const [optionsEnabled, setOptionsEnabled] = useState(false);
+    const wait1 = useWait(1, [enabled]);
+    const wait3 = useWait(3, [enabled]);
+    const wait4 = useWait(4, [enabled]);
+    const wait5 = useWait(5, [enabled]);
+    const wait6 = useWait(6, [enabled]);
 
-    const blackScreenSpring = useSpring(blackScreenEnabled && enabled ? 1 : 0, {
-        frequency: 1,
-    });
-    const presentsSpring = useSpring(presentsEnabled && enabled ? 1 : 0, {
-        frequency: 1,
-    });
-    const titleSpring = useSpring(titleEnabled && enabled ? 1 : 0, { frequency: 1 });
+    const [willSpawn, setWillSpawn] = useState(false);
+    const deferredWillSpawn = useDeferred(willSpawn);
+    const waitWillSpawn1 = useWait(1, [willSpawn]);
 
-    const blackScreenTransparency = blackScreenSpring.map((v) => 1 - v);
-    const presentsTransparency = presentsSpring.map((v) => 1 - v);
-    const titleTransparency = titleSpring.map((v) => 1 - v);
+    const remoteToken = useRemoteToken();
 
-    useBindingListener(titleSpring, (value) => {
-        loopSound({ soundName: "dkTheme", volume: value });
-    });
+    useEffect(() => {
+        setWillSpawn(false);
+    }, [deferredEnabled]);
 
-    useTimeout(() => {
-        setPresentsEnabled(true);
-    }, 1);
-
-    useTimeout(() => {
-        setPresentsEnabled(false);
-    }, 3);
-
-    useTimeout(() => {
-        setBlackScreenEnabled(false);
-    }, 4);
-
-    useTimeout(() => {
-        setTitleEnabled(true);
+    useCoincidenceEffect(() => {
         loopSound({ soundName: "dkTheme", timePosition: 0 });
-    }, 5);
+    }, [deferredEnabled, wait5]);
 
-    useTimeout(() => {
-        setOptionsEnabled(true);
-    }, 6);
-
-    const token = useRemoteToken();
-
-    const options = (
-        <TitleCardOptionButton
-            enabled={optionsEnabled && enabled}
-            text={"Start"}
-            onClick={() => {
-                setBlackScreenEnabled(true);
-                setOptionsEnabled(false);
-                setPresentsEnabled(false);
-                setTitleEnabled(false);
-
-                task.delay(1, () => {
-                    routes.requestSpawn.send(token);
-                });
-            }}
-        />
-    );
+    useCoincidenceEffect(() => {
+        routes.requestSpawn.send(remoteToken);
+    }, [deferredEnabled, deferredWillSpawn, waitWillSpawn1]);
 
     return (
-        <EntireScreen handleInset={true} superPositionEnability={enability} Key={"TitleCard"}>
-            <frame
-                Position={new UDim2(0.5, 0, 0.5, 0)}
-                AnchorPoint={new Vector2(0.5, 0.5)}
-                Size={new UDim2(5, 0, 5, 0)}
-                BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                BackgroundTransparency={blackScreenTransparency}
-            >
+        <>
+            <SpringLoopedSound
+                soundName={"dkTheme"}
+                volume={enabled && !willSpawn && wait5 ? 1 : 0}
+                timePosition={enabled ? 0 : undefined}
+            />
+            <Transition enabled={enabled && (willSpawn || !wait4)} zindex={3}>
+                <frame
+                    Position={new UDim2(0.5, 0, 0.5, 0)}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Size={new UDim2(5, 0, 5, 0)}
+                    BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+                />
+            </Transition>
+            <Transition enabled={enabled && !willSpawn && wait1 && !wait3} zindex={4}>
                 <textlabel
                     Position={new UDim2(0.5, 0, 0.5, 0)}
                     AnchorPoint={new Vector2(0.5, 0.5)}
@@ -98,54 +65,53 @@ function App(props: {}) {
                     TextSize={30}
                     Font={"Fantasy"}
                     TextColor3={Color3.fromRGB(255, 255, 255)}
-                    TextTransparency={presentsTransparency}
                     TextStrokeTransparency={1}
                 />
-            </frame>
-            <textlabel
-                Key={"Title"}
-                Size={new UDim2(0, 500, 0, 100)}
-                AnchorPoint={new Vector2(0.5, 0.5)}
-                Position={new UDim2(0.5, 0, 0.1, 0)}
-                BackgroundTransparency={1}
-                BorderSizePixel={0}
-                TextTransparency={titleTransparency}
-                Font={"Fantasy"}
-                TextSize={100}
-                TextColor3={Color3.fromRGB(255, 255, 255)}
-                Text={"Dendraetus Kingdom"}
-            >
-                <uistroke
-                    ApplyStrokeMode={"Contextual"}
-                    Color={Color3.fromRGB(0, 0, 0)}
-                    Transparency={titleTransparency}
-                    Thickness={2}
-                ></uistroke>
-            </textlabel>
-            <frame
-                Key={"Options"}
-                Size={new UDim2(0, 200, 0, 500)}
-                AnchorPoint={new Vector2(0.5, 0)}
-                Position={new UDim2(0.5, 0, 0.7, 0)}
-                BackgroundTransparency={1}
-                BorderSizePixel={0}
-            >
-                <uilistlayout
-                    FillDirection={"Vertical"}
-                    VerticalAlignment={"Top"}
-                    HorizontalAlignment={"Center"}
-                    Padding={new UDim(0, 10)}
-                ></uilistlayout>
-                {options}
-            </frame>
-        </EntireScreen>
-    );
-}
-
-export default function TitleCard(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
+            </Transition>
+            <Transition enabled={enabled && !willSpawn && wait5}>
+                <textlabel
+                    Key={"Title"}
+                    Size={new UDim2(0, 500, 0, 100)}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Position={new UDim2(0.5, 0, 0.1, 0)}
+                    BackgroundTransparency={1}
+                    BorderSizePixel={0}
+                    Font={"Fantasy"}
+                    TextSize={100}
+                    TextColor3={Color3.fromRGB(255, 255, 255)}
+                    Text={"Dendraetus Kingdom"}
+                >
+                    <uistroke
+                        ApplyStrokeMode={"Contextual"}
+                        Color={Color3.fromRGB(0, 0, 0)}
+                        Thickness={2}
+                    />
+                </textlabel>
+            </Transition>
+            <Transition enabled={enabled && wait6}>
+                <frame
+                    Key={"Options"}
+                    Size={new UDim2(0, 200, 0, 500)}
+                    AnchorPoint={new Vector2(0.5, 0)}
+                    Position={new UDim2(0.5, 0, 0.7, 0)}
+                    BackgroundTransparency={1}
+                    BorderSizePixel={0}
+                >
+                    <uilistlayout
+                        FillDirection={"Vertical"}
+                        VerticalAlignment={"Top"}
+                        HorizontalAlignment={"Center"}
+                        Padding={new UDim(0, 10)}
+                    />
+                    <Button
+                        text={"Respawn"}
+                        size={new UDim2(0, 200, 0, 50)}
+                        clicked={() => {
+                            setWillSpawn(true);
+                        }}
+                    />
+                </frame>
+            </Transition>
+        </>
     );
 }

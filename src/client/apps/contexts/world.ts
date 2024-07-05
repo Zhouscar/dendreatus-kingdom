@@ -1,10 +1,11 @@
 import { World } from "@rbxts/matter";
 import { createContext } from "@rbxts/roact";
-import { ClientState, State } from "shared/state";
+import { State } from "shared/state";
 
 export const WContext = createContext<{
     w: World;
-    setClientState: (state: ClientState) => void;
-}>({ w: new World(), setClientState: () => {} });
+    s: State;
+    remoteToken: string;
+}>({ w: new World(), s: new State(), remoteToken: "NA" });
 
 export const WProvider = WContext.Provider;

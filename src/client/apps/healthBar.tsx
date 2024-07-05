@@ -1,25 +1,19 @@
 import { useDebounceEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import useSuperPosition from "./hooks/useSuperPosition";
+import useSuperSize from "./hooks/useSuperPosition";
 import useComponent from "./hooks/useComponent";
 import { Health } from "shared/components/health";
-import { useLocalPlrE } from "./hooks/ecsSelectors";
-import { EnabilityProvider } from "./contexts/enability";
 import { useMotion } from "./hooks/ripple";
-import { useEnability } from "./hooks/enability";
 import { AnyEntity } from "@rbxts/matter";
 import { useEffect } from "@rbxts/roact-hooked";
 
-function App(props: {
+export default function HealthBar(props: {
     e: AnyEntity;
     showNumber: boolean;
     Size?: UDim2;
     Position?: UDim2;
     AnchorPoint?: Vector2;
 }) {
-    const enability = useEnability();
-    const enabilityTransparency = enability.map((v) => 1 - v);
-
     const showNumber = props.showNumber;
 
     const e = props.e;
@@ -30,8 +24,6 @@ function App(props: {
 
     const currentPerc = current / maximum;
     const [flashPerc, flashPercMotion] = useMotion(1);
-
-    const rootPosition = useSuperPosition(enability, props.Position);
 
     useDebounceEffect(
         () => {
@@ -45,11 +37,10 @@ function App(props: {
         <frame
             Key={"HealthBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
-            Position={rootPosition}
+            Position={props.Position}
             AnchorPoint={props.AnchorPoint}
             BorderSizePixel={0}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-            Transparency={enabilityTransparency}
         >
             <frame
                 Size={new UDim2(1, -3, 1, -3)}
@@ -65,8 +56,6 @@ function App(props: {
                         Size={new UDim2(1, 0, 1, 0)}
                         TextColor3={Color3.fromRGB(255, 255, 255)}
                         TextXAlignment={"Left"}
-                        TextStrokeTransparency={enabilityTransparency}
-                        TextTransparency={enabilityTransparency}
                         BackgroundTransparency={1}
                         Text={tostring(current)}
                         Font={"Fantasy"}
@@ -79,7 +68,6 @@ function App(props: {
                     Size={new UDim2(currentPerc, 0, 1, 0)}
                     BorderSizePixel={0}
                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                    Transparency={enabilityTransparency}
                 >
                     <uigradient
                         Color={
@@ -95,7 +83,6 @@ function App(props: {
                     Size={flashPerc.map((v) => new UDim2(v, 0, 1, 0))}
                     BorderSizePixel={0}
                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                    Transparency={enabilityTransparency}
                 >
                     <uigradient
                         Color={
@@ -107,26 +94,5 @@ function App(props: {
                 </frame>
             </frame>
         </frame>
-    );
-}
-
-export default function HealthBar(props: {
-    e: AnyEntity;
-    showNumber: boolean;
-    enabled: boolean;
-    Size?: UDim2;
-    Position?: UDim2;
-    AnchorPoint?: Vector2;
-}) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App
-                e={props.e}
-                showNumber={props.showNumber}
-                Size={props.Size}
-                Position={props.Position}
-                AnchorPoint={props.AnchorPoint}
-            />
-        </EnabilityProvider>
     );
 }

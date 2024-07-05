@@ -8,21 +8,22 @@ import { Players, RunService } from "@rbxts/services";
 import Sift from "@rbxts/sift";
 import ChatBox from "../chatBox";
 import { UP } from "shared/constants/direction";
-import { useLocalPlrE } from "../hooks/ecsSelectors";
 import { Health } from "shared/components/health";
 import { useSpring } from "../hooks/ripple";
-import { useEnabled } from "../hooks/enability";
 import HealthBar from "../healthBar";
 import { Sneaking } from "shared/components/movements";
+import useLocalPlrE from "../hooks/useLocalPlrE";
+import Transition from "../components/transition";
+import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
 
 const CHAT_DURATION = 5;
 
-export default function ProximityPlr(props: { e: AnyEntity }) {
+export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) {
     const e = props.e;
     const localPlrE = useLocalPlrE();
     const isLocalPlr = e === localPlrE;
 
-    const enabled = useEnabled();
+    const enabled = props.enabled;
 
     const [chats, setChats] = useState<{ time: number; message: string }[]>([]);
     const latestChats = useLatest(chats);
@@ -36,10 +37,9 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
     const [showHealth, setShowHealth] = useState(false);
 
     useEffect(() => {
-        if (health !== undefined && !isLocalPlr) {
-            setShowHealth(true);
-        }
-    }, [health, isLocalPlr]);
+        if (health === undefined) return;
+        setShowHealth(true);
+    }, [health]);
 
     useDebounceEffect(
         () => {
@@ -51,9 +51,7 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
         { wait: 3 },
     );
 
-    const nametagTransparency = useSpring(
-        enabled && !isLocalPlr ? (sneaking === undefined ? 0 : 0.5) : 1,
-    );
+    const enabledTransparency = sneaking === undefined ? 0 : 0.5;
 
     const adnornee = useMemo(() => {
         if (renderable?.pv.IsA("Model") && renderable.pv.PrimaryPart !== undefined) {
@@ -114,34 +112,36 @@ export default function ProximityPlr(props: { e: AnyEntity }) {
             Size={new UDim2(0, 500, 0, 500)}
             StudsOffset={UP.mul(2)}
             Key={tostring(e)}
+            ZIndexBehavior={"Sibling"}
         >
-            {chatElements}
-            <textlabel
-                TextColor3={Color3.fromRGB(255, 255, 255)}
-                Size={new UDim2(0, 100, 0, 20)}
-                Position={new UDim2(0.5, 0, 0.5, 0)}
-                AnchorPoint={new Vector2(0.5, 1)}
-                BackgroundTransparency={1}
-                TextTransparency={nametagTransparency}
-                Text={
-                    (member !== undefined ? `[${member.role}] ` : "") +
-                    Players.LocalPlayer.DisplayName
-                }
-                TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
-                TextStrokeTransparency={nametagTransparency}
-                Font={"Fantasy"}
-                TextXAlignment={"Center"}
-                TextSize={20}
-                BorderSizePixel={0}
-            />
-            <HealthBar
-                e={e}
-                showNumber={false}
-                enabled={showHealth && enabled}
-                Position={new UDim2(0.5, 0, 0.5, -15)}
-                Size={new UDim2(0, 200, 0, 10)}
-                AnchorPoint={new Vector2(0.5, 1)}
-            />
+            <Transition enabled={enabled} enabledTransparency={enabledTransparency}>
+                {chatElements}
+                <textlabel
+                    TextColor3={Color3.fromRGB(255, 255, 255)}
+                    Size={new UDim2(0, 100, 0, 20)}
+                    Position={new UDim2(0.5, 0, 0.5, 0)}
+                    AnchorPoint={new Vector2(0.5, 1)}
+                    BackgroundTransparency={1}
+                    Text={
+                        (member !== undefined ? `[${member.role}] ` : "") +
+                        Players.LocalPlayer.DisplayName
+                    }
+                    TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
+                    Font={"Fantasy"}
+                    TextXAlignment={"Center"}
+                    TextSize={20}
+                    BorderSizePixel={0}
+                />
+            </Transition>
+            <Transition enabled={enabled && showHealth}>
+                <HealthBar
+                    e={e}
+                    showNumber={false}
+                    Position={new UDim2(0.5, 0, 0.5, -15)}
+                    Size={new UDim2(0, 200, 0, 10)}
+                    AnchorPoint={new Vector2(0.5, 1)}
+                />
+            </Transition>
         </billboardgui>
     );
 }

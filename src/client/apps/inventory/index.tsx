@@ -1,6 +1,6 @@
 import Roact from "@rbxts/roact";
 import { useProducer, useSelector } from "@rbxts/roact-reflex";
-import EntireScreen from "../components/entireScreen";
+import Transition from "../components/transition";
 import { theLocalPlr } from "client/localPlr";
 import { useBinding, useCallback, useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { defaultPlayerInventory, selectPlayerInventory } from "shared/store/players/inventory";
@@ -10,8 +10,6 @@ import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { RootProducer } from "client/store";
 import { createGuidPool } from "shared/features/guidUtils";
 import { remos } from "shared/network";
-import { EnabilityProvider } from "../contexts/enability";
-import { useEnability } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 
 let testInventory = defaultPlayerInventory;
@@ -25,10 +23,8 @@ function getLengthBySlots(count: number) {
     return (SLOT_LEN + SLOT_PAD) * count + SLOT_PAD;
 }
 
-function App(props: {}) {
-    const enability = useEnability();
-    const enabilityTransparency = enability.map((v) => 1 - v);
-    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.3);
+export default function Inventory(props: { enabled: boolean }) {
+    const enabled = props.enabled;
 
     const store = useProducer<RootProducer>();
     const inventory = useSelector(selectPlayerInventory(theLocalPlr));
@@ -67,15 +63,13 @@ function App(props: {}) {
     }, []);
 
     return (
-        <EntireScreen superPositionEnability={enability} Key={"Inventory"}>
-            <EntireScreen handleInset={true}>
-                <frame
-                    Key={"Background"}
-                    BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                    BackgroundTransparency={enabilitySemiTransparency}
-                    Size={new UDim2(1, 0, 1, 0)}
-                ></frame>
-            </EntireScreen>
+        <Transition enabled={enabled}>
+            <frame
+                Key={"Background"}
+                BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+                BackgroundTransparency={0.3}
+                Size={new UDim2(1, 0, 1, 0)}
+            />
             <frame
                 Key={"Main"}
                 Size={new UDim2(1, -30, 1, -30 - 120)}
@@ -89,7 +83,7 @@ function App(props: {}) {
                     AnchorPoint={new Vector2(1, 0.5)}
                     Position={new UDim2(1, -30, 0.5, 0)}
                     BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                    BackgroundTransparency={enabilitySemiTransparency}
+                    BackgroundTransparency={0.3}
                     ClipsDescendants={true}
                 >
                     <uigridlayout
@@ -98,14 +92,14 @@ function App(props: {}) {
                         CellSize={new UDim2(0, SLOT_LEN, 0, SLOT_LEN)}
                         CellPadding={new UDim2(0, SLOT_PAD, 0, SLOT_PAD)}
                         SortOrder={"LayoutOrder"}
-                    ></uigridlayout>
+                    />
                     <ItemFragments
                         from={10}
                         to={30}
                         indexCurrentlyHovered={indexCurrentlyHovered}
                         setIndexCurrentlyHovered={setIndexCurrentlyHovered}
                         swapItems={swapItems}
-                    ></ItemFragments>
+                    />
                 </frame>
                 <frame
                     Key={"Description"}
@@ -114,7 +108,7 @@ function App(props: {}) {
                     Position={new UDim2(0, 30, 0.5, 0)}
                     BackgroundColor3={Color3.fromRGB(0, 0, 0)}
                     ClipsDescendants={true}
-                    Transparency={enabilitySemiTransparency}
+                    Transparency={0.3}
                 >
                     <textlabel
                         Key={"ItemName"}
@@ -133,7 +127,7 @@ function App(props: {}) {
                             Thickness={2}
                             ApplyStrokeMode={"Contextual"}
                             Transparency={itemDescriptionTransparency}
-                        ></uistroke>
+                        />
                     </textlabel>
                     <textlabel
                         Key={"ItemDescription"}
@@ -154,7 +148,7 @@ function App(props: {}) {
                             Thickness={1}
                             ApplyStrokeMode={"Contextual"}
                             Transparency={itemDescriptionTransparency}
-                        ></uistroke>
+                        />
                     </textlabel>
                 </frame>
             </frame>
@@ -170,7 +164,7 @@ function App(props: {}) {
                     BackgroundColor3={Color3.fromRGB(0, 0, 0)}
                     AnchorPoint={new Vector2(0.5, 0.5)}
                     Position={new UDim2(0.5, 0, 0.5, 0)}
-                    BackgroundTransparency={enabilitySemiTransparency}
+                    BackgroundTransparency={0.3}
                     ClipsDescendants={true}
                     Size={new UDim2(0, getLengthBySlots(10), 0, getLengthBySlots(1))}
                 >
@@ -187,17 +181,9 @@ function App(props: {}) {
                         indexCurrentlyHovered={indexCurrentlyHovered}
                         setIndexCurrentlyHovered={setIndexCurrentlyHovered}
                         swapItems={swapItems}
-                    ></ItemFragments>
+                    />
                 </frame>
             </frame>
-        </EntireScreen>
-    );
-}
-
-export default function Inventory(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
+        </Transition>
     );
 }

@@ -39,6 +39,7 @@
     "@rbxts/roact-hooked": "^2.6.1",
     "@rbxts/roact-reflex": "^2.1.0",
     "@rbxts/services": "^1.5.1",
+    "@rbxts/set-timeout": "^1.1.2",
     "@rbxts/sift": "^0.0.6",
     "@rbxts/t": "^3.1.0",
     "@rbxts/testez": "^0.4.2-ts.0",

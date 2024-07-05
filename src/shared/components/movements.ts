@@ -54,7 +54,7 @@ export type DashContext = ReturnType<typeof DashContext>;
 
 // \Contexts
 
-export const PotentialDirectionalMovement = ComponentCreator.monitored<{
+export const PotentialDirectionalMovement = ComponentCreator.protectedBidirectional<{
     type: DirectionalMovementType;
 }>("PotentialDirectionalMovement");
 export type PotentialDirectionalMovement = ReturnType<typeof PotentialDirectionalMovement>;
@@ -65,7 +65,7 @@ export const DirectionalMovement = ComponentCreator.base<{
 export type DirectionalMovement = ReturnType<typeof DirectionalMovement>;
 
 export const IsDirectionallyMoving = ComponentCreator.protectedBidirectional<{
-    animTrackLength: number;
+    animTrackRawLength: number;
 }>("IsDirectionallyMoving");
 export type IsDirectionallyMoving = ReturnType<typeof IsDirectionallyMoving>;
 

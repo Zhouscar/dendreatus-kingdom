@@ -9,6 +9,7 @@ import {
     PotentialDirectionalMovement,
 } from "shared/components/movements";
 import { resumeAnimation } from "shared/effects/animations";
+import { ANIM_ALPHAS } from "shared/features/movements/animAlphas";
 
 function humanDirectionalMovement(w: World) {
     for (const [e, localPlr, human] of w.query(LocalPlr, Human).without(DirectionalMovement)) {
@@ -69,15 +70,45 @@ function humanDirectionalMovement(w: World) {
         const animator = w.get(e, Animatable)?.animator;
         if (animator) {
             if (potentialDirectionalMovement.type === "walk") {
-                resumeAnimation(animator, "walk", "Movement", newWalkSpeed * 0.15, true);
+                resumeAnimation(
+                    animator,
+                    "walk",
+                    "Movement",
+                    newWalkSpeed * ANIM_ALPHAS.walk,
+                    true,
+                );
             } else if (potentialDirectionalMovement.type === "sprint") {
-                resumeAnimation(animator, "sprint", "Movement", newWalkSpeed * 0.05, true);
+                resumeAnimation(
+                    animator,
+                    "sprint",
+                    "Movement",
+                    newWalkSpeed * ANIM_ALPHAS.sprint,
+                    true,
+                );
             } else if (potentialDirectionalMovement.type === "sneak") {
-                resumeAnimation(animator, "sneak", "Movement", newWalkSpeed * 0.2, true);
+                resumeAnimation(
+                    animator,
+                    "sneak",
+                    "Movement",
+                    newWalkSpeed * ANIM_ALPHAS.sneak,
+                    true,
+                );
             } else if (potentialDirectionalMovement.type === "dive") {
-                resumeAnimation(animator, "dive", "Movement", newWalkSpeed * 0.1, true);
+                resumeAnimation(
+                    animator,
+                    "dive",
+                    "Movement",
+                    newWalkSpeed * ANIM_ALPHAS.dive,
+                    true,
+                );
             } else if (potentialDirectionalMovement.type === "swim") {
-                resumeAnimation(animator, "swim", "Movement", newWalkSpeed * 0.1, true);
+                resumeAnimation(
+                    animator,
+                    "swim",
+                    "Movement",
+                    newWalkSpeed * ANIM_ALPHAS.swim,
+                    true,
+                );
             } else if (potentialDirectionalMovement.type === "climb") {
                 const linearVelocity = w.get(e, LinearVelocity);
                 if (linearVelocity !== undefined) {
@@ -87,7 +118,7 @@ function humanDirectionalMovement(w: World) {
                         animator,
                         "climb",
                         "Movement",
-                        newWalkSpeed * 0.2 * (climbingUp ? 1 : -1),
+                        newWalkSpeed * ANIM_ALPHAS.climb * (climbingUp ? 1 : -1),
                         true,
                     );
                 }

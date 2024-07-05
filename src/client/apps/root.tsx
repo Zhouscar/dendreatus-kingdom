@@ -5,18 +5,18 @@ import { ReflexProvider } from "@rbxts/roact-reflex";
 import { store } from "client/store";
 import Inventory from "./inventory";
 import Interactables from "./interactables";
-import { RemoteTokenProvider } from "./contexts/remoteToken";
 import DeathScreen from "./deathScreen";
 import ClockTimeHandler from "./clockTimeHandler";
 import TitleCard from "./titleCard";
-import { ClientState } from "shared/state";
+import { ClientState, State } from "shared/state";
 import SpawningHandler from "./spawningHandler";
-import { useClientState, useLocalPlrE } from "./hooks/ecsSelectors";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
 import MouseClickEffects from "./mouseClickSound";
 import GameScreen from "./gameScreen";
 import SignScreen from "./signScreen";
+import useClientState from "./hooks/useClientState";
+import useLocalPlrE from "./hooks/useLocalPlrE";
 
 function App() {
     const clientState = useClientState();
@@ -25,7 +25,12 @@ function App() {
     return (
         <>
             <ClockTimeHandler />
-            <screengui Key={"Root"} ResetOnSpawn={false}>
+            <screengui
+                Key={"Root"}
+                ResetOnSpawn={false}
+                IgnoreGuiInset={true}
+                ZIndexBehavior={"Sibling"}
+            >
                 <MouseClickEffects />
                 <SpawningHandler enabled={clientState === "spawning"} />
                 <TitleCard enabled={clientState === "title"} />
@@ -41,18 +46,12 @@ function App() {
     );
 }
 
-export default function Root(props: {
-    w: World;
-    setClientState: (state: ClientState) => void;
-    remoteToken: string;
-}) {
+export default function Root(props: { w: World; s: State; remoteToken: string }) {
     return (
-        <WProvider value={{ w: props.w, setClientState: props.setClientState }}>
-            <RemoteTokenProvider value={{ remoteToken: props.remoteToken }}>
-                <ReflexProvider producer={store}>
-                    <App />
-                </ReflexProvider>
-            </RemoteTokenProvider>
+        <WProvider value={{ w: props.w, s: props.s, remoteToken: props.remoteToken }}>
+            <ReflexProvider producer={store}>
+                <App />
+            </ReflexProvider>
         </WProvider>
     );
 }

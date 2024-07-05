@@ -29,7 +29,7 @@ export function getTrackLength(animator: MyAnimator, animName: AnimName): number
         return undefined;
     }
 
-    return track.Length / track.Speed;
+    return track.Length;
 }
 
 export function startAnimationById(

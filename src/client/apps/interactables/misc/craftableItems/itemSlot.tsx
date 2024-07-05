@@ -6,8 +6,8 @@ import { useSpring } from "client/apps/hooks/ripple";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { Item } from "shared/features/items/types";
 
-const SLOT_LEN = 80;
-const SLOT_PAD = 10;
+const SLOT_LEN = 50;
+const SLOT_PAD = 5;
 
 export default function CraftableItemSlot(props: { item: Item | undefined; showing: boolean }) {
     const item = props.item;

@@ -1,28 +1,23 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "./contexts/enability";
-import { useEnability, useEnabled } from "./hooks/enability";
-import EntireScreen from "./components/entireScreen";
+import Transition from "./components/transition";
 import { useCallback, useEffect, useRef } from "@rbxts/roact-hooked";
 import { RunService, UserInputService } from "@rbxts/services";
-import { useLocalPlrE } from "./hooks/ecsSelectors";
-import useW, { useSetClientState } from "./hooks/useW";
+import useW, { useS } from "./hooks/useW";
 import { ChattingRaw } from "shared/components";
 import { useEventListener, useLatest } from "@rbxts/pretty-roact-hooks";
 import { useSpring } from "./hooks/ripple";
+import useLocalPlrE from "./hooks/useLocalPlrE";
 
 const MAX_MESSAGE_LENGTH = 50;
 
-function App(props: {}) {
-    const enabled = useEnabled();
-    const enability = useEnability();
+export default function ChatScreen(props: { enabled: boolean }) {
+    const enabled = props.enabled;
     const textboxRef = useRef<TextBox>();
     const latestEnabled = useLatest(enabled);
 
-    const transparency = useSpring(enabled ? 0.2 : 1);
-
     const localPlrE = useLocalPlrE();
 
-    const setClientState = useSetClientState();
+    const s = useS();
     const w = useW();
 
     const entered = useCallback(() => {
@@ -39,7 +34,7 @@ function App(props: {}) {
 
         textbox.Text = "";
 
-        setClientState("game");
+        s.clientState = "game";
 
         w.insert(localPlrE, ChattingRaw({ message: text }));
     }, [enabled, localPlrE, w]);
@@ -61,7 +56,7 @@ function App(props: {}) {
     }, [enabled]);
 
     return (
-        <EntireScreen superPositionEnability={enability}>
+        <Transition enabled={enabled} enabledTransparency={0.2}>
             <textbox
                 ClearTextOnFocus={false}
                 Size={new UDim2(0, 300, 0, 30)}
@@ -70,8 +65,6 @@ function App(props: {}) {
                 Ref={textboxRef}
                 Font={"Fantasy"}
                 TextSize={16}
-                BackgroundTransparency={transparency}
-                TextTransparency={transparency}
                 Text={""}
                 PlaceholderText={"Type here to chat..."}
                 PlaceholderColor3={Color3.fromRGB(100, 100, 100)}
@@ -84,14 +77,6 @@ function App(props: {}) {
             >
                 <uicorner CornerRadius={new UDim(0, 10)} />
             </textbox>
-        </EntireScreen>
-    );
-}
-
-export default function ChatScreen(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
+        </Transition>
     );
 }

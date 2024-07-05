@@ -13,7 +13,6 @@ import { Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { GuiService, RunService, UserInputService } from "@rbxts/services";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
-import { useEnability, useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 import { playSound } from "shared/effects/sounds";
 
@@ -24,8 +23,6 @@ export default function ItemSlot(props: {
     setIndexCurrentlyHovered: Dispatch<SetStateAction<number | undefined>>;
     swapItems: (from: number, to: number) => void;
 }) {
-    const enabled = useEnabled();
-
     const item = props.item;
     const index = props.index;
 
@@ -48,11 +45,6 @@ export default function ItemSlot(props: {
 
     const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
-    const enability = useEnability();
-    const enabilityTransparency = enability.map((v) => 1 - v);
-    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.5);
-    const enabilityTinyTransparency = enability.map((v) => 1 - v * 0.8);
-
     const [hovering, setHovering] = useState(false);
     const hoverSpring = useSpring(hovering ? 1 : 0);
     const hoverTransparency = hoverSpring.map((v) => 1 - v);
@@ -66,13 +58,6 @@ export default function ItemSlot(props: {
     const draggerSize = dragSpring.map((v) => new UDim2(0, 80 - v * 20, 0, 80 - v * 20));
 
     const itemImageRef = createRef<ImageLabel>();
-
-    useEffect(() => {
-        if (!enabled) {
-            setHovering(false);
-            setDragging(false);
-        }
-    }, [enabled]);
 
     useEffect(() => {
         if (dragging) {
@@ -129,14 +114,14 @@ export default function ItemSlot(props: {
     return (
         <frame
             Size={new UDim2(0, 80, 0, 80)}
-            BackgroundTransparency={enabilitySemiTransparency}
+            BackgroundTransparency={0.5}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
             BorderSizePixel={0}
             Event={{
-                MouseEnter: enabled ? onHover : undefined,
-                MouseLeave: enabled ? onUnhover : undefined,
-                InputBegan: enabled ? inputBegan : undefined,
-                InputEnded: enabled ? inputEnded : undefined,
+                MouseEnter: onHover,
+                MouseLeave: onUnhover,
+                InputBegan: inputBegan,
+                InputEnded: inputEnded,
             }}
         >
             <frame
@@ -155,10 +140,11 @@ export default function ItemSlot(props: {
                     Color={Color3.fromRGB(150, 150, 150)}
                     ApplyStrokeMode={"Border"}
                     LineJoinMode={"Miter"}
-                    Transparency={enabilitySemiTransparency}
+                    Transparency={0.5}
                     Thickness={2}
                 />
             </frame>
+            {/* TODO: can be further optimized */}
             {item !== undefined && (
                 <>
                     <imagelabel
@@ -168,13 +154,13 @@ export default function ItemSlot(props: {
                         Size={new UDim2(1, 0, 1, 0)}
                         Image={image}
                         BackgroundTransparency={1}
-                        ImageTransparency={enabilityTransparency.map((v) => (dragging ? 1 : v))}
+                        ImageTransparency={dragging ? 0 : 1}
                     >
                         <textlabel
                             Position={new UDim2(1, -5, 1, -5)}
                             AnchorPoint={new Vector2(1, 1)}
                             BackgroundTransparency={1}
-                            TextTransparency={enabilityTransparency.map((v) => (dragging ? 1 : v))}
+                            TextTransparency={dragging ? 0 : 1}
                             TextColor3={Color3.fromRGB(255, 255, 255)}
                             TextXAlignment={"Right"}
                             TextYAlignment={"Bottom"}
@@ -185,7 +171,7 @@ export default function ItemSlot(props: {
                             <uistroke
                                 Thickness={2}
                                 ApplyStrokeMode={"Contextual"}
-                                Transparency={enabilityTransparency.map((v) => (dragging ? 1 : v))}
+                                Transparency={dragging ? 0 : 1}
                             />
                         </textlabel>
                         {consumeStagePerc !== undefined && (
@@ -195,7 +181,7 @@ export default function ItemSlot(props: {
                                 Size={new UDim2(0.8, 0, 0, 15)}
                                 BorderSizePixel={0}
                                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                                BackgroundTransparency={enabilityTinyTransparency}
+                                BackgroundTransparency={0.8}
                             >
                                 <frame
                                     Size={consumeStagePercSpring.map(
@@ -205,7 +191,7 @@ export default function ItemSlot(props: {
                                     Position={new UDim2(0, 2, 0.5, 0)}
                                     BorderSizePixel={0}
                                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                                    Transparency={enabilityTransparency}
+                                    Transparency={0.8}
                                 >
                                     <uigradient
                                         Color={consumeStagePercSpring.map(

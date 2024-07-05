@@ -1,6 +1,6 @@
-import { AnyComponent, AnyEntity } from "@rbxts/matter";
+import { AnyEntity } from "@rbxts/matter";
 import useW from "./useW";
-import { useBinding, useEffect, useMutable, useRef, useState } from "@rbxts/roact-hooked";
+import { useEffect, useState } from "@rbxts/roact-hooked";
 import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { RunService } from "@rbxts/services";
 import { useLatest } from "@rbxts/pretty-roact-hooks";

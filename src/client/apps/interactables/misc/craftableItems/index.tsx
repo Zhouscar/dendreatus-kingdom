@@ -3,8 +3,8 @@ import { CannotInteractReason, Cookable, Craftable } from "shared/components/int
 import { InteractState } from "shared/features/interactables/types";
 import CraftableItemFragments from "./itemFragments";
 
-const SLOT_LEN = 80;
-const SLOT_PAD = 10;
+const SLOT_LEN = 50;
+const SLOT_PAD = 5;
 
 export default function CraftableItems(props: {
     craftable: Craftable;

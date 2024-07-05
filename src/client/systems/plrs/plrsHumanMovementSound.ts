@@ -2,9 +2,14 @@ import { Make } from "@rbxts/altmake";
 import { World } from "@rbxts/matter";
 import { useChange } from "@rbxts/matter-hooks";
 import { Human, Renderable } from "shared/components";
-import { IsDirectionallyMoving, OnLand } from "shared/components/movements";
+import {
+    IsDirectionallyMoving,
+    OnLand,
+    PotentialDirectionalMovement,
+} from "shared/components/movements";
 import { SOUND_IDS, SoundName } from "shared/features/ids/sounds";
 import { MATERIAL_CATEGORIES, PLACEHOLDER_CATERORY } from "shared/features/materials/constants";
+import { ANIM_ALPHAS } from "shared/features/movements/animAlphas";
 import { hasComponents } from "shared/hooks/components";
 
 function findSound(pv: PVInstance) {
@@ -21,10 +26,18 @@ function findSound(pv: PVInstance) {
 }
 
 function plrHumanMovementSound(w: World) {
-    for (const [e, human, renderable] of w.query(Human, Renderable)) {
+    for (const [e, human, renderable, potentialDirectionalMovement] of w.query(
+        Human,
+        Renderable,
+        PotentialDirectionalMovement,
+    )) {
         const playSound = hasComponents(w, e, OnLand, IsDirectionallyMoving);
         if (playSound) {
-            const trackLength = w.get(e, IsDirectionallyMoving)!.animTrackLength;
+            const rawTrackLength = w.get(e, IsDirectionallyMoving)!.animTrackRawLength;
+            const walkSpeed = human.humanoid.WalkSpeed;
+            const trackLength =
+                rawTrackLength / (walkSpeed * ANIM_ALPHAS[potentialDirectionalMovement.type]);
+
             const sound = findSound(renderable.pv);
             if (sound !== undefined) {
                 const floorCategory =
@@ -61,7 +74,7 @@ function plrHumanMovementSound(w: World) {
                             ? 14
                             : soundName === "footStepStone"
                               ? 12
-                              : 100;
+                              : 0;
 
                 const adjustedSoundLength = (trackLength / stepsInAnim) * stepsInSound;
                 sound.PlaybackSpeed = sound.TimeLength / adjustedSoundLength;

@@ -6,13 +6,16 @@ import { ComponentNames, SyncMap } from "shared/components/serde";
 import { routes } from "shared/network";
 import { State } from "shared/state";
 import Sift from "@rbxts/sift";
+import { ComponentCtor } from "@rbxts/matter/lib/component";
 
-let syncStreak = 0;
+const syncStreaks: Map<ComponentCtor, number> = new Map();
 
 function clientSync(w: World, s: State, remoteToken: string) {
     const changes: SyncMap = new Map();
 
     for (const Ctor of MONITORED_COMPONENTS) {
+        let ctorHasChange = false;
+
         for (const [e, record] of w.queryChanged(Ctor)) {
             if (!w.contains(e)) continue;
 
@@ -35,6 +38,18 @@ function clientSync(w: World, s: State, remoteToken: string) {
             }
 
             changes.get(key)!.set(name, { data: record.new! });
+
+            ctorHasChange = true;
+        }
+
+        if (ctorHasChange) {
+            const newStreak = (syncStreaks.get(Ctor) ?? 0) + 1;
+            syncStreaks.set(Ctor, newStreak);
+            if (newStreak > 10 && useThrottle(0.2, Ctor)) {
+                warn(`${tostring(Ctor)} synced ${newStreak} times consecutively`);
+            }
+        } else {
+            syncStreaks.delete(Ctor);
         }
     }
 
@@ -46,13 +61,6 @@ function clientSync(w: World, s: State, remoteToken: string) {
 
     if (!changes.isEmpty()) {
         routes.ecsSync.send(remoteToken, changes);
-        syncStreak++;
-    } else {
-        syncStreak = 0;
-    }
-
-    if (syncStreak > 10 && useThrottle(1)) {
-        warn("CONSECUTIVE SYNCING IS DETECTED, COMPONENTS NEEDS OPTIMIZATION");
     }
 
     for (const [e] of w.query(DoNotSync)) {

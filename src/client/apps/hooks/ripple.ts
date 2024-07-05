@@ -1,8 +1,9 @@
 import { getBindingValue, useEventListener } from "@rbxts/pretty-roact-hooks";
-import { createMotion, Motion, MotionGoal, SpringOptions } from "@rbxts/ripple";
+import { createMotion, LinearOptions, Motion, MotionGoal, SpringOptions } from "@rbxts/ripple";
 import { Binding } from "@rbxts/roact";
 import { useBinding, useMemo, useMutable, useRef } from "@rbxts/roact-hooked";
 import { RunService } from "@rbxts/services";
+import { has } from "@rbxts/sift/out/Dictionary";
 
 export function useMotion(initialValue: number): LuaTuple<[Binding<number>, Motion]>;
 
@@ -43,6 +44,29 @@ export function useSpring(goal: MotionGoal | Binding<MotionGoal>, options?: Spri
         if (currentValue !== previousValue.current) {
             previousValue.current = currentValue;
             motion.spring(currentValue, options);
+        }
+    });
+
+    return binding;
+}
+
+export function useLinear(goal: number | Binding<number>, options?: LinearOptions): Binding<number>;
+
+export function useLinear<T extends MotionGoal>(
+    goal: T | Binding<T>,
+    options?: LinearOptions,
+): Binding<T>;
+
+export function useLinear(goal: MotionGoal | Binding<MotionGoal>, options?: LinearOptions) {
+    const [binding, motion] = useMotion(getBindingValue(goal));
+    const previousValue = useMutable(getBindingValue(goal));
+
+    useEventListener(RunService.Heartbeat, () => {
+        const currentValue = getBindingValue(goal);
+
+        if (currentValue !== previousValue.current) {
+            previousValue.current = currentValue;
+            motion.linear(currentValue, options);
         }
     });
 

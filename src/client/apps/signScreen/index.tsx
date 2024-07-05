@@ -1,25 +1,22 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "../contexts/enability";
-import EntireScreen from "../components/entireScreen";
+import Transition from "../components/transition";
 import useComponent from "../hooks/useComponent";
-import { useLocalPlrE } from "../hooks/ecsSelectors";
 import { ReadingSign } from "shared/components/signs";
 import { useCallback, useMemo, useState } from "@rbxts/roact-hooked";
 import { SIGN_CONTEXTS } from "shared/features/signs/contexts";
-import { useEnability, useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 import { playSound } from "shared/effects/sounds";
-import { useSetClientState } from "../hooks/useW";
+import useLocalPlrE from "../hooks/useLocalPlrE";
+import { useS } from "../hooks/useW";
+import Button from "../components/button";
 
-function App(props: {}) {
+export default function SignScreen(props: { enabled: boolean }) {
     const localPlrE = useLocalPlrE();
     const readingSign = useComponent(localPlrE, ReadingSign);
 
-    const enabled = useEnabled();
-    const enability = useEnability();
+    const enabled = props.enabled;
 
-    const semiTransparency = useSpring(enabled ? 0.5 : 1);
-    const transparency = useSpring(enabled ? 0 : 1);
+    const s = useS();
 
     const [hovering, setHovering] = useState(false);
 
@@ -39,10 +36,8 @@ function App(props: {}) {
         setHovering(false);
     }, []);
 
-    const setClientState = useSetClientState();
-
     const clicked = useCallback(() => {
-        setClientState("game");
+        s.clientState = "game";
     }, []);
 
     const signContext = useMemo(() => {
@@ -61,17 +56,16 @@ function App(props: {}) {
                 TextColor3={Color3.fromRGB(0, 0, 0)}
                 BorderSizePixel={0}
                 BackgroundTransparency={1}
-                TextTransparency={transparency}
                 Font={"Fantasy"}
             />,
         );
     });
 
     return (
-        <EntireScreen handleInset={true} superPositionEnability={enability}>
+        <Transition enabled={enabled}>
             <frame
                 BorderSizePixel={0}
-                BackgroundTransparency={semiTransparency}
+                BackgroundTransparency={0.5}
                 ZIndex={1}
                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
                 Size={new UDim2(1, 0, 1, 0)}
@@ -79,32 +73,18 @@ function App(props: {}) {
             <frame
                 ZIndex={2}
                 BorderSizePixel={0}
-                BackgroundTransparency={transparency}
                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
                 Position={new UDim2(0.5, 0, 0.5, 0)}
                 AnchorPoint={new Vector2(0.5, 0.5)}
                 Size={new UDim2(0, 300, 0, 500)}
             >
-                <textbutton
-                    BackgroundTransparency={0}
-                    Position={new UDim2(1, -10, 0, 10)}
-                    AnchorPoint={new Vector2(1, 0)}
-                    Size={new UDim2(0, 20, 0, 20)}
-                    TextStrokeTransparency={1}
-                    TextTransparency={transparency}
-                    TextColor3={buttonTextColor}
-                    AutoButtonColor={false}
-                    BackgroundColor3={buttonBackgroundColor}
-                    Font={"Fantasy"}
-                    Event={{
-                        MouseEnter: hover,
-                        MouseLeave: unhover,
-                        MouseButton1Click: enabled ? clicked : undefined,
-                    }}
-                    Text={"X"}
-                >
-                    <uicorner CornerRadius={new UDim(0, 10)} />
-                </textbutton>
+                <Button
+                    position={new UDim2(1, -10, 0, 10)}
+                    anchorPoint={new Vector2(1, 0)}
+                    size={new UDim2(0, 20, 0, 20)}
+                    clicked={clicked}
+                    text={"X"}
+                />
                 <scrollingframe
                     BorderSizePixel={0}
                     BackgroundTransparency={1}
@@ -119,14 +99,6 @@ function App(props: {}) {
                     <uilistlayout SortOrder={"Name"} FillDirection={"Vertical"} />
                 </scrollingframe>
             </frame>
-        </EntireScreen>
-    );
-}
-
-export default function SignScreen(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
+        </Transition>
     );
 }

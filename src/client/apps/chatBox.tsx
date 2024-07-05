@@ -3,7 +3,6 @@ import { useMotion, useSpring } from "./hooks/ripple";
 import { useBindingListener, useTimeout } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
 import { TextService } from "@rbxts/services";
-import { useEnabled } from "./hooks/enability";
 import { AnyEntity } from "@rbxts/matter";
 import useComponent from "./hooks/useComponent";
 import { Transform } from "shared/components";
@@ -24,8 +23,6 @@ export default function ChatBox(props: {
     const textSize = props.textSize;
     const font = props.font;
 
-    const enabled = useEnabled();
-
     const transform = useComponent(e, Transform);
 
     const indexSpring = useSpring(index);
@@ -43,7 +40,7 @@ export default function ChatBox(props: {
 
     const labelPosition = indexSpring.map((v) => new UDim2(0.5, 0, 0.5, -v * 25 - 20));
     const labelSize = messageBounds.map((v) => new UDim2(0, v.X, 0, v.Y));
-    const labelTransparency = useSpring(index / 3 + (enabled ? 0.2 : 1) + (timedOut ? 1 : 0));
+    const labelTransparency = useSpring(index / 3 + 0.2 + (timedOut ? 1 : 0));
 
     useBindingListener(messageText, () => {
         if (transform === undefined) return;

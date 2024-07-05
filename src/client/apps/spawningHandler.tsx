@@ -1,73 +1,54 @@
 import Roact from "@rbxts/roact";
-import { EnabilityProvider } from "./contexts/enability";
-import EntireScreen from "./components/entireScreen";
-import { useEnability, useEnabled } from "./hooks/enability";
+import Transition from "./components/transition";
 import { useTimeout } from "@rbxts/pretty-roact-hooks";
 import { useBinding, useEffect, useRef } from "@rbxts/roact-hooked";
-import { useLocalPlrE } from "./hooks/ecsSelectors";
 import useComponent from "./hooks/useComponent";
 import { Animatable } from "shared/components";
 import { startAnimation } from "shared/effects/animations";
-import { useSetClientState } from "./hooks/useW";
 import { playSound } from "shared/effects/sounds";
+import useLocalPlrE from "./hooks/useLocalPlrE";
+import useSetClientState from "./hooks/useSetClientState";
+import useWait from "./hooks/useWait";
+import useCoincidenceEffect from "./hooks/useCoincidenceEffect";
+import useDeferred from "./hooks/useDeferred";
 
-function App(props: {}) {
-    const enabled = useEnabled();
-    const enability = useEnability();
+export default function SpawningHandler(props: { enabled: boolean }) {
+    const enabled = props.enabled;
+    const deferredEnabled = useDeferred(enabled);
 
     const localPlrE = useLocalPlrE();
     const setClientState = useSetClientState();
 
     const animatable = useComponent(localPlrE, Animatable);
 
-    const [blackScreenTransparency, setBlackScreenTransparency] = useBinding(1);
+    const wait9 = useWait(9, [enabled]);
+    const wait20 = useWait(20, [enabled]);
 
     useEffect(() => {
         if (!enabled) return;
-        setBlackScreenTransparency(0);
         playSound({ soundName: "wakeUpFromTrauma" });
-    }, [enabled]);
+    }, [deferredEnabled]);
 
-    useEffect(() => {
-        if (enabled && animatable !== undefined) {
-            startAnimation(animatable.animator, "wakingUpFromTrauma", "Action", 0);
-        }
-    }, [enabled, animatable]);
+    useCoincidenceEffect(() => {
+        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action", 0);
+    }, [deferredEnabled, animatable !== undefined]);
 
-    useTimeout(
-        () => {
-            setBlackScreenTransparency(1);
-            if (animatable !== undefined) {
-                startAnimation(animatable.animator, "wakingUpFromTrauma", "Action");
-            }
-        },
-        enabled ? 9 : math.huge,
-    );
+    useCoincidenceEffect(() => {
+        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action");
+    }, [deferredEnabled, wait9, animatable !== undefined]);
 
-    useTimeout(
-        () => {
-            setClientState("game");
-        },
-        enabled ? 20 : math.huge,
-    );
+    useCoincidenceEffect(() => {
+        setClientState("game");
+    }, [deferredEnabled, wait20]);
 
     return (
-        <EntireScreen handleInset={true} superPositionEnability={enability} Key={"Spawning"}>
+        <Transition enabled={enabled && !wait9}>
             <frame
                 Size={new UDim2(5, 0, 5, 0)}
                 Position={new UDim2(0.5, 0, 0.5, 0)}
                 AnchorPoint={new Vector2(0.5, 0.5)}
                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                Transparency={blackScreenTransparency}
             />
-        </EntireScreen>
-    );
-}
-
-export default function SpawningHandler(props: { enabled: boolean }) {
-    return (
-        <EnabilityProvider value={{ enabled: props.enabled }}>
-            <App />
-        </EnabilityProvider>
+        </Transition>
     );
 }

@@ -4,18 +4,15 @@ import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { useCallback, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { useSpring } from "../hooks/ripple";
-import { useEnability, useEnabled } from "../hooks/enability";
-import { useLocalPlrE } from "../hooks/ecsSelectors";
 import useW from "../hooks/useW";
-import useComponent from "../hooks/useComponent";
 import { EquippingByIndex } from "shared/components/items";
+import useLocalPlrE from "../hooks/useLocalPlrE";
 
 export default function ItemSlot(props: {
     indexEquipped: number | undefined;
     index: number;
     item: Item | undefined;
 }) {
-    const enabled = useEnabled();
     const item = props.item;
     const index = props.index;
     const indexEquipped = props.indexEquipped;
@@ -50,14 +47,7 @@ export default function ItemSlot(props: {
 
     const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
 
-    const enability = useEnability();
-
-    const enabilitySemiTransparency = enability.map((v) => 1 - v * 0.3);
-    const enabilityTinyTransparency = enability.map((v) => 1 - v * 0.8);
-    const enabilityTransparency = enability.map((v) => 1 - v);
-
-    const equippedSpring = useSpring(equipped && enabled ? 1 : 0);
-    const equippedTransparency = equippedSpring.map((v) => 1 - v);
+    const equippedTransparency = useSpring(equipped ? 0 : 1);
 
     return (
         <textbutton
@@ -65,10 +55,9 @@ export default function ItemSlot(props: {
             Size={new UDim2(0, 50, 0, 50)}
             ZIndex={1}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-            BackgroundTransparency={enabilitySemiTransparency}
+            BackgroundTransparency={0.5}
             BorderSizePixel={0}
-            Active={enabled}
-            Event={{ MouseButton1Click: enabled ? clicked : undefined }}
+            Event={{ MouseButton1Click: clicked }}
             Text={""}
         >
             <uistroke
@@ -78,17 +67,11 @@ export default function ItemSlot(props: {
                 Transparency={equippedTransparency}
             />
             {item !== undefined && (
-                <imagelabel
-                    Size={new UDim2(1, 0, 1, 0)}
-                    BackgroundTransparency={1}
-                    Image={image}
-                    ImageTransparency={enabilityTransparency}
-                >
+                <imagelabel Size={new UDim2(1, 0, 1, 0)} BackgroundTransparency={1} Image={image}>
                     <textlabel
                         Position={new UDim2(1, -5, 1, -5)}
                         AnchorPoint={new Vector2(1, 1)}
                         BackgroundTransparency={1}
-                        TextTransparency={enabilityTransparency}
                         TextColor3={Color3.fromRGB(255, 255, 255)}
                         TextXAlignment={"Right"}
                         TextYAlignment={"Bottom"}
@@ -96,11 +79,7 @@ export default function ItemSlot(props: {
                         Font={"Fantasy"}
                         Text={item.stack > 1 ? tostring(item.stack) : ""}
                     >
-                        <uistroke
-                            Thickness={2}
-                            ApplyStrokeMode={"Contextual"}
-                            Transparency={enabilityTransparency}
-                        ></uistroke>
+                        <uistroke Thickness={2} ApplyStrokeMode={"Contextual"}></uistroke>
                     </textlabel>
                     {consumeStagePerc !== undefined && (
                         <frame
@@ -109,7 +88,7 @@ export default function ItemSlot(props: {
                             Size={new UDim2(0.8, 0, 0, 15)}
                             BorderSizePixel={0}
                             BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                            BackgroundTransparency={enabilityTinyTransparency}
+                            BackgroundTransparency={0.2}
                         >
                             <frame
                                 Size={consumeStagePercSpring.map((v) => new UDim2(v, -4, 1, -4))}
@@ -117,7 +96,6 @@ export default function ItemSlot(props: {
                                 Position={new UDim2(0, 2, 0.5, 0)}
                                 BorderSizePixel={0}
                                 BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                                Transparency={enabilityTransparency}
                             >
                                 <uigradient
                                     Color={consumeStagePercSpring.map(

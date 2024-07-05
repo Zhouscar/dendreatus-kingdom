@@ -7,8 +7,8 @@ import { ID_ATTRIBUTE } from "shared/idAttribute";
 import { State } from "shared/state";
 
 function crashReportCheckModel(instance: Instance): instance is Model {
-    if (!instance.IsA("Model")) {
-        warn(`${instance.GetFullName()} is not a model`);
+    if (!instance.IsA("PVInstance")) {
+        warn(`${instance.GetFullName()} is not a PVInstance`);
     }
     return true;
 }

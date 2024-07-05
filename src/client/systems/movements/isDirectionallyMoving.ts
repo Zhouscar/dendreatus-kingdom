@@ -21,7 +21,7 @@ function isDirectionallyMoving(w: World) {
 
         const trackLength = getTrackLength(animatable.animator, potentialDirectionalMovement.type);
 
-        w.insert(e, IsDirectionallyMoving({ animTrackLength: trackLength ?? math.huge }));
+        w.insert(e, IsDirectionallyMoving({ animTrackRawLength: trackLength ?? 100 }));
     }
 }
 

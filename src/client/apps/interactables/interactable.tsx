@@ -23,21 +23,22 @@ import {
     Harvestable,
     Interacted,
 } from "shared/components/interactables";
-import { useLocalPlrE } from "../hooks/ecsSelectors";
 import useW from "../hooks/useW";
-import { useEnabled } from "../hooks/enability";
 import { useSpring } from "../hooks/ripple";
 import { DroppedItem } from "shared/components/items";
 import CookableItems from "./misc/cookableItems";
 import CraftableItems from "./misc/craftableItems";
 import { ReadingSign, Sign } from "shared/components/signs";
+import useLocalPlrE from "../hooks/useLocalPlrE";
+import Transition from "../components/transition";
 
 export default function Interactable(props: {
+    enabled: boolean;
     e: AnyEntity;
     state: InteractState;
     cannotInteractReason?: CannotInteractReason;
 }) {
-    const enabled = useEnabled();
+    const enabled = props.enabled;
     const keybinds = useSelector(selectPlayerKeybinds(theLocalPlr));
     const interactKey = keybinds?.interact;
 
@@ -49,16 +50,12 @@ export default function Interactable(props: {
     const model = renderable?.pv;
 
     const buttonTransparency = useSpring(
-        state === "hidden" || !enabled || cannotInteractReason?.type === "busy"
-            ? 1
-            : cannotInteractReason !== undefined
-              ? 0.5
-              : 0,
+        state === "hidden" ? 1 : cannotInteractReason !== undefined ? 0.5 : 0,
     );
 
     const canInteract = enabled && state === "showing" && cannotInteractReason === undefined;
 
-    const showing = canInteract && enabled;
+    const showing = canInteract;
     const showSpring = useSpring(showing ? 1 : 0);
 
     const cooldownTransparency = useSpring(
@@ -103,7 +100,7 @@ export default function Interactable(props: {
     const doorLike = useComponent(e, DoorLike);
     const sign = useComponent(e, Sign);
 
-    const components = [harvestable, droppedItem, cookable, craftable, doorLike];
+    const components = [harvestable, droppedItem, cookable, craftable, doorLike, sign];
 
     // \components
 
@@ -254,76 +251,79 @@ export default function Interactable(props: {
             AlwaysOnTop={true}
             Size={new UDim2(0, 200, 0, 200)}
             Active={showing}
+            ZIndexBehavior={"Sibling"}
         >
-            {cookable !== undefined && (
-                <CookableItems
-                    cookable={cookable}
-                    state={state}
-                    cannotInteractReason={cannotInteractReason}
-                />
-            )}
-            {craftable !== undefined && (
-                <CraftableItems
-                    craftable={craftable}
-                    state={state}
-                    cannotInteractReason={cannotInteractReason}
-                />
-            )}
-            <textbutton
-                Active={showing}
-                AutoButtonColor={false}
-                Event={{ MouseButton1Click: showing ? clicked : undefined }}
-                BorderSizePixel={0}
-                BackgroundColor3={buttonColor}
-                AnchorPoint={new Vector2(0.5, 0.5)}
-                Position={new UDim2(0.5, 0, 0.5, 0)}
-                Size={frameSize}
-                BackgroundTransparency={buttonTransparency}
-                TextXAlignment={"Center"}
-                TextColor3={Color3.fromRGB(255, 255, 255)}
-                Text={interactKey ?? ""}
-                TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
-                TextStrokeTransparency={showTransparency}
-                TextSize={20}
-                Font={"Fantasy"}
-                TextTransparency={showTransparency}
-            >
-                <uicorner CornerRadius={new UDim(1, 0)} />
-            </textbutton>
-            <frame
-                BorderSizePixel={0}
-                BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                AnchorPoint={new Vector2(0.5, 0.5)}
-                Position={new UDim2(0.5, 0, 0.5, 20)}
-                Size={new UDim2(0, 100, 0, 1)}
-                BackgroundTransparency={cooldownTransparency}
-            >
-                <frame
-                    Size={cooldownPerc.map((perc) => new UDim2(perc, 0, 1, 0))}
-                    BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+            <Transition enabled={enabled}>
+                {cookable !== undefined && (
+                    <CookableItems
+                        cookable={cookable}
+                        state={state}
+                        cannotInteractReason={cannotInteractReason}
+                    />
+                )}
+                {craftable !== undefined && (
+                    <CraftableItems
+                        craftable={craftable}
+                        state={state}
+                        cannotInteractReason={cannotInteractReason}
+                    />
+                )}
+                <textbutton
+                    Active={showing}
+                    AutoButtonColor={false}
+                    Event={{ MouseButton1Click: showing ? clicked : undefined }}
                     BorderSizePixel={0}
+                    BackgroundColor3={buttonColor}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Position={new UDim2(0.5, 0, 0.5, 0)}
+                    Size={frameSize}
+                    BackgroundTransparency={buttonTransparency}
+                    TextXAlignment={"Center"}
+                    TextColor3={Color3.fromRGB(255, 255, 255)}
+                    Text={interactKey ?? ""}
+                    TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
+                    TextStrokeTransparency={showTransparency}
+                    TextSize={20}
+                    Font={"Fantasy"}
+                    TextTransparency={showTransparency}
+                >
+                    <uicorner CornerRadius={new UDim(1, 0)} />
+                </textbutton>
+                <frame
+                    BorderSizePixel={0}
+                    BackgroundColor3={Color3.fromRGB(0, 0, 0)}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Position={new UDim2(0.5, 0, 0.5, 20)}
+                    Size={new UDim2(0, 100, 0, 1)}
                     BackgroundTransparency={cooldownTransparency}
-                ></frame>
-            </frame>
-            <textlabel
-                ClipsDescendants={true}
-                TextXAlignment={"Center"}
-                BackgroundTransparency={1}
-                BorderSizePixel={0}
-                Position={new UDim2(0.5, 0, 0.5, 30)}
-                AnchorPoint={new Vector2(0.5, 0.5)}
-                Size={textFrameSize}
-                TextSize={20}
-                Text={interactionName}
-                Font={"Garamond"}
-                TextColor3={Color3.fromRGB(255, 255, 255)}
-            >
-                <uistroke
-                    ApplyStrokeMode={"Contextual"}
-                    Thickness={1}
-                    Color={Color3.fromRGB(0, 0, 0)}
-                />
-            </textlabel>
+                >
+                    <frame
+                        Size={cooldownPerc.map((perc) => new UDim2(perc, 0, 1, 0))}
+                        BackgroundColor3={Color3.fromRGB(255, 255, 255)}
+                        BorderSizePixel={0}
+                        BackgroundTransparency={cooldownTransparency}
+                    ></frame>
+                </frame>
+                <textlabel
+                    ClipsDescendants={true}
+                    TextXAlignment={"Center"}
+                    BackgroundTransparency={1}
+                    BorderSizePixel={0}
+                    Position={new UDim2(0.5, 0, 0.5, 30)}
+                    AnchorPoint={new Vector2(0.5, 0.5)}
+                    Size={textFrameSize}
+                    TextSize={20}
+                    Text={interactionName}
+                    Font={"Garamond"}
+                    TextColor3={Color3.fromRGB(255, 255, 255)}
+                >
+                    <uistroke
+                        ApplyStrokeMode={"Contextual"}
+                        Thickness={1}
+                        Color={Color3.fromRGB(0, 0, 0)}
+                    />
+                </textlabel>
+            </Transition>
         </billboardgui>
     );
 }

@@ -30,6 +30,8 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] different footstep sound on different surfaces
 
+- [ ] Rework Roact (deathscreen, gamescreen, inventory, sign screen, title card, chat screen)
+
 - [ ] Signs (component, state, ui)
 
 - [ ] Seats
