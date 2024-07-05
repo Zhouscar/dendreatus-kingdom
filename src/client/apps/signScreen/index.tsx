@@ -36,7 +36,8 @@ export default function SignScreen(props: { enabled: boolean }) {
             <textlabel
                 LayoutOrder={i}
                 TextWrap={true}
-                Size={new UDim2(1, -20, 0, signElement.heightPixels)}
+                Size={new UDim2(1, 0, 0, 0)}
+                AutomaticSize={"XY"}
                 Text={signElement.text}
                 TextSize={signElement.style === "title" ? 30 : 15}
                 TextColor3={Color3.fromRGB(255, 255, 255)}
