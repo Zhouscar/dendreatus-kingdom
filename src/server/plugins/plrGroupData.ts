@@ -15,7 +15,6 @@ function playerAdded(player: Player, s: State) {
         10,
         1,
     ).andThen((data) => {
-        print(data);
         s.plrGroupDatas.set(player, data);
     });
 }

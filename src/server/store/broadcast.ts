@@ -5,7 +5,6 @@ import { remos } from "shared/network";
 export const broadcaster = createBroadcaster({
     producers: slices,
     dispatch: (player, actions) => {
-        print("SENDING");
         remos.reflexCore.dispatch.fire(player, actions);
     },
 });

@@ -79,7 +79,6 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
 
     useEffect(() => {
         if (chatting === undefined) return;
-        print(chatting.message);
         const newChats = Sift.Array.copy(chats);
 
         newChats.unshift({ time: chatting.time, message: chatting.message });

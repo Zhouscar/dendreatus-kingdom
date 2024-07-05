@@ -38,8 +38,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Seats
 
-
-- [ ] Some more damage effects
+- [x] Some more damage effects
 
 
 - [ ] Item holding animations

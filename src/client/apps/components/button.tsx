@@ -67,10 +67,6 @@ export default function Button(props: {
         press ? pressTransparency : hover ? hoverTransparency : neutralTransparency,
     );
 
-    useEffect(() => {
-        print(`${press}, ${hover}`);
-    }, [press, hover]);
-
     return (
         <textbutton
             AutoButtonColor={false}

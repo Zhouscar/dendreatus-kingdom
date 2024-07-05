@@ -11,7 +11,6 @@ function trauma(w: World, s: State) {
     s.trauma = math.clamp(s.trauma, 0, 1);
 
     if (useChange([s.trauma])) {
-        print(s.trauma);
         adjustBlur("TraumaBlur", s.trauma * 100);
     }
 

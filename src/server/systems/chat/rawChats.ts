@@ -11,7 +11,6 @@ function rawChats(w: World) {
                     chattingRaw.message,
                     plr.player.UserId,
                 ).GetChatForUserAsync(plr.player.UserId);
-                print(filteredMessage);
                 return filteredMessage;
             },
             [chattingRaw],
@@ -19,7 +18,6 @@ function rawChats(w: World) {
         );
 
         if (ready.completed && ready.result.success) {
-            print("he");
             w.insert(e, Chatting({ message: ready.result.value, time: os.clock() }));
             w.remove(e, ChattingRaw);
         }

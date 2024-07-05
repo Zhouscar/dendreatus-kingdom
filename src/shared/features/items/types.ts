@@ -22,11 +22,11 @@ export const isItemType = t.literal(
     "nails",
     "spikeball",
     "scrap_blade",
-    "survivor_lantern", // TODO: setup
-    "noble_lantern", // TODO: setup
-    "ritualist_candle", // TODO: setup
-    "sword", // TODO: setup
-    "royal_lantern", // TODO: setup
-    "owner_lantern", // TODO: setup
+    "survivor_lantern",
+    "noble_lantern",
+    "ritualist_candle",
+    "sword",
+    "royal_lantern",
+    "owner_lantern",
 );
 export type ItemType = t.static<typeof isItemType>;

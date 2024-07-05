@@ -34,7 +34,6 @@ function proximityPlrStates(w: World) {
     }
 
     if (!Sift.Dictionary.equals(oldProximityPlrEs, newProximityPlrEs)) {
-        print(newProximityPlrEs);
         store.setProximityPlrEs(newProximityPlrEs);
     }
 }

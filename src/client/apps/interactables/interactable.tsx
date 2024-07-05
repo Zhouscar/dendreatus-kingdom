@@ -88,9 +88,7 @@ export default function Interactable(props: {
     const buttonColor = showSpring.map((v) => new Color3(1 - v, 1 - v, 1 - v));
 
     const [interactionName, setInteractionName] = useState("");
-    const interactionFunction = useMutable(() => {
-        print("Hi");
-    });
+    const interactionFunction = useMutable(() => {});
 
     // components
     const harvestable = useComponent(e, Harvestable);
@@ -240,9 +238,7 @@ export default function Interactable(props: {
             };
         } else {
             setInteractionName("");
-            interactionFunction.current = () => {
-                print("Hi");
-            };
+            interactionFunction.current = () => {};
         }
     }, [e, localPlrE, ...components]);
 

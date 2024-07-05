@@ -20,7 +20,6 @@ export default function SignScreen(props: { enabled: boolean }) {
 
     const clicked = useCallback(() => {
         if (!w.contains(localPlrE)) return;
-        print("WOWO");
         w.remove(localPlrE, ReadingSign);
     }, [localPlrE]);
 

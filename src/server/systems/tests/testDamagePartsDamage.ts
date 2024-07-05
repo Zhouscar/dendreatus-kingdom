@@ -20,7 +20,6 @@ function testDamagePartsDamage(w: World, s: State) {
 
         if (!useThrottle(0.5, colliderE)) continue;
 
-        print("boo");
         w.insert(
             colliderE,
             Damage({
