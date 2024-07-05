@@ -1,10 +1,8 @@
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
-import { ItemComponentType, ItemType } from "./types";
+import { ItemType } from "./types";
 
 export type ItemContext = {
     readonly name: string;
-    readonly itemType: ItemType;
-    readonly itemComponentTypes: ItemComponentType[];
     readonly stackSize: number;
     readonly image: string;
     readonly description: string;
@@ -28,9 +26,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
     [
         "bigger_stick",
         {
-            name: "Bigger Sos.clock",
-            itemType: "bigger_stick",
-            itemComponentTypes: [],
+            name: "Bigger Stick",
             stackSize: 20,
             image: withAssetPrefix("14942969504"),
             description: "WHA",
@@ -40,8 +36,6 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "crucifix_dagger",
         {
             name: "Crucifix Dagger",
-            itemType: "crucifix_dagger",
-            itemComponentTypes: ["weapon"],
             stackSize: 1,
             image: withAssetPrefix("16348933235"),
             description:
@@ -52,8 +46,6 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "mushroom_soup",
         {
             name: "Mushroom Soup",
-            itemType: "mushroom_soup",
-            itemComponentTypes: ["consumable"],
             stackSize: 1,
             image: withAssetPrefix("16349074550"),
             description: "",
@@ -63,8 +55,6 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "sap",
         {
             name: "Sap",
-            itemType: "sap",
-            itemComponentTypes: [],
             stackSize: 10,
             image: withAssetPrefix("16349184242"),
             description: "TODO",
@@ -74,9 +64,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "egg",
         {
             name: "Egg",
-            itemType: "egg",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17165290853"),
             description: "TODO",
         },
@@ -85,9 +73,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "flour",
         {
             name: "Flour",
-            itemType: "flour",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17165267270"),
             description: "TODO",
         },
@@ -96,9 +82,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "mushroom",
         {
             name: "Mushroom",
-            itemType: "mushroom",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("13033967093"),
             description: "TODO",
         },
@@ -107,9 +91,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "scrap_metal",
         {
             name: "Scrap Metal",
-            itemType: "scrap_metal",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17165197728"),
             description: "TODO",
         },
@@ -118,9 +100,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "rope",
         {
             name: "Rope",
-            itemType: "rope",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17134358548"),
             description: "TODO",
         },
@@ -129,9 +109,7 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "nails",
         {
             name: "Nails",
-            itemType: "nails",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17165310845"),
             description: "TODO",
         },
@@ -140,8 +118,6 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "scrap_blade",
         {
             name: "Scrap Blade",
-            itemType: "scrap_blade",
-            itemComponentTypes: [],
             stackSize: 1,
             image: withAssetPrefix("17837106969"),
             description: "TODO",
@@ -151,10 +127,62 @@ export const ITEM_CONTEXTS: ItemContexts = new ReadonlyMap([
         "spikeball",
         {
             name: "Spikeball",
-            itemType: "spikeball",
-            itemComponentTypes: [],
-            stackSize: 10,
+            stackSize: 16,
             image: withAssetPrefix("17837113516"),
+            description: "TODO",
+        },
+    ],
+    [
+        "survivor_lantern",
+        {
+            name: "Survivor Lantern",
+            stackSize: 1,
+            image: withAssetPrefix("17837210489"),
+            description: "TODO",
+        },
+    ],
+    [
+        "noble_lantern",
+        {
+            name: "Noble Lantern",
+            stackSize: 1,
+            image: withAssetPrefix("13031282551"),
+            description: "TODO",
+        },
+    ],
+    [
+        "ritualist_candle",
+        {
+            name: "Ritualist Candle",
+            stackSize: 1,
+            image: withAssetPrefix("16371192204"),
+            description: "TODO",
+        },
+    ],
+    [
+        "sword",
+        {
+            name: "Sword",
+            stackSize: 1,
+            image: withAssetPrefix("17837162667"),
+            description: "TODO",
+        },
+    ],
+    [
+        "royal_lantern",
+        {
+            name: "Royal Lantern",
+            stackSize: 1,
+            image: withAssetPrefix("18253625612"),
+            description: "TODO",
+        },
+    ],
+    [
+        "owner_lantern",
+        {
+            name: "Owner Lantern",
+            stackSize: 1,
+            image: withAssetPrefix("16384697540"),
             description: "TODO",
         },
     ],

@@ -8,8 +8,6 @@ export interface Item {
     readonly consumeStage?: number;
 }
 
-export type ItemComponentType = "weapon" | "relics" | "consumable";
-
 export const isItemType = t.literal(
     "stick",
     "bigger_stick",

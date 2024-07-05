@@ -10,7 +10,7 @@ function immutClearInventoryKeepSoulbound(inventory: PlayerInventory) {
             draft.items.delete(guid);
             draft.slots.forEach((slot, i) => {
                 if (slot.itemGuid !== guid) return;
-                draft.slots[i].itemGuid === undefined;
+                slot.itemGuid === undefined;
             });
         });
     });

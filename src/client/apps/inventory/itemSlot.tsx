@@ -1,4 +1,4 @@
-import { Spring, useDeferEffect } from "@rbxts/pretty-roact-hooks";
+import { useDeferEffect } from "@rbxts/pretty-roact-hooks";
 import Roact, { createRef } from "@rbxts/roact";
 import {
     Dispatch,
@@ -134,7 +134,7 @@ export default function ItemSlot(props: {
                 <uigradient
                     Transparency={new NumberSequence(0, 1)}
                     Rotation={-90}
-                    Offset={new Vector2(0, 0.3)}
+                    Offset={new Vector2(0, 0.8)}
                 />
                 <uistroke
                     Color={Color3.fromRGB(150, 150, 150)}
@@ -154,13 +154,13 @@ export default function ItemSlot(props: {
                         Size={new UDim2(1, 0, 1, 0)}
                         Image={image}
                         BackgroundTransparency={1}
-                        ImageTransparency={dragging ? 0 : 1}
+                        ImageTransparency={dragging ? 1 : 0}
                     >
                         <textlabel
                             Position={new UDim2(1, -5, 1, -5)}
                             AnchorPoint={new Vector2(1, 1)}
                             BackgroundTransparency={1}
-                            TextTransparency={dragging ? 0 : 1}
+                            TextTransparency={dragging ? 1 : 0}
                             TextColor3={Color3.fromRGB(255, 255, 255)}
                             TextXAlignment={"Right"}
                             TextYAlignment={"Bottom"}
@@ -171,7 +171,7 @@ export default function ItemSlot(props: {
                             <uistroke
                                 Thickness={2}
                                 ApplyStrokeMode={"Contextual"}
-                                Transparency={dragging ? 0 : 1}
+                                Transparency={dragging ? 1 : 0}
                             />
                         </textlabel>
                         {consumeStagePerc !== undefined && (
@@ -191,7 +191,7 @@ export default function ItemSlot(props: {
                                     Position={new UDim2(0, 2, 0.5, 0)}
                                     BorderSizePixel={0}
                                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                                    Transparency={0.8}
+                                    Transparency={dragging ? 1 : 0.8}
                                 >
                                     <uigradient
                                         Color={consumeStagePercSpring.map(
