@@ -8,9 +8,11 @@ import { useRemoteToken } from "../hooks/useW";
 import useDeferred from "../hooks/useDeferred";
 import { useEffect, useState } from "@rbxts/roact-hooked";
 import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
+import { playSound } from "shared/effects/sounds";
 
 export default function DeathScreen(props: { enabled: boolean }) {
     const enabled = props.enabled;
+    const deferredEnabled = useDeferred(enabled);
 
     const remoteToken = useRemoteToken();
 
@@ -21,6 +23,10 @@ export default function DeathScreen(props: { enabled: boolean }) {
     const [willSpawn, setWillSpawn] = useState(false);
     const deferredWillSpawn = useDeferred(willSpawn);
     const waitWillSpawn = useWait(1, [willSpawn]);
+
+    useCoincidenceEffect(() => {
+        playSound({ soundName: "youDied" });
+    }, [deferredEnabled, wait5]);
 
     useEffect(() => {
         setWillSpawn(false);

@@ -13,7 +13,7 @@ export const SIGN_CONTEXTS: Map<ComponentCtor, SignContext> = new Map([
     [
         TestSign,
         [
-            { style: "title", text: "Never Gonna Give You Up", heightPixels: 30 },
+            { style: "title", text: "Never Gonna Give You Up", heightPixels: 60 },
             { style: "text", text: "We're no strangers to love", heightPixels: 20 },
             { style: "text", text: "You know the rules and so do I (do I)", heightPixels: 20 },
             { style: "text", text: "A full commitment's what I'm thinking of", heightPixels: 20 },

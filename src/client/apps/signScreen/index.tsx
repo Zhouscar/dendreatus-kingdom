@@ -31,9 +31,11 @@ export default function SignScreen(props: { enabled: boolean }) {
     }, [readingSign]);
 
     const elements: Roact.Element[] = [];
-    signContext?.forEach((signElement) => {
+    signContext?.forEach((signElement, i) => {
         elements.push(
             <textlabel
+                LayoutOrder={i}
+                TextWrap={true}
                 Size={new UDim2(1, -20, 0, signElement.heightPixels)}
                 Text={signElement.text}
                 TextSize={signElement.style === "title" ? 30 : 15}
@@ -60,7 +62,7 @@ export default function SignScreen(props: { enabled: boolean }) {
                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
                 Position={new UDim2(0.5, 0, 0.5, 0)}
                 AnchorPoint={new Vector2(0.5, 0.5)}
-                Size={new UDim2(0, 300, 0.7, 0)}
+                Size={new UDim2(0.5, 0, 0.7, 0)}
             >
                 <Button
                     position={new UDim2(1, -10, 0, 10)}
@@ -78,10 +80,11 @@ export default function SignScreen(props: { enabled: boolean }) {
                     CanvasSize={new UDim2(1, 0, 0, 0)}
                     AutomaticCanvasSize={"Y"}
                     ScrollingDirection={"Y"}
-                    ScrollBarThickness={0}
+                    ScrollBarThickness={2}
+                    ScrollBarImageColor3={Color3.fromRGB(50, 50, 50)}
                 >
                     {elements}
-                    <uilistlayout SortOrder={"Name"} FillDirection={"Vertical"} />
+                    <uilistlayout SortOrder={"LayoutOrder"} FillDirection={"Vertical"} />
                 </scrollingframe>
             </frame>
         </Transition>
