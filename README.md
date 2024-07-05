@@ -34,18 +34,21 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [x] Signs (component, state, ui)
 
-- [ ] Rank Based Tools
+- [x] Rank Based Tools
+
+- [x] Seats
+
+
+- [ ] Some more damage effects
+
 
 - [ ] Item holding animations
-
-- [ ] Seats
 
 - [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 
 - [ ] Adding Sound
 
-- [ ] Some more damage effects
+- [ ] Finalizing
+
 
 - [ ] Add a monster if possible (component, spawning, spawner, movement, detection, attacking, health, death)
-
-- [ ] Finalizing

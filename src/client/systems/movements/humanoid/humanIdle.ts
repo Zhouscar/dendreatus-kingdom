@@ -7,6 +7,7 @@ import {
     DirectionalMovement,
     Landing,
     OnLand,
+    Sitting,
     Sneaking,
 } from "shared/components/movements";
 import { resumeAnimation } from "shared/effects/animations";
@@ -20,6 +21,10 @@ function humanIdleAnim(w: World) {
         .without(DirectionalMovement, Dashing, CrashLanding, Landing, Dead)) {
         if (hasComponents(w, e, Climbing)) {
             resumeAnimation(animatable.animator, "climb", "Movement", 0, true);
+            continue;
+        }
+        if (hasComponents(w, e, Sitting)) {
+            resumeAnimation(animatable.animator, "sitting", "Movement", 0, true);
             continue;
         }
 

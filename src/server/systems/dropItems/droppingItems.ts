@@ -1,5 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Workspace } from "@rbxts/services";
+import { t } from "@rbxts/t";
 import {
     bloodContainer,
     dropItemContainer,
@@ -46,10 +47,20 @@ function droppingItems(w: World) {
         const instanceE = findInstanceE(w, result.Instance);
         if (instanceE !== undefined) continue;
 
+        let item = droppingItem.item;
+
+        const itemNotUnique =
+            t.string(item) ||
+            (item.soulbound === undefined && item.consumeStage === undefined && item.stack === 1);
+
+        if (itemNotUnique) {
+            item = t.string(item) ? item : item.itemType;
+        }
+
         w.insert(
             e,
             DroppedItem({
-                item: droppingItem.item,
+                item: item,
                 position: result.Position,
                 droppedTime: os.clock(),
                 willExpire: true,

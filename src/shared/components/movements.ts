@@ -95,10 +95,8 @@ export const Dashing = ComponentCreator.protectedBidirectional<{ startTime: numb
 export type Dashing = ReturnType<typeof Dashing>;
 // \Movement Actions
 
-export const SteppingOn = ComponentCreator.base<{
-    material: Material;
-}>("SteppingOn");
-export type SteppingOn = ReturnType<typeof SteppingOn>;
+export const Sitting = ComponentCreator.protectedBidirectional<{}>("Sitting");
+export type Sitting = ReturnType<typeof Sitting>;
 
 export const MovementComponents = {
     OnLand,
@@ -124,5 +122,5 @@ export const MovementComponents = {
     WillJump,
     Jumping,
     Dashing,
-    SteppingOn,
+    Sitting,
 };

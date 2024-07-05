@@ -14,5 +14,5 @@ export class State {
 
     clientState: ClientState = "title";
 
-    cameraShake: number = 0;
+    trauma: number = 0;
 }

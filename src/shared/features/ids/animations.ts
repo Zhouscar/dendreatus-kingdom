@@ -11,6 +11,8 @@ export const ANIM_IDS = {
     swim: withAssetPrefix("14207199744"),
     climb: withAssetPrefix("14207203133"),
 
+    sitting: withAssetPrefix("18322974044"),
+
     idle: withAssetPrefix("14207151528"),
     sneakIdle: withAssetPrefix("14215260617"),
 

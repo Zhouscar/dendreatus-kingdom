@@ -10,6 +10,7 @@ import {
     DashContext,
     Dashing,
     OnLand,
+    Sitting,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
@@ -43,7 +44,7 @@ function canDash(w: World, s: State) {
         if (
             os.clock() - lastDashTime >= dashContext.cooldown &&
             hasComponents(w, e, OnLand) &&
-            !hasOneOfComponents(w, e, CrashLanding, Dead)
+            !hasOneOfComponents(w, e, CrashLanding, Dead, Sitting)
         ) {
             w.insert(e, CanDash({}));
             break;

@@ -7,6 +7,7 @@ import {
     CrashLanding,
     DirectionalMovement,
     DirectionalMovementContext,
+    Sitting,
 } from "shared/components/movements";
 import { hasOneOfComponents } from "shared/hooks/components";
 import { State } from "shared/state";
@@ -23,7 +24,7 @@ function canDirectionallyMove(w: World, s: State) {
         LocalPlr,
         DirectionalMovementContext,
     )) {
-        if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting)) {
+        if (!hasOneOfComponents(w, e, CrashLanding, Dead, Acting, Sitting)) {
             w.insert(e, CanDirectionallyMove({}));
         } else {
             w.remove(e, CanDirectionallyMove, DirectionalMovement);

@@ -48,17 +48,18 @@ function forEachPlayer(player: Player) {
 
     // payload when character loads
     player.CharacterAdded.Connect(() => {
-        player.Backpack.ClearAllChildren();
-        store.wait(selectPlayerInventory(plr)).then((inventory) => {
+        task.defer(() => {
+            player.Backpack.ClearAllChildren();
+
+            const inventory = store.getState().players.inventory[plr]!;
             assert(inventory);
+
             const guids = getItemGuidsToAdd(inventory, defaultPlayerInventory);
             const tools = getItemsAsTools(inventory, guids);
 
             tools.forEach((tool) => {
                 tool.Parent = player.Backpack;
             });
-
-            return 0;
         });
     });
 
