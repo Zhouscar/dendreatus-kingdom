@@ -116,6 +116,8 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
         >
             <Transition enabled={enabled} enabledTransparency={enabledTransparency}>
                 {chatElements}
+            </Transition>
+            <Transition enabled={enabled && !isLocalPlr} enabledTransparency={enabledTransparency}>
                 <textlabel
                     TextColor3={Color3.fromRGB(255, 255, 255)}
                     Size={new UDim2(0, 100, 0, 20)}
@@ -133,7 +135,10 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
                     BorderSizePixel={0}
                 />
             </Transition>
-            <Transition enabled={enabled && showHealth}>
+            <Transition
+                enabled={enabled && showHealth && !isLocalPlr}
+                enabledTransparency={enabledTransparency}
+            >
                 <HealthBar
                     e={e}
                     showNumber={false}

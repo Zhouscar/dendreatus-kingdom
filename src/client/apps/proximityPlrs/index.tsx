@@ -1,5 +1,5 @@
 import Roact from "@rbxts/roact";
-import ProximityPlr from "./plr";
+import ProximityPlr from "./proximityPlr";
 import { AnyEntity } from "@rbxts/matter";
 import { useSelector } from "@rbxts/roact-reflex";
 import { selectProximityPlrEs } from "client/store/ecs";
