@@ -17,8 +17,6 @@ function plrMember(w: World, s: State) {
 
         const groupData = Sift.Dictionary.copy(groupData0);
         w.insert(plrE, Member(groupData));
-
-        // TODO: now make a gui
     });
 }
 

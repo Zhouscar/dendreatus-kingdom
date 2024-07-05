@@ -94,8 +94,6 @@ function cookablesCook(w: World) {
                 reason: CannotInteractReason.cooldown({ startTime: os.clock(), duration: 5 }),
             }),
         );
-
-        // TODO: item pop out when cooldown is over
     }
 }
 

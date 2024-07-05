@@ -1,5 +1,3 @@
-// TODO: item slot for cooking item bar
-
 import Roact from "@rbxts/roact";
 import { useMemo } from "@rbxts/roact-hooked";
 import { useSpring } from "client/apps/hooks/ripple";
