@@ -4,7 +4,7 @@ import { DroppingItem, TestItemDropper } from "shared/components/items";
 import { UP } from "shared/constants/direction";
 import { ItemType } from "shared/features/items/types";
 
-const ITEMS_TO_DROP: ItemType[] = ["mushroom_soup", "crucifix_dagger"];
+const ITEMS_TO_DROP: ItemType[] = ["herbs", "humberbell", "goya", "raw_pork", "bones"];
 
 function testDroppingItem(w: World) {
     if (!useThrottle(5)) return;

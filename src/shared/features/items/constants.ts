@@ -45,8 +45,33 @@ export const ITEM_CONTEXTS = {
     herbs: asItemContext({
         name: "Herbs",
         stackSize: 16,
-        image: withAssetPrefix("TODO"),
+        image: withAssetPrefix("17134075412"),
         description: "Could be used for a multitude of things..",
+    }),
+    humberbell: asItemContext({
+        name: "Humberbell",
+        stackSize: 16,
+        image: withAssetPrefix("16348992642"),
+        description: "I've never seen these before, can I eat them??",
+    }),
+    goya: asItemContext({
+        name: "Humberbell",
+        stackSize: 16,
+        image: withAssetPrefix("16859686889"),
+        description: "YUCK!",
+    }),
+    raw_pork: asItemContext({
+        name: "Raw Pork",
+        stackSize: 16,
+        image: withAssetPrefix("17133968953"),
+        description:
+            "Glad this is still fresh, looking at the barrels this came from makes me sick...",
+    }),
+    bones: asItemContext({
+        name: "Bones",
+        stackSize: 16,
+        image: withAssetPrefix("17134475493"),
+        description: "I shouldn't have taken this from its place...",
     }),
     egg: asItemContext({
         name: "Egg",
@@ -108,30 +133,30 @@ export const ITEM_CONTEXTS = {
         name: "Noble Lantern",
         stackSize: 1,
         image: withAssetPrefix("13031282551"),
-        description: "TODOTODOTODOTODOTODOTODO",
+        description: "TODO",
     }),
     ritualist_candle: asItemContext({
         name: "Ritualist Candle",
         stackSize: 1,
         image: withAssetPrefix("16371192204"),
-        description: "TODOTODOTODOTODOTODOTODO",
+        description: "TODO",
     }),
     sword: asItemContext({
         name: "Sword",
         stackSize: 1,
         image: withAssetPrefix("17837162667"),
-        description: "TODOTODOTODOTODOTODOTODO",
+        description: "TODO",
     }),
     royal_lantern: asItemContext({
         name: "Royal Lantern",
         stackSize: 1,
         image: withAssetPrefix("18253625612"),
-        description: "TODOTODOTODOTODOTODOTODO",
+        description: "TODO",
     }),
     owner_lantern: asItemContext({
         name: "Owner Lantern",
         stackSize: 1,
         image: withAssetPrefix("16384697540"),
-        description: "TODOTODOTODOTODOTODOTODO",
+        description: "TODO",
     }),
 };

@@ -43,6 +43,8 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 
+- [ ] Harvestable setup
+
 - [ ] Item holding animations
 
 - [ ] Adding Sound
