@@ -9,6 +9,7 @@ export type SoundContext = {
     volume?: number;
     soundName: SoundName;
     speed?: number;
+    playInDuration?: number;
     timePosition?: number;
 };
 

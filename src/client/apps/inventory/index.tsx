@@ -110,15 +110,18 @@ export default function Inventory(props: { enabled: boolean }) {
                     ClipsDescendants={true}
                     Transparency={0.3}
                 >
+                    <uilistlayout SortOrder={"LayoutOrder"} FillDirection={"Vertical"} />
                     <textlabel
                         Key={"ItemName"}
+                        LayoutOrder={1}
                         AnchorPoint={new Vector2(0.5, 0)}
-                        Position={new UDim2(0.5, 0, 0, 20)}
                         BackgroundTransparency={1}
                         TextColor3={Color3.fromRGB(255, 255, 255)}
                         TextXAlignment={"Center"}
                         TextYAlignment={"Top"}
                         TextSize={50}
+                        Size={new UDim2(1, 0, 0, 0)}
+                        AutomaticSize={"Y"}
                         Font={"Fantasy"}
                         Text={itemName}
                         TextTransparency={itemDescriptionTransparency}
@@ -131,9 +134,10 @@ export default function Inventory(props: { enabled: boolean }) {
                     </textlabel>
                     <textlabel
                         Key={"ItemDescription"}
+                        LayoutOrder={2}
                         AnchorPoint={new Vector2(0.5, 0)}
-                        Position={new UDim2(0.5, 0, 0, 100)}
-                        Size={new UDim2(1, -50, 1, 0)}
+                        Size={new UDim2(1, 0, 0, 0)}
+                        AutomaticSize={"Y"}
                         BackgroundTransparency={1}
                         TextColor3={Color3.fromRGB(255, 255, 255)}
                         TextXAlignment={"Center"}

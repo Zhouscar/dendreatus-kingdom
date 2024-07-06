@@ -31,6 +31,7 @@ import CraftableItems from "./misc/craftableItems";
 import { ReadingSign, Sign } from "shared/components/signs";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import Transition from "../components/transition";
+import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
 
 export default function Interactable(props: {
     enabled: boolean;
@@ -146,101 +147,111 @@ export default function Interactable(props: {
     const w = useW();
 
     useEffect(() => {
-        if (localPlrE === undefined) return;
-        if (harvestable !== undefined) {
-            setInteractionName("Harvest");
+        if (localPlrE === undefined || harvestable === undefined) return;
+        setInteractionName("Harvest");
+        interactionFunction.current = () => {
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "harvest",
+                    interactTime: os.clock(),
+                }),
+            );
+        };
+    }, [localPlrE, harvestable]);
+
+    useEffect(() => {
+        if (localPlrE === undefined || droppedItem === undefined) return;
+        setInteractionName("Pick Up");
+        interactionFunction.current = () => {
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "pickup",
+                    interactTime: os.clock(),
+                }),
+            );
+        };
+    }, [localPlrE, droppedItem]);
+
+    useEffect(() => {
+        if (localPlrE === undefined || cookable === undefined) return;
+        setInteractionName("Place Item");
+        interactionFunction.current = () => {
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "place_item",
+                    interactTime: os.clock(),
+                }),
+            );
+        };
+    }, [localPlrE, cookable]);
+
+    useEffect(() => {
+        if (localPlrE === undefined || craftable === undefined) return;
+        setInteractionName("Place Item");
+        interactionFunction.current = () => {
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "place_item",
+                    interactTime: os.clock(),
+                }),
+            );
+        };
+    }, [localPlrE, craftable]);
+
+    useEffect(() => {
+        if (localPlrE === undefined || doorLike === undefined) return;
+        if (doorLike.state === "opened") {
+            setInteractionName("Close");
             interactionFunction.current = () => {
                 w.insert(
                     e,
                     Interacted({
                         player: Players.LocalPlayer,
-                        interactType: "harvest",
+                        interactType: "door_close",
                         interactTime: os.clock(),
                     }),
                 );
             };
-        } else if (droppedItem !== undefined) {
-            setInteractionName("Pick Up");
+        } else if (doorLike.state === "closed") {
+            setInteractionName("Open");
             interactionFunction.current = () => {
                 w.insert(
                     e,
                     Interacted({
                         player: Players.LocalPlayer,
-                        interactType: "pickup",
+                        interactType: "door_open",
                         interactTime: os.clock(),
                     }),
                 );
             };
-        } else if (cookable !== undefined) {
-            setInteractionName("Place Item");
-            interactionFunction.current = () => {
-                w.insert(
-                    e,
-                    Interacted({
-                        player: Players.LocalPlayer,
-                        interactType: "place_item",
-                        interactTime: os.clock(),
-                    }),
-                );
-            };
-        } else if (craftable !== undefined) {
-            setInteractionName("Place Item");
-            interactionFunction.current = () => {
-                w.insert(
-                    e,
-                    Interacted({
-                        player: Players.LocalPlayer,
-                        interactType: "place_item",
-                        interactTime: os.clock(),
-                    }),
-                );
-            };
-        } else if (doorLike !== undefined) {
-            if (doorLike.state === "opened") {
-                setInteractionName("Close");
-                interactionFunction.current = () => {
-                    w.insert(
-                        e,
-                        Interacted({
-                            player: Players.LocalPlayer,
-                            interactType: "door_close",
-                            interactTime: os.clock(),
-                        }),
-                    );
-                };
-            } else if (doorLike.state === "closed") {
-                setInteractionName("Open");
-                interactionFunction.current = () => {
-                    w.insert(
-                        e,
-                        Interacted({
-                            player: Players.LocalPlayer,
-                            interactType: "door_open",
-                            interactTime: os.clock(),
-                        }),
-                    );
-                };
-            }
-        } else if (sign !== undefined) {
-            setInteractionName("Read");
-            interactionFunction.current = () => {
-                if (w.contains(localPlrE)) {
-                    w.insert(localPlrE, ReadingSign({ signComponentName: sign.signComponentName }));
-                }
-                w.insert(
-                    e,
-                    Interacted({
-                        player: Players.LocalPlayer,
-                        interactType: "read_sign",
-                        interactTime: os.clock(),
-                    }),
-                );
-            };
-        } else {
-            setInteractionName("");
-            interactionFunction.current = () => {};
         }
-    }, [e, localPlrE, ...components]);
+    }, [localPlrE, doorLike]);
+
+    useEffect(() => {
+        if (localPlrE === undefined || sign === undefined) return;
+        setInteractionName("Read");
+        interactionFunction.current = () => {
+            if (w.contains(localPlrE)) {
+                w.insert(localPlrE, ReadingSign({ signComponentName: sign.signComponentName }));
+            }
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "read_sign",
+                    interactTime: os.clock(),
+                }),
+            );
+        };
+    }, [localPlrE, sign]);
 
     return (
         <billboardgui

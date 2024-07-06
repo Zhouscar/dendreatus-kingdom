@@ -1,6 +1,7 @@
 import { World, useThrottle } from "@rbxts/matter";
 import { Plr } from "shared/components";
 import { InWater } from "shared/components/movements";
+import { HARVESTABLE_CONTEXTS } from "shared/features/harvestables/constants";
 
 function plrResetsInWater(w: World) {
     for (const [e, inWaterRecord] of w.queryChanged(InWater)) {
@@ -11,7 +12,7 @@ function plrResetsInWater(w: World) {
         if (plr === undefined) continue;
         if (!useThrottle(0.2, e)) continue;
         task.spawn(() => {
-            plr.player.LoadCharacter();
+            plr.player.Character?.Destroy();
         });
     }
 }

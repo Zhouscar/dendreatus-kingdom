@@ -7,7 +7,11 @@ function requestSpawn(w: World, s: State, remoteToken: string) {
         assert(token === remoteToken, "HAHA YOU HACKER");
 
         task.spawn(() => {
-            (player as Player).LoadCharacter();
+            if ((player as Player).Character === undefined) {
+                (player as Player).LoadCharacter();
+            } else {
+                (player as Player).Character?.Destroy();
+            }
         });
     }
 }

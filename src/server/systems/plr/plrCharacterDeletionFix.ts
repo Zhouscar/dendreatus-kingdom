@@ -32,7 +32,7 @@ function plrCharacterDeletionFix(w: World) {
                 }
                 if (playersRespawning.has(player)) return;
                 playersRespawning.add(player);
-                task.delay(0.5, () => {
+                task.defer(() => {
                     player.LoadCharacter();
                     playersRespawning.delete(player);
                 });
