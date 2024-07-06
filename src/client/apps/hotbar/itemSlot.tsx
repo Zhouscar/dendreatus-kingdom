@@ -1,5 +1,5 @@
 import Roact from "@rbxts/roact";
-import { Item } from "shared/features/items/types";
+import { isItemConsumableType, Item } from "shared/features/items/types";
 import { ITEM_CONTEXTS } from "shared/features/items/constants";
 import { useCallback, useMemo } from "@rbxts/roact-hooked";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
@@ -35,8 +35,8 @@ export default function ItemSlot(props: {
     const consumeStagePerc = useMemo(() => {
         if (item?.itemType === undefined) return undefined;
 
-        const context = ITEM_CONSUMABLE_CONTEXTS.get(item?.itemType);
-        if (context === undefined) return undefined;
+        if (!isItemConsumableType(item.itemType)) return undefined;
+        const context = ITEM_CONSUMABLE_CONTEXTS[item.itemType];
 
         if (item.consumeStage === undefined) return undefined;
 
@@ -45,7 +45,7 @@ export default function ItemSlot(props: {
 
     const consumeStagePercSpring = useSpring(consumeStagePerc ?? 1);
 
-    const image = item !== undefined ? ITEM_CONTEXTS.get(item.itemType)?.image : undefined;
+    const image = item !== undefined ? ITEM_CONTEXTS[item.itemType].image : undefined;
 
     const equippedTransparency = useSpring(equipped ? 0 : 1);
 

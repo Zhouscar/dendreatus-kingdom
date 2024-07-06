@@ -1,10 +1,16 @@
 import { World } from "@rbxts/matter";
+import Sift from "@rbxts/sift";
 import { Animatable } from "shared/components";
 import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
+import {
+    isItemAttackableType,
+    isItemConsumableType,
+    isItemType,
+} from "shared/features/items/types";
 import {
     CanUseItemFunction,
     ItemActivationCallback,
@@ -13,8 +19,8 @@ import {
 import { hasComponents, hasOneOfComponents, isLocalPlr } from "shared/hooks/components";
 
 const generalPressCallback: ItemActivationCallback = (w, e, item) => {
-    const itemContext = ITEM_CONSUMABLE_CONTEXTS.get(item.itemType);
-    if (!itemContext) return;
+    if (!isItemConsumableType(item.itemType)) return;
+    const itemContext = ITEM_CONSUMABLE_CONTEXTS[item.itemType];
 
     let nextCosumeStage = 0;
     if (item.consumeStage !== undefined) {
@@ -59,7 +65,7 @@ const generalCallbacks = {
 };
 
 function itemConsumable(w: World) {
-    ITEM_CONSUMABLE_CONTEXTS.forEach((_itemContext, itemType) => {
+    Sift.Dictionary.keys(ITEM_CONSUMABLE_CONTEXTS).forEach((itemType) => {
         plrCallItemActivation(w, itemType, generalCallbacks);
     });
 }

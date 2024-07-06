@@ -1,4 +1,6 @@
-import { t } from "@rbxts/t";
+import Sift from "@rbxts/sift";
+import { ITEM_ATTACKABLE_CONTEXTS } from "./attackables";
+import { ITEM_CONTEXTS } from "./constants";
 
 export interface Item {
     readonly itemType: ItemType;
@@ -8,25 +10,21 @@ export interface Item {
     readonly consumeStage?: number;
 }
 
-export const isItemType = t.literal(
-    "stick",
-    "bigger_stick",
-    "crucifix_dagger",
-    "mushroom_soup",
-    "sap",
-    "egg",
-    "flour",
-    "mushroom",
-    "scrap_metal",
-    "rope",
-    "nails",
-    "spikeball",
-    "scrap_blade",
-    "survivor_lantern",
-    "noble_lantern",
-    "ritualist_candle",
-    "sword",
-    "royal_lantern",
-    "owner_lantern",
-);
-export type ItemType = t.static<typeof isItemType>;
+import { ITEM_CONSUMABLE_CONTEXTS } from "./consumables";
+import { t } from "@rbxts/t";
+
+export type ItemType = keyof typeof ITEM_CONTEXTS;
+export type ItemAttackableType = keyof typeof ITEM_ATTACKABLE_CONTEXTS;
+export type ItemConsumableType = keyof typeof ITEM_CONSUMABLE_CONTEXTS;
+
+export const isItemType = (value: unknown): value is ItemType => {
+    return Sift.Dictionary.keys(ITEM_CONTEXTS).includes(value as ItemType);
+};
+
+export const isItemAttackableType = (value: unknown): value is ItemAttackableType => {
+    return Sift.Dictionary.keys(ITEM_ATTACKABLE_CONTEXTS).includes(value as ItemAttackableType);
+};
+
+export const isItemConsumableType = (value: unknown): value is ItemConsumableType => {
+    return Sift.Dictionary.keys(ITEM_CONSUMABLE_CONTEXTS).includes(value as ItemConsumableType);
+};

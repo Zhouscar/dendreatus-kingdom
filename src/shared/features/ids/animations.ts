@@ -26,6 +26,15 @@ export const ANIM_IDS = {
     harvest: withAssetPrefix("17384907436"),
 
     wakingUpFromTrauma: withAssetPrefix("16861265426"),
+
+    holdFood: withAssetPrefix("16651712588"),
+    daggerIdle: withAssetPrefix("15963088122"),
+    takeOutLantern: withAssetPrefix("15145737348"),
+    takeOutItem: withAssetPrefix("15145877035"),
+    humberBellDrink: withAssetPrefix("17306436826"),
+    goyaEating: withAssetPrefix("17306177651"),
+    takeOutSword: withAssetPrefix("18352787470"),
+    holdSword: withAssetPrefix("18352812855"),
 };
 
 export type AnimName = keyof typeof ANIM_IDS;

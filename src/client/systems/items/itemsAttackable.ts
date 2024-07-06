@@ -1,11 +1,12 @@
 import { AnyEntity, World } from "@rbxts/matter";
+import Sift from "@rbxts/sift";
 import { Animatable } from "shared/components";
 import { Acting, Action, ShiftForward } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
 import { startAnimation, startAnimationById } from "shared/effects/animations";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
-import { ItemType } from "shared/features/items/types";
+import { isItemAttackableType, ItemType } from "shared/features/items/types";
 import {
     CanUseItemFunction,
     ItemActivationCallback,
@@ -18,8 +19,8 @@ const stepInfoMap: Map<string, { nextStep: number; stepEndTime: number }> = new 
 const getStepInfoKey = (e: AnyEntity, itemType: ItemType) => `${e}-${itemType}`;
 
 const generalPressCallBack: ItemActivationCallback = (w, e, item) => {
-    const itemContext = ITEM_ATTACKABLE_CONTEXTS.get(item.itemType);
-    if (!itemContext) return;
+    if (!isItemAttackableType(item.itemType)) return;
+    const itemContext = ITEM_ATTACKABLE_CONTEXTS[item.itemType];
 
     const stepInfoKey = getStepInfoKey(e, item.itemType);
 
@@ -89,7 +90,7 @@ const generalCallbacks = {
 };
 
 function itemsAttackable(w: World) {
-    ITEM_ATTACKABLE_CONTEXTS.forEach((_itemContext, itemType) => {
+    Sift.Dictionary.keys(ITEM_ATTACKABLE_CONTEXTS).forEach((itemType) => {
         plrCallItemActivation(w, itemType, generalCallbacks);
     });
 

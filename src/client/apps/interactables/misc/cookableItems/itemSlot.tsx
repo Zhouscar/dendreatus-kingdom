@@ -16,7 +16,7 @@ export default function CookableItemSlot(props: { item: Item | undefined; showin
 
     const itemContext = useMemo(() => {
         if (item === undefined) return undefined;
-        return ITEM_CONTEXTS.get(item.itemType);
+        return ITEM_CONTEXTS[item.itemType];
     }, [item]);
 
     const image = itemContext?.image;

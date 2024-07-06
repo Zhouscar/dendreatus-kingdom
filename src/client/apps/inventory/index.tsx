@@ -51,7 +51,7 @@ export default function Inventory(props: { enabled: boolean }) {
     useEffect(() => {
         if (itemCurrentlyHovered === undefined) return;
 
-        const itemConstant = ITEM_CONTEXTS.get(itemCurrentlyHovered.itemType);
+        const itemConstant = ITEM_CONTEXTS[itemCurrentlyHovered.itemType];
         if (itemConstant === undefined) return;
 
         setItemName(itemConstant.name);

@@ -7,6 +7,7 @@ import { Damage, Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
 import { cast } from "shared/effects/raycastHitbox";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
+import { isItemAttackableType } from "shared/features/items/types";
 import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
@@ -23,8 +24,9 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
         if (serverE === undefined) continue;
 
         const itemType = acting.action.item.itemType;
-        const context = ITEM_ATTACKABLE_CONTEXTS.get(itemType);
-        if (!context) continue;
+
+        if (!isItemAttackableType(itemType)) continue;
+        const context = ITEM_ATTACKABLE_CONTEXTS[itemType];
 
         const tool = physicallyEquipping.tool;
         const hitbox = index<BasePart>(tool, context.toolHitboxDirectory);
@@ -52,7 +54,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
 
                     eAttackeds.value.add(e);
 
-                    const damageAmount = ITEM_ATTACKABLE_CONTEXTS.get(itemType)?.damage;
+                    const damageAmount = ITEM_ATTACKABLE_CONTEXTS[itemType].damage;
                     assert(damageAmount);
 
                     w.insert(

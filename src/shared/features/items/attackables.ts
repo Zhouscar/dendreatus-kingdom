@@ -17,17 +17,15 @@ export interface ItemAttackbleContext {
     readonly sideEffects: ItemAttackSideEffect[];
 }
 
-export const ITEM_ATTACKABLE_CONTEXTS: ReadonlyMap<ItemType, ItemAttackbleContext> =
-    new ReadonlyMap([
-        [
-            "crucifix_dagger",
-            {
-                toolHitboxDirectory: "Crucifix Dagger/Blade",
-                damage: 10,
-                cooldown: 0.5,
-                stepTimeout: 0.5,
-                stepAnimationIds: [withAssetPrefix("16426630172"), withAssetPrefix("16426603490")],
-                sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
-            },
-        ],
-    ]);
+const asItemAttackableContext = (context: ItemAttackbleContext) => context;
+
+export const ITEM_ATTACKABLE_CONTEXTS = {
+    crucifix_dagger: asItemAttackableContext({
+        toolHitboxDirectory: "Crucifix Dagger/Blade",
+        damage: 10,
+        cooldown: 0.5,
+        stepTimeout: 0.5,
+        stepAnimationIds: [withAssetPrefix("16426630172"), withAssetPrefix("16426603490")],
+        sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
+    }),
+};

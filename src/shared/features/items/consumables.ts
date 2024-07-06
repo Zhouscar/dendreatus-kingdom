@@ -12,19 +12,17 @@ export interface ItemConsumableContext {
     readonly sideEffects: ItemConsumeSideEffect[];
 }
 
-export const ITEM_CONSUMABLE_CONTEXTS: ReadonlyMap<ItemType, ItemConsumableContext> =
-    new ReadonlyMap([
-        [
-            "mushroom_soup",
-            {
-                calories: 10,
-                duration: 3,
-                stageAnimationIds: [
-                    withAssetPrefix("16651687848"),
-                    withAssetPrefix("16651687848"),
-                    withAssetPrefix("16651687848"),
-                ],
-                sideEffects: [],
-            },
+const asItemConsumableContext = (context: ItemConsumableContext) => context;
+
+export const ITEM_CONSUMABLE_CONTEXTS = {
+    mushroom_soup: asItemConsumableContext({
+        calories: 10,
+        duration: 3,
+        stageAnimationIds: [
+            withAssetPrefix("16651687848"),
+            withAssetPrefix("16651687848"),
+            withAssetPrefix("16651687848"),
         ],
-    ]);
+        sideEffects: [],
+    }),
+};

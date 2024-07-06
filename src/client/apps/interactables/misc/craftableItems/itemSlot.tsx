@@ -16,7 +16,7 @@ export default function CraftableItemSlot(props: { item: Item | undefined; showi
 
     const itemContext = useMemo(() => {
         if (item === undefined) return undefined;
-        return ITEM_CONTEXTS.get(item.itemType);
+        return ITEM_CONTEXTS[item.itemType];
     }, [item]);
 
     const image = itemContext?.image;

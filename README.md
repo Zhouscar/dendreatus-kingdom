@@ -41,11 +41,13 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Some more damage effects
 
 
-- [ ] Item holding animations
-
 - [ ] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 
+- [ ] Item holding animations
+
 - [ ] Adding Sound
+
+
 
 - [ ] Finalizing
 

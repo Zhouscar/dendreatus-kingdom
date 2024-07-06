@@ -35,21 +35,21 @@ export default function loadGame() {
         contentIdSet.add(id);
     });
 
-    ITEM_ATTACKABLE_CONTEXTS.forEach((context) => {
+    Sift.Dictionary.values(ITEM_ATTACKABLE_CONTEXTS).forEach((context) => {
         context.stepAnimationIds.forEach((id) => {
             if (!id.match("TODO").isEmpty()) return;
             contentIdSet.add(id);
         });
     });
 
-    ITEM_CONSUMABLE_CONTEXTS.forEach((context) => {
+    Sift.Dictionary.values(ITEM_CONSUMABLE_CONTEXTS).forEach((context) => {
         context.stageAnimationIds.forEach((id) => {
             if (!id.match("TODO").isEmpty()) return;
             contentIdSet.add(id);
         });
     });
 
-    ITEM_CONTEXTS.forEach((context) => {
+    Sift.Dictionary.values(ITEM_CONTEXTS).forEach((context) => {
         if (!context.image.match("TODO").isEmpty()) return;
         contentIdSet.add(context.image);
     });
