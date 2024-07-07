@@ -1,4 +1,3 @@
-import { ItemType } from "shared/features/items/types";
 import { PlayerInventory } from "shared/store/players/types";
 import { produce } from "@rbxts/immut";
 

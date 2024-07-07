@@ -3,6 +3,7 @@ import immutConsumeItem from "./immutConsumeItem";
 import immutInsertItem from "./immutInsertItem";
 import immutModifyItemAtGuid from "./immutModifyItemAtGuid";
 import immutPutItems from "./immutPutItems";
+import immutReconcileInventory from "./immutReconcileInventory";
 import immutRemoveItemAt from "./immutRemoveItemAt";
 import immutRemoveItemByGuid from "./immutRemoveItemByGuid";
 import immutSetItemAt from "./immutSetItemAt";
@@ -16,6 +17,7 @@ const inventoryImmutSetters = {
     immutInsertItem,
     immutModifyItemAtGuid,
     immutPutItems,
+    immutReconcileInventory,
     immutRemoveItemAt,
     immutRemoveItemByGuid,
     immutSetItemAt,

@@ -47,7 +47,7 @@ export const SOUND_IDS = {
     wakeUpFromTrauma: withAssetPrefix("18115139328"),
     characterDelete: withAssetPrefix("2162239324"),
 
-    dkTheme: withAssetPrefix("18115288211"),
+    dkTheme: withAssetPrefix("14112298231"),
     startGame: withAssetPrefix("8754163935"),
 
     dayTimeMusic: withAssetPrefix("9112799929"),

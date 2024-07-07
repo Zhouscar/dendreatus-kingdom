@@ -71,6 +71,15 @@ export const inventorySlice = createProducer(initState, {
         };
     },
 
+    reconcileInventory: (state, plr: string) => {
+        const inventory = state[plr];
+        if (inventory === undefined) return state;
+        return {
+            ...state,
+            [plr]: inventoryImmutSetters.immutReconcileInventory(inventory),
+        };
+    },
+
     removeItemAt: (state, plr: string, index: number) => {
         const inventory = state[plr];
         if (inventory === undefined) return state;
