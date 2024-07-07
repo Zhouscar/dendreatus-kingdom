@@ -53,7 +53,7 @@ export const Animatable = ComponentCreator.replicated<{ animator: MyAnimator }>(
 export type Animatable = ReturnType<typeof Animatable>;
 
 export const Sound = ComponentCreator.bidirectional<{
-    audibility: number;
+    audibility?: number;
     context: SoundContext;
     cf: CFrame;
 }>("Sound");

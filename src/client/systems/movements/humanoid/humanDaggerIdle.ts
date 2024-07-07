@@ -16,9 +16,9 @@ import { Dead } from "shared/components/health";
 import { EquippingItem } from "shared/components/items";
 
 function humanDaggerIdleAnim(w: World) {
-    for (const [e, localPlr, animatable, _onLand] of w.query(LocalPlr, Animatable, OnLand)) {
+    for (const [e, localPlr, animatable] of w.query(LocalPlr, Animatable)) {
         if (
-            hasComponents(w, e, EquippingItem) &&
+            hasComponents(w, e, EquippingItem, OnLand) &&
             w.get(e, EquippingItem)!.item.itemType === "crucifix_dagger" &&
             !hasOneOfComponents(
                 w,

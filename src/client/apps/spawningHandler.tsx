@@ -41,7 +41,7 @@ export default function SpawningHandler(props: { enabled: boolean }) {
     }, [deferredEnabled, wait20]);
 
     return (
-        <Transition enabled={enabled && !wait9}>
+        <Transition enabled={enabled && !wait9} springOptions={"instant"}>
             <frame
                 Size={new UDim2(5, 0, 5, 0)}
                 Position={new UDim2(0.5, 0, 0.5, 0)}

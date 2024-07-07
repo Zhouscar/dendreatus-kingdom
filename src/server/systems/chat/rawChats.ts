@@ -18,7 +18,7 @@ function rawChats(w: World) {
         );
 
         if (ready.completed && ready.result.success) {
-            w.insert(e, Chatting({ message: ready.result.value, time: os.clock() }));
+            w.insert(e, Chatting({ message: ready.result.value, time: tick() }));
             w.remove(e, ChattingRaw);
         }
     }

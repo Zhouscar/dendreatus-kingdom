@@ -43,7 +43,7 @@ function droppingItemVisuals(w: World) {
         const part = renderable.pv;
         if (!part.IsA("BasePart")) continue;
 
-        const position = getPositionerCurrent(positioner, os.clock()).position;
+        const position = getPositionerCurrent(positioner, tick()).position;
 
         const distance = characterPos.sub(position).Magnitude;
         if (distance > THRESHOLD_DISTANCE) continue;

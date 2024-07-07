@@ -2,7 +2,7 @@ import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import { InteractState } from "shared/features/interactables/types";
 import useComponent from "../hooks/useComponent";
-import { Renderable } from "shared/components";
+import { Animatable, Renderable, Sound, Transform } from "shared/components";
 import {
     useBinding,
     useCallback,
@@ -32,6 +32,8 @@ import { ReadingSign, Sign } from "shared/components/signs";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import Transition from "../components/transition";
 import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
+import { useLatest } from "@rbxts/pretty-roact-hooks";
+import { startAnimation } from "shared/effects/animations";
 
 export default function Interactable(props: {
     enabled: boolean;
@@ -71,7 +73,7 @@ export default function Interactable(props: {
         }
 
         const connection = RunService.Heartbeat.Connect(() => {
-            const timeLeft = os.clock() - cannotInteractReason.startTime;
+            const timeLeft = tick() - cannotInteractReason.startTime;
             const perc = timeLeft / cannotInteractReason.duration;
 
             if (perc !== perc || perc < 0 || perc > 1) return;
@@ -99,8 +101,6 @@ export default function Interactable(props: {
     const doorLike = useComponent(e, DoorLike);
     const sign = useComponent(e, Sign);
 
-    const components = [harvestable, droppedItem, cookable, craftable, doorLike, sign];
-
     // \components
 
     const clicked = useCallback(() => {
@@ -124,6 +124,12 @@ export default function Interactable(props: {
     const localPlrE = useLocalPlrE();
     const w = useW();
 
+    const cf = useComponent(localPlrE, Transform)?.cf;
+    const latestCf = useLatest(cf);
+
+    const animator = useComponent(localPlrE, Animatable)?.animator;
+    const latestAnimator = useLatest(animator);
+
     useEffect(() => {
         if (!w.contains(localPlrE) || harvestable === undefined) return;
         setInteractionName("Harvest");
@@ -133,9 +139,17 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "harvest",
-                    interactTime: os.clock(),
+                    interactTime: tick(),
                 }),
             );
+
+            if (latestCf.current !== undefined) {
+                w.spawn(Sound({ context: { soundName: "harvest" }, cf: latestCf.current }));
+            }
+
+            if (latestAnimator.current !== undefined) {
+                startAnimation(latestAnimator.current, "harvest", "Action2");
+            }
         };
     }, [w, localPlrE, harvestable]);
 
@@ -148,9 +162,13 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "pickup",
-                    interactTime: os.clock(),
+                    interactTime: tick(),
                 }),
             );
+
+            if (latestAnimator.current !== undefined) {
+                startAnimation(latestAnimator.current, "harvest", "Action2");
+            }
         };
     }, [w, localPlrE, droppedItem]);
 
@@ -163,9 +181,13 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "place_item",
-                    interactTime: os.clock(),
+                    interactTime: tick(),
                 }),
             );
+
+            if (cf !== undefined) {
+                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: cf }));
+            }
         };
     }, [w, localPlrE, cookable]);
 
@@ -178,9 +200,13 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "place_item",
-                    interactTime: os.clock(),
+                    interactTime: tick(),
                 }),
             );
+
+            if (cf !== undefined) {
+                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: cf }));
+            }
         };
     }, [w, localPlrE, craftable]);
 
@@ -194,7 +220,7 @@ export default function Interactable(props: {
                     Interacted({
                         player: Players.LocalPlayer,
                         interactType: "door_close",
-                        interactTime: os.clock(),
+                        interactTime: tick(),
                     }),
                 );
             };
@@ -206,7 +232,7 @@ export default function Interactable(props: {
                     Interacted({
                         player: Players.LocalPlayer,
                         interactType: "door_open",
-                        interactTime: os.clock(),
+                        interactTime: tick(),
                     }),
                 );
             };
@@ -225,7 +251,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "read_sign",
-                    interactTime: os.clock(),
+                    interactTime: tick(),
                 }),
             );
         };

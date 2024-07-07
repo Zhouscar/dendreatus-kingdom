@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Transform } from "shared/components";
+import { Sound, Transform } from "shared/components";
 import {
     CannotInteract,
     CannotInteractReason,
@@ -24,8 +24,8 @@ function craftablesCraft(w: World) {
         const craftable = w.get(e, Craftable);
         if (craftable === undefined) continue;
 
-        const position = w.get(e, Transform)?.cf.Position;
-        if (position === undefined) continue;
+        const cf = w.get(e, Transform)?.cf;
+        if (cf === undefined) continue;
 
         if (cannotInteract.reason.type !== "cooldown") continue;
 
@@ -50,9 +50,11 @@ function craftablesCraft(w: World) {
             DroppingItem({
                 item: { itemType: newItemType, stack: 1 },
                 impulse: rImpulse(),
-                position: position,
+                position: cf.Position,
             }),
         );
+
+        w.spawn(Sound({ context: { soundName: "itemPopOut" }, cf: cf }));
     }
 
     for (const [e, craftableRecord] of w.queryChanged(Craftable)) {
@@ -61,8 +63,8 @@ function craftablesCraft(w: World) {
         const craftable = craftableRecord.new;
         if (craftable === undefined) continue;
 
-        const position = w.get(e, Transform)?.cf.Position;
-        if (position === undefined) continue;
+        const cf = w.get(e, Transform)?.cf;
+        if (cf === undefined) continue;
 
         let size = 0;
         craftable.items.forEach((container) => {
@@ -85,10 +87,12 @@ function craftablesCraft(w: World) {
         });
 
         if (newItemType === undefined) {
-            w.spawn(DroppingItem({ item: item1, impulse: rImpulse(), position: position }));
-            w.spawn(DroppingItem({ item: item2, impulse: rImpulse(), position: position }));
-            w.spawn(DroppingItem({ item: item3, impulse: rImpulse(), position: position }));
+            w.spawn(DroppingItem({ item: item1, impulse: rImpulse(), position: cf.Position }));
+            w.spawn(DroppingItem({ item: item2, impulse: rImpulse(), position: cf.Position }));
+            w.spawn(DroppingItem({ item: item3, impulse: rImpulse(), position: cf.Position }));
             w.insert(e, craftable.patch({ items: EMPTY_COOKABLE_ITEMS }));
+
+            w.spawn(Sound({ context: { soundName: "itemPopOut" }, cf: cf }));
 
             continue;
         }
@@ -96,7 +100,7 @@ function craftablesCraft(w: World) {
         w.insert(
             e,
             CannotInteract({
-                reason: CannotInteractReason.cooldown({ startTime: os.clock(), duration: 5 }),
+                reason: CannotInteractReason.cooldown({ startTime: tick(), duration: 5 }),
             }),
         );
     }

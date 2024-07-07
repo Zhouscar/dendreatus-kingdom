@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Transform } from "shared/components";
+import { Sound, Transform } from "shared/components";
 import { CannotInteract, CannotInteractReason, Cookable } from "shared/components/interactables";
 import { DroppingItem } from "shared/components/items";
 import { EMPTY_COOKABLE_ITEMS } from "shared/features/cookables/constants";
@@ -19,8 +19,8 @@ function cookablesCook(w: World) {
         const cookable = w.get(e, Cookable);
         if (cookable === undefined) continue;
 
-        const position = w.get(e, Transform)?.cf.Position;
-        if (position === undefined) continue;
+        const cf = w.get(e, Transform)?.cf;
+        if (cf === undefined) continue;
 
         if (cannotInteract.reason.type !== "cooldown") continue;
 
@@ -45,9 +45,11 @@ function cookablesCook(w: World) {
             DroppingItem({
                 item: { itemType: newItemType, stack: 1 },
                 impulse: rImpulse(),
-                position: position,
+                position: cf.Position,
             }),
         );
+
+        w.spawn(Sound({ context: { soundName: "itemPopOut" }, cf: cf }));
     }
 
     for (const [e, cookableRecord] of w.queryChanged(Cookable)) {
@@ -56,8 +58,8 @@ function cookablesCook(w: World) {
         const cookable = cookableRecord.new;
         if (cookable === undefined) continue;
 
-        const position = w.get(e, Transform)?.cf.Position;
-        if (position === undefined) continue;
+        const cf = w.get(e, Transform)?.cf;
+        if (cf === undefined) continue;
 
         let size = 0;
         cookable.items.forEach((container) => {
@@ -80,10 +82,12 @@ function cookablesCook(w: World) {
         });
 
         if (newItemType === undefined) {
-            w.spawn(DroppingItem({ item: item1, impulse: rImpulse(), position: position }));
-            w.spawn(DroppingItem({ item: item2, impulse: rImpulse(), position: position }));
-            w.spawn(DroppingItem({ item: item3, impulse: rImpulse(), position: position }));
+            w.spawn(DroppingItem({ item: item1, impulse: rImpulse(), position: cf.Position }));
+            w.spawn(DroppingItem({ item: item2, impulse: rImpulse(), position: cf.Position }));
+            w.spawn(DroppingItem({ item: item3, impulse: rImpulse(), position: cf.Position }));
             w.insert(e, cookable.patch({ items: EMPTY_COOKABLE_ITEMS }));
+
+            w.spawn(Sound({ context: { soundName: "itemPopOut" }, cf: cf }));
 
             continue;
         }
@@ -91,7 +95,7 @@ function cookablesCook(w: World) {
         w.insert(
             e,
             CannotInteract({
-                reason: CannotInteractReason.cooldown({ startTime: os.clock(), duration: 5 }),
+                reason: CannotInteractReason.cooldown({ startTime: tick(), duration: 5 }),
             }),
         );
     }

@@ -12,7 +12,7 @@ let startTime = 0;
 
 const INTERACT_DURATION = 0.5;
 
-function interacting(w: World) {
+function interactCooldown(w: World) {
     for (const [e, interactedRecord] of w.queryChanged(Interacted)) {
         if (!w.contains(e)) continue;
 
@@ -20,7 +20,7 @@ function interacting(w: World) {
         if (interacted === undefined) continue;
         if (interacted.player !== Players.LocalPlayer) continue;
 
-        startTime = os.clock();
+        startTime = tick();
 
         w.insert(
             e,
@@ -31,16 +31,7 @@ function interacting(w: World) {
                 }),
             }),
         );
-
-        if (interacted.interactType === "harvest") {
-            const animatable = w.get(e, Animatable);
-            if (animatable !== undefined) {
-                startAnimation(animatable.animator, "harvest", "Action2", false, 1, false);
-            }
-        } else if (interacted.interactType === "pickup") {
-            // TODO animation?
-        }
     }
 }
 
-export = interacting;
+export = interactCooldown;

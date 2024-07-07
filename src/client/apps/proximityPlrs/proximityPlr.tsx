@@ -1,7 +1,7 @@
 import { AnyEntity } from "@rbxts/matter";
 import Roact from "@rbxts/roact";
 import useComponent from "../hooks/useComponent";
-import { Chatting, Member, Renderable } from "shared/components";
+import { Chatting, Member, Plr, Renderable } from "shared/components";
 import { useEffect, useMemo, useState } from "@rbxts/roact-hooked";
 import { useDebounceEffect, useEventListener, useLatest } from "@rbxts/pretty-roact-hooks";
 import { Players, RunService } from "@rbxts/services";
@@ -9,12 +9,10 @@ import Sift from "@rbxts/sift";
 import ChatBox from "../chatBox";
 import { UP } from "shared/constants/direction";
 import { Health } from "shared/components/health";
-import { useSpring } from "../hooks/ripple";
 import HealthBar from "../healthBar";
 import { Sneaking } from "shared/components/movements";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import Transition from "../components/transition";
-import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
 
 const CHAT_DURATION = 5;
 
@@ -32,6 +30,7 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
     const chatting = useComponent(e, Chatting);
     const health = useComponent(e, Health);
     const member = useComponent(e, Member);
+    const plr = useComponent(e, Plr);
     const sneaking = useComponent(e, Sneaking);
 
     const [showHealth, setShowHealth] = useState(false);
@@ -93,7 +92,7 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
 
         const newChat = Sift.Array.copy(oldChat);
         newChat.forEach((chat, i) => {
-            if (os.clock() - chat.time > CHAT_DURATION + 1) {
+            if (tick() - chat.time > CHAT_DURATION + 1) {
                 newChat.remove(i);
             }
         });
@@ -125,7 +124,7 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
                     BackgroundTransparency={1}
                     Text={
                         (member !== undefined ? `[${member.role}] ` : "") +
-                        Players.LocalPlayer.DisplayName
+                        (plr !== undefined ? plr.player.DisplayName : "")
                     }
                     TextStrokeColor3={Color3.fromRGB(0, 0, 0)}
                     Font={"Fantasy"}

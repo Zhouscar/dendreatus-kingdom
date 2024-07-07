@@ -20,7 +20,7 @@ function soundOnce(w: World, s: State) {
             } else {
                 w.insert(e, DoNotReplicate({ playersOfCtors: new Map([[Sound, "ALL"]]) }));
             }
-            w.remove(e, Sound);
+            w.despawn(e);
         } else {
             onces.add(e);
         }

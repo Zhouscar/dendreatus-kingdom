@@ -3,7 +3,7 @@ import { getPositionerCurrent } from "shared/calculations/positioner";
 import { Positioner, Renderable, Transform } from "shared/components";
 
 function positioners(w: World) {
-    const now = os.clock();
+    const now = tick();
 
     for (const [e, positioner, transform, renderable] of w.query(
         Positioner,

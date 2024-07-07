@@ -55,7 +55,7 @@ function cameraControls(w: World, s: State) {
                 healthPerc = health.current / health.maximum;
             }
 
-            const now = os.clock();
+            const now = tick();
             const shakeRotationX =
                 (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
                 math.noise(0.5, 1.5, now * 200);

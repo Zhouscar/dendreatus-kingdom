@@ -7,7 +7,7 @@ function localCannotInteractReasonsWithDuration(w: World) {
         if (!isWithDuration(localCannotInteract.reason)) continue;
 
         const endTime = localCannotInteract.reason.startTime + localCannotInteract.reason.duration;
-        if (os.clock() >= endTime) {
+        if (tick() >= endTime) {
             w.remove(e, LocalCannotInteract);
         }
     }

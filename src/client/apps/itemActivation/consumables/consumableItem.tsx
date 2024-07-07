@@ -6,11 +6,11 @@ import useComponent from "client/apps/hooks/useComponent";
 import useEventMemo from "client/apps/hooks/useEventMemo";
 import useLocalPlrE from "client/apps/hooks/useLocalPlrE";
 import useW from "client/apps/hooks/useW";
-import { Animatable } from "shared/components";
+import { Animatable, Sound, Transform } from "shared/components";
 import { Acting, Action } from "shared/components/actions";
 import { Dead } from "shared/components/health";
 import { ActivatingItem } from "shared/components/items";
-import { CanDirectionallyMove, Climbing, OnLand } from "shared/components/movements";
+import { CanDirectionallyMove, Climbing, CrashLanding, OnLand } from "shared/components/movements";
 import { startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { ItemConsumableType } from "shared/features/items/types";
@@ -26,6 +26,7 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
     const activatingItem = useComponent(localPlrE, ActivatingItem);
     const animatable = useComponent(localPlrE, Animatable);
     const acting = useComponent(localPlrE, Acting);
+    const transform = useComponent(localPlrE, Transform);
 
     const [nextStage, setNextStage] = useState(0);
     const itemContext = ITEM_CONSUMABLE_CONTEXTS[itemType];
@@ -33,8 +34,8 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
     const canUse = useEventMemo(RunService.Heartbeat, () => {
         if (!w.contains(latestLocalPlrE.current)) return false;
         return (
-            hasComponents(w, latestLocalPlrE.current, CanDirectionallyMove) &&
-            !hasOneOfComponents(w, latestLocalPlrE.current, Acting, Climbing, Dead)
+            hasComponents(w, latestLocalPlrE.current, OnLand) &&
+            !hasOneOfComponents(w, latestLocalPlrE.current, CrashLanding, Acting, Climbing, Dead)
         );
     });
 
@@ -56,12 +57,18 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
             Acting({
                 action: Action.consuming({
                     stage: nextStage,
-                    startTime: os.clock(),
+                    startTime: tick(),
                     duration: itemContext.duration,
                     item: activatingItem.item,
                 }),
             }),
         );
+
+        if (transform !== undefined) {
+            w.spawn(
+                Sound({ context: { soundName: itemContext.consumeSoundName }, cf: transform.cf }),
+            );
+        }
 
         if (animatable !== undefined) {
             const animId = itemContext.stageAnimationIds[nextStage];

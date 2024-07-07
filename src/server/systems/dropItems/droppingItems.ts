@@ -27,13 +27,13 @@ function droppingItems(w: World) {
                 initialVelocity: droppingItem.impulse,
                 acceleration: GRAVITY,
                 raycastParams: params,
-                startTime: os.clock(),
+                startTime: tick(),
             }),
         );
     }
 
     for (const [e, droppingItem, positioner] of w.query(DroppingItem, Positioner)) {
-        const positionerCurrent = getPositionerCurrent(positioner, os.clock());
+        const positionerCurrent = getPositionerCurrent(positioner, tick());
 
         const result = Workspace.Raycast(
             positionerCurrent.position,
@@ -62,7 +62,7 @@ function droppingItems(w: World) {
             DroppedItem({
                 item: item,
                 position: result.Position,
-                droppedTime: os.clock(),
+                droppedTime: tick(),
                 willExpire: true,
             }),
             Interactable({}),

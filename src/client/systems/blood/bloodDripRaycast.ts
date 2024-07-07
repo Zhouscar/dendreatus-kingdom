@@ -9,7 +9,7 @@ import { State } from "shared/state";
 const ALPHA = 1;
 
 function bloodDripRaycast(w: World, s: State) {
-    const now = os.clock();
+    const now = tick();
 
     for (const [e, bloodDrip, positioner] of w.query(BloodDrip, Positioner)) {
         const positionerCurrent = getPositionerCurrent(positioner, now);

@@ -33,7 +33,7 @@ function harvestablesCooldown(w: World) {
                 e,
                 CannotInteract({
                     reason: CannotInteractReason.cooldown({
-                        startTime: os.clock(),
+                        startTime: tick(),
                         duration: HARVESTABLE_COOLDOWN,
                     }),
                 }),

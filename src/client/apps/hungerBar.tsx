@@ -29,7 +29,7 @@ export default function HungerBar(props: {
     const [shake, setShake] = useBinding(new UDim2(0, 0, 0, 0));
 
     useEventListener(RunService.Heartbeat, () => {
-        const now = os.clock();
+        const now = tick();
         const shakeX = 40 * math.max(0.5 - currentPerc, 0) * math.noise(0.5, 1.5, now * 200);
         const shakeY = 40 * math.max(0.5 - currentPerc, 0) * math.noise(1.5, 0.5, now * 200);
         setShake(new UDim2(0, shakeX, 0, shakeY));

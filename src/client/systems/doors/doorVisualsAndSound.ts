@@ -25,7 +25,7 @@ function doorVisualsAndSound(w: World) {
 
             const openGoal = { CFrame: openGoalPart.CFrame };
 
-            const time = doorLike.openingOrClosingStartTime + doorLike.openDuration - os.clock();
+            const time = doorLike.openingOrClosingStartTime + doorLike.openDuration - tick();
             const tweenInfo = new TweenInfo(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
 
             const tween = TweenService.Create(hinge, tweenInfo, openGoal);
@@ -49,7 +49,7 @@ function doorVisualsAndSound(w: World) {
 
             const closeGoal = { CFrame: closeGoalPart.CFrame };
 
-            const time = doorLike.openingOrClosingStartTime + doorLike.closeDuration - os.clock();
+            const time = doorLike.openingOrClosingStartTime + doorLike.closeDuration - tick();
             const tweenInfo = new TweenInfo(time, Enum.EasingStyle.Quad, Enum.EasingDirection.In);
 
             const tween = TweenService.Create(hinge, tweenInfo, closeGoal);

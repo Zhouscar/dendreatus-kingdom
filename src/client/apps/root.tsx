@@ -22,6 +22,8 @@ import { routes } from "shared/network";
 import { useRemoteToken } from "./hooks/useW";
 import { isStudioSettingOn } from "shared/studioSettings";
 import MenuHandler from "./menuHandler";
+import { useEffect } from "@rbxts/roact-hooked";
+import { playSound } from "shared/effects/sounds";
 
 function App() {
     const clientState = useClientState();
@@ -34,6 +36,17 @@ function App() {
             });
         }
     });
+
+    useEffect(() => {
+        if (
+            clientState === "chat" ||
+            clientState === "inventory" ||
+            clientState === "game" ||
+            clientState === "sign"
+        ) {
+            playSound({ soundName: "switchUI" });
+        }
+    }, [clientState]);
 
     return (
         <>

@@ -3,13 +3,12 @@ import Transition from "../components/transition";
 import Hotbar from "../hotbar";
 import HealthBar from "../healthBar";
 import HungerBar from "../hungerBar";
-import { useSelector } from "@rbxts/roact-reflex";
-import { selectLocalPlrE } from "client/store/ecs";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import { IMAGE_IDS } from "shared/features/ids/images";
 import useComponent from "../hooks/useComponent";
 import { Health } from "shared/components/health";
 import { useMemo } from "@rbxts/roact-hooked";
+import SpringLoopedSound from "../components/springLoopedSound";
 
 export default function GameScreen(props: { enabled: boolean }) {
     const enabled = props.enabled;
@@ -24,6 +23,11 @@ export default function GameScreen(props: { enabled: boolean }) {
 
     return (
         <Transition enabled={enabled}>
+            <SpringLoopedSound
+                soundName={"lowHealth"}
+                volume={!enabled ? 0 : 2 * math.max(0.5 - healthPerc, 0)}
+                speed={5 * math.max(0.5 - healthPerc, 0) + 2}
+            />
             <Hotbar />
             <HealthBar
                 e={localPlrE}

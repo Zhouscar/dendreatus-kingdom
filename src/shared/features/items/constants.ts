@@ -55,7 +55,7 @@ export const ITEM_CONTEXTS = {
         description: "I've never seen these before, can I eat them??",
     }),
     goya: asItemContext({
-        name: "Humberbell",
+        name: "Goya",
         stackSize: 1,
         image: withAssetPrefix("16859686889"),
         description: "YUCK!",

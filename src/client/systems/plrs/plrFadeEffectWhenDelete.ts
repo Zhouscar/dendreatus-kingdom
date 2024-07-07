@@ -1,5 +1,5 @@
 import { AnyEntity, World } from "@rbxts/matter";
-import { Plr, Transform } from "shared/components";
+import { Plr, Sound, Transform } from "shared/components";
 import { DEATH_PARTICLE_PROPS } from "shared/constants/deathParticleProps";
 import { emitParticle } from "shared/effects/particles";
 
@@ -12,6 +12,8 @@ function plrFadeEffectWhenDelete(w: World) {
 
     plrECFs.forEach((cf, e) => {
         if (!w.contains(e)) {
+            print("sound");
+            w.spawn(Sound({ context: { soundName: "characterDelete" }, cf: cf }));
             emitParticle(cf, 1, DEATH_PARTICLE_PROPS);
             plrECFs.delete(e);
         }

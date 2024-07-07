@@ -23,8 +23,8 @@ function testDamagePartsDamage(w: World, s: State) {
         w.insert(
             colliderE,
             Damage({
-                time: os.clock(),
-                amount: math.round(collisionRecord.new.impulse.Magnitude / 3),
+                time: tick(),
+                amount: 10,
                 serverContributor: e,
                 damageType: "physical",
             }),

@@ -22,7 +22,7 @@ export default function TitleCard(props: { enabled: boolean }) {
 
     const [willSpawn, setWillSpawn] = useState(false);
     const deferredWillSpawn = useDeferred(willSpawn);
-    const waitWillSpawn1 = useWait(1, [willSpawn]);
+    const waitWillSpawn = useWait(3, [willSpawn]);
 
     const remoteToken = useRemoteToken();
 
@@ -30,13 +30,18 @@ export default function TitleCard(props: { enabled: boolean }) {
         setWillSpawn(false);
     }, [deferredEnabled]);
 
+    useEffect(() => {
+        if (!willSpawn) return;
+        playSound({ soundName: "startGame" });
+    }, [willSpawn]);
+
     useCoincidenceEffect(() => {
         loopSound({ soundName: "dkTheme", timePosition: 0 });
     }, [deferredEnabled, wait5]);
 
     useCoincidenceEffect(() => {
         routes.requestSpawn.send(remoteToken);
-    }, [deferredEnabled, deferredWillSpawn, waitWillSpawn1]);
+    }, [deferredEnabled, deferredWillSpawn, waitWillSpawn]);
 
     return (
         <>

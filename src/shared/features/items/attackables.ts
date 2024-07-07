@@ -2,6 +2,7 @@ import variantModule, { VariantOf, fields } from "@rbxts/variant";
 import { ShiftForwardData } from "shared/components/actions";
 import { ItemType } from "./types";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
+import { SoundName } from "../ids/sounds";
 
 export const ItemAttackSideEffect = variantModule({
     shiftForward: fields<ShiftForwardData>(),
@@ -13,6 +14,7 @@ export interface ItemAttackbleContext {
     readonly cooldown: number;
     readonly stepTimeout: number;
     readonly stepAnimationIds: string[];
+    readonly swingSoundName: SoundName;
     readonly sideEffects: ItemAttackSideEffect[];
 }
 
@@ -24,6 +26,7 @@ export const ITEM_ATTACKABLE_CONTEXTS = {
         cooldown: 0.5,
         stepTimeout: 0.5,
         stepAnimationIds: [withAssetPrefix("16426630172"), withAssetPrefix("16426603490")],
+        swingSoundName: "daggerSwing",
         sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
     }),
     scrap_blade: asItemAttackableContext({
@@ -31,13 +34,15 @@ export const ITEM_ATTACKABLE_CONTEXTS = {
         cooldown: 0.5,
         stepTimeout: 0.5,
         stepAnimationIds: [withAssetPrefix("17390314970"), withAssetPrefix("18365427377")],
+        swingSoundName: "swordSwing",
         sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
     }),
     spikeball: asItemAttackableContext({
         damage: 15,
         cooldown: 0.5,
         stepTimeout: 0.5,
-        stepAnimationIds: [withAssetPrefix("5835032207"), withAssetPrefix("18365427377")],
+        stepAnimationIds: [withAssetPrefix("17390314970"), withAssetPrefix("18365427377")],
+        swingSoundName: "spikeballSwing",
         sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
     }),
     sword: asItemAttackableContext({
@@ -45,6 +50,7 @@ export const ITEM_ATTACKABLE_CONTEXTS = {
         cooldown: 0.5,
         stepTimeout: 0.5,
         stepAnimationIds: [withAssetPrefix("17390314970"), withAssetPrefix("18365427377")],
+        swingSoundName: "swordSwing",
         sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
     }),
 };

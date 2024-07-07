@@ -18,7 +18,7 @@ export const DEATH_PARTICLE_PROPS: Partial<WritableInstanceProperties<ParticleEm
     LightEmission: 0.45,
     LightInfluence: 0,
     Orientation: Enum.ParticleOrientation.FacingCamera,
-    Size: new NumberSequence(1, 1),
+    Size: new NumberSequence(1, 0),
     Squash: new NumberSequence(1, 1),
     Texture: IMAGE_IDS.deathChinese,
     Transparency: new NumberSequence(0, 1),

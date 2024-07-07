@@ -66,7 +66,7 @@ function droppedItemVisuals(w: World) {
 
         const baseCF = renderable.pv.GetPivot();
 
-        const elapsed = os.clock() - droppedItem.droppedTime;
+        const elapsed = tick() - droppedItem.droppedTime;
         const rotation = CFrame.Angles(0, elapsed, 0);
         const height = 1 - math.cos(elapsed * 2) * 0.5;
 

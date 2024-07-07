@@ -1,6 +1,6 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { useChange, useMap } from "@rbxts/matter-hooks";
-import { LocalPlr, Renderable, SafeZone } from "shared/components";
+import { LocalPlr, Renderable, SafeZone, Sound, Transform } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Damage, Health } from "shared/components/health";
 import { PhysicallyEquipping } from "shared/components/items";
@@ -52,10 +52,19 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                     const damageAmount = ITEM_ATTACKABLE_CONTEXTS[itemType].damage;
                     assert(damageAmount);
 
+                    if (hasComponents(w, e, Transform)) {
+                        w.spawn(
+                            Sound({
+                                context: { soundName: "swordHit" },
+                                cf: w.get(e, Transform)!.cf,
+                            }),
+                        );
+                    }
+
                     w.insert(
                         e,
                         Damage({
-                            time: os.clock(),
+                            time: tick(),
                             amount: damageAmount,
                             serverContributor: serverE,
                             damageType: "physical",

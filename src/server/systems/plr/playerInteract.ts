@@ -10,7 +10,7 @@ import {
     Interacted,
 } from "shared/components/interactables";
 import { DroppedItem, Equipping } from "shared/components/items";
-import { createGuidPool, newGuid } from "shared/features/guidUtils";
+import { createGuidPool } from "shared/features/guidUtils";
 import { hasOpenSlot } from "shared/features/inventory/functions";
 import spaceFor from "shared/features/inventory/functions/spaces/spaceFor";
 import { isItemType } from "shared/features/items/types";

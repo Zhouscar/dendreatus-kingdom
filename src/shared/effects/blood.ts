@@ -25,7 +25,7 @@ export function doDrip(w: World, creator: Instance, position: Vector3, velocity:
             initialPosition: position,
             initialVelocity: velocity,
             acceleration: GRAVITY,
-            startTime: os.clock(),
+            startTime: tick(),
             raycastParams: params,
         }),
     );
