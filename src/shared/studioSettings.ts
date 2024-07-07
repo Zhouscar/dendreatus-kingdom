@@ -3,6 +3,7 @@ import { RunService } from "@rbxts/services";
 export const STUDIO_SETTINGS = {
     immediateSpawn: true,
     clockFreeze: true,
+    raycastVisualize: false,
 };
 
 export function isStudioSettingOn(setting: keyof typeof STUDIO_SETTINGS) {

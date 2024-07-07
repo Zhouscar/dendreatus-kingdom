@@ -38,11 +38,11 @@ function humanTakeOutItemAnim(w: World) {
             continue;
 
         if (itemType !== undefined && TAKEOUT_LANTERN_TYPES.includes(itemType)) {
-            startAnimation(animatable.animator, "takeOutLantern", "Action2");
+            startAnimation(animatable.animator, "takeOutLantern", "Action2", true);
         } else if (itemType !== undefined && TAKEOUT_SWORD_TYPES.includes(itemType)) {
-            startAnimation(animatable.animator, "takeOutSword", "Action2");
+            startAnimation(animatable.animator, "takeOutSword", "Action2", true);
         } else if (itemType !== undefined) {
-            startAnimation(animatable.animator, "takeOutItem", "Action2");
+            startAnimation(animatable.animator, "takeOutItem", "Action2", true);
         } else {
             stopAnimation(animatable.animator, "takeOutLantern");
             stopAnimation(animatable.animator, "takeOutSword");

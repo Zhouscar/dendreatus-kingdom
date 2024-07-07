@@ -4,8 +4,7 @@ import { Debris, Workspace } from "@rbxts/services";
 import { raycastVisualizePartsContainer } from "client/containers";
 import { findInstanceE } from "shared/calculations/findEntity";
 import { Renderable } from "shared/components";
-
-const VISUALIZE = true;
+import { isStudioSettingOn } from "shared/studioSettings";
 
 const storage: Map<Instance, Caster> = new Map();
 
@@ -118,7 +117,7 @@ class Caster {
                 }
             }
 
-            if (VISUALIZE) {
+            if (isStudioSettingOn("raycastVisualize")) {
                 visualize(from, to);
             }
         });

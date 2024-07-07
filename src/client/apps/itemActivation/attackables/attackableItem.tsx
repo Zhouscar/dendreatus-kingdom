@@ -34,7 +34,7 @@ export default function AttackableItem(props: { itemType: ItemAttackableType }) 
     const canUse = useEventMemo(RunService.Heartbeat, () => {
         if (!w.contains(latestLocalPlrE.current)) return false;
         return (
-            hasComponents(w, latestLocalPlrE.current, CanDirectionallyMove, OnLand) &&
+            hasComponents(w, latestLocalPlrE.current, CanDirectionallyMove) &&
             !hasOneOfComponents(w, latestLocalPlrE.current, Acting, Climbing, Dead)
         );
     });
