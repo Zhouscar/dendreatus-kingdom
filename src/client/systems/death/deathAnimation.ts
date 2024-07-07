@@ -7,7 +7,7 @@ function deathAnimation(w: World) {
     for (const [e, localPlr, dead, animatable] of w.query(LocalPlr, Dead, Animatable)) {
         const speed = os.clock() - dead.startTime < 2 ? 0.3 : 0;
 
-        resumeAnimation(animatable.animator, "death", "Core", speed, false);
+        resumeAnimation(animatable.animator, "death", "Core", false, speed, false);
 
         break;
     }

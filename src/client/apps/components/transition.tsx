@@ -2,8 +2,8 @@ import Roact from "@rbxts/roact";
 import useSuperPosition from "../hooks/useSuperPosition";
 import { SpringOptions } from "@rbxts/ripple";
 import { useSpring } from "../hooks/ripple";
-import { useBinding } from "@rbxts/roact-hooked";
 import useBindingOf from "../hooks/useBindingOf";
+import useMenuOpened from "../hooks/useMenuOpened";
 
 export default function Transition(
     props: Roact.PropsWithChildren & {
@@ -14,7 +14,9 @@ export default function Transition(
         key?: string;
     },
 ) {
-    const enabled = props.enabled;
+    const menuOpened = useMenuOpened();
+
+    const enabled = props.enabled && !menuOpened;
     const springOptions = props.springOptions;
     const key = props.key;
     const enabledTransparency = props.enabledTransparency ?? 0;

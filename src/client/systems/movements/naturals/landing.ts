@@ -39,7 +39,7 @@ function landing(w: World) {
 
         const animatable = w.get(e, Animatable);
         if (animatable) {
-            resumeAnimation(animatable.animator, "landing", "Movement", 1, false);
+            resumeAnimation(animatable.animator, "landing", "Movement");
         }
     }
 
@@ -68,7 +68,7 @@ function landing(w: World) {
 
         const animatable = w.get(e, Animatable);
         if (animatable) {
-            resumeAnimation(animatable.animator, "crashLanding", "Movement", 1, false);
+            resumeAnimation(animatable.animator, "crashLanding", "Movement", true, 1, false);
         }
     }
 

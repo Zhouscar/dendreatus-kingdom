@@ -32,7 +32,7 @@ function humanDaggerIdleAnim(w: World) {
                 Sitting,
             )
         ) {
-            resumeAnimation(animatable.animator, "daggerIdle", "Action", 0, true);
+            resumeAnimation(animatable.animator, "daggerIdle", "Action", true, 0, true);
         } else {
             stopAnimation(animatable.animator, "daggerIdle");
         }

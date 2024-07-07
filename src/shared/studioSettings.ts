@@ -1,7 +1,7 @@
 import { RunService } from "@rbxts/services";
 
 export const STUDIO_SETTINGS = {
-    immediateSpawn: false,
+    immediateSpawn: true,
     clockFreeze: true,
 };
 

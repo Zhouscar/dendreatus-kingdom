@@ -31,6 +31,6 @@ export default function SpringLoopedSound(props: {
             timePosition={timePosition}
             speed={speedSpring}
             volume={volumeSpring}
-        ></LoopedSound>
+        />
     );
 }

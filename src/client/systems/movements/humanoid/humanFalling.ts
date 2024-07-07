@@ -9,7 +9,7 @@ function humanFallingAnim(w: World) {
     for (const [_e, localPlr, _falling, animatable] of w
         .query(LocalPlr, Falling, Animatable)
         .without(DirectionalMovement)) {
-        resumeAnimation(animatable.animator, "falling", "Movement", 1, true);
+        resumeAnimation(animatable.animator, "falling", "Movement", true, 1, true);
     }
 }
 

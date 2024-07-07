@@ -59,7 +59,7 @@ function humanDash(w: World) {
         const animatable = w.get(e, Animatable);
         if (!animatable) break;
 
-        resumeAnimation(animatable.animator, "dash", "Movement", 1, true);
+        resumeAnimation(animatable.animator, "dash", "Movement", false, 1, true);
 
         break;
     }

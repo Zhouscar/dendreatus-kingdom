@@ -36,6 +36,7 @@ export function startAnimationById(
     animator: MyAnimator,
     animId: string,
     priority: keyof typeof AnimationPriority,
+    stopOthers: boolean = false,
     speed: number = 1,
     looped: boolean = false,
 ) {
@@ -70,16 +71,18 @@ export function startAnimationById(
 
     track.Looped = looped;
     track.Priority = priorityEnum;
-    if (animator.IsA("Animator")) {
-        animator.GetPlayingAnimationTracks().forEach((track) => {
-            if (track.Priority.Value > priorityEnum.Value) return;
-            track.Stop();
-        });
-    } else {
-        animator.GetPlayingAnimationTracks().forEach((track) => {
-            if (track.Priority.Value > priorityEnum.Value) return;
-            track.Stop();
-        });
+    if (stopOthers) {
+        if (animator.IsA("Animator")) {
+            animator.GetPlayingAnimationTracks().forEach((track) => {
+                if (track.Priority.Value > priorityEnum.Value) return;
+                track.Stop();
+            });
+        } else {
+            animator.GetPlayingAnimationTracks().forEach((track) => {
+                if (track.Priority.Value > priorityEnum.Value) return;
+                track.Stop();
+            });
+        }
     }
     track.Play();
     track.AdjustSpeed(speed);
@@ -89,6 +92,7 @@ export function resumeAnimationById(
     animator: MyAnimator,
     animId: string,
     priority: keyof typeof AnimationPriority,
+    stopOthers: boolean = false,
     speed: number = 1,
     looped: boolean = false,
 ) {
@@ -123,16 +127,18 @@ export function resumeAnimationById(
     track.Looped = looped;
     track.Priority = priorityEnum;
     if (!track.IsPlaying) {
-        if (animator.IsA("Animator")) {
-            animator.GetPlayingAnimationTracks().forEach((track) => {
-                if (track.Priority.Value > priorityEnum.Value) return;
-                track.Stop();
-            });
-        } else {
-            animator.GetPlayingAnimationTracks().forEach((track) => {
-                if (track.Priority.Value > priorityEnum.Value) return;
-                track.Stop();
-            });
+        if (stopOthers) {
+            if (animator.IsA("Animator")) {
+                animator.GetPlayingAnimationTracks().forEach((track) => {
+                    if (track.Priority.Value > priorityEnum.Value) return;
+                    track.Stop();
+                });
+            } else {
+                animator.GetPlayingAnimationTracks().forEach((track) => {
+                    if (track.Priority.Value > priorityEnum.Value) return;
+                    track.Stop();
+                });
+            }
         }
         track.Play();
     }
@@ -155,10 +161,12 @@ export function startAnimation(
     animator: MyAnimator,
     animName: AnimName,
     priority: keyof typeof AnimationPriority,
+    stopOthers: boolean = false,
+
     speed: number = 1,
     looped: boolean = false,
 ) {
-    startAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
+    startAnimationById(animator, ANIM_IDS[animName], priority, stopOthers, speed, looped);
 }
 
 export function stopAnimation(animator: MyAnimator, animName: AnimName) {
@@ -169,8 +177,9 @@ export function resumeAnimation(
     animator: MyAnimator,
     animName: AnimName,
     priority: keyof typeof AnimationPriority,
+    stopOthers: boolean = false,
     speed: number = 1,
     looped: boolean = false,
 ) {
-    resumeAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
+    resumeAnimationById(animator, ANIM_IDS[animName], priority, stopOthers, speed, looped);
 }

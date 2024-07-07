@@ -6,7 +6,7 @@ import { isLocalPlr } from "shared/hooks/components";
 
 function humanJump(w: World) {
     for (const [_e, localPlr, _willJump, animatable] of w.query(LocalPlr, WillJump, Animatable)) {
-        resumeAnimation(animatable.animator, "jump", "Movement", 1, false);
+        resumeAnimation(animatable.animator, "jump", "Movement", true, 1, false);
     }
 
     for (const [e, jumpingRecord] of w.queryChanged(Jumping)) {

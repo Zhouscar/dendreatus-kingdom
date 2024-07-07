@@ -1,7 +1,6 @@
 import Roact from "@rbxts/roact";
 import Transition from "./components/transition";
-import { useTimeout } from "@rbxts/pretty-roact-hooks";
-import { useBinding, useEffect, useRef } from "@rbxts/roact-hooked";
+import { useEffect } from "@rbxts/roact-hooked";
 import useComponent from "./hooks/useComponent";
 import { Animatable } from "shared/components";
 import { startAnimation } from "shared/effects/animations";
@@ -30,7 +29,7 @@ export default function SpawningHandler(props: { enabled: boolean }) {
     }, [deferredEnabled]);
 
     useCoincidenceEffect(() => {
-        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action3", 0);
+        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action3", true, 0);
     }, [deferredEnabled, animatable !== undefined]);
 
     useCoincidenceEffect(() => {

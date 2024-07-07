@@ -27,10 +27,10 @@ const HOLD_ITEM_TYPES: ItemType[] = [
 const CARRY_ITEM_TYPES: ItemType[] = ["sword", "scrap_blade", "spikeball"];
 
 function humanHoldItemAnim(w: World) {
-    for (const [e, localPlr, animatable, _onLand] of w.query(LocalPlr, Animatable, OnLand)) {
+    for (const [e, localPlr, animatable] of w.query(LocalPlr, Animatable)) {
         if (
             !hasComponents(w, e, EquippingItem) ||
-            hasOneOfComponents(w, e, Climbing, Dashing, CrashLanding, Landing, Dead, Sitting)
+            hasOneOfComponents(w, e, Climbing, CrashLanding, Dead, Sitting)
         ) {
             stopAnimation(animatable.animator, "holdItem");
             stopAnimation(animatable.animator, "carryItem");

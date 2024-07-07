@@ -66,7 +66,7 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
         if (animatable !== undefined) {
             const animId = itemContext.stageAnimationIds[nextStage];
 
-            startAnimationById(animatable.animator, animId, "Action2");
+            startAnimationById(animatable.animator, animId, "Action2", true);
         }
 
         // itemContext.sideEffects.forEach((sideEffect) => {});

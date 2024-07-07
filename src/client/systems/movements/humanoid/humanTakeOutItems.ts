@@ -26,12 +26,16 @@ const TAKEOUT_LANTERN_TYPES: ItemType[] = [
 const TAKEOUT_SWORD_TYPES: ItemType[] = ["sword", "scrap_blade", "spikeball"];
 
 function humanTakeOutItemAnim(w: World) {
-    for (const [e, localPlr, animatable, _onLand] of w
-        .query(LocalPlr, Animatable, OnLand)
-        .without(Climbing, Dashing, CrashLanding, Landing, Dead, Sitting)) {
+    for (const [e, localPlr, animatable] of w.query(LocalPlr, Animatable)) {
         const itemType = w.get(e, EquippingItem)?.item.itemType;
 
-        if (!useChange([itemType ?? ""], e)) return;
+        if (!useChange([itemType ?? ""], e)) continue;
+
+        if (
+            hasOneOfComponents(w, e, Climbing, Dashing, CrashLanding, Dead) ||
+            !hasComponents(w, e, OnLand)
+        )
+            continue;
 
         if (itemType !== undefined && TAKEOUT_LANTERN_TYPES.includes(itemType)) {
             startAnimation(animatable.animator, "takeOutLantern", "Action2");

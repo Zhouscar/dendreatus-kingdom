@@ -74,6 +74,7 @@ function humanDirectionalMovement(w: World) {
                     animator,
                     "walk",
                     "Movement",
+                    true,
                     newWalkSpeed * ANIM_ALPHAS.walk,
                     true,
                 );
@@ -82,6 +83,7 @@ function humanDirectionalMovement(w: World) {
                     animator,
                     "sprint",
                     "Movement",
+                    true,
                     newWalkSpeed * ANIM_ALPHAS.sprint,
                     true,
                 );
@@ -90,6 +92,7 @@ function humanDirectionalMovement(w: World) {
                     animator,
                     "sneak",
                     "Movement",
+                    true,
                     newWalkSpeed * ANIM_ALPHAS.sneak,
                     true,
                 );
@@ -98,6 +101,7 @@ function humanDirectionalMovement(w: World) {
                     animator,
                     "dive",
                     "Movement",
+                    true,
                     newWalkSpeed * ANIM_ALPHAS.dive,
                     true,
                 );
@@ -106,6 +110,7 @@ function humanDirectionalMovement(w: World) {
                     animator,
                     "swim",
                     "Movement",
+                    true,
                     newWalkSpeed * ANIM_ALPHAS.swim,
                     true,
                 );
@@ -118,6 +123,7 @@ function humanDirectionalMovement(w: World) {
                         animator,
                         "climb",
                         "Movement",
+                        true,
                         newWalkSpeed * ANIM_ALPHAS.climb * (climbingUp ? 1 : -1),
                         true,
                     );

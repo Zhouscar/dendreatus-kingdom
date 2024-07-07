@@ -21,17 +21,17 @@ function humanIdleAnim(w: World) {
         .query(LocalPlr, Animatable, OnLand)
         .without(DirectionalMovement, Dashing, CrashLanding, Landing, Dead)) {
         if (hasComponents(w, e, Climbing)) {
-            resumeAnimation(animatable.animator, "climb", "Movement", 0, true);
+            resumeAnimation(animatable.animator, "climb", "Movement", true, 0, true);
             continue;
         }
         if (hasComponents(w, e, Sitting)) {
-            resumeAnimation(animatable.animator, "sitting", "Movement", 0, true);
+            resumeAnimation(animatable.animator, "sitting", "Movement", true, 0, true);
             continue;
         }
 
         const animName: AnimName = hasComponents(w, e, Sneaking) ? "sneakIdle" : "idle";
 
-        resumeAnimation(animatable.animator, animName, "Movement", 1, true);
+        resumeAnimation(animatable.animator, animName, "Movement", true, 1, true);
     }
 }
 

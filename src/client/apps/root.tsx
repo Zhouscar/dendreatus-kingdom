@@ -16,7 +16,6 @@ import MouseClickEffects from "./mouseClickSound";
 import GameScreen from "./gameScreen";
 import SignScreen from "./signScreen";
 import useClientState from "./hooks/useClientState";
-import useLocalPlrE from "./hooks/useLocalPlrE";
 import ItemActivationHandler from "./itemActivation";
 import { useMountEffect } from "@rbxts/pretty-roact-hooks";
 import { routes } from "shared/network";
@@ -26,8 +25,6 @@ import MenuHandler from "./menuHandler";
 
 function App() {
     const clientState = useClientState();
-    const localPlrE = useLocalPlrE();
-
     const remoteToken = useRemoteToken();
 
     useMountEffect(() => {
