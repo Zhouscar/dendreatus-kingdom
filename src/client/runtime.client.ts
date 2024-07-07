@@ -1,6 +1,6 @@
 import Roact from "@rbxts/roact";
 import { withHookDetection } from "@rbxts/roact-hooked";
-import { ReplicatedStorage } from "@rbxts/services";
+import { ReplicatedStorage, Workspace } from "@rbxts/services";
 import { start } from "shared/start";
 import loadGame from "./loadGame";
 

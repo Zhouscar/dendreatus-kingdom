@@ -4,6 +4,7 @@ import { theLocalPlr } from "client/localPlr";
 import { store } from "client/store";
 import { LocalPlr, Plr } from "shared/components";
 import { ActivatingItem, Equipping } from "shared/components/items";
+import gameTime from "shared/hooks/gameTime";
 
 function isMB1(input: InputObject) {
     return input.UserInputType === Enum.UserInputType.MouseButton1;
@@ -17,7 +18,7 @@ function activateItem(w: World) {
     for (const [e, localPlr, equipping] of w.query(LocalPlr, Equipping)) {
         const item = getItem(equipping.itemGuid);
         if (item === undefined) continue;
-        w.insert(e, ActivatingItem({ startTime: tick(), item: item }));
+        w.insert(e, ActivatingItem({ startTime: gameTime(), item: item }));
     }
 }
 

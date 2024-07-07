@@ -22,6 +22,7 @@ import { startAnimationById } from "shared/effects/animations";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { ItemAttackableType } from "shared/features/items/types";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 
 export default function AttackableItem(props: { itemType: ItemAttackableType }) {
     const itemType = props.itemType;
@@ -78,7 +79,7 @@ export default function AttackableItem(props: { itemType: ItemAttackableType }) 
             Acting({
                 action: Action.attacking({
                     step: nextStep,
-                    startTime: tick(),
+                    startTime: gameTime(),
                     duration: itemContext.cooldown,
                     item: activatingItem.item,
                 }),
@@ -105,7 +106,7 @@ export default function AttackableItem(props: { itemType: ItemAttackableType }) 
                         ShiftForward({
                             delay: sideEffect.delay,
                             force: sideEffect.force,
-                            startTime: tick(),
+                            startTime: gameTime(),
                         }),
                     );
                     break;

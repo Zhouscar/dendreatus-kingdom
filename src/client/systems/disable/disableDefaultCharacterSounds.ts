@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { LocalPlr, Plr, Renderable } from "shared/components";
+import { Plr, Renderable } from "shared/components";
 
 const defaultSoundNames = [
     "Climbing",
@@ -14,7 +14,7 @@ const defaultSoundNames = [
 ];
 
 function disableDefaultCharacterSounds(w: World) {
-    for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
+    for (const [e, plr, renderable] of w.query(Plr, Renderable)) {
         if (!renderable.pv.IsA("Model")) continue;
 
         renderable.pv.PrimaryPart?.GetChildren()

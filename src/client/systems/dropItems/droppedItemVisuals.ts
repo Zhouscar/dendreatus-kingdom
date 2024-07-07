@@ -7,6 +7,7 @@ import { DroppedItem } from "shared/components/items";
 import { UP } from "shared/constants/direction";
 import { getToolAsDisplayByItemType } from "shared/features/items/getItem";
 import { isItemType } from "shared/features/items/types";
+import gameTime from "shared/hooks/gameTime";
 
 function newDroppedModel() {
     const model = ReplicatedStorage.assets.dropItem.droppedModel.Clone();
@@ -66,7 +67,7 @@ function droppedItemVisuals(w: World) {
 
         const baseCF = renderable.pv.GetPivot();
 
-        const elapsed = tick() - droppedItem.droppedTime;
+        const elapsed = gameTime() - droppedItem.droppedTime;
         const rotation = CFrame.Angles(0, elapsed, 0);
         const height = 1 - math.cos(elapsed * 2) * 0.5;
 

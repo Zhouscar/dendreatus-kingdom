@@ -34,6 +34,7 @@ import Transition from "../components/transition";
 import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
 import { useLatest } from "@rbxts/pretty-roact-hooks";
 import { startAnimation } from "shared/effects/animations";
+import gameTime from "shared/hooks/gameTime";
 
 export default function Interactable(props: {
     enabled: boolean;
@@ -73,7 +74,7 @@ export default function Interactable(props: {
         }
 
         const connection = RunService.Heartbeat.Connect(() => {
-            const timeLeft = tick() - cannotInteractReason.startTime;
+            const timeLeft = gameTime() - cannotInteractReason.startTime;
             const perc = timeLeft / cannotInteractReason.duration;
 
             if (perc !== perc || perc < 0 || perc > 1) return;
@@ -139,7 +140,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "harvest",
-                    interactTime: tick(),
+                    interactTime: gameTime(),
                 }),
             );
 
@@ -162,7 +163,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "pickup",
-                    interactTime: tick(),
+                    interactTime: gameTime(),
                 }),
             );
 
@@ -181,7 +182,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "place_item",
-                    interactTime: tick(),
+                    interactTime: gameTime(),
                 }),
             );
 
@@ -200,7 +201,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "place_item",
-                    interactTime: tick(),
+                    interactTime: gameTime(),
                 }),
             );
 
@@ -220,7 +221,7 @@ export default function Interactable(props: {
                     Interacted({
                         player: Players.LocalPlayer,
                         interactType: "door_close",
-                        interactTime: tick(),
+                        interactTime: gameTime(),
                     }),
                 );
             };
@@ -232,7 +233,7 @@ export default function Interactable(props: {
                     Interacted({
                         player: Players.LocalPlayer,
                         interactType: "door_open",
-                        interactTime: tick(),
+                        interactTime: gameTime(),
                     }),
                 );
             };
@@ -251,7 +252,7 @@ export default function Interactable(props: {
                 Interacted({
                     player: Players.LocalPlayer,
                     interactType: "read_sign",
-                    interactTime: tick(),
+                    interactTime: gameTime(),
                 }),
             );
         };

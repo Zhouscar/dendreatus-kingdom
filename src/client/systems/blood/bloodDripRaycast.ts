@@ -4,12 +4,13 @@ import { findInstanceE } from "shared/calculations/findEntity";
 import { getPositionerCurrent } from "shared/calculations/positioner";
 import { BloodDrip, Positioner } from "shared/components";
 import { doSplatter } from "shared/effects/blood";
+import gameTime from "shared/hooks/gameTime";
 import { State } from "shared/state";
 
 const ALPHA = 1;
 
 function bloodDripRaycast(w: World, s: State) {
-    const now = tick();
+    const now = gameTime();
 
     for (const [e, bloodDrip, positioner] of w.query(BloodDrip, Positioner)) {
         const positionerCurrent = getPositionerCurrent(positioner, now);

@@ -1,5 +1,6 @@
 import { World } from "@rbxts/matter";
 import { Dead } from "shared/components/health";
+import gameTime from "shared/hooks/gameTime";
 
 function readjustDeathTime(w: World) {
     for (const [e, deadRecord] of w.queryChanged(Dead)) {
@@ -10,7 +11,7 @@ function readjustDeathTime(w: World) {
         w.insert(
             e,
             deadRecord.new.patch({
-                startTime: tick(),
+                startTime: gameTime(),
             }),
         );
     }

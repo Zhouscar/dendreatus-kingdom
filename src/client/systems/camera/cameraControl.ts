@@ -2,6 +2,7 @@ import { useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { GuiService, UserInputService, Workspace } from "@rbxts/services";
 import { LocalPlr, Renderable, TitleCamPart, Transform } from "shared/components";
 import { Health } from "shared/components/health";
+import gameTime from "shared/hooks/gameTime";
 import { State } from "shared/state";
 
 let titleRotation = CFrame.identity;
@@ -55,7 +56,7 @@ function cameraControls(w: World, s: State) {
                 healthPerc = health.current / health.maximum;
             }
 
-            const now = tick();
+            const now = gameTime();
             const shakeRotationX =
                 (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
                 math.noise(0.5, 1.5, now * 200);

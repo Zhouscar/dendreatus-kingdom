@@ -3,6 +3,7 @@ import { useChange } from "@rbxts/matter-hooks";
 import { Renderable } from "shared/components";
 import { ShiftForward } from "shared/components/actions";
 import { FORWARD } from "shared/constants/direction";
+import gameTime from "shared/hooks/gameTime";
 import { getCustomLinearVelocity } from "shared/hooks/memoForces";
 
 const SHIFT_FORWARD_DURATION = 0.1;
@@ -32,7 +33,7 @@ function shiftForward(w: World) {
 
     for (const [e, shiftForward] of w.query(ShiftForward)) {
         const endTime = shiftForward.startTime + SHIFT_FORWARD_DURATION;
-        if (tick() >= endTime) {
+        if (gameTime() >= endTime) {
             w.remove(e, ShiftForward);
         }
     }

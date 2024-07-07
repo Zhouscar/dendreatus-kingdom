@@ -1,6 +1,7 @@
 import { useDeltaTime, World } from "@rbxts/matter";
 import { LocalPlr } from "shared/components";
 import { CanDash, Dashing } from "shared/components/movements";
+import gameTime from "shared/hooks/gameTime";
 import { getKeysJustReleased, isKeyDown } from "shared/hooks/keyInput";
 
 const THRESHOLD_TIME = 0.2;
@@ -20,7 +21,7 @@ function dash(w: World) {
 
         if (keysJustReleased.includes("sprintDash")) {
             if (timeKeyHeld <= THRESHOLD_TIME) {
-                w.insert(e, Dashing({ startTime: tick() }));
+                w.insert(e, Dashing({ startTime: gameTime() }));
             }
             timeKeyHeld = 0;
             continue;

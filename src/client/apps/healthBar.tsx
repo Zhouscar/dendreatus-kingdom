@@ -7,6 +7,7 @@ import { useMotion } from "./hooks/ripple";
 import { AnyEntity } from "@rbxts/matter";
 import { useBinding } from "@rbxts/roact-hooked";
 import { RunService } from "@rbxts/services";
+import gameTime from "shared/hooks/gameTime";
 
 export default function HealthBar(props: {
     e: AnyEntity;
@@ -29,7 +30,7 @@ export default function HealthBar(props: {
     const [shake, setShake] = useBinding(new UDim2(0, 0, 0, 0));
 
     useEventListener(RunService.Heartbeat, () => {
-        const now = tick();
+        const now = gameTime();
         const shakeX = 40 * math.max(0.5 - currentPerc, 0) * math.noise(0.5, 1.5, now * 200);
         const shakeY = 40 * math.max(0.5 - currentPerc, 0) * math.noise(1.5, 0.5, now * 200);
         setShake(new UDim2(0, shakeX, 0, shakeY));

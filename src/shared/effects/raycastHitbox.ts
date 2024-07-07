@@ -4,6 +4,7 @@ import { Debris, Workspace } from "@rbxts/services";
 import { raycastVisualizePartsContainer } from "client/containers";
 import { findInstanceE } from "shared/calculations/findEntity";
 import { Renderable } from "shared/components";
+import gameTime from "shared/hooks/gameTime";
 import { isStudioSettingOn } from "shared/studioSettings";
 
 const storage: Map<Instance, Caster> = new Map();
@@ -67,14 +68,14 @@ class Caster {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, NONE);
         });
-        this.lastUpdateTime = tick();
+        this.lastUpdateTime = gameTime();
     }
 
     step() {
         this.attachmentPreviousPositions.forEach((_, attachment) => {
             this.attachmentPreviousPositions.set(attachment, attachment.WorldPosition);
         });
-        this.lastUpdateTime = tick();
+        this.lastUpdateTime = gameTime();
     }
 
     cast(
@@ -86,7 +87,7 @@ class Caster {
         const parts: Set<BasePart> = new Set();
         const entities: Set<AnyEntity> = new Set();
 
-        if (autoCut !== false && tick() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
+        if (autoCut !== false && gameTime() - this.lastUpdateTime - useDeltaTime() >= autoCut) {
             this.cut();
         }
 

@@ -3,6 +3,7 @@ import { InteractType } from "shared/features/interactables/types";
 import { Item, ItemType } from "shared/features/items/types";
 import { WithDuration } from "shared/features/types";
 import { ComponentCreator } from "./creators";
+import { Workspace } from "@rbxts/services";
 
 export const CannotInteractReason = variantModule({
     busy: fields<WithDuration>(),

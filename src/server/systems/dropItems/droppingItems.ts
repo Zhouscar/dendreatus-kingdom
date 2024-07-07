@@ -12,6 +12,7 @@ import { Positioner } from "shared/components";
 import { Interactable } from "shared/components/interactables";
 import { DroppedItem, DroppingItem } from "shared/components/items";
 import { GRAVITY } from "shared/constants/gravity";
+import gameTime from "shared/hooks/gameTime";
 
 function droppingItems(w: World) {
     for (const [e, droppingItem] of w.query(DroppingItem).without(Positioner)) {
@@ -27,13 +28,13 @@ function droppingItems(w: World) {
                 initialVelocity: droppingItem.impulse,
                 acceleration: GRAVITY,
                 raycastParams: params,
-                startTime: tick(),
+                startTime: gameTime(),
             }),
         );
     }
 
     for (const [e, droppingItem, positioner] of w.query(DroppingItem, Positioner)) {
-        const positionerCurrent = getPositionerCurrent(positioner, tick());
+        const positionerCurrent = getPositionerCurrent(positioner, gameTime());
 
         const result = Workspace.Raycast(
             positionerCurrent.position,
@@ -62,7 +63,7 @@ function droppingItems(w: World) {
             DroppedItem({
                 item: item,
                 position: result.Position,
-                droppedTime: tick(),
+                droppedTime: gameTime(),
                 willExpire: true,
             }),
             Interactable({}),

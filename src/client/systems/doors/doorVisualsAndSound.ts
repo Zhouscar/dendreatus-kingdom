@@ -2,6 +2,7 @@ import { World } from "@rbxts/matter";
 import { TweenService } from "@rbxts/services";
 import { Renderable, Sound, Transform } from "shared/components";
 import { DoorLike, Interacted } from "shared/components/interactables";
+import gameTime from "shared/hooks/gameTime";
 
 function doorVisualsAndSound(w: World) {
     for (const [e, doorLikeRecord] of w.queryChanged(DoorLike)) {
@@ -25,7 +26,7 @@ function doorVisualsAndSound(w: World) {
 
             const openGoal = { CFrame: openGoalPart.CFrame };
 
-            const time = doorLike.openingOrClosingStartTime + doorLike.openDuration - tick();
+            const time = doorLike.openingOrClosingStartTime + doorLike.openDuration - gameTime();
             const tweenInfo = new TweenInfo(time, Enum.EasingStyle.Quad, Enum.EasingDirection.Out);
 
             const tween = TweenService.Create(hinge, tweenInfo, openGoal);
@@ -49,7 +50,7 @@ function doorVisualsAndSound(w: World) {
 
             const closeGoal = { CFrame: closeGoalPart.CFrame };
 
-            const time = doorLike.openingOrClosingStartTime + doorLike.closeDuration - tick();
+            const time = doorLike.openingOrClosingStartTime + doorLike.closeDuration - gameTime();
             const tweenInfo = new TweenInfo(time, Enum.EasingStyle.Quad, Enum.EasingDirection.In);
 
             const tween = TweenService.Create(hinge, tweenInfo, closeGoal);

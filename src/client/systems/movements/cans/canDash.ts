@@ -13,6 +13,7 @@ import {
     Sitting,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 import { State } from "shared/state";
 
 let lastDashTime = 0;
@@ -42,7 +43,7 @@ function canDash(w: World, s: State) {
         }
 
         if (
-            tick() - lastDashTime >= dashContext.cooldown &&
+            gameTime() - lastDashTime >= dashContext.cooldown &&
             hasComponents(w, e, OnLand) &&
             !hasOneOfComponents(w, e, CrashLanding, Dead, Sitting)
         ) {

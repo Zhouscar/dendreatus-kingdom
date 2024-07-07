@@ -13,6 +13,7 @@ import HealthBar from "../healthBar";
 import { Sneaking } from "shared/components/movements";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import Transition from "../components/transition";
+import gameTime from "shared/hooks/gameTime";
 
 const CHAT_DURATION = 5;
 
@@ -92,7 +93,7 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
 
         const newChat = Sift.Array.copy(oldChat);
         newChat.forEach((chat, i) => {
-            if (tick() - chat.time > CHAT_DURATION + 1) {
+            if (gameTime() - chat.time > CHAT_DURATION + 1) {
                 newChat.remove(i);
             }
         });

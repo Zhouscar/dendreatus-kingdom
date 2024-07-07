@@ -15,6 +15,7 @@ import { startAnimationById } from "shared/effects/animations";
 import { ITEM_CONSUMABLE_CONTEXTS } from "shared/features/items/consumables";
 import { ItemConsumableType } from "shared/features/items/types";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 
 export default function ConsumableItem(props: { itemType: ItemConsumableType }) {
     const itemType = props.itemType;
@@ -57,7 +58,7 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
             Acting({
                 action: Action.consuming({
                     stage: nextStage,
-                    startTime: tick(),
+                    startTime: gameTime(),
                     duration: itemContext.duration,
                     item: activatingItem.item,
                 }),

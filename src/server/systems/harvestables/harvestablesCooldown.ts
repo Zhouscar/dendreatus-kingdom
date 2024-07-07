@@ -3,6 +3,7 @@ import { ComponentCtor } from "@rbxts/matter/lib/component";
 import { CannotInteract, CannotInteractReason, Harvestable } from "shared/components/interactables";
 import { HARVESTABLE_CONTEXTS, HARVESTABLE_COOLDOWN } from "shared/features/harvestables/constants";
 import { hasComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 
 function getHarvestableTagCtor(w: World, e: AnyEntity) {
     let TheCtor: ComponentCtor | undefined = undefined;
@@ -33,7 +34,7 @@ function harvestablesCooldown(w: World) {
                 e,
                 CannotInteract({
                     reason: CannotInteractReason.cooldown({
-                        startTime: tick(),
+                        startTime: gameTime(),
                         duration: HARVESTABLE_COOLDOWN,
                     }),
                 }),

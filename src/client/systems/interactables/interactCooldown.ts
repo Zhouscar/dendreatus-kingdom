@@ -7,6 +7,7 @@ import {
     LocalCannotInteract,
 } from "shared/components/interactables";
 import { startAnimation } from "shared/effects/animations";
+import gameTime from "shared/hooks/gameTime";
 
 let startTime = 0;
 
@@ -20,7 +21,7 @@ function interactCooldown(w: World) {
         if (interacted === undefined) continue;
         if (interacted.player !== Players.LocalPlayer) continue;
 
-        startTime = tick();
+        startTime = gameTime();
 
         w.insert(
             e,

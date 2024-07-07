@@ -3,6 +3,7 @@ import { Collision } from "shared/components";
 import { TestDamagePart } from "shared/components/colliders";
 import { Damage, Dead, Health } from "shared/components/health";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 import { State } from "shared/state";
 
 function testDamagePartsDamage(w: World, s: State) {
@@ -23,7 +24,7 @@ function testDamagePartsDamage(w: World, s: State) {
         w.insert(
             colliderE,
             Damage({
-                time: tick(),
+                time: gameTime(),
                 amount: 10,
                 serverContributor: e,
                 damageType: "physical",

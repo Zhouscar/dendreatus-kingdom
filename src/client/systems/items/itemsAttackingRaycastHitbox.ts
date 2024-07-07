@@ -8,6 +8,7 @@ import { cast } from "shared/effects/raycastHitbox";
 import { ITEM_ATTACKABLE_CONTEXTS } from "shared/features/items/attackables";
 import { isItemAttackableType } from "shared/features/items/types";
 import { hasComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 import { State } from "shared/state";
 
 function itemsAttackingRaycastHitbox(w: World, s: State) {
@@ -64,7 +65,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
                     w.insert(
                         e,
                         Damage({
-                            time: tick(),
+                            time: gameTime(),
                             amount: damageAmount,
                             serverContributor: serverE,
                             damageType: "physical",

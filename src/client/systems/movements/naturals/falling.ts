@@ -12,6 +12,7 @@ import {
     OnLand,
 } from "shared/components/movements";
 import { hasComponents, hasOneOfComponents } from "shared/hooks/components";
+import gameTime from "shared/hooks/gameTime";
 
 function fallingAndLanding(w: World) {
     for (const [e, localPlr] of w.query(LocalPlr)) {
@@ -22,7 +23,7 @@ function fallingAndLanding(w: World) {
         if (linearVelocity && hasComponents(w, e, InAir) && linearVelocity.velocity.Y < -20) {
             w.remove(e, Landing, CrashLanding);
             if (!hasComponents(w, e, Falling)) {
-                w.insert(e, Falling({ startTime: tick() }));
+                w.insert(e, Falling({ startTime: gameTime() }));
             }
         } else {
             const falling = w.get(e, Falling);
@@ -30,9 +31,9 @@ function fallingAndLanding(w: World) {
             if (hasComponents(w, e, OnLand) && falling) {
                 if (
                     landingContext &&
-                    tick() - falling.startTime >= landingContext.timeTilCrashLand
+                    gameTime() - falling.startTime >= landingContext.timeTilCrashLand
                 ) {
-                    w.insert(e, CrashLanding({ startTime: tick() }));
+                    w.insert(e, CrashLanding({ startTime: gameTime() }));
                 } else {
                     w.insert(e, Landing({}));
                 }

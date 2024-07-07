@@ -1,4 +1,4 @@
-import { useThrottle, World } from "@rbxts/matter";
+import { useThrottle } from "@rbxts/matter";
 
 export = function () {
     if (!useThrottle(1)) return;

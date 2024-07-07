@@ -3,6 +3,7 @@ import { AnyEntity, World } from "@rbxts/matter";
 import { BloodDrip, Positioner, Renderable } from "shared/components";
 import { GRAVITY } from "shared/constants/gravity";
 import { bloodContainer, raycastVisualizePartsContainer } from "client/containers";
+import gameTime from "shared/hooks/gameTime";
 
 const r = math.random;
 
@@ -25,7 +26,7 @@ export function doDrip(w: World, creator: Instance, position: Vector3, velocity:
             initialPosition: position,
             initialVelocity: velocity,
             acceleration: GRAVITY,
-            startTime: tick(),
+            startTime: gameTime(),
             raycastParams: params,
         }),
     );

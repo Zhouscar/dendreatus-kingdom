@@ -4,6 +4,7 @@ import { CannotInteract, CannotInteractReason, Cookable } from "shared/component
 import { DroppingItem } from "shared/components/items";
 import { EMPTY_COOKABLE_ITEMS } from "shared/features/cookables/constants";
 import { getItemTypeFromCookingRecipe } from "shared/features/cookables/cookableRecipes";
+import gameTime from "shared/hooks/gameTime";
 
 function rImpulse() {
     return new Vector3(math.random(-10, 10), math.random(10, 30), math.random(-10, 10));
@@ -95,7 +96,7 @@ function cookablesCook(w: World) {
         w.insert(
             e,
             CannotInteract({
-                reason: CannotInteractReason.cooldown({ startTime: tick(), duration: 5 }),
+                reason: CannotInteractReason.cooldown({ startTime: gameTime(), duration: 5 }),
             }),
         );
     }

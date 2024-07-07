@@ -5,6 +5,7 @@ import { getPositionerCurrent } from "shared/calculations/positioner";
 import { LocalPlr, Positioner, Renderable, Transform } from "shared/components";
 import { DroppingItem } from "shared/components/items";
 import { visualize } from "shared/effects/raycastHitbox";
+import gameTime from "shared/hooks/gameTime";
 
 function newDroppingPart() {
     const part = ReplicatedStorage.assets.dropItem.droppingPart.Clone();
@@ -43,7 +44,7 @@ function droppingItemVisuals(w: World) {
         const part = renderable.pv;
         if (!part.IsA("BasePart")) continue;
 
-        const position = getPositionerCurrent(positioner, tick()).position;
+        const position = getPositionerCurrent(positioner, gameTime()).position;
 
         const distance = characterPos.sub(position).Magnitude;
         if (distance > THRESHOLD_DISTANCE) continue;
