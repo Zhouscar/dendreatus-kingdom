@@ -26,15 +26,12 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Harvestable setup
 - [x] Item holding animations
 - [x] Fix atmosphere (only one atmosphere can be present at a time)
+- [x] Low health effects (shaking, intense music)
+- [x] Low hunger effects
 
 - [ ] Adding Sound (start sound, respawn sound, switch pages sound, harvest sound, switch item sound, sword swing sound, sword hit sound, eating sound)
 
-- [ ] Low health effects (shaking, intense music)
-
-- [ ] Low hunger effects
-
 - [ ] Finalizing (tags, different signs)
-
 
 # Post Demo
 

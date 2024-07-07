@@ -40,15 +40,15 @@ export default function Button(props: {
     const neutralTextStrokeColor = props.neutralTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
     const neutralTransparency = props.neutralTransparency ?? 0;
 
-    const hoverButtonColor = props.neutralButtonColor ?? Color3.fromRGB(255, 255, 255);
-    const hoverTextColor = props.neutralTextColor ?? Color3.fromRGB(0, 0, 0);
-    const hoverTextStrokeColor = props.neutralTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
-    const hoverTransparency = props.neutralTransparency ?? 0;
+    const hoverButtonColor = props.hoverButtonColor ?? Color3.fromRGB(255, 255, 255);
+    const hoverTextColor = props.hoverTextColor ?? Color3.fromRGB(0, 0, 0);
+    const hoverTextStrokeColor = props.hoverTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
+    const hoverTransparency = props.hoverTransparency ?? 0;
 
-    const pressButtonColor = props.neutralButtonColor ?? Color3.fromRGB(0, 0, 0);
-    const pressTextColor = props.neutralTextColor ?? Color3.fromRGB(255, 255, 255);
-    const pressTextStrokeColor = props.neutralTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
-    const pressTransparency = props.neutralTransparency ?? 0;
+    const pressButtonColor = props.pressButtonColor ?? Color3.fromRGB(0, 0, 0);
+    const pressTextColor = props.pressTextColor ?? Color3.fromRGB(255, 255, 255);
+    const pressTextStrokeColor = props.pressTextStrokeColor ?? Color3.fromRGB(0, 0, 0);
+    const pressTransparency = props.pressTransparency ?? 0;
 
     const [press, setPress] = useState(false);
     const [hover, setHover] = useState(false);

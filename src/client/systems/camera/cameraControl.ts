@@ -1,6 +1,7 @@
 import { useDeltaTime, useEvent, World } from "@rbxts/matter";
 import { GuiService, UserInputService, Workspace } from "@rbxts/services";
 import { LocalPlr, Renderable, TitleCamPart, Transform } from "shared/components";
+import { Health } from "shared/components/health";
 import { State } from "shared/state";
 
 let titleRotation = CFrame.identity;
@@ -49,10 +50,21 @@ function cameraControls(w: World, s: State) {
             if (character === undefined) return;
             raycastParams.FilterDescendantsInstances = [character];
 
+            let healthPerc = 1;
+            for (const [e, localPlr, health] of w.query(LocalPlr, Health)) {
+                healthPerc = health.current / health.maximum;
+            }
+
             const now = os.clock();
-            const shakeRotationX = 2 * s.trauma * math.noise(0.5, 1.5, now * 200);
-            const shakeRotationY = 2 * s.trauma * math.noise(1.5, 0.5, now * 200);
-            const shakeRotationZ = 2 * s.trauma * math.noise(1.5, 1.5, now * 200);
+            const shakeRotationX =
+                (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
+                math.noise(0.5, 1.5, now * 200);
+            const shakeRotationY =
+                (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
+                math.noise(1.5, 0.5, now * 200);
+            const shakeRotationZ =
+                (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
+                math.noise(0.8, 0.8, now * 200);
 
             // const shakeRotationX = s.cameraShake * math.random(-1, 1);
             // const shakeRotationY = s.cameraShake * math.random(-1, 1);

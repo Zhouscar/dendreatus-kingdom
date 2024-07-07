@@ -3,6 +3,9 @@ import { Players } from "@rbxts/services";
 import { Human, Plr, Renderable } from "shared/components";
 import { Health } from "shared/components/health";
 import { Stomach } from "shared/components/hunger";
+import { isStudioSettingOn } from "shared/studioSettings";
+
+const TRILLION = 1000000000000;
 
 function plrSetup(w: World) {
     Players.GetPlayers().forEach((player) => {
@@ -24,13 +27,13 @@ function plrSetup(w: World) {
         w.insert(
             e,
             Health({
-                current: 1000,
-                maximum: 1000,
+                current: isStudioSettingOn("infiniteStats") ? TRILLION : 100,
+                maximum: isStudioSettingOn("infiniteStats") ? TRILLION : 100,
                 damageContributors: new Map(),
             }),
             Stomach({
-                hunger: 100,
-                capacity: 100,
+                hunger: isStudioSettingOn("infiniteStats") ? TRILLION : 100,
+                capacity: isStudioSettingOn("infiniteStats") ? TRILLION : 100,
                 digest: new Map(),
             }),
         );

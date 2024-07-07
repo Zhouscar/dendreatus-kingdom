@@ -1,11 +1,12 @@
-import { useDebounceEffect } from "@rbxts/pretty-roact-hooks";
+import { useDebounceEffect, useEventListener } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import useSuperSize from "./hooks/useSuperPosition";
+
 import useComponent from "./hooks/useComponent";
 import { Health } from "shared/components/health";
 import { useMotion } from "./hooks/ripple";
 import { AnyEntity } from "@rbxts/matter";
-import { useEffect } from "@rbxts/roact-hooked";
+import { useBinding } from "@rbxts/roact-hooked";
+import { RunService } from "@rbxts/services";
 
 export default function HealthBar(props: {
     e: AnyEntity;
@@ -25,9 +26,18 @@ export default function HealthBar(props: {
     const currentPerc = current / maximum;
     const [flashPerc, flashPercMotion] = useMotion(1);
 
+    const [shake, setShake] = useBinding(new UDim2(0, 0, 0, 0));
+
+    useEventListener(RunService.Heartbeat, () => {
+        const now = os.clock();
+        const shakeX = 40 * math.max(0.5 - currentPerc, 0) * math.noise(0.5, 1.5, now * 200);
+        const shakeY = 40 * math.max(0.5 - currentPerc, 0) * math.noise(1.5, 0.5, now * 200);
+        setShake(new UDim2(0, shakeX, 0, shakeY));
+    });
+
     useDebounceEffect(
         () => {
-            flashPercMotion.set(currentPerc);
+            flashPercMotion.spring(currentPerc);
         },
         [current],
         { wait: 0.5 },
@@ -37,7 +47,7 @@ export default function HealthBar(props: {
         <frame
             Key={"HealthBar"}
             Size={props.Size || new UDim2(0, 200, 0, 20)}
-            Position={props.Position}
+            Position={shake.map((v) => v.add(props.Position ?? new UDim2(0, 0, 0, 0)))}
             AnchorPoint={props.AnchorPoint}
             BorderSizePixel={0}
             BackgroundColor3={Color3.fromRGB(0, 0, 0)}

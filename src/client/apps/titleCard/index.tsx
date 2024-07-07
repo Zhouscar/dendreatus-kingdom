@@ -1,7 +1,7 @@
 import Roact from "@rbxts/roact";
 import Transition from "../components/transition";
 import { useEffect, useState } from "@rbxts/roact-hooked";
-import { loopSound } from "shared/effects/sounds";
+import { loopSound, playSound } from "shared/effects/sounds";
 import useWait from "../hooks/useWait";
 import { useRemoteToken } from "../hooks/useW";
 import SpringLoopedSound from "../components/springLoopedSound";
@@ -71,13 +71,13 @@ export default function TitleCard(props: { enabled: boolean }) {
             <Transition enabled={enabled && !willSpawn && wait5}>
                 <textlabel
                     Key={"Title"}
-                    Size={new UDim2(0, 500, 0, 100)}
+                    Size={new UDim2(0.5, 0, 0.2, 0)}
                     AnchorPoint={new Vector2(0.5, 0.5)}
-                    Position={new UDim2(0.5, 0, 0.1, 0)}
+                    Position={new UDim2(0.5, 0, 0.3, 0)}
                     BackgroundTransparency={1}
                     BorderSizePixel={0}
+                    TextScaled={true}
                     Font={"Fantasy"}
-                    TextSize={100}
                     TextColor3={Color3.fromRGB(255, 255, 255)}
                     Text={"Dendraetus Kingdom"}
                 >

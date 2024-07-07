@@ -15,4 +15,5 @@ export class State {
     clientState: ClientState = "title";
 
     trauma: number = 0;
+    healthPerc: number = 1;
 }

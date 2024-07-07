@@ -39,9 +39,10 @@ export default function DeathScreen(props: { enabled: boolean }) {
     return (
         <>
             <Atmosphere
-                enabled={enabled && wait3}
+                enabled={deferredEnabled && wait3}
                 color={Color3.fromRGB(0, 0, 0)}
                 density={1}
+                glare={0}
                 haze={10}
             />
             <Transition enabled={enabled && willSpawn} zindex={4}>
@@ -55,13 +56,13 @@ export default function DeathScreen(props: { enabled: boolean }) {
             <Transition enabled={enabled && !willSpawn && wait5} springOptions={{ frequency: 1 }}>
                 <textlabel
                     Key={"YouDied"}
-                    Size={new UDim2(0, 500, 0, 100)}
+                    Size={new UDim2(0.5, 0, 0.2, 0)}
                     AnchorPoint={new Vector2(0.5, 0.5)}
-                    Position={new UDim2(0.5, 0, 0.1, 0)}
+                    Position={new UDim2(0.5, 0, 0.3, 0)}
                     BackgroundTransparency={1}
                     BorderSizePixel={0}
                     Font={"Fantasy"}
-                    TextSize={100}
+                    TextScaled={true}
                     TextColor3={Color3.fromRGB(255, 0, 0)}
                     Text={"You died"}
                 >
@@ -90,6 +91,8 @@ export default function DeathScreen(props: { enabled: boolean }) {
                     <Button
                         text={"Respawn"}
                         size={new UDim2(0, 200, 0, 50)}
+                        hoverButtonColor={new Color3(1, 0, 0)}
+                        neutralTextColor={new Color3(1, 0, 0)}
                         clicked={() => {
                             setWillSpawn(true);
                         }}
