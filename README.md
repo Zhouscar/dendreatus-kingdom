@@ -25,8 +25,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
 - [x] Harvestable setup
 - [x] Item holding animations
-
-- [ ] Fix atmosphere (only one atmosphere can be present at a time)
+- [x] Fix atmosphere (only one atmosphere can be present at a time)
 
 - [ ] Adding Sound (start sound, respawn sound, switch pages sound, harvest sound, switch item sound, sword swing sound, sword hit sound, eating sound)
 
