@@ -10,10 +10,11 @@ import {
     Sitting,
     Sneaking,
 } from "shared/components/movements";
-import { resumeAnimation } from "shared/effects/animations";
+import { resumeAnimation, stopAnimation } from "shared/effects/animations";
 import { hasComponents, isLocalPlr } from "shared/hooks/components";
 import { Dead } from "shared/components/health";
 import { AnimName } from "shared/features/ids/animations";
+import { Equipping, EquippingItem } from "shared/components/items";
 
 function humanIdleAnim(w: World) {
     for (const [e, localPlr, animatable, _onLand] of w

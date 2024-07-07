@@ -23,15 +23,10 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Some more damage effects
 - [x] Rework item activation in Roact
 - [x] Item Setup (tools, images, descriptions and stack sizes, consumables, and attackables)
-
-
-- [ ] Harvestable setup
-
-- [ ] Item holding animations
+- [x] Harvestable setup
+- [x] Item holding animations
 
 - [ ] Adding Sound
-
-
 
 - [ ] Finalizing
 

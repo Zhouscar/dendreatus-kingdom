@@ -30,11 +30,11 @@ export default function SpawningHandler(props: { enabled: boolean }) {
     }, [deferredEnabled]);
 
     useCoincidenceEffect(() => {
-        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action", 0);
+        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action3", 0);
     }, [deferredEnabled, animatable !== undefined]);
 
     useCoincidenceEffect(() => {
-        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action");
+        startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action3");
     }, [deferredEnabled, wait9, animatable !== undefined]);
 
     useCoincidenceEffect(() => {

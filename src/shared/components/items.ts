@@ -8,6 +8,9 @@ export type EquippingByIndex = ReturnType<typeof EquippingByIndex>;
 export const Equipping = ComponentCreator.protectedBidirectional<{ itemGuid: string }>("Equipping");
 export type Equipping = ReturnType<typeof Equipping>;
 
+export const EquippingItem = ComponentCreator.base<{ item: Item }>("EquippingItem");
+export type EquippingItem = ReturnType<typeof EquippingItem>;
+
 export const PhysicallyEquipping = ComponentCreator.base<{ tool: Tool }>("PhysicallyEquipping");
 export type PhysicallyEquipping = ReturnType<typeof PhysicallyEquipping>;
 

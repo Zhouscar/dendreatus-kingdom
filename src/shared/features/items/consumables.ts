@@ -20,7 +20,7 @@ export const ITEM_CONSUMABLE_CONTEXTS = {
         stageAnimationIds: [
             withAssetPrefix("16651687848"),
             withAssetPrefix("16651687848"),
-            withAssetPrefix("16651681473"),
+            withAssetPrefix("16651687848"),
         ],
         sideEffects: [],
     }),

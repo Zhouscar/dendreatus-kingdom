@@ -138,6 +138,19 @@ export function resumeAnimationById(
     }
     track.AdjustSpeed(speed);
 }
+
+export function stopAnimationById(animator: MyAnimator, animId: string) {
+    const tracks = storage.get(animator);
+    if (tracks === undefined) return;
+
+    const track = tracks.get(animId);
+    if (track === undefined) return;
+
+    if (track.IsPlaying) {
+        track.Stop();
+    }
+}
+
 export function startAnimation(
     animator: MyAnimator,
     animName: AnimName,
@@ -146,6 +159,10 @@ export function startAnimation(
     looped: boolean = false,
 ) {
     startAnimationById(animator, ANIM_IDS[animName], priority, speed, looped);
+}
+
+export function stopAnimation(animator: MyAnimator, animName: AnimName) {
+    stopAnimationById(animator, ANIM_IDS[animName]);
 }
 
 export function resumeAnimation(

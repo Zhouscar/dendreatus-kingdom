@@ -73,7 +73,7 @@ export default function AttackableItem(props: { itemType: ItemAttackableType }) 
         if (animatable !== undefined) {
             const animId = itemContext.stepAnimationIds[nextStep];
 
-            startAnimationById(animatable.animator, animId, "Action");
+            startAnimationById(animatable.animator, animId, "Action2");
         }
 
         itemContext.sideEffects.forEach((sideEffect) => {
