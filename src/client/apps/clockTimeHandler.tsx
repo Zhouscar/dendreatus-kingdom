@@ -1,23 +1,14 @@
-import Roact, { Portal } from "@rbxts/roact";
-import { useBinding, useEffect, useMutable, useState } from "@rbxts/roact-hooked";
-import { Lighting, RunService, SoundService } from "@rbxts/services";
-import { getClockTime } from "shared/hooks/clockTime";
-import { useSpring } from "./hooks/ripple";
+import Roact from "@rbxts/roact";
+import { useMemo, useState } from "@rbxts/roact-hooked";
+import { Lighting } from "@rbxts/services";
 import { ClientState } from "shared/state";
-import { SOUND_IDS } from "shared/features/ids/sounds";
-import { adjustDefaultAtmosphere } from "shared/effects/lightings";
-import { useS } from "./hooks/useW";
-import LoopedSound from "./components/loopedSound";
 import SpringLoopedSound from "./components/springLoopedSound";
-import useSetClientState from "./hooks/useSetClientState";
 import useClientState from "./hooks/useClientState";
 import useClockTime from "./hooks/useClockTime";
 import { useBindingListener, useLatest } from "@rbxts/pretty-roact-hooks";
-import DefaultAtmosphere from "./components/defaultAtmosphere";
+import Atmosphere from "./components/atmosphere";
 
-const e = Roact.createElement;
-
-const DISABLED_CLIENT_STATES: ClientState[] = ["death", "spawning", "title"];
+const asClientStates = (value: ClientState[]) => value;
 
 export default function ClockTimeHandler(props: {}) {
     const clockTime = useClockTime();
@@ -27,7 +18,11 @@ export default function ClockTimeHandler(props: {}) {
     const latestIsDay = useLatest(isDay);
 
     const clientState = useClientState();
-    const enabled = !DISABLED_CLIENT_STATES.includes(clientState);
+
+    const soundEnabled = useMemo(
+        () => !asClientStates(["death", "spawning", "title"]).includes(clientState),
+        [clientState],
+    );
 
     useBindingListener(clockTime, (ct) => {
         Lighting.ClockTime = ct;
@@ -40,12 +35,20 @@ export default function ClockTimeHandler(props: {}) {
 
     return (
         <>
-            <DefaultAtmosphere
+            <Atmosphere
+                enabled={clientState !== "death"}
+                useDefaultAtmosphereProps={true}
                 haze={trigValue.map((v) => v * 2)}
                 glare={trigValue.map((v) => v * 0.08)}
             />
-            <SpringLoopedSound soundName={"dayTimeMusic"} volume={!enabled ? 0 : isDay ? 1 : 0} />
-            <SpringLoopedSound soundName={"nightTimeMusic"} volume={!enabled ? 0 : isDay ? 0 : 1} />
+            <SpringLoopedSound
+                soundName={"dayTimeMusic"}
+                volume={!soundEnabled ? 0 : isDay ? 1 : 0}
+            />
+            <SpringLoopedSound
+                soundName={"nightTimeMusic"}
+                volume={!soundEnabled ? 0 : isDay ? 0 : 1}
+            />
         </>
     );
 }

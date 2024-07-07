@@ -8,7 +8,7 @@ import Interactables from "./interactables";
 import DeathScreen from "./deathScreen";
 import ClockTimeHandler from "./clockTimeHandler";
 import TitleCard from "./titleCard";
-import { ClientState, State } from "shared/state";
+import { State } from "shared/state";
 import SpawningHandler from "./spawningHandler";
 import ProximityPlrs from "./proximityPlrs";
 import ChatScreen from "./chatScreen";
@@ -18,11 +18,11 @@ import SignScreen from "./signScreen";
 import useClientState from "./hooks/useClientState";
 import useLocalPlrE from "./hooks/useLocalPlrE";
 import ItemActivationHandler from "./itemActivation";
-import { HOST } from "shared/host";
-import { RunService } from "@rbxts/services";
 import { useMountEffect } from "@rbxts/pretty-roact-hooks";
 import { routes } from "shared/network";
 import { useRemoteToken } from "./hooks/useW";
+import { isStudioSettingOn } from "shared/studioSettings";
+import MenuHandler from "./menuHandler";
 
 function App() {
     const clientState = useClientState();
@@ -31,7 +31,7 @@ function App() {
     const remoteToken = useRemoteToken();
 
     useMountEffect(() => {
-        if (RunService.IsStudio()) {
+        if (isStudioSettingOn("immediateSpawn")) {
             task.delay(0.1, () => {
                 routes.requestSpawn.send(remoteToken);
             });
@@ -48,6 +48,7 @@ function App() {
                 IgnoreGuiInset={true}
                 ZIndexBehavior={"Sibling"}
             >
+                <MenuHandler />
                 <MouseClickEffects />
                 <SpawningHandler enabled={clientState === "spawning"} />
                 <TitleCard enabled={clientState === "title"} />

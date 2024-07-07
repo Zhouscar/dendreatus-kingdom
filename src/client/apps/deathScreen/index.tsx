@@ -2,13 +2,13 @@ import Roact from "@rbxts/roact";
 import Transition from "../components/transition";
 import { routes } from "shared/network";
 import useWait from "../hooks/useWait";
-import SpringAtmosphere from "../components/springAtmosphere";
 import Button from "../components/button";
 import { useRemoteToken } from "../hooks/useW";
 import useDeferred from "../hooks/useDeferred";
 import { useEffect, useState } from "@rbxts/roact-hooked";
 import useCoincidenceEffect from "../hooks/useCoincidenceEffect";
 import { playSound } from "shared/effects/sounds";
+import Atmosphere from "../components/atmosphere";
 
 export default function DeathScreen(props: { enabled: boolean }) {
     const enabled = props.enabled;
@@ -38,11 +38,11 @@ export default function DeathScreen(props: { enabled: boolean }) {
 
     return (
         <>
-            <SpringAtmosphere
-                springOptions={{ frequency: 0.5 }}
+            <Atmosphere
+                enabled={enabled && wait3}
                 color={Color3.fromRGB(0, 0, 0)}
-                density={enabled && wait3 ? 1 : 0}
-                haze={enabled && wait3 ? 10 : 0}
+                density={1}
+                haze={10}
             />
             <Transition enabled={enabled && willSpawn} zindex={4}>
                 <frame

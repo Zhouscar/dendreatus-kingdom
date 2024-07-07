@@ -1,6 +1,7 @@
 import { Make } from "@rbxts/altmake";
 import {
     ContentProvider,
+    Lighting,
     Players,
     ReplicatedFirst,
     ReplicatedStorage,

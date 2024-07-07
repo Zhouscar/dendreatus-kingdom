@@ -1,5 +1,5 @@
 import { Make, Modify } from "@rbxts/altmake";
-import { Players, SoundService, Workspace } from "@rbxts/services";
+import { GuiService, Players, SoundService, Workspace } from "@rbxts/services";
 import { SOUND_IDS } from "shared/features/ids/sounds";
 import { SoundContext } from "type";
 
