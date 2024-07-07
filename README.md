@@ -35,4 +35,4 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 
 - [ ] Carthage
 
-- [ ] Item Randomizer
+- [ ] Item Randomizer Harvestables

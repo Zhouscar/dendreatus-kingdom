@@ -27,9 +27,9 @@ export const ANIM_IDS = {
 
     wakingUpFromTrauma: withAssetPrefix("16861265426"),
 
-    holdItem: withAssetPrefix("18370216220"),
+    holdItem: withAssetPrefix("18370262271"),
     daggerIdle: withAssetPrefix("18369612780"),
-    takeOutLantern: withAssetPrefix("18370160939"),
+    takeOutLantern: withAssetPrefix("18370436166"),
     takeOutItem: withAssetPrefix("18370160939"),
     takeOutSword: withAssetPrefix("18352787470"),
     carryItem: withAssetPrefix("18352812855"),

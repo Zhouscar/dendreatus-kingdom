@@ -1,5 +1,5 @@
 import { World } from "@rbxts/matter";
-import { Players } from "@rbxts/services";
+import { Players, RunService } from "@rbxts/services";
 import { store } from "client/store";
 import { LocalPlr, Plr } from "shared/components";
 import { hasComponents } from "shared/hooks/components";
@@ -10,8 +10,11 @@ function localPlr(w: World, s: State) {
         if (!w.contains(e)) continue;
 
         if (localPlrRecord.new !== undefined) {
-            // s.clientState = "spawning";
-            s.clientState = "game";
+            if (RunService.IsStudio()) {
+                s.clientState = "game";
+                continue;
+            }
+            s.clientState = "spawning";
         }
     }
 
