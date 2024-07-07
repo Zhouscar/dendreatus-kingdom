@@ -134,7 +134,7 @@ export default function ItemSlot(props: {
                 <uigradient
                     Transparency={new NumberSequence(0, 1)}
                     Rotation={-90}
-                    Offset={new Vector2(0, 0.8)}
+                    Offset={new Vector2(0, 0.5)}
                 />
                 <uistroke
                     Color={Color3.fromRGB(150, 150, 150)}
@@ -181,7 +181,7 @@ export default function ItemSlot(props: {
                                 Size={new UDim2(0.8, 0, 0, 15)}
                                 BorderSizePixel={0}
                                 BackgroundColor3={Color3.fromRGB(0, 0, 0)}
-                                BackgroundTransparency={0.8}
+                                BackgroundTransparency={dragging ? 1 : 0}
                             >
                                 <frame
                                     Size={consumeStagePercSpring.map(
@@ -191,7 +191,7 @@ export default function ItemSlot(props: {
                                     Position={new UDim2(0, 2, 0.5, 0)}
                                     BorderSizePixel={0}
                                     BackgroundColor3={Color3.fromRGB(255, 255, 255)}
-                                    Transparency={dragging ? 1 : 0.8}
+                                    Transparency={dragging ? 1 : 0}
                                 >
                                     <uigradient
                                         Color={consumeStagePercSpring.map(

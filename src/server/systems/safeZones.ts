@@ -7,16 +7,23 @@ import { Damage } from "shared/components/health";
 
 function safeZones(w: World) {
     for (const [e, safeZone, renderable] of w.query(SafeZone, Renderable)) {
-        if (!renderable.pv.IsA("BasePart")) continue;
+        const part = renderable.pv.IsA("BasePart")
+            ? renderable.pv
+            : renderable.pv.IsA("Model")
+              ? renderable.pv.PrimaryPart !== undefined
+                  ? renderable.pv.PrimaryPart
+                  : renderable.pv.FindFirstChildWhichIsA("BasePart")
+              : undefined;
+        if (part === undefined) continue;
 
-        for (const [_, hit] of useEvent(renderable.pv, "Touched")) {
+        for (const [_, hit] of useEvent(part, "Touched")) {
             const hitE = findInstanceE(w, hit);
             if (hitE === undefined || !hasComponents(w, hitE, Plr)) continue;
             if (hasComponents(w, hitE, SafeZone)) continue;
             w.insert(hitE, InSafeZone({}));
         }
 
-        for (const [_, hit] of useEvent(renderable.pv, "TouchEnded")) {
+        for (const [_, hit] of useEvent(part, "TouchEnded")) {
             const hitE = findInstanceE(w, hit);
             if (hitE === undefined || !hasComponents(w, hitE, Plr)) continue;
             w.remove(hitE, InSafeZone);

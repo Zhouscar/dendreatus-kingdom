@@ -1,9 +1,8 @@
-import { Item, ItemType } from "shared/features/items/types";
-import { ComponentCreator } from "./creators";
 import variantModule, { fields, TypeNames, VariantOf } from "@rbxts/variant";
-import { WithDuration } from "shared/features/types";
-import { AnyEntity } from "@rbxts/matter";
 import { InteractType } from "shared/features/interactables/types";
+import { Item, ItemType } from "shared/features/items/types";
+import { WithDuration } from "shared/features/types";
+import { ComponentCreator } from "./creators";
 
 export const CannotInteractReason = variantModule({
     busy: fields<WithDuration>(),
@@ -64,14 +63,47 @@ export type DoorLike = ReturnType<typeof DoorLike>;
 export const CraftTable = ComponentCreator.tag("CraftTable");
 export type CraftTable = ReturnType<typeof CraftTable>;
 
-export const SapOre = ComponentCreator.tag("SapOre");
-export type SapOre = ReturnType<typeof SapOre>;
-
 export const CookTable = ComponentCreator.tag("CookTable");
 export type CookTable = ReturnType<typeof CookTable>;
 
 export const Door = ComponentCreator.tag("Door");
 export type Door = ReturnType<typeof Door>;
+
+export const SapOre = ComponentCreator.tag("SapOre");
+export type SapOre = ReturnType<typeof SapOre>;
+
+export const OldMechanicsBarrel = ComponentCreator.tag("OldMechanicsBarrel");
+export type OldMechanicsBarrel = ReturnType<typeof OldMechanicsBarrel>;
+
+export const Herbs = ComponentCreator.tag("Herbs");
+export type Herbs = ReturnType<typeof Herbs>;
+
+export const BoneClusterOrPiles = ComponentCreator.tag("BoneClusterOrPiles");
+export type BoneClusterOrPiles = ReturnType<typeof BoneClusterOrPiles>;
+
+export const ShipScraps = ComponentCreator.tag("ShipScraps");
+export type ShipScraps = ReturnType<typeof ShipScraps>;
+
+export const RemainsBag = ComponentCreator.tag("RemainsBag");
+export type RemainsBag = ReturnType<typeof RemainsBag>;
+
+export const OldBarrel = ComponentCreator.tag("OldBarrel");
+export type OldBarrel = ReturnType<typeof OldBarrel>;
+
+export const FlourBags = ComponentCreator.tag("FlourBags");
+export type FlourBags = ReturnType<typeof FlourBags>;
+
+export const BirdNest = ComponentCreator.tag("BirdNest");
+export type BirdNest = ReturnType<typeof BirdNest>;
+
+export const MushroomBush = ComponentCreator.tag("MushroomBush");
+export type MushroomBush = ReturnType<typeof MushroomBush>;
+
+export const Humberbell = ComponentCreator.tag("Humberbell");
+export type Humberbell = ReturnType<typeof Humberbell>;
+
+export const GoyaBush = ComponentCreator.tag("GoyaBush");
+export type GoyaBush = ReturnType<typeof GoyaBush>;
 
 // \interactables
 
@@ -89,4 +121,15 @@ export const InteractableComponents = {
     Craftable,
     Door,
     DoorLike,
+    OldMechanicsBarrel,
+    Herbs,
+    BoneClusterOrPiles,
+    ShipScraps,
+    RemainsBag,
+    OldBarrel,
+    FlourBags,
+    BirdNest,
+    MushroomBush,
+    Humberbell,
+    GoyaBush,
 };
