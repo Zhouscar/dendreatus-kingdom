@@ -31,7 +31,7 @@ export default function ChatScreen(props: { enabled: boolean }) {
         }
         const text = textbox.Text;
         if (text.size() === 0) return;
-        if (localPlrE === undefined) return;
+        if (!w.contains(localPlrE)) return;
 
         textbox.Text = "";
 

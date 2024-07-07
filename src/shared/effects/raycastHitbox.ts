@@ -7,7 +7,7 @@ import { Renderable } from "shared/components";
 
 const VISUALIZE = true;
 
-const storage: Map<BasePart, Caster> = new Map();
+const storage: Map<Instance, Caster> = new Map();
 
 const NONE = "";
 type NONE = typeof NONE;
@@ -28,15 +28,15 @@ export function cut(part: BasePart) {
 
 export function cast(
     w: World,
-    part: BasePart,
+    instance: Instance,
     autoCut: number | false,
     customParams: CustomRayCastParams,
     callback: RaycastHixboxCallback,
 ) {
-    let caster = storage.get(part);
+    let caster = storage.get(instance);
     if (!caster) {
-        caster = new Caster(part);
-        storage.set(part, caster);
+        caster = new Caster(instance);
+        storage.set(instance, caster);
     }
 
     return caster.cast(w, autoCut, customParams, callback);
@@ -60,7 +60,7 @@ export function visualize(from: Vector3, to: Vector3) {
 }
 
 class Caster {
-    part: BasePart;
+    part: Instance;
     attachmentPreviousPositions: Map<Attachment, Vector3 | NONE>;
     lastUpdateTime = -1;
 
@@ -128,11 +128,12 @@ class Caster {
         callback(entities, parts);
     }
 
-    constructor(part: BasePart) {
-        this.part = part;
+    constructor(instance: Instance) {
+        this.part = instance;
         this.attachmentPreviousPositions = new Map();
 
-        part.GetChildren()
+        instance
+            .GetDescendants()
             .filter(
                 (child): child is Attachment =>
                     child.IsA("Attachment") && child.Name === ATTACHMENT_NAME,

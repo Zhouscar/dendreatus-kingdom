@@ -9,7 +9,6 @@ export const ItemAttackSideEffect = variantModule({
 export type ItemAttackSideEffect = VariantOf<typeof ItemAttackSideEffect>;
 
 export interface ItemAttackbleContext {
-    readonly toolHitboxDirectory: string;
     readonly damage: number;
     readonly cooldown: number;
     readonly stepTimeout: number;
@@ -21,11 +20,31 @@ const asItemAttackableContext = (context: ItemAttackbleContext) => context;
 
 export const ITEM_ATTACKABLE_CONTEXTS = {
     crucifix_dagger: asItemAttackableContext({
-        toolHitboxDirectory: "Crucifix Dagger/Blade",
-        damage: 10,
+        damage: 5,
         cooldown: 0.5,
         stepTimeout: 0.5,
         stepAnimationIds: [withAssetPrefix("16426630172"), withAssetPrefix("16426603490")],
+        sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
+    }),
+    scrap_blade: asItemAttackableContext({
+        damage: 8,
+        cooldown: 0.5,
+        stepTimeout: 0.5,
+        stepAnimationIds: [withAssetPrefix("17390314970")],
+        sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
+    }),
+    spikeball: asItemAttackableContext({
+        damage: 15,
+        cooldown: 0.5,
+        stepTimeout: 0.5,
+        stepAnimationIds: [withAssetPrefix("17390314970")],
+        sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
+    }),
+    sword: asItemAttackableContext({
+        damage: 20,
+        cooldown: 0.5,
+        stepTimeout: 0.5,
+        stepAnimationIds: [withAssetPrefix("17390314970")],
         sideEffects: [ItemAttackSideEffect.shiftForward({ force: 20 })],
     }),
 };

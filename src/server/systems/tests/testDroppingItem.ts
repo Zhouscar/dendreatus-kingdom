@@ -4,10 +4,14 @@ import { DroppingItem, TestItemDropper } from "shared/components/items";
 import { UP } from "shared/constants/direction";
 import { ItemType } from "shared/features/items/types";
 
-const ITEMS_TO_DROP: ItemType[] = ["herbs", "humberbell", "goya", "raw_pork", "bones"];
+const ITEMS_TO_DROP: ItemType[] = ["mushroom_soup", "goya", "humberbell"];
 
 function testDroppingItem(w: World) {
     if (!useThrottle(5)) return;
+
+    ITEMS_TO_DROP.forEach((itemType) => {
+        print(itemType);
+    });
 
     for (const [e, testItemDropper, transform] of w.query(TestItemDropper, Transform)) {
         ITEMS_TO_DROP.forEach((itemType) => {

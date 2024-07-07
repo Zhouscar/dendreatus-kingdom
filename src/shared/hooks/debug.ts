@@ -1,6 +1,6 @@
-export function useTestLog(thisScript: Instance) {
+export function useTestLog() {
     let i = 1;
     return () => {
-        print(`${i++} at ${thisScript.GetFullName()}`);
+        print(i++);
     };
 }

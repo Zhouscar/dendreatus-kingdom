@@ -103,28 +103,6 @@ export default function Interactable(props: {
 
     // \components
 
-    const isCookableFull = useMemo(() => {
-        if (cookable === undefined) return false;
-
-        let size = 0;
-        cookable.items.forEach((container) => {
-            if (container.item !== undefined) size++;
-        });
-
-        return size >= 3;
-    }, [cookable]);
-
-    const isCraftableFull = useMemo(() => {
-        if (craftable === undefined) return false;
-
-        let size = 0;
-        craftable.items.forEach((container) => {
-            if (container.item !== undefined) size++;
-        });
-
-        return size >= 3;
-    }, [craftable]);
-
     const clicked = useCallback(() => {
         interactionFunction.current();
     }, []);
@@ -147,7 +125,7 @@ export default function Interactable(props: {
     const w = useW();
 
     useEffect(() => {
-        if (localPlrE === undefined || harvestable === undefined) return;
+        if (!w.contains(localPlrE) || harvestable === undefined) return;
         setInteractionName("Harvest");
         interactionFunction.current = () => {
             w.insert(
@@ -159,10 +137,10 @@ export default function Interactable(props: {
                 }),
             );
         };
-    }, [localPlrE, harvestable]);
+    }, [w, localPlrE, harvestable]);
 
     useEffect(() => {
-        if (localPlrE === undefined || droppedItem === undefined) return;
+        if (!w.contains(localPlrE) || droppedItem === undefined) return;
         setInteractionName("Pick Up");
         interactionFunction.current = () => {
             w.insert(
@@ -174,10 +152,10 @@ export default function Interactable(props: {
                 }),
             );
         };
-    }, [localPlrE, droppedItem]);
+    }, [w, localPlrE, droppedItem]);
 
     useEffect(() => {
-        if (localPlrE === undefined || cookable === undefined) return;
+        if (!w.contains(localPlrE) || cookable === undefined) return;
         setInteractionName("Place Item");
         interactionFunction.current = () => {
             w.insert(
@@ -189,10 +167,10 @@ export default function Interactable(props: {
                 }),
             );
         };
-    }, [localPlrE, cookable]);
+    }, [w, localPlrE, cookable]);
 
     useEffect(() => {
-        if (localPlrE === undefined || craftable === undefined) return;
+        if (!w.contains(localPlrE) || craftable === undefined) return;
         setInteractionName("Place Item");
         interactionFunction.current = () => {
             w.insert(
@@ -204,10 +182,10 @@ export default function Interactable(props: {
                 }),
             );
         };
-    }, [localPlrE, craftable]);
+    }, [w, localPlrE, craftable]);
 
     useEffect(() => {
-        if (localPlrE === undefined || doorLike === undefined) return;
+        if (!w.contains(localPlrE) || doorLike === undefined) return;
         if (doorLike.state === "opened") {
             setInteractionName("Close");
             interactionFunction.current = () => {
@@ -233,10 +211,10 @@ export default function Interactable(props: {
                 );
             };
         }
-    }, [localPlrE, doorLike]);
+    }, [w, localPlrE, doorLike]);
 
     useEffect(() => {
-        if (localPlrE === undefined || sign === undefined) return;
+        if (!w.contains(localPlrE) || sign === undefined) return;
         setInteractionName("Read");
         interactionFunction.current = () => {
             if (w.contains(localPlrE)) {
@@ -251,7 +229,7 @@ export default function Interactable(props: {
                 }),
             );
         };
-    }, [localPlrE, sign]);
+    }, [w, localPlrE, sign]);
 
     return (
         <billboardgui

@@ -1,6 +1,5 @@
 import { AnyEntity, World } from "@rbxts/matter";
 import { useChange, useMap } from "@rbxts/matter-hooks";
-import { index } from "shared/calculations/indexing";
 import { LocalPlr, Renderable, SafeZone } from "shared/components";
 import { Acting } from "shared/components/actions";
 import { Damage, Health } from "shared/components/health";
@@ -24,13 +23,9 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
         if (serverE === undefined) continue;
 
         const itemType = acting.action.item.itemType;
-
         if (!isItemAttackableType(itemType)) continue;
-        const context = ITEM_ATTACKABLE_CONTEXTS[itemType];
 
         const tool = physicallyEquipping.tool;
-        const hitbox = index<BasePart>(tool, context.toolHitboxDirectory);
-        assert(hitbox, "Can't index hitbox");
 
         const eAttackeds = useMap(e, new Set<AnyEntity>());
 
@@ -40,7 +35,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
 
         cast(
             w,
-            hitbox,
+            tool,
             0.1,
             {
                 hostE: e,

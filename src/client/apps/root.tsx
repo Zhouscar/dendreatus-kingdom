@@ -17,14 +17,31 @@ import GameScreen from "./gameScreen";
 import SignScreen from "./signScreen";
 import useClientState from "./hooks/useClientState";
 import useLocalPlrE from "./hooks/useLocalPlrE";
+import ItemActivationHandler from "./itemActivation";
+import { HOST } from "shared/host";
+import { RunService } from "@rbxts/services";
+import { useMountEffect } from "@rbxts/pretty-roact-hooks";
+import { routes } from "shared/network";
+import { useRemoteToken } from "./hooks/useW";
 
 function App() {
     const clientState = useClientState();
     const localPlrE = useLocalPlrE();
 
+    const remoteToken = useRemoteToken();
+
+    useMountEffect(() => {
+        if (RunService.IsStudio()) {
+            task.delay(0.1, () => {
+                routes.requestSpawn.send(remoteToken);
+            });
+        }
+    });
+
     return (
         <>
             <ClockTimeHandler />
+            <ItemActivationHandler />
             <screengui
                 Key={"Root"}
                 ResetOnSpawn={false}

@@ -34,7 +34,7 @@ export const ITEM_CONTEXTS = {
         name: "Mushroom Soup",
         stackSize: 1,
         image: withAssetPrefix("16349074550"),
-        description: "",
+        description: "This is the quality that you can't get in Pizzahut.",
     }),
     sap: asItemContext({
         name: "Sap",
@@ -50,13 +50,13 @@ export const ITEM_CONTEXTS = {
     }),
     humberbell: asItemContext({
         name: "Humberbell",
-        stackSize: 16,
+        stackSize: 1,
         image: withAssetPrefix("16348992642"),
         description: "I've never seen these before, can I eat them??",
     }),
     goya: asItemContext({
         name: "Humberbell",
-        stackSize: 16,
+        stackSize: 1,
         image: withAssetPrefix("16859686889"),
         description: "YUCK!",
     }),
@@ -118,7 +118,7 @@ export const ITEM_CONTEXTS = {
     }),
     spikeball: asItemContext({
         name: "Spikeball",
-        stackSize: 16,
+        stackSize: 1,
         image: withAssetPrefix("17837113516"),
         description:
             "THATS MORE LIKE IT! Now your able to smash spikes into other survivors who are trying to steal your food!",
@@ -127,36 +127,36 @@ export const ITEM_CONTEXTS = {
         name: "Survivor Lantern",
         stackSize: 1,
         image: withAssetPrefix("17837210489"),
-        description: "TODO",
+        description: "Imagine being able to have a functional lantern but nothing else.",
     }),
     noble_lantern: asItemContext({
         name: "Noble Lantern",
         stackSize: 1,
         image: withAssetPrefix("13031282551"),
-        description: "TODO",
+        description: "Show off your nobility with light!",
     }),
     ritualist_candle: asItemContext({
         name: "Ritualist Candle",
         stackSize: 1,
         image: withAssetPrefix("16371192204"),
-        description: "TODO",
+        description: "Show your power with light.",
     }),
     sword: asItemContext({
         name: "Sword",
         stackSize: 1,
         image: withAssetPrefix("17837162667"),
-        description: "TODO",
+        description: "A perfect blade in the hands of sacrificing and safety!",
     }),
     royal_lantern: asItemContext({
         name: "Royal Lantern",
         stackSize: 1,
         image: withAssetPrefix("18253625612"),
-        description: "TODO",
+        description: "Your royalty, how lucky! Still... try not to die..",
     }),
     owner_lantern: asItemContext({
         name: "Owner Lantern",
         stackSize: 1,
         image: withAssetPrefix("16384697540"),
-        description: "TODO",
+        description: "I'M THE HIGHEST LEVEL IN THIS SERVER!!!",
     }),
 };

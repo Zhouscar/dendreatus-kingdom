@@ -1,5 +1,4 @@
 import variantModule, { VariantOf } from "@rbxts/variant";
-import { ItemType } from "./types";
 import withAssetPrefix from "shared/calculations/withAssetPrefix";
 
 export const ItemConsumeSideEffect = variantModule({});
@@ -21,7 +20,27 @@ export const ITEM_CONSUMABLE_CONTEXTS = {
         stageAnimationIds: [
             withAssetPrefix("16651687848"),
             withAssetPrefix("16651687848"),
-            withAssetPrefix("16651687848"),
+            withAssetPrefix("16651681473"),
+        ],
+        sideEffects: [],
+    }),
+    humberbell: asItemConsumableContext({
+        calories: 10,
+        duration: 3,
+        stageAnimationIds: [
+            withAssetPrefix("17306447831"),
+            withAssetPrefix("17306447831"),
+            withAssetPrefix("17306447831"),
+        ],
+        sideEffects: [],
+    }),
+    goya: asItemConsumableContext({
+        calories: 10,
+        duration: 3,
+        stageAnimationIds: [
+            withAssetPrefix("17306177651"),
+            withAssetPrefix("17306177651"),
+            withAssetPrefix("17306177651"),
         ],
         sideEffects: [],
     }),
