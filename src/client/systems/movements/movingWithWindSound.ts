@@ -3,15 +3,14 @@ import { World, useDeltaTime } from "@rbxts/matter";
 import { LocalPlr, Plr, Renderable } from "shared/components";
 import { LinearVelocity } from "shared/components/movements";
 import { SOUND_IDS } from "shared/features/ids/sounds";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 import { State } from "shared/state";
 
 const MAX_VOLUME = 5;
 
 function movingWithWindSound(w: World, s: State) {
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        if (!renderable.pv.IsA("Model")) continue;
-
-        const soundPart = renderable.pv.PrimaryPart;
+        const soundPart = getPvPrimaryPart(renderable.pv);
         if (!soundPart) break;
 
         const sound =

@@ -3,6 +3,7 @@ import { GuiService, UserInputService, Workspace } from "@rbxts/services";
 import { LocalPlr, Renderable, TitleCamPart, Transform } from "shared/components";
 import { Health } from "shared/components/health";
 import gameTime from "shared/hooks/gameTime";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 import { State } from "shared/state";
 
 let titleRotation = CFrame.identity;
@@ -142,9 +143,9 @@ function cameraControls(w: World, s: State) {
         }
     } else if (s.clientState === "title") {
         for (const [e, titleCamPart, renderable] of w.query(TitleCamPart, Renderable)) {
-            if (renderable.pv && renderable.pv.IsA("BasePart")) {
-                renderable.pv.Transparency = 1;
-            }
+            const part = getPvPrimaryPart(renderable.pv);
+            if (!part) continue;
+            part.Transparency = 1;
         }
 
         for (const [e, titleCamPart, transform] of w.query(TitleCamPart, Transform)) {

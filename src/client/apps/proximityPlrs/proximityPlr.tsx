@@ -14,6 +14,7 @@ import { Sneaking } from "shared/components/movements";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import Transition from "../components/transition";
 import gameTime from "shared/hooks/gameTime";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 
 const CHAT_DURATION = 5;
 
@@ -54,11 +55,8 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
     const enabledTransparency = sneaking === undefined ? 0 : 0.5;
 
     const adnornee = useMemo(() => {
-        if (renderable?.pv.IsA("Model") && renderable.pv.PrimaryPart !== undefined) {
-            return renderable.pv.PrimaryPart;
-        } else {
-            return renderable?.pv;
-        }
+        if (renderable === undefined) return undefined;
+        return getPvPrimaryPart(renderable.pv);
     }, [e, renderable]);
 
     const chatElements = new Map<string, Roact.Element>();

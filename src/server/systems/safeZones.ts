@@ -4,16 +4,11 @@ import { InSafeZone, Plr, Renderable, SafeZone } from "shared/components";
 import { hasComponents } from "shared/hooks/components";
 import damageHurts from "./health/damageHurts";
 import { Damage } from "shared/components/health";
+import { getPvAnyPart } from "shared/hooks/pvPart";
 
 function safeZones(w: World) {
     for (const [e, safeZone, renderable] of w.query(SafeZone, Renderable)) {
-        const part = renderable.pv?.IsA("BasePart")
-            ? renderable.pv
-            : renderable.pv?.IsA("Model")
-              ? renderable.pv.PrimaryPart !== undefined
-                  ? renderable.pv.PrimaryPart
-                  : renderable.pv.FindFirstChildWhichIsA("BasePart")
-              : undefined;
+        const part = getPvAnyPart(renderable.pv);
         if (part === undefined) continue;
 
         for (const [_, hit] of useEvent(part, "Touched")) {

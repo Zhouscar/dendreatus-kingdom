@@ -15,7 +15,7 @@ function plrSetup(w: World) {
     });
 
     for (const [e, _plr, renderable] of w.query(Plr, Renderable).without(Human)) {
-        const humanoid = renderable.pv?.FindFirstChildWhichIsA("Humanoid");
+        const humanoid = renderable.pv.FindFirstChildWhichIsA("Humanoid");
         if (humanoid) {
             w.insert(e, Human({ humanoid: humanoid }));
         } else {

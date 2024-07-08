@@ -5,6 +5,7 @@ import { ShiftForward } from "shared/components/actions";
 import { FORWARD } from "shared/constants/direction";
 import gameTime from "shared/hooks/gameTime";
 import { getCustomLinearVelocity } from "shared/hooks/memoForces";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 
 const SHIFT_FORWARD_DURATION = 0.1;
 
@@ -14,9 +15,8 @@ function shiftForward(w: World) {
 
         const renderable = w.get(e, Renderable);
         if (renderable === undefined) continue;
-        if (!renderable.pv?.IsA("Model")) continue;
 
-        const rootPart = renderable.pv.PrimaryPart;
+        const rootPart = getPvPrimaryPart(renderable.pv);
         if (!rootPart) continue;
 
         const linearVelocity = getCustomLinearVelocity(rootPart, "ShiftForward");

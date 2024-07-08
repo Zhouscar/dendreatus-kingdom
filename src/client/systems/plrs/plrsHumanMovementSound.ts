@@ -11,13 +11,15 @@ import { SOUND_IDS, SoundName } from "shared/features/ids/sounds";
 import { MATERIAL_CATEGORIES, PLACEHOLDER_CATERORY } from "shared/features/materials/constants";
 import { ANIM_ALPHAS } from "shared/features/movements/animAlphas";
 import { hasComponents } from "shared/hooks/components";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 
 function findSound(pv: PVInstance) {
-    if (!pv.IsA("Model") || pv.PrimaryPart === undefined) return undefined;
+    const part = getPvPrimaryPart(pv);
+    if (!part) return undefined;
     return (
-        (pv.PrimaryPart.FindFirstChild("MovingSound") as Sound | undefined) ??
+        (part.FindFirstChild("MovingSound") as Sound | undefined) ??
         Make("Sound", {
-            Parent: pv.PrimaryPart,
+            Parent: part,
             Name: "MovingSound",
             Playing: false,
             Looped: true,
@@ -32,7 +34,7 @@ function plrHumanMovementSound(w: World) {
         PotentialDirectionalMovement,
     )) {
         const playSound = hasComponents(w, e, OnLand, IsDirectionallyMoving);
-        if (renderable.pv === undefined) return;
+
         if (playSound) {
             const rawTrackLength = w.get(e, IsDirectionallyMoving)!.animTrackRawLength;
             const walkSpeed = human.humanoid.WalkSpeed;

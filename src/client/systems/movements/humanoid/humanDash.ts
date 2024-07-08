@@ -6,6 +6,7 @@ import { FORWARD } from "shared/constants/direction";
 import { resumeAnimation } from "shared/effects/animations";
 import { hasComponents, isLocalPlr } from "shared/hooks/components";
 import { getCustomLinearVelocity } from "shared/hooks/memoForces";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
 
 function getDashVelocity(part: BasePart) {
     const dashVelocity = getCustomLinearVelocity(part, "Dash");
@@ -43,10 +44,10 @@ function humanDash(w: World) {
         Renderable,
         DashContext,
     )) {
-        if (!renderable.pv.IsA("Model")) continue;
-        if (!renderable.pv.PrimaryPart) continue;
+        const part = getPvPrimaryPart(renderable.pv);
+        if (!part) continue;
 
-        const dashVelocity = getDashVelocity(renderable.pv.PrimaryPart);
+        const dashVelocity = getDashVelocity(part);
         dashVelocity.VectorVelocity = FORWARD.mul(dashContext.power);
 
         const isDashing = hasComponents(w, e, Dashing);
