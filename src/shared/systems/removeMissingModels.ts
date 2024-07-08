@@ -19,6 +19,14 @@ function removeMissingModels(w: World): void {
         if (record.new !== undefined) continue;
         record.old?.pv.Destroy();
     }
+
+    if (HOST !== "CLIENT") return;
+
+    for (const [e, serverRenderableRecord] of w.queryChanged(ServerRenderable)) {
+        if (serverRenderableRecord.new === undefined && w.contains(e)) {
+            w.remove(e, Renderable);
+        }
+    }
 }
 
 export = removeMissingModels;

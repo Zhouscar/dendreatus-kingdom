@@ -7,8 +7,9 @@ export class State {
 
     plrGroupDatas: Map<Player, { role: string; rank: number }> = new Map();
 
-    serverToClientEntityIdMap: Map<string, AnyEntity> = new Map();
-    clientToServerEntityIdMap: Map<string, AnyEntity> = new Map();
+    serverToClientEMap: Map<string, AnyEntity> = new Map();
+    clientToServerEMap: Map<string, AnyEntity> = new Map();
+    unsuccessfulTagEs: AnyEntity[] = [];
 
     canOpenInventory: boolean = false;
 

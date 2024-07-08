@@ -11,8 +11,8 @@ import {
 } from "shared/components/creators/bidirectionalComponent";
 
 function recieveReplication(w: World, s: State) {
-    const entityIdMap = s.serverToClientEntityIdMap;
-    const reserveEntityIdMap = s.clientToServerEntityIdMap;
+    const entityIdMap = s.serverToClientEMap;
+    const reserveEntityIdMap = s.clientToServerEMap;
 
     for (const [pos, _, entities] of routes.ecsReplication.query()) {
         assert(t.map(t.string, t.table)(entities));

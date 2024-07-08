@@ -1,44 +1,28 @@
-import { World } from "@rbxts/matter";
-import { Workspace } from "@rbxts/services";
-import { index, indexPossible } from "shared/calculations/indexing";
-import { Renderable, ServerRenderable } from "shared/components";
-import { ID_ATTRIBUTE } from "shared/idAttribute";
+import { AnyEntity, useEvent, World } from "@rbxts/matter";
+import { CollectionService, Workspace } from "@rbxts/services";
+import { Renderable } from "shared/components";
 import { State } from "shared/state";
 
-function serverRenderableToRenderable(w: World, s: State) {
-    for (const [e, serverRenderable] of w.query(ServerRenderable)) {
-        const possibleInstances = indexPossible(game, serverRenderable.path);
-
-        const serverE = s.clientToServerEntityIdMap.get(tostring(e));
-        if (serverE === undefined) {
-            warn("Not possible");
-            continue;
-        }
-
-        let instance: Instance | undefined = undefined;
-        possibleInstances.forEach((possibleInstance) => {
-            const possibleInstanceServerE = possibleInstance.GetAttribute("serverEntityId");
-            if (possibleInstanceServerE === serverE) {
-                instance = possibleInstance;
-            }
-        });
-        instance = instance as Instance | undefined;
-
-        if (instance && instance.IsA("PVInstance") && instance.IsDescendantOf(Workspace)) {
-            const renderable = w.get(e, Renderable);
-            if (renderable !== undefined && renderable.pv === instance) continue;
-
-            w.insert(e, Renderable({ pv: instance }));
-        } else {
-            w.remove(e, Renderable);
-        }
+function crashReportCheckModel(instance: Instance): instance is PVInstance {
+    if (!instance.IsA("PVInstance")) {
+        warn(`${instance.GetFullName()} is not a PVInstance`);
     }
+    return true;
+}
 
-    for (const [e, serverRenderableRecord] of w.queryChanged(ServerRenderable)) {
-        if (serverRenderableRecord.new === undefined && w.contains(e)) {
-            w.remove(e, Renderable);
-        }
+function serverRenderableToRenderable(w: World, s: State) {
+    for (const instance of CollectionService.GetTagged("ServerRenderable")) {
+        if (!instance) continue;
+        if (!crashReportCheckModel(instance)) continue;
+        const serverE = instance.GetAttribute("serverEntityId");
+        if (serverE === undefined) continue;
+        const clientE = s.serverToClientEMap.get(tostring(serverE));
+        if (clientE === undefined) continue;
+        if (!w.contains(clientE)) continue;
+        const renderable = w.get(clientE, Renderable);
+        if (renderable?.pv === instance) continue;
+        w.insert(clientE, Renderable({ pv: instance }));
     }
 }
 
-export = serverRenderableToRenderable;
+export = { system: serverRenderableToRenderable };

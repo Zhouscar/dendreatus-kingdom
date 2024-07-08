@@ -1,15 +1,15 @@
 import { World } from "@rbxts/matter";
+import { CollectionService } from "@rbxts/services";
 import { Renderable, ServerRenderable } from "shared/components";
+import { hasComponents } from "shared/hooks/components";
 import { State } from "shared/state";
 
 function renderableToServerRenderable(w: World, s: State) {
     for (const [e, renderable] of w.query(Renderable)) {
-        const path = renderable.pv.GetFullName();
+        if (hasComponents(w, e, ServerRenderable)) continue;
 
-        const serverRenderable = w.get(e, ServerRenderable);
-        if (serverRenderable !== undefined && serverRenderable.path === path) continue;
-
-        w.insert(e, ServerRenderable({ path: path }));
+        w.insert(e, ServerRenderable({}));
+        CollectionService.AddTag(renderable.pv, "ServerRenderable");
     }
 
     for (const [e, renderableRecord] of w.queryChanged(Renderable)) {

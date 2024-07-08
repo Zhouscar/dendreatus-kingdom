@@ -188,8 +188,8 @@ export default function Interactable(props: {
                 }),
             );
 
-            if (cf !== undefined) {
-                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: cf }));
+            if (latestCf.current !== undefined) {
+                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: latestCf.current }));
             }
         };
     }, [w, localPlrE, cookable]);
@@ -207,8 +207,8 @@ export default function Interactable(props: {
                 }),
             );
 
-            if (cf !== undefined) {
-                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: cf }));
+            if (latestCf.current !== undefined) {
+                w.spawn(Sound({ context: { soundName: "placeItem" }, cf: latestCf.current }));
             }
         };
     }, [w, localPlrE, craftable]);
@@ -272,6 +272,12 @@ export default function Interactable(props: {
                     interactTime: gameTime(),
                 }),
             );
+
+            if (latestCf.current !== undefined) {
+                w.spawn(
+                    Sound({ context: { soundName: "activateWaypoints" }, cf: latestCf.current }),
+                );
+            }
         };
     }, [w, localPlrE, waypointer]);
 

@@ -20,7 +20,7 @@ function itemsAttackingRaycastHitbox(w: World, s: State) {
     )) {
         if (acting.action.type !== "attacking") continue;
 
-        const serverE = s.clientToServerEntityIdMap.get(tostring(e));
+        const serverE = s.clientToServerEMap.get(tostring(e));
         if (serverE === undefined) continue;
 
         const itemType = acting.action.item.itemType;

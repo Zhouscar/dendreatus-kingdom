@@ -30,7 +30,7 @@ function clientSync(w: World, s: State, remoteToken: string) {
                 continue;
             // now I don't even have to worry about consecutive sync
 
-            const key = tostring(s.clientToServerEntityIdMap.get(tostring(e)));
+            const key = tostring(s.clientToServerEMap.get(tostring(e)));
             const name = tostring(Ctor) as ComponentNames;
 
             if (!changes.has(key)) {

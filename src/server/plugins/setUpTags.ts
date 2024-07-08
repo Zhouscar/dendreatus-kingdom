@@ -14,14 +14,10 @@ function crashReportCheckModel(instance: Instance): instance is Model {
 }
 
 function setupTags(w: World, state: State): void {
-    function spawnBound(model: Model, component: ComponentCtor): void {
-        const e = w.spawn(
-            component(),
-            Renderable({ pv: model }),
-            Transform({ cf: model.GetPivot() }),
-        );
+    function spawnBound(pv: PVInstance, component: ComponentCtor): void {
+        const e = w.spawn(component(), Renderable({ pv: pv }), Transform({ cf: pv.GetPivot() }));
 
-        model.SetAttribute(ID_ATTRIBUTE, e);
+        pv.SetAttribute(ID_ATTRIBUTE, e);
     }
 
     for (const component of TAG_COMPONENTS) {

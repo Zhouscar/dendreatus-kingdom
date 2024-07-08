@@ -1,19 +1,24 @@
 import { Make } from "@rbxts/altmake";
-import { useUnmountEffect } from "@rbxts/pretty-roact-hooks";
+import { useBindingListener, useUnmountEffect } from "@rbxts/pretty-roact-hooks";
 import Roact from "@rbxts/roact";
-import { useBinding, useEffect, useMemo } from "@rbxts/roact-hooked";
+import { useBinding, useEffect, useMemo, useMutable } from "@rbxts/roact-hooked";
 import { waypointContainer } from "client/containers";
 import { IsWaypoint } from "shared/components/waypoints";
 import Transition from "../components/transition";
 import useLocalPlrE from "../hooks/useLocalPlrE";
 import useComponent from "../hooks/useComponent";
 import { Renderable, Transform } from "shared/components";
+import { getPvPrimaryPart } from "shared/hooks/pvPart";
+import { useSpring } from "../hooks/ripple";
 
 export default function Waypoint(props: { enabled: boolean; isWaypoint: IsWaypoint }) {
     const enabled = props.enabled;
     const isWaypoint = props.isWaypoint;
 
     const [part, setPart] = useBinding<Part | undefined>(undefined);
+    const beamMutable = useMutable(Make("Beam", { FaceCamera: true, TextureSpeed: -1 }));
+
+    const semiTransparencySpring = useSpring(enabled ? 0.5 : 1);
 
     const localPlrE = useLocalPlrE();
     const plrTransform = useComponent(localPlrE, Transform);
@@ -36,6 +41,7 @@ export default function Waypoint(props: { enabled: boolean; isWaypoint: IsWaypoi
             Name: isWaypoint.name,
             Children: [Make("Attachment")],
         });
+
         setPart(newPart);
 
         return () => {
@@ -43,7 +49,21 @@ export default function Waypoint(props: { enabled: boolean; isWaypoint: IsWaypoi
         };
     }, [isWaypoint]);
 
-    useEffect(() => {}, [part]);
+    useBindingListener(part, (p) => {
+        beamMutable.current.Parent = p;
+        beamMutable.current.Attachment0 = p?.FindFirstChildWhichIsA("Attachment");
+    });
+
+    useBindingListener(semiTransparencySpring, (trans) => {
+        beamMutable.current.Transparency = new NumberSequence(trans);
+    });
+
+    useEffect(() => {
+        if (plrRenderable === undefined) return;
+        beamMutable.current.Attachment1 = getPvPrimaryPart(plrRenderable.pv)?.FindFirstChild(
+            "RootAttachment",
+        ) as Attachment | undefined;
+    }, [plrRenderable]);
 
     useUnmountEffect(() => {
         part.getValue()?.Destroy();

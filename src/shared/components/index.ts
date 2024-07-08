@@ -41,7 +41,7 @@ export type Dummy = ReturnType<typeof Dummy>;
 export const Renderable = ComponentCreator.base<{ pv: PVInstance }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
-export const ServerRenderable = ComponentCreator.replicated<{ path: string }>("ServerRenderable");
+export const ServerRenderable = ComponentCreator.replicated<{}>("ServerRenderable");
 export type ServerRenderable = ReturnType<typeof ServerRenderable>;
 
 export const Transform = ComponentCreator.base<{ cf: CFrame; _doNotReconcile?: true }>("Transform");
