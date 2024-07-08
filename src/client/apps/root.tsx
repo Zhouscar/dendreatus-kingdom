@@ -24,6 +24,7 @@ import { isStudioSettingOn } from "shared/studioSettings";
 import MenuHandler from "./menuHandler";
 import { useEffect } from "@rbxts/roact-hooked";
 import { playSound } from "shared/effects/sounds";
+import Waypoints from "./waypoints";
 
 function App() {
     const clientState = useClientState();
@@ -66,6 +67,7 @@ function App() {
                 <GameScreen enabled={clientState === "game"} />
                 <Interactables enabled={clientState === "game"} />
                 <ProximityPlrs enabled={clientState === "game" || clientState === "chat"} />
+                <Waypoints enabled={clientState === "game" || clientState === "chat"} />
                 <DeathScreen enabled={clientState === "death"} />
                 <ChatScreen enabled={clientState === "chat"} />
                 <SignScreen enabled={clientState === "sign"} />

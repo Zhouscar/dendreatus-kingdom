@@ -11,6 +11,7 @@ import { HungerComponents } from "./hunger";
 import { ComponentCreator } from "./creators";
 import { InteractableComponents } from "./interactables";
 import { SignComponents } from "./signs";
+import { WaypointComponents } from "./waypoints";
 
 export * from "./livingThings";
 
@@ -109,4 +110,5 @@ export const Components = {
     ...HungerComponents,
     ...InteractableComponents,
     ...SignComponents,
+    ...WaypointComponents,
 };

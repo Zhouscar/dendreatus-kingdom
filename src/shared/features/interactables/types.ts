@@ -9,6 +9,7 @@ export const isInteractType = t.literal(
     "door_open",
     "door_close",
     "read_sign",
+    "use_waypointer",
 );
 export type InteractType = t.static<typeof isInteractType>;
 

@@ -4,6 +4,7 @@ import { Item, ItemType } from "shared/features/items/types";
 import { WithDuration } from "shared/features/types";
 import { ComponentCreator } from "./creators";
 import { Workspace } from "@rbxts/services";
+import { AnyEntity } from "@rbxts/matter";
 
 export const CannotInteractReason = variantModule({
     busy: fields<WithDuration>(),
@@ -14,6 +15,13 @@ export type CannotInteractReason<T extends TypeNames<typeof CannotInteractReason
 
 export const Interactable = ComponentCreator.replicated<{}>("Interactable");
 export type Interactable = ReturnType<typeof Interactable>;
+
+export const Interacting = ComponentCreator.base<{
+    interactE: AnyEntity;
+    interactType: InteractType;
+    interactTime: number;
+}>("Interacting");
+export type Interacting = ReturnType<typeof Interacting>;
 
 export const Interacted = ComponentCreator.bidirectional<{
     player: Player;
@@ -106,6 +114,9 @@ export type Humberbell = ReturnType<typeof Humberbell>;
 export const GoyaBush = ComponentCreator.tag("GoyaBush");
 export type GoyaBush = ReturnType<typeof GoyaBush>;
 
+export const Waypointer = ComponentCreator.tag("Waypointer");
+export type Waypointer = ReturnType<typeof Waypointer>;
+
 // \interactables
 
 export const InteractableComponents = {
@@ -133,4 +144,5 @@ export const InteractableComponents = {
     MushroomBush,
     Humberbell,
     GoyaBush,
+    Waypointer,
 };

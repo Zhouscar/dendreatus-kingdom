@@ -22,6 +22,7 @@ import {
     DoorLike,
     Harvestable,
     Interacted,
+    Waypointer,
 } from "shared/components/interactables";
 import useW from "../hooks/useW";
 import { useSpring } from "../hooks/ripple";
@@ -101,6 +102,7 @@ export default function Interactable(props: {
     const craftable = useComponent(e, Craftable);
     const doorLike = useComponent(e, DoorLike);
     const sign = useComponent(e, Sign);
+    const waypointer = useComponent(e, Waypointer);
 
     // \components
 
@@ -258,8 +260,24 @@ export default function Interactable(props: {
         };
     }, [w, localPlrE, sign]);
 
+    useEffect(() => {
+        if (!w.contains(localPlrE) || waypointer === undefined) return;
+        setInteractionName("Show Waypoints");
+        interactionFunction.current = () => {
+            w.insert(
+                e,
+                Interacted({
+                    player: Players.LocalPlayer,
+                    interactType: "use_waypointer",
+                    interactTime: gameTime(),
+                }),
+            );
+        };
+    }, [w, localPlrE, waypointer]);
+
     return (
         <billboardgui
+            DistanceLowerLimit={10}
             Adornee={model}
             ResetOnSpawn={false}
             AlwaysOnTop={true}

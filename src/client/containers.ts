@@ -11,6 +11,11 @@ export const dropItemContainer = Make("Folder", {
     Parent: Workspace,
 });
 
+export const waypointContainer = Make("Folder", {
+    Name: "WaypointContainer",
+    Parent: Workspace,
+});
+
 export const raycastVisualizePartsContainer = Make("Folder", {
     Name: "RaycastVisualizeParts",
     Parent: Workspace,

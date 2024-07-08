@@ -17,3 +17,9 @@ export function selectProximityPlrEs() {
         return state.ecsSlice.proximityPlrEs;
     };
 }
+
+export function selectWaypointEs() {
+    return (state: RootState) => {
+        return state.ecsSlice.waypointEs;
+    };
+}

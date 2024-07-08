@@ -103,6 +103,8 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
 
     return (
         <billboardgui
+            LightInfluence={1}
+            DistanceLowerLimit={10}
             Adornee={adnornee}
             ResetOnSpawn={false}
             AlwaysOnTop={true}
