@@ -30,26 +30,10 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Low hunger effects
 - [x] Adding Sound (start sound, respawn sound, switch pages sound, harvest sound, switch item sound, sword swing sound, sword hit sound, eating sound)
 nmr
+
 - [ ] Waypoints
 
 - [ ] More signs
-
-# The streaming issue
-
-StreamingEnabled means that
-- when the renderable is passed from the server, the client can get undefined version of that
-- PVInstance in the client can randomly be removed and added without knowing whether it is being streamed in or out just added or removed
-
-My solution to this problem is this:
-- A new Component called ServerRenderable that tells the client that a model may not be streamed in but it exists
-- Renderable is now not replicated, ServerRenderable is replicated
-
-Rule
-- ServerRenderable should not be touched because it is only a component to communicate between client and server
-
-- Make sure animatable, human, physically equipping follows Renderable, because an entity can now exist but not streamed in
-- They are also no longer replicated but strictly follows Renderables
-
 
 # Post Demo
 
