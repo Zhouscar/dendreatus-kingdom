@@ -4,7 +4,6 @@ import { Renderable } from "shared/components";
 
 function removeMissingModels(w: World): void {
     for (const [e, renderable] of w.query(Renderable)) {
-        if (!renderable.pv) continue;
         for (const _ of useEvent(renderable.pv, "AncestryChanged")) {
             if (!renderable.pv.IsDescendantOf(Workspace)) {
                 w.despawn(e);

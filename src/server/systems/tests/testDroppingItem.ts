@@ -9,10 +9,6 @@ const ITEMS_TO_DROP: ItemType[] = ["crucifix_dagger", "spikeball"];
 function testDroppingItem(w: World) {
     if (!useThrottle(5)) return;
 
-    ITEMS_TO_DROP.forEach((itemType) => {
-        print(itemType);
-    });
-
     for (const [e, testItemDropper, transform] of w.query(TestItemDropper, Transform)) {
         ITEMS_TO_DROP.forEach((itemType) => {
             w.spawn(

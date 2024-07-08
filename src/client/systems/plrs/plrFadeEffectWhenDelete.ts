@@ -12,7 +12,6 @@ function plrFadeEffectWhenDelete(w: World) {
 
     plrECFs.forEach((cf, e) => {
         if (!w.contains(e)) {
-            print("sound");
             w.spawn(Sound({ context: { soundName: "characterDelete" }, cf: cf }));
             emitParticle(cf, 1, DEATH_PARTICLE_PROPS);
             plrECFs.delete(e);

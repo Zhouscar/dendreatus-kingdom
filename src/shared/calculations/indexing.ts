@@ -2,7 +2,7 @@ export function index<T extends Instance>(instance: Instance, directory: string)
     let current = instance;
     let halted = false;
 
-    directory.split("/").forEach((to) => {
+    directory.split(".").forEach((to) => {
         if (halted) return;
         if (to === "") return;
 

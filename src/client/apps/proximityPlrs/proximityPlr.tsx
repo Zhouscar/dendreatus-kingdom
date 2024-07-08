@@ -54,7 +54,7 @@ export default function ProximityPlr(props: { enabled: boolean; e: AnyEntity }) 
     const enabledTransparency = sneaking === undefined ? 0 : 0.5;
 
     const adnornee = useMemo(() => {
-        if (renderable?.pv?.IsA("Model") && renderable.pv.PrimaryPart !== undefined) {
+        if (renderable?.pv.IsA("Model") && renderable.pv.PrimaryPart !== undefined) {
             return renderable.pv.PrimaryPart;
         } else {
             return renderable?.pv;

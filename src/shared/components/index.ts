@@ -37,8 +37,11 @@ export type TitleCamPart = ReturnType<typeof TitleCamPart>;
 export const Dummy = ComponentCreator.tag("Dummy");
 export type Dummy = ReturnType<typeof Dummy>;
 
-export const Renderable = ComponentCreator.replicated<{ pv?: PVInstance }>("Renderable");
+export const Renderable = ComponentCreator.base<{ pv: PVInstance }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
+
+export const ServerRenderable = ComponentCreator.replicated<{ path: string }>("ServerRenderable");
+export type ServerRenderable = ReturnType<typeof ServerRenderable>;
 
 export const Transform = ComponentCreator.base<{ cf: CFrame; _doNotReconcile?: true }>("Transform");
 export type Transform = ReturnType<typeof Transform>;
@@ -46,10 +49,10 @@ export type Transform = ReturnType<typeof Transform>;
 export const Test = ComponentCreator.tag("Test");
 export type Test = ReturnType<typeof Test>;
 
-export const Human = ComponentCreator.replicated<{ humanoid: Humanoid }>("Human");
+export const Human = ComponentCreator.base<{ humanoid: Humanoid }>("Human");
 export type Human = ReturnType<typeof Human>;
 
-export const Animatable = ComponentCreator.replicated<{ animator: MyAnimator }>("Animatable");
+export const Animatable = ComponentCreator.base<{ animator: MyAnimator }>("Animatable");
 export type Animatable = ReturnType<typeof Animatable>;
 
 export const Sound = ComponentCreator.bidirectional<{
@@ -88,6 +91,7 @@ export const Components = {
     SafeZone,
     Dummy,
     Renderable,
+    ServerRenderable,
     Transform,
     Test,
     Human,

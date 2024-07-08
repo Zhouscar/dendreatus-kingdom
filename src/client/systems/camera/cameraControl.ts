@@ -118,7 +118,7 @@ function cameraControls(w: World, s: State) {
             Renderable,
             Transform,
         )) {
-            const head = renderable.pv?.FindFirstChild("Head");
+            const head = renderable.pv.FindFirstChild("Head");
             if (head === undefined) continue;
             if (!head.IsA("BasePart")) continue;
 
@@ -172,7 +172,7 @@ function cameraControls(w: World, s: State) {
             camera.CameraType = Enum.CameraType.Fixed;
             camera.Focus = camera.CFrame;
 
-            const head = renderable.pv?.FindFirstChild("Head");
+            const head = renderable.pv.FindFirstChild("Head");
             if (head === undefined || !head.IsA("PVInstance")) continue;
 
             camera.CFrame = head.GetPivot();

@@ -2,9 +2,9 @@ import Roact from "@rbxts/roact";
 import Transition from "./components/transition";
 import { useEffect } from "@rbxts/roact-hooked";
 import useComponent from "./hooks/useComponent";
-import { Animatable } from "shared/components";
+import { Animatable, Transform } from "shared/components";
 import { startAnimation } from "shared/effects/animations";
-import { playSound } from "shared/effects/sounds";
+import { makeSoundInWorld, playSound } from "shared/effects/sounds";
 import useLocalPlrE from "./hooks/useLocalPlrE";
 import useSetClientState from "./hooks/useSetClientState";
 import useWait from "./hooks/useWait";
@@ -19,14 +19,14 @@ export default function SpawningHandler(props: { enabled: boolean }) {
     const setClientState = useSetClientState();
 
     const animatable = useComponent(localPlrE, Animatable);
+    const transform = useComponent(localPlrE, Transform);
 
     const wait9 = useWait(9, [enabled]);
     const wait20 = useWait(20, [enabled]);
 
-    useEffect(() => {
-        if (!enabled) return;
-        playSound({ soundName: "wakeUpFromTrauma" });
-    }, [deferredEnabled]);
+    useCoincidenceEffect(() => {
+        makeSoundInWorld(transform!.cf, { soundName: "wakeUpFromTrauma" });
+    }, [deferredEnabled, transform !== undefined]);
 
     useCoincidenceEffect(() => {
         startAnimation(animatable!.animator, "wakingUpFromTrauma", "Action3", true, 0);

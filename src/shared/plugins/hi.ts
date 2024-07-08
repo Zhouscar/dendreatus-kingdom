@@ -1,5 +1,3 @@
-function hi() {
-    print("hi");
-}
+function hi() {}
 
 export = hi;

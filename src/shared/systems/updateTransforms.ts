@@ -36,25 +36,27 @@ function updateTransforms(w: World) {
     }
 
     for (const [e, renderable, transform] of w.query(Renderable, Transform)) {
-        if (!renderable.pv) continue;
-
         if (!renderable.pv.IsA("Model")) continue;
 
-        const primaryPart = renderable.pv.PrimaryPart;
-        if (!primaryPart) continue;
+        const part = renderable.pv.IsA("BasePart")
+            ? renderable.pv
+            : renderable.pv.IsA("Model")
+              ? renderable.pv.PrimaryPart
+              : undefined;
+        if (!part) continue;
 
-        if (primaryPart.Anchored) continue;
+        if (part.Anchored) continue;
 
         if (transform.cf.Y < Workspace.FallenPartsDestroyHeight) {
             w.despawn(e);
             continue;
         }
 
-        if (transform.cf !== primaryPart.CFrame) {
+        if (transform.cf !== part.CFrame) {
             w.insert(
                 e,
                 Transform({
-                    cf: primaryPart.CFrame,
+                    cf: part.CFrame,
                     _doNotReconcile: true,
                 }),
             );
