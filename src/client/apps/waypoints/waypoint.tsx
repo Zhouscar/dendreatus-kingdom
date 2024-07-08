@@ -55,6 +55,7 @@ export default function Waypoint(props: { enabled: boolean; isWaypoint: IsWaypoi
     });
 
     useBindingListener(semiTransparencySpring, (trans) => {
+        beamMutable.current.Enabled = trans < 0.97;
         beamMutable.current.Transparency = new NumberSequence(trans);
     });
 
