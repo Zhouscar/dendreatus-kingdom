@@ -31,4 +31,8 @@ export const SignComponents = {
     TestSign,
     Sign,
     ReadingSign,
+    WelcomeSign,
+    ControlsSign,
+    CookRecipeSign,
+    CraftRecipeSign,
 };
