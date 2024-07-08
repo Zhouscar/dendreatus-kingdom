@@ -31,7 +31,8 @@ export const SOUND_IDS = {
     footStepGrass: withAssetPrefix("4776173570"), // 8 steps
     footStepMud: withAssetPrefix("9083822528"), // 18 steps
     footStepWood: withAssetPrefix("9058073414"), // 14 steps
-    footStepStone: withAssetPrefix("4416041299"), // 12 steps
+    // footStepStone: withAssetPrefix("4416041299"), // 12 steps
+    footStepStone: withAssetPrefix("2991635108"), // 17 steps
 
     takeOutLantern: withAssetPrefix("6605239584"),
     takeOutItem: withAssetPrefix("7109757838"),

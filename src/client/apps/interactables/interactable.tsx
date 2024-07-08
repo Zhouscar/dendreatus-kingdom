@@ -290,6 +290,7 @@ export default function Interactable(props: {
             Size={new UDim2(0, 200, 0, 200)}
             Active={showing}
             ZIndexBehavior={"Sibling"}
+            LightInfluence={0.5}
         >
             <Transition enabled={enabled}>
                 {cookable !== undefined && (

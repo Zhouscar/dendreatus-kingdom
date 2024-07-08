@@ -71,10 +71,6 @@ export default function Waypoint(props: { enabled: boolean; isWaypoint: IsWaypoi
         setPart(undefined);
     });
 
-    useEffect(() => {
-        print(enabled);
-    });
-
     return (
         <billboardgui
             Adornee={part}

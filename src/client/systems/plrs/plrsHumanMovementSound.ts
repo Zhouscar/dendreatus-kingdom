@@ -76,7 +76,7 @@ function plrHumanMovementSound(w: World) {
                           : soundName === "footStepWood"
                             ? 14
                             : soundName === "footStepStone"
-                              ? 12
+                              ? 17
                               : 0;
 
                 const adjustedSoundLength = (trackLength / stepsInAnim) * stepsInSound;

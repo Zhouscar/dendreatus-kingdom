@@ -30,8 +30,7 @@ A bit disappointed in how some stuff are handled by roact and some are handled b
 - [x] Low hunger effects
 - [x] Adding Sound (start sound, respawn sound, switch pages sound, harvest sound, switch item sound, sword swing sound, sword hit sound, eating sound)
 nmr
-
-- [ ] Waypoints
+- [x] Waypoints
 
 - [ ] More signs
 

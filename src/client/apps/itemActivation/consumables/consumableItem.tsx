@@ -28,8 +28,6 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
     const animatable = useComponent(localPlrE, Animatable);
     const acting = useComponent(localPlrE, Acting);
     const transform = useComponent(localPlrE, Transform);
-
-    const [nextStage, setNextStage] = useState(0);
     const itemContext = ITEM_CONSUMABLE_CONTEXTS[itemType];
 
     const canUse = useEventMemo(RunService.Heartbeat, () => {
@@ -50,7 +48,7 @@ export default function ConsumableItem(props: { itemType: ItemConsumableType }) 
     useEffect(() => {
         if (activatingItem?.item.itemType !== itemType || !canUse) return;
 
-        setNextStage(nextStage + 1);
+        const nextStage = activatingItem.item.consumeStage ?? 0;
         if (nextStage >= itemContext.stageAnimationIds.size()) return;
 
         w.insert(
