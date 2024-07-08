@@ -14,7 +14,7 @@ function shiftForward(w: World) {
 
         const renderable = w.get(e, Renderable);
         if (renderable === undefined) continue;
-        if (!renderable.pv.IsA("Model")) continue;
+        if (!renderable.pv?.IsA("Model")) continue;
 
         const rootPart = renderable.pv.PrimaryPart;
         if (!rootPart) continue;

@@ -43,7 +43,7 @@ function humanDash(w: World) {
         Renderable,
         DashContext,
     )) {
-        if (!renderable.pv.IsA("Model")) continue;
+        if (!renderable.pv?.IsA("Model")) continue;
         if (!renderable.pv.PrimaryPart) continue;
 
         const dashVelocity = getDashVelocity(renderable.pv.PrimaryPart);

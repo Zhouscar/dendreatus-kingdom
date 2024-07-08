@@ -56,7 +56,7 @@ function cameraControls(w: World, s: State) {
                 healthPerc = health.current / health.maximum;
             }
 
-            const now = gameTime();
+            const now = os.clock();
             const shakeRotationX =
                 (2 * s.trauma + 0.5 * math.max(0.5 - healthPerc, 0)) *
                 math.noise(0.5, 1.5, now * 200);
@@ -118,7 +118,7 @@ function cameraControls(w: World, s: State) {
             Renderable,
             Transform,
         )) {
-            const head = renderable.pv.FindFirstChild("Head");
+            const head = renderable.pv?.FindFirstChild("Head");
             if (head === undefined) continue;
             if (!head.IsA("BasePart")) continue;
 
@@ -142,7 +142,7 @@ function cameraControls(w: World, s: State) {
         }
     } else if (s.clientState === "title") {
         for (const [e, titleCamPart, renderable] of w.query(TitleCamPart, Renderable)) {
-            if (renderable.pv.IsA("BasePart")) {
+            if (renderable.pv && renderable.pv.IsA("BasePart")) {
                 renderable.pv.Transparency = 1;
             }
         }
@@ -172,7 +172,7 @@ function cameraControls(w: World, s: State) {
             camera.CameraType = Enum.CameraType.Fixed;
             camera.Focus = camera.CFrame;
 
-            const head = renderable.pv.FindFirstChild("Head");
+            const head = renderable.pv?.FindFirstChild("Head");
             if (head === undefined || !head.IsA("PVInstance")) continue;
 
             camera.CFrame = head.GetPivot();

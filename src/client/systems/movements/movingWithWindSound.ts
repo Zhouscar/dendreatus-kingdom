@@ -9,7 +9,7 @@ const MAX_VOLUME = 5;
 
 function movingWithWindSound(w: World, s: State) {
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        if (!renderable.pv.IsA("Model")) continue;
+        if (!renderable.pv?.IsA("Model")) continue;
 
         const soundPart = renderable.pv.PrimaryPart;
         if (!soundPart) break;

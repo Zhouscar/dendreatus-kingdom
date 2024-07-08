@@ -4,7 +4,7 @@ import { PhysicallyEquipping } from "shared/components/items";
 
 function physicallyEquipping(w: World) {
     for (const [e, renderable, plr] of w.query(Renderable, Plr)) {
-        const tool = renderable.pv.FindFirstChildWhichIsA("Tool");
+        const tool = renderable.pv?.FindFirstChildWhichIsA("Tool");
         if (tool) {
             w.insert(e, PhysicallyEquipping({ tool: tool }));
         } else {

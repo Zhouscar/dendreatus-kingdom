@@ -10,7 +10,7 @@ export function findPlrE(w: World, player: Player) {
 
 export function findInstanceE(w: World, instance: Instance) {
     for (const [e, renderable] of w.query(Renderable)) {
-        if (renderable.pv === instance || renderable.pv.IsAncestorOf(instance)) return e;
+        if (renderable.pv === instance || renderable.pv?.IsAncestorOf(instance)) return e;
     }
     return undefined;
 }

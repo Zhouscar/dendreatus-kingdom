@@ -37,7 +37,7 @@ export type TitleCamPart = ReturnType<typeof TitleCamPart>;
 export const Dummy = ComponentCreator.tag("Dummy");
 export type Dummy = ReturnType<typeof Dummy>;
 
-export const Renderable = ComponentCreator.replicated<{ pv: PVInstance }>("Renderable");
+export const Renderable = ComponentCreator.replicated<{ pv?: PVInstance }>("Renderable");
 export type Renderable = ReturnType<typeof Renderable>;
 
 export const Transform = ComponentCreator.base<{ cf: CFrame; _doNotReconcile?: true }>("Transform");

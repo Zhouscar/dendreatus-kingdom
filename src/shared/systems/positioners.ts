@@ -12,7 +12,7 @@ function positioners(w: World) {
         Renderable,
     )) {
         const position = getPositionerCurrent(positioner, now).position;
-        renderable.pv.PivotTo(new CFrame(position));
+        renderable.pv?.PivotTo(new CFrame(position));
 
         // w.insert(e, transform.patch({ cf: transform.cf.Rotation.add(position) }));
     }

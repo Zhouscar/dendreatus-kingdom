@@ -42,7 +42,7 @@ function droppingItemVisuals(w: World) {
         Renderable,
     )) {
         const part = renderable.pv;
-        if (!part.IsA("BasePart")) continue;
+        if (!part?.IsA("BasePart")) continue;
 
         const position = getPositionerCurrent(positioner, gameTime()).position;
 

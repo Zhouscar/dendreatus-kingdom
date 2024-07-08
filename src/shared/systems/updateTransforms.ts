@@ -26,13 +26,13 @@ function updateTransforms(w: World) {
                 e,
                 Transform({
                     _doNotReconcile: true,
-                    cf: record.new?.pv.GetPivot() ?? CFrame.identity,
+                    cf: record.new?.pv?.GetPivot() ?? CFrame.identity,
                 }),
             );
             continue;
         }
 
-        record.new?.pv.PivotTo(transform.cf);
+        record.new?.pv?.PivotTo(transform.cf);
     }
 
     for (const [e, renderable, transform] of w.query(Renderable, Transform)) {

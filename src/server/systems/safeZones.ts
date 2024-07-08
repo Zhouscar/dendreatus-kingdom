@@ -7,9 +7,9 @@ import { Damage } from "shared/components/health";
 
 function safeZones(w: World) {
     for (const [e, safeZone, renderable] of w.query(SafeZone, Renderable)) {
-        const part = renderable.pv.IsA("BasePart")
+        const part = renderable.pv?.IsA("BasePart")
             ? renderable.pv
-            : renderable.pv.IsA("Model")
+            : renderable.pv?.IsA("Model")
               ? renderable.pv.PrimaryPart !== undefined
                   ? renderable.pv.PrimaryPart
                   : renderable.pv.FindFirstChildWhichIsA("BasePart")

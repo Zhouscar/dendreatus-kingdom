@@ -38,7 +38,7 @@ function droppedItemVisuals(w: World) {
 
         const renderable = w.get(e, Renderable);
         if (renderable) {
-            renderable.pv.Destroy();
+            renderable.pv?.Destroy();
         }
 
         w.insert(
@@ -56,7 +56,7 @@ function droppedItemVisuals(w: World) {
             ? droppedItem.item
             : droppedItem.item.itemType;
 
-        let itemAsDisplay = renderable.pv.FindFirstChildWhichIsA("Tool");
+        let itemAsDisplay = renderable.pv?.FindFirstChildWhichIsA("Tool");
         if (useChange([itemType], e) || itemAsDisplay === undefined) {
             if (itemAsDisplay !== undefined) {
                 itemAsDisplay.Destroy();
@@ -65,7 +65,8 @@ function droppedItemVisuals(w: World) {
             itemAsDisplay.Parent = renderable.pv;
         }
 
-        const baseCF = renderable.pv.GetPivot();
+        const baseCF = renderable.pv?.GetPivot();
+        if (baseCF === undefined) continue;
 
         const elapsed = gameTime() - droppedItem.droppedTime;
         const rotation = CFrame.Angles(0, elapsed, 0);

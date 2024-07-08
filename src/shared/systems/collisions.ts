@@ -13,7 +13,7 @@ function collisions(w: World, s: State) {
         }
 
         renderable.pv
-            .GetDescendants()
+            ?.GetDescendants()
             .filter((descendant): descendant is BasePart => descendant.IsA("BasePart"))
             .forEach((part) => {
                 for (const [_, hit] of useEvent(part, "Touched")) {

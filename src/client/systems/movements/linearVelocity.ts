@@ -11,7 +11,7 @@ function linearVelocity(w: World) {
     }
 
     for (const [e, localPlr, renderable] of w.query(LocalPlr, Renderable)) {
-        if (!renderable.pv.IsA("Model")) continue;
+        if (!renderable.pv?.IsA("Model")) continue;
 
         const linearVelocity = renderable.pv.PrimaryPart?.AssemblyLinearVelocity;
         if (linearVelocity && linearVelocity.Magnitude > 5) {

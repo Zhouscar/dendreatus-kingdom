@@ -32,6 +32,7 @@ function plrHumanMovementSound(w: World) {
         PotentialDirectionalMovement,
     )) {
         const playSound = hasComponents(w, e, OnLand, IsDirectionallyMoving);
+        if (renderable.pv === undefined) return;
         if (playSound) {
             const rawTrackLength = w.get(e, IsDirectionallyMoving)!.animTrackRawLength;
             const walkSpeed = human.humanoid.WalkSpeed;

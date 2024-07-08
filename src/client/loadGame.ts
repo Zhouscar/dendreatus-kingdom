@@ -96,7 +96,7 @@ export default function loadGame() {
     });
 
     let i = 0;
-    ContentProvider.PreloadAsync([ReplicatedStorage, ...contentIdSet], () => {
+    ContentProvider.PreloadAsync([game, ...contentIdSet], () => {
         text.Text = tostring(++i);
     });
 

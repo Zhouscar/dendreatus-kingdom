@@ -36,20 +36,20 @@ function doorCooldown(w: World) {
         const renderable = w.get(e, Renderable);
         if (renderable === undefined) continue;
 
-        const hinge = renderable.pv.FindFirstChild("Hinge");
+        const hinge = renderable.pv?.FindFirstChild("Hinge");
         if (hinge === undefined || !hinge.IsA("BasePart")) continue;
 
         if (doorLike.state === "opening") {
             w.insert(e, doorLike.patch({ state: "opened" }));
 
-            const openGoalPart = renderable.pv.FindFirstChild("OpenGoal");
+            const openGoalPart = renderable.pv?.FindFirstChild("OpenGoal");
             if (openGoalPart === undefined || !openGoalPart.IsA("BasePart")) continue;
 
             hinge.PivotTo(openGoalPart.CFrame);
         } else if (doorLike.state === "closing") {
             w.insert(e, doorLike.patch({ state: "closed" }));
 
-            const closeGoalPart = renderable.pv.FindFirstChild("CloseGoal");
+            const closeGoalPart = renderable.pv?.FindFirstChild("CloseGoal");
             if (closeGoalPart === undefined || !closeGoalPart.IsA("BasePart")) continue;
 
             hinge.PivotTo(closeGoalPart.CFrame);

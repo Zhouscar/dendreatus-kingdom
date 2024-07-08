@@ -17,11 +17,11 @@ function doorVisualsAndSound(w: World) {
         const transform = w.get(e, Transform);
         if (transform === undefined) continue;
 
-        const hinge = renderable.pv.FindFirstChild("Hinge");
+        const hinge = renderable.pv?.FindFirstChild("Hinge");
         if (hinge === undefined || !hinge.IsA("BasePart")) continue;
 
         if (doorLike.state === "opening") {
-            const openGoalPart = renderable.pv.FindFirstChild("OpenGoal");
+            const openGoalPart = renderable.pv?.FindFirstChild("OpenGoal");
             if (openGoalPart === undefined || !openGoalPart.IsA("BasePart")) continue;
 
             const openGoal = { CFrame: openGoalPart.CFrame };
@@ -45,7 +45,7 @@ function doorVisualsAndSound(w: World) {
                 }),
             );
         } else if (doorLike.state === "closing") {
-            const closeGoalPart = renderable.pv.FindFirstChild("CloseGoal");
+            const closeGoalPart = renderable.pv?.FindFirstChild("CloseGoal");
             if (closeGoalPart === undefined || !closeGoalPart.IsA("BasePart")) continue;
 
             const closeGoal = { CFrame: closeGoalPart.CFrame };
